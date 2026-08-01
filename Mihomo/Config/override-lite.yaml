@@ -6,15 +6,14 @@ log-level: info
 bind-address: "*"
 unified-delay: true
 tcp-concurrent: true
-keep-alive-idle: 600
+keep-alive-idle: 30
 keep-alive-interval: 15
 find-process-mode: strict
 authentication: ["mihomo:27Aaron"]
 skip-auth-prefixes: [127.0.0.1/8, "::1/128"]
 
-external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
-external-ui-name: zashboard
 external-ui: ui
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 127.0.0.1:9090
 secret: 27Aaron
 profile: { store-selected: true, store-fake-ip: true }
@@ -114,7 +113,7 @@ proxy-groups:
 
   - name: 人工智能
     <<: *group_select
-    proxies: [美国节点, 日本节点, 默认代理]
+    proxies: [默认代理, 日本节点, 美国节点]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
 
   - name: 日本节点
