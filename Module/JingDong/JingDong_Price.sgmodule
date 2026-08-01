@@ -1,9 +1,0 @@
-#!name=JingDong Price
-#!desc=JingDong History Price
-#!system=ios
-
-[Script]
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) requires-body=1,script-path=https://raw.githubusercontent.com/27Aaron/Surge/main/Scripts/JingDong/JingDong_Price.js
-
-[MITM]
-hostname = %APPEND% api.m.jd.com

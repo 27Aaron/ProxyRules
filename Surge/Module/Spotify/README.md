@@ -5,7 +5,7 @@
 
 ## Module
 ```
-https://raw.githubusercontent.com/27Aaron/Surge/main/Module/Spotify/Spotify_Premium.sgmodule
+https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Surge/Module/Spotify/Spotify_Premium.sgmodule
 ```
 
 ## Form
