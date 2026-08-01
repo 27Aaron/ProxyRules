@@ -1,1 +1,1 @@
-![](https://moe-counter.glitch.me/get/@:aaron?theme=rule34)
+![](https://count.getloli.com/get/@:aaron?theme=rule34)
