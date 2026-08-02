@@ -339,6 +339,9 @@ rule-providers:
     path-in-bundle: "geo/geosite/cn.mrs"
 
 rules:
+  # SSH 端口使用手动选择的节点
+  - DST-PORT,22,手动选择
+
   # 私有网络直连
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
