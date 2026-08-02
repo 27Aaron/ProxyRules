@@ -91,7 +91,7 @@ group_common:
     interval: 600
     timeout: 3000
     max-failed-times: 3
-    url: https://g.cn/generate_204
+    url: http://cp.cloudflare.com/generate_204
     lazy: true
 
   url-test: &group_url_test
@@ -100,7 +100,7 @@ group_common:
     timeout: 3000
     max-failed-times: 3
     empty-fallback: REJECT
-    url: https://g.cn/generate_204
+    url: http://cp.cloudflare.com/generate_204
     lazy: true
     tolerance: 20
     include-all: true
