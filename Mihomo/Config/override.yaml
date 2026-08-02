@@ -96,13 +96,13 @@ group_common:
 
   url-test: &group_url_test
     type: url-test
-    interval: 600
+    interval: 300
     timeout: 3000
     max-failed-times: 3
     empty-fallback: REJECT
     url: https://g.cn/generate_204
     lazy: true
-    tolerance: 50
+    tolerance: 20
     include-all: true
     exclude-type: DIRECT
     hidden: true
@@ -112,7 +112,17 @@ proxy-groups:
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
-    proxies: [香港自动, 日本自动, 美国自动, 香港节点, 日本节点, 美国节点]
+    proxies:
+      [
+        手动选择,
+        自动选择,
+        香港自动,
+        日本自动,
+        美国自动,
+        香港节点,
+        日本节点,
+        美国节点,
+      ]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 
   - name: AI
@@ -138,6 +148,12 @@ proxy-groups:
       [Proxies, 香港节点, 日本节点, 美国节点, 香港自动, 日本自动, 美国自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
 
+  - name: 手动选择
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
+
   - name: 香港节点
     <<: *group_select
     include-all: true
@@ -159,21 +175,6 @@ proxy-groups:
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
 
-  - name: 香港自动
-    <<: *group_url_test
-    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
-
-  - name: 日本自动
-    <<: *group_url_test
-    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
-
-  - name: 美国自动
-    <<: *group_url_test
-    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
-
   - name: Direct
     <<: *group_select
     proxies: [DIRECT, Proxies]
@@ -183,6 +184,21 @@ proxy-groups:
     <<: *group_select
     proxies: [Proxies, Direct]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
+
+  - name: 自动选择
+    <<: *group_url_test
+
+  - name: 香港自动
+    <<: *group_url_test
+    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
+
+  - name: 日本自动
+    <<: *group_url_test
+    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+
+  - name: 美国自动
+    <<: *group_url_test
+    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
 
 rule_providers_common:
   rule_providers_domain:
