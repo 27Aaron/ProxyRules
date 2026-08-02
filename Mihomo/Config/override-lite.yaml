@@ -49,8 +49,8 @@ chinaDNS:
   ]
 foreignDNS:
   &foreignDNS [
-    "https://dns.cloudflare.com/dns-query#🌐 Proxies",
-    "https://dns.google/dns-query#🌐 Proxies",
+    "https://dns.cloudflare.com/dns-query#Proxies",
+    "https://dns.google/dns-query#Proxies",
   ]
 
 dns:
@@ -108,36 +108,50 @@ group_common:
     hidden: true
 
 proxy-groups:
-  - name: 🌐 Proxies
+  - name: Proxies
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
-    proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]
+    proxies: [日本自动, 美国自动, 日本节点, 美国节点]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 
   - name: 🤖 AI
     <<: *group_select
-    proxies: [🌐 Proxies, 🇯🇵 日本自动, 🇺🇸 美国自动]
+    proxies: [Proxies, 日本节点, 美国节点, 日本自动, 美国自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
 
-  - name: 🇯🇵 日本自动
+  - name: 日本节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+
+  - name: 美国节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+
+  - name: 日本自动
     <<: *group_url_test
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
 
-  - name: 🇺🇸 美国自动
+  - name: 美国自动
     <<: *group_url_test
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
 
-  - name: 🎯 Direct
+  - name: Direct
     <<: *group_select
-    proxies: [DIRECT, 🌐 Proxies]
+    proxies: [DIRECT, Proxies]
     icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Direct.png
 
-  - name: ✈️ Final
+  - name: Final
     <<: *group_select
-    proxies: [🌐 Proxies, 🎯 Direct]
+    proxies: [Proxies, Direct]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
 
 rule_providers_common:
@@ -273,24 +287,24 @@ rules:
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
 
   # 国内直连
-  - RULE-SET,games_cn,🎯 Direct
-  - RULE-SET,epicgames,🎯 Direct
-  - RULE-SET,nvidia_cn,🎯 Direct
-  - RULE-SET,apple_cn,🎯 Direct
-  - RULE-SET,microsoft_cn,🎯 Direct
+  - RULE-SET,games_cn,Direct
+  - RULE-SET,epicgames,Direct
+  - RULE-SET,nvidia_cn,Direct
+  - RULE-SET,apple_cn,Direct
+  - RULE-SET,microsoft_cn,Direct
 
   # 代理规则（域名）
   - RULE-SET,ai,🤖 AI
-  - RULE-SET,googlefcm,🌐 Proxies
-  - RULE-SET,google,🌐 Proxies
-  - RULE-SET,twitter,🌐 Proxies
+  - RULE-SET,googlefcm,Proxies
+  - RULE-SET,google,Proxies
+  - RULE-SET,twitter,Proxies
 
   # 代理规则（IP）
-  - RULE-SET,google_ip,🌐 Proxies,no-resolve
-  - RULE-SET,twitter_ip,🌐 Proxies,no-resolve
+  - RULE-SET,google_ip,Proxies,no-resolve
+  - RULE-SET,twitter_ip,Proxies,no-resolve
 
   # 兜底规则
-  - RULE-SET,gfw,🌐 Proxies
-  - RULE-SET,geolocation-cn,🎯 Direct
-  - RULE-SET,cn_ip,🎯 Direct
-  - MATCH,✈️ Final
+  - RULE-SET,gfw,Proxies
+  - RULE-SET,geolocation-cn,Direct
+  - RULE-SET,cn_ip,Direct
+  - MATCH,Final
