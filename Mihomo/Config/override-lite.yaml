@@ -110,8 +110,6 @@ group_common:
 proxy-groups:
   - name: Proxies
     <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
     proxies: [自动选择, 日本自动, 美国自动, 日本节点, 美国节点]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 

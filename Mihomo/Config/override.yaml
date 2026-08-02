@@ -110,8 +110,6 @@ group_common:
 proxy-groups:
   - name: Proxies
     <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
     proxies:
       [
         手动选择,
