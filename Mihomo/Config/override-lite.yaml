@@ -1,5 +1,5 @@
 mixed-port: 7890
-allow-lan: false
+allow-lan: true
 ipv6: true
 mode: rule
 log-level: info
@@ -49,8 +49,8 @@ chinaDNS:
   ]
 foreignDNS:
   &foreignDNS [
-    "https://dns.cloudflare.com/dns-query#默认代理",
-    "https://dns.google/dns-query#默认代理",
+    "https://dns.cloudflare.com/dns-query#🌐 Proxies",
+    "https://dns.google/dns-query#🌐 Proxies",
   ]
 
 dns:
@@ -99,41 +99,45 @@ group_common:
     interval: 600
     timeout: 3000
     max-failed-times: 3
+    empty-fallback: REJECT
     url: https://g.cn/generate_204
     lazy: true
     tolerance: 50
     include-all: true
+    exclude-type: DIRECT
+    hidden: true
 
 proxy-groups:
-  - name: 默认代理
+  - name: 🌐 Proxies
     <<: *group_select
     include-all: true
-    proxies: [日本节点, 美国节点]
+    exclude-type: DIRECT
+    proxies: [🇯🇵 日本自动, 🇺🇸 美国自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 
-  - name: 人工智能
+  - name: 🤖 AI
     <<: *group_select
-    proxies: [默认代理, 日本节点, 美国节点]
+    proxies: [🌐 Proxies, 🇯🇵 日本自动, 🇺🇸 美国自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
 
-  - name: 日本节点
+  - name: 🇯🇵 日本自动
     <<: *group_url_test
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
 
-  - name: 美国节点
+  - name: 🇺🇸 美国自动
     <<: *group_url_test
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
 
-  - name: 广告拦截
+  - name: 🎯 Direct
     <<: *group_select
-    proxies: [REJECT, DIRECT]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Reject.png
+    proxies: [DIRECT, 🌐 Proxies]
+    icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Direct.png
 
-  - name: 漏网之鱼
+  - name: ✈️ Final
     <<: *group_select
-    proxies: [默认代理, DIRECT]
+    proxies: [🌐 Proxies, 🎯 Direct]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
 
 rule_providers_common:
@@ -262,31 +266,31 @@ rules:
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
 
-  # 国内直连
-  - RULE-SET,games_cn,DIRECT
-  - RULE-SET,epicgames,DIRECT
-  - RULE-SET,nvidia_cn,DIRECT
-  - RULE-SET,apple_cn,DIRECT
-  - RULE-SET,microsoft_cn,DIRECT
+  # 广告拦截
+  - RULE-SET,adblockmihomolite,REJECT
 
   # 禁用国外 QUIC 流量
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
 
-  # 广告拦截
-  - RULE-SET,adblockmihomolite,广告拦截
+  # 国内直连
+  - RULE-SET,games_cn,🎯 Direct
+  - RULE-SET,epicgames,🎯 Direct
+  - RULE-SET,nvidia_cn,🎯 Direct
+  - RULE-SET,apple_cn,🎯 Direct
+  - RULE-SET,microsoft_cn,🎯 Direct
 
   # 代理规则（域名）
-  - RULE-SET,ai,人工智能
-  - RULE-SET,googlefcm,默认代理
-  - RULE-SET,google,默认代理
-  - RULE-SET,twitter,默认代理
+  - RULE-SET,ai,🤖 AI
+  - RULE-SET,googlefcm,🌐 Proxies
+  - RULE-SET,google,🌐 Proxies
+  - RULE-SET,twitter,🌐 Proxies
 
   # 代理规则（IP）
-  - RULE-SET,google_ip,默认代理,no-resolve
-  - RULE-SET,twitter_ip,默认代理,no-resolve
+  - RULE-SET,google_ip,🌐 Proxies,no-resolve
+  - RULE-SET,twitter_ip,🌐 Proxies,no-resolve
 
   # 兜底规则
-  - RULE-SET,gfw,默认代理
-  - RULE-SET,geolocation-cn,DIRECT
-  - RULE-SET,cn_ip,DIRECT
-  - MATCH,漏网之鱼
+  - RULE-SET,gfw,🌐 Proxies
+  - RULE-SET,geolocation-cn,🎯 Direct
+  - RULE-SET,cn_ip,🎯 Direct
+  - MATCH,✈️ Final
