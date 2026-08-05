@@ -1,12 +1,14 @@
 # -----------------------------------------------------
 # NAME: Anthropic
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 17:28:23
+# UPDATED: 2026-08-05 17:33:59
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Rules/Anthropic/Anthropic.yaml
 # DOMAIN: 1
 # DOMAIN-SUFFIX: 7
-# TOTAL: 8
+# IP-CIDR: 1
+# IP-CIDR6: 2
+# TOTAL: 11
 # -----------------------------------------------------
 
 payload:
@@ -18,3 +20,6 @@ payload:
   - DOMAIN-SUFFIX,claudemcpclient.com
   - DOMAIN-SUFFIX,claudemcpcontent.com
   - DOMAIN-SUFFIX,claudeusercontent.com
+  - IP-CIDR,160.79.104.0/23,no-resolve
+  - IP-CIDR6,2607:6bc0::/48,no-resolve
+  - IP-CIDR6,2607:6bc0:11::/48,no-resolve
