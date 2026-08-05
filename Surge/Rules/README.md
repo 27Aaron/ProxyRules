@@ -1,6 +1,6 @@
-## 分类
+## 规则
 
 
-|规则|  |  |  |  |
+|  |  |  |  |  |
 | ---- | ---- | ---- | ---- | ---- |
-|[Apple 推送通知](https://github.com/27Aaron/ProxyRules/tree/main/Surge/Rules/APNs) |[IP 归属地](https://github.com/27Aaron/ProxyRules/tree/main/Surge/Rules/IP-Attribution) |||
+|[苹果推送](https://github.com/27Aaron/ProxyRules/tree/main/Surge/Rules/APNs) |[谷歌推送](https://github.com/27Aaron/ProxyRules/tree/main/Surge/Rules/GoogleFCM) |[IP 归属地](https://github.com/27Aaron/ProxyRules/tree/main/Surge/Rules/IP-Attribution) |||
