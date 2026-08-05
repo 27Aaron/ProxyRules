@@ -33,7 +33,7 @@ env:
 jobs:
   prepare:
     name: Validate and prepare
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
       has_changes: ${{ steps.patches.outputs.has_changes }}
@@ -43,18 +43,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.12"
-
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "22"
-          cache: npm
-          cache-dependency-path: .github/package-lock.json
 
       - name: Install locked tools
         shell: bash
@@ -267,7 +255,7 @@ jobs:
     name: Commit maintenance changes
     if: github.event_name == 'push' && needs.prepare.outputs.has_changes == 'true'
     needs: prepare
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       contents: write
