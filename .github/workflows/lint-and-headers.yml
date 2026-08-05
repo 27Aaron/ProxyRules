@@ -1,17 +1,17 @@
 # Local stays clean: headers + format run only in CI.
 # Order: rule headers → format → two separate bot commits (both [skip ci]).
-name: Maintain
+name: Lint & Headers
 
 on:
   push:
     branches: [main, master]
 
 concurrency:
-  group: maintain-${{ github.ref }}
+  group: lint-and-headers-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  maintain:
+  lint-and-headers:
     # Bot commits use [skip ci] and normally won't re-trigger; belt-and-suspenders:
     if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
     runs-on: ubuntu-latest

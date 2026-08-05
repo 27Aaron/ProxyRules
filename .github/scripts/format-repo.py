@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Format repo files for CI (no local tooling required).
+"""Format repo files for CI.
 
 Handled:
-  - *.md          → prettier
-  - *.yaml / *.yml → yamlfmt (+ strip !!merge for Clash)
+  - *.md            → prettier
+  - *.yaml / *.yml  → yamlfmt (+ strip !!merge for Clash)
   - *.list / *.conf → trim leading/trailing whitespace per line
 
 Skipped directories (never walked):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh blackmatrix7-style meta headers on Rules/*.list and Rules/*.yaml.
+"""Refresh meta headers on Rules/*.list and Rules/*.yaml.
 
 Smart mode (default): only rewrite a file when its *rule body* (content without
 the meta header) changed vs HEAD~1. Avoids UPDATED-only churn.
