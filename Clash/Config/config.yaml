@@ -355,6 +355,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/OpenAI/OpenAI.yaml"
     path: "./ruleset/OpenAI.yaml"
+  GitHub-Copilot:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GitHub-Copilot/GitHub-Copilot.yaml"
+    path: "./ruleset/GitHub-Copilot.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -377,6 +381,9 @@ rules:
 
   # OpenAI / ChatGPT / Sora
   - RULE-SET,OpenAI,AI
+
+  # GitHub Copilot
+  - RULE-SET,GitHub-Copilot,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution

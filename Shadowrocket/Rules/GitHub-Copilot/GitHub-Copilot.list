@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: GitHub-Copilot
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-05 17:20:59
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Shadowrocket/Rules/GitHub-Copilot/GitHub-Copilot.list
+# DOMAIN: 5
+# DOMAIN-SUFFIX: 1
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN,copilot-proxy.githubusercontent.com
+DOMAIN,copilot-workspace.githubnext.com
+DOMAIN,copilotprodattachments.blob.core.windows.net
+DOMAIN,copilot-telemetry-service.githubusercontent.com
+DOMAIN,copilot-telemetry.githubusercontent.com
+DOMAIN-SUFFIX,githubcopilot.com
