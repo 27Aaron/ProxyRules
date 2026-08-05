@@ -1,12 +1,13 @@
 # -----------------------------------------------------
 # NAME: Gemini
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 17:23:20
+# UPDATED: 2026-08-05 17:43:50
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Rules/Gemini/Gemini.yaml
-# DOMAIN: 11
+# DOMAIN: 12
 # DOMAIN-SUFFIX: 30
-# TOTAL: 41
+# DOMAIN-KEYWORD: 3
+# TOTAL: 45
 # -----------------------------------------------------
 
 payload:
@@ -21,6 +22,7 @@ payload:
   - DOMAIN,notebooklm.googleapis.com
   - DOMAIN,antigravity-pa.googleapis.com
   - DOMAIN,antigravity.googleapis.com
+  - DOMAIN,makersuite.google.com
   - DOMAIN-SUFFIX,notebooklm.google
   - DOMAIN-SUFFIX,deepmind.google
   - DOMAIN-SUFFIX,antigravity-unleash.goog
@@ -51,3 +53,6 @@ payload:
   - DOMAIN-SUFFIX,generativelanguage.googleapis.com
   - DOMAIN-SUFFIX,geller-pa.googleapis.com
   - DOMAIN-SUFFIX,stitch.withgoogle.com
+  - DOMAIN-KEYWORD,colab
+  - DOMAIN-KEYWORD,developerprofiles
+  - DOMAIN-KEYWORD,generativelanguage

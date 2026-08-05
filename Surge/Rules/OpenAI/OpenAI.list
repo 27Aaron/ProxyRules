@@ -1,15 +1,15 @@
 # -----------------------------------------------------
 # NAME: OpenAI
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 17:39:10
+# UPDATED: 2026-08-05 17:43:50
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Surge/Rules/OpenAI/OpenAI.list
-# DOMAIN: 11
-# DOMAIN-SUFFIX: 10
-# DOMAIN-KEYWORD: 2
+# DOMAIN: 14
+# DOMAIN-SUFFIX: 11
+# DOMAIN-KEYWORD: 3
 # IP-CIDR: 3
 # IP-CIDR6: 1
-# TOTAL: 27
+# TOTAL: 32
 # -----------------------------------------------------
 
 DOMAIN,openaiapi-site.azureedge.net
@@ -23,6 +23,9 @@ DOMAIN,openai.qualtrics.com
 DOMAIN,chatgpt.livekit.cloud
 DOMAIN,host.livekit.cloud
 DOMAIN,openai.com.cdn.cloudflare.net
+DOMAIN,chat.openai.com.cdn.cloudflare.net
+DOMAIN,openai-api.arkoselabs.com
+DOMAIN,client-api.arkoselabs.com
 DOMAIN-SUFFIX,oaiusercontent.com
 DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,chatgpt.site
@@ -32,9 +35,11 @@ DOMAIN-SUFFIX,oaistatsig.com
 DOMAIN-SUFFIX,chat.com
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,sora.com
+DOMAIN-SUFFIX,ai.com
 DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-KEYWORD,chatgpt-async-webps-prod-
 DOMAIN-KEYWORD,openaicom-api-
+DOMAIN-KEYWORD,openai
 IP-CIDR,199.47.142.0/23,no-resolve
 IP-CIDR,24.199.123.28/32,no-resolve
 IP-CIDR,64.23.132.171/32,no-resolve
