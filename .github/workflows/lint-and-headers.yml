@@ -4,7 +4,7 @@ name: Lint & Headers
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
 
 concurrency:
   group: lint-and-headers-${{ github.ref }}
@@ -53,8 +53,8 @@ jobs:
       - name: Commit headers (if any)
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
           if git diff --quiet; then
             echo "No header changes."
@@ -77,8 +77,8 @@ jobs:
       - name: Commit format (if any)
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
           if git diff --quiet; then
             echo "No format changes."
