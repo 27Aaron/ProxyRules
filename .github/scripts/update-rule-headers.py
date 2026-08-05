@@ -61,6 +61,9 @@ TYPE_METADATA_RE = re.compile(
 NAME_LINE_RE = re.compile(r"^#\s*NAME\s*:", re.IGNORECASE)
 UPDATED_LINE_RE = re.compile(r"^# UPDATED: (.+)$")
 COUNT_LINE_RE = re.compile(r"^# [A-Z][A-Z0-9-]*: \d+\s*$")
+# Decorative ban around the metadata block, e.g. "# -----------------------------------------------------"
+SEPARATOR_RE = re.compile(r"^#\s*-{3,}\s*$")
+SEPARATOR_LINE = "# -----------------------------------------------------"
 ZERO_REVISION_RE = re.compile(r"0+")
 
 RULE_TYPE_RE = re.compile(
@@ -110,7 +113,8 @@ def is_header_line(line: str) -> bool:
     if not stripped.startswith("#"):
         return False
     return bool(
-        CORE_METADATA_RE.match(stripped)
+        SEPARATOR_RE.match(stripped)
+        or CORE_METADATA_RE.match(stripped)
         or TYPE_METADATA_RE.match(stripped)
         or COUNT_LINE_RE.match(stripped)
     )
@@ -162,6 +166,7 @@ def ordered_types(counts: Counter[str]) -> list[str]:
 def build_header(name: str, counts: Counter[str], updated: str) -> str:
     total = sum(counts.values())
     lines = [
+        SEPARATOR_LINE,
         f"# NAME: {name}",
         f"# AUTHOR: {AUTHOR}",
         f"# REPO: {REPO}",
@@ -170,6 +175,7 @@ def build_header(name: str, counts: Counter[str], updated: str) -> str:
     for detected_type in ordered_types(counts):
         lines.append(f"# {detected_type}: {counts[detected_type]}")
     lines.append(f"# TOTAL: {total}")
+    lines.append(SEPARATOR_LINE)
     return "\n".join(lines) + "\n"
 
 
