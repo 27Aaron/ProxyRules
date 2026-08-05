@@ -103,36 +103,36 @@ proxy-groups:
   - name: Proxies
     <<: *group_select
     proxies: [自动选择, 日本自动, 美国自动, 日本节点, 美国节点]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   - name: AI
     <<: *group_select
     proxies: [日本节点, 美国节点, 日本自动, 美国自动]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
   - name: 日本节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
   - name: 美国节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
   - name: Direct
     <<: *group_select
     proxies: [DIRECT, Proxies]
-    icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Direct.png
+    icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
 
   - name: Final
     <<: *group_select
     proxies: [Proxies, Direct]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
 
   - name: 自动选择
     <<: *group_url_test
@@ -141,12 +141,12 @@ proxy-groups:
   - name: 日本自动
     <<: *group_url_test
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
   - name: 美国自动
     <<: *group_url_test
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}

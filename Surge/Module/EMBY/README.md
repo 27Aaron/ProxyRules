@@ -5,5 +5,5 @@ Emby Premiere Unlock
 ## Module
 
 ```
-https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Surge/Module/EMBY/EmbyPremiere.sgmodule
+https://github.com/27Aaron/ProxyRules/raw/main/Surge/Module/EMBY/EmbyPremiere.sgmodule
 ```

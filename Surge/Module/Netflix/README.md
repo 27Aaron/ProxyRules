@@ -5,7 +5,7 @@ It shows the IMDb, Douban score, Rotten Tomatoes index and location of Netflix T
 ## Module
 
 ```
-https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Surge/Module/Netflix/Netflix_Rating.sgmodule
+https://github.com/27Aaron/ProxyRules/raw/main/Surge/Module/Netflix/Netflix_Rating.sgmodule
 ```
 
 ## Form

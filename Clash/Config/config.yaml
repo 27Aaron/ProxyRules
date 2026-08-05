@@ -123,37 +123,37 @@ proxy-groups:
   - name: Proxies
     <<: *group_select
     proxies: [手动选择, 自动选择, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   - name: AI
     <<: *group_select
     proxies: [日本节点, 美国节点, 日本自动, 美国自动, Proxies, 香港节点, 台湾节点, 新加坡节点, DIRECT]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
   - name: Google
     <<: *group_select
     proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
   - name: Apple
     <<: *group_select
     proxies: [DIRECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple.png
 
   - name: Telegram
     <<: *group_select
     proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png
 
   - name: Twitter
     <<: *group_select
     proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
 
   - name: IP-Attribution
     <<: *group_select
     proxies: [DIRECT, REJECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Available.png
 
   # --- 节点选择 ---
   - name: 手动选择
@@ -167,45 +167,45 @@ proxy-groups:
     include-all: true
     exclude-type: DIRECT
     filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
 
   - name: 日本节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
   - name: 美国节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
   - name: 台湾节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
 
   - name: 新加坡节点
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
 
   - name: Direct
     <<: *group_select
     proxies: [DIRECT, Proxies]
-    icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Direct.png
+    icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
 
   - name: Final
     <<: *group_select
     proxies: [Proxies, Direct]
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
 
   # --- 自动测速（隐藏）---
   - name: 自动选择
@@ -215,27 +215,27 @@ proxy-groups:
   - name: 香港自动
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
 
   - name: 日本自动
     <<: *group_url_test
     filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
   - name: 美国自动
     <<: *group_url_test
     filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
   - name: 台湾自动
     <<: *group_url_test
     filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
 
   - name: 新加坡自动
     <<: *group_url_test
     filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
 
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
@@ -337,39 +337,39 @@ rule-providers:
   # 本仓库规则
   APNs:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/APNs/APNs.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/APNs/APNs.yaml"
     path: "./ruleset/APNs.yaml"
   GoogleFCM:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GoogleFCM/GoogleFCM.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/GoogleFCM/GoogleFCM.yaml"
     path: "./ruleset/GoogleFCM.yaml"
   Apple-Intelligence:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Apple-Intelligence/Apple-Intelligence.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Apple-Intelligence/Apple-Intelligence.yaml"
     path: "./ruleset/Apple-Intelligence.yaml"
   xAI:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/xAI/xAI.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/xAI/xAI.yaml"
     path: "./ruleset/xAI.yaml"
   OpenAI:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/OpenAI/OpenAI.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/OpenAI/OpenAI.yaml"
     path: "./ruleset/OpenAI.yaml"
   GitHub-Copilot:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GitHub-Copilot/GitHub-Copilot.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/GitHub-Copilot/GitHub-Copilot.yaml"
     path: "./ruleset/GitHub-Copilot.yaml"
   Gemini:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Gemini/Gemini.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Gemini/Gemini.yaml"
     path: "./ruleset/Gemini.yaml"
   Anthropic:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Anthropic/Anthropic.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Anthropic/Anthropic.yaml"
     path: "./ruleset/Anthropic.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
+    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
     path: "./ruleset/IP-Attribution.yaml"
 
 rules:

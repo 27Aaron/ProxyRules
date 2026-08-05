@@ -5,7 +5,7 @@ JingDong History Price
 ## Module
 
 ```
-https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Surge/Module/JingDong/JingDong_Price.sgmodule
+https://github.com/27Aaron/ProxyRules/raw/main/Surge/Module/JingDong/JingDong_Price.sgmodule
 ```
 
 ## Form
