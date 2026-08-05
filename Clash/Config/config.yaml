@@ -359,6 +359,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GitHub-Copilot/GitHub-Copilot.yaml"
     path: "./ruleset/GitHub-Copilot.yaml"
+  Gemini:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Gemini/Gemini.yaml"
+    path: "./ruleset/Gemini.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -384,6 +388,9 @@ rules:
 
   # GitHub Copilot
   - RULE-SET,GitHub-Copilot,AI
+
+  # Gemini / Google AI
+  - RULE-SET,Gemini,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution
