@@ -350,14 +350,14 @@ jobs:
             git apply --check --index "$patch_dir/format.patch"
             git apply --index "$patch_dir/format.patch"
             validate_staged_paths format
-            git commit -m "style: apply repository format [skip ci]"
+            git commit -m "style: apply repository format"
           fi
 
           if [[ -s "$patch_dir/headers.patch" ]]; then
             git apply --check --index "$patch_dir/headers.patch"
             git apply --index "$patch_dir/headers.patch"
             validate_staged_paths headers
-            git commit -m "chore(rules): refresh rule headers [skip ci]"
+            git commit -m "chore(rules): refresh rule headers"
           fi
 
           if [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]; then
