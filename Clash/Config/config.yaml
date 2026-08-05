@@ -363,6 +363,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Gemini/Gemini.yaml"
     path: "./ruleset/Gemini.yaml"
+  Anthropic:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Anthropic/Anthropic.yaml"
+    path: "./ruleset/Anthropic.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -391,6 +395,9 @@ rules:
 
   # Gemini / Google AI
   - RULE-SET,Gemini,AI
+
+  # Anthropic / Claude
+  - RULE-SET,Anthropic,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution
