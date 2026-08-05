@@ -26,6 +26,7 @@ from pathlib import Path
 
 AUTHOR = "27Aaron"
 REPO = "https://github.com/27Aaron/ProxyRules"
+DEFAULT_BRANCH = "main"
 DEFAULT_BASE = "HEAD~1"
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
@@ -49,7 +50,7 @@ TYPE_ORDER = [
 ]
 
 CORE_METADATA_RE = re.compile(
-    r"^#\s*(?:NAME|AUTHOR|REPO|UPDATED|TOTAL)(?:\s*:|\s|$)",
+    r"^#\s*(?:NAME|AUTHOR|REPO|LINK|UPDATED|TOTAL)(?:\s*:|\s|$)",
     re.IGNORECASE,
 )
 TYPE_METADATA_RE = re.compile(
@@ -163,14 +164,26 @@ def ordered_types(counts: Counter[str]) -> list[str]:
     return known + extra
 
 
-def build_header(name: str, counts: Counter[str], updated: str) -> str:
+def file_link(relative_path: str, branch: str = DEFAULT_BRANCH) -> str:
+    """Pretty GitHub raw URL for a path inside this repository."""
+    rel = relative_path.replace("\\", "/").lstrip("/")
+    return f"{REPO}/raw/refs/heads/{branch}/{rel}"
+
+
+def build_header(
+    name: str,
+    counts: Counter[str],
+    updated: str,
+    relative_path: str,
+) -> str:
     total = sum(counts.values())
     lines = [
         SEPARATOR_LINE,
         f"# NAME: {name}",
         f"# AUTHOR: {AUTHOR}",
-        f"# REPO: {REPO}",
         f"# UPDATED: {updated}",
+        f"# REPO: {REPO}",
+        f"# LINK: {file_link(relative_path)}",
     ]
     for detected_type in ordered_types(counts):
         lines.append(f"# {detected_type}: {counts[detected_type]}")
@@ -179,9 +192,16 @@ def build_header(name: str, counts: Counter[str], updated: str) -> str:
     return "\n".join(lines) + "\n"
 
 
-def with_header(name: str, text: str, updated: str) -> str:
+def with_header(
+    name: str,
+    text: str,
+    updated: str,
+    relative_path: str | None = None,
+) -> str:
+    if relative_path is None:
+        relative_path = f"Clash/Rules/{name}/{name}.list"
     body = strip_header(text)
-    header = build_header(name, count_types(body), updated)
+    header = build_header(name, count_types(body), updated, relative_path)
     if body and not body.endswith("\n"):
         body += "\n"
     return header + "\n" + body
@@ -408,7 +428,7 @@ def process_file(
     header_updated = updated if refresh_updated else previous_updated
     if header_updated is None:  # Kept explicit for type checkers and future edits.
         header_updated = updated
-    new_text = with_header(path.stem, raw, header_updated)
+    new_text = with_header(path.stem, raw, header_updated, relative)
 
     if new_text == raw:
         return "unchanged" if force else "skip"

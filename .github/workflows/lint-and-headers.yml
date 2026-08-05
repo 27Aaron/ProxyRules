@@ -156,7 +156,7 @@ jobs:
             : > "$patch_dir/format.patch"
           fi
 
-      - name: Refresh rule headers for push
+      - name: Refresh rule and config headers for push
         if: github.event_name == 'push'
         env:
           BASE_SHA: ${{ github.event.before }}
@@ -167,14 +167,20 @@ jobs:
             git rev-parse --verify --quiet --end-of-options \
               "${BASE_SHA}^{commit}" > /dev/null; then
             python3 .github/scripts/update-rule-headers.py --base "$BASE_SHA"
+            python3 .github/scripts/update-config-headers.py --base "$BASE_SHA"
           else
-            echo "Push base is unavailable; refreshing every rule header."
+            echo "Push base is unavailable; refreshing every header."
             python3 .github/scripts/update-rule-headers.py --all
+            python3 .github/scripts/update-config-headers.py --all
           fi
 
-      - name: Canonicalize rule headers for pull request
+      - name: Canonicalize headers for pull request
         if: github.event_name == 'pull_request'
-        run: python3 .github/scripts/update-rule-headers.py --base 0000000000000000000000000000000000000000
+        run: |
+          python3 .github/scripts/update-rule-headers.py \
+            --base 0000000000000000000000000000000000000000
+          python3 .github/scripts/update-config-headers.py \
+            --base 0000000000000000000000000000000000000000
 
       - name: Capture header patch
         id: patches
@@ -199,11 +205,23 @@ jobs:
           header_paths=()
           while IFS= read -r -d '' changed_path; do
             case "$changed_path" in
-              Clash/Rules/*.list | Clash/Rules/*.yaml | \
-                Loon/Rules/*.list | Loon/Rules/*.yaml | \
-                Shadowrocket/Rules/*.list | Shadowrocket/Rules/*.yaml | \
-                Surge/Rules/*.list | Surge/Rules/*.yaml)
-                header_paths+=("$changed_path")
+              Clash/Rules/* | Loon/Rules/* | Shadowrocket/Rules/* | Surge/Rules/*)
+                case "$changed_path" in
+                  *.list | *.yaml) header_paths+=("$changed_path") ;;
+                  *)
+                    echo "Unexpected header path: $changed_path"
+                    exit 1
+                    ;;
+                esac
+                ;;
+              Clash/Config/* | Loon/Config/* | Shadowrocket/Config/* | Surge/Config/*)
+                case "$changed_path" in
+                  *.conf | *.yaml | *.yml) header_paths+=("$changed_path") ;;
+                  *)
+                    echo "Unexpected header path: $changed_path"
+                    exit 1
+                    ;;
+                esac
                 ;;
               *)
                 echo "Unexpected header path: $changed_path"
@@ -315,10 +333,23 @@ jobs:
             while IFS= read -r -d '' changed_path; do
               if [[ "$scope" == "headers" ]]; then
                 case "$changed_path" in
-                  Clash/Rules/*.list | Clash/Rules/*.yaml | \
-                    Loon/Rules/*.list | Loon/Rules/*.yaml | \
-                    Shadowrocket/Rules/*.list | Shadowrocket/Rules/*.yaml | \
-                    Surge/Rules/*.list | Surge/Rules/*.yaml)
+                  Clash/Rules/* | Loon/Rules/* | Shadowrocket/Rules/* | Surge/Rules/*)
+                    case "$changed_path" in
+                      *.list | *.yaml) ;;
+                      *)
+                        echo "Unexpected header path: $changed_path"
+                        exit 1
+                        ;;
+                    esac
+                    ;;
+                  Clash/Config/* | Loon/Config/* | Shadowrocket/Config/* | Surge/Config/*)
+                    case "$changed_path" in
+                      *.conf | *.yaml | *.yml) ;;
+                      *)
+                        echo "Unexpected header path: $changed_path"
+                        exit 1
+                        ;;
+                    esac
                     ;;
                   *)
                     echo "Unexpected header path: $changed_path"
@@ -357,7 +388,7 @@ jobs:
             git apply --check --index "$patch_dir/headers.patch"
             git apply --index "$patch_dir/headers.patch"
             validate_staged_paths headers
-            git commit -m "chore(rules): refresh rule headers"
+            git commit -m "chore: refresh metadata headers"
           fi
 
           if [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]; then

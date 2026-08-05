@@ -311,7 +311,12 @@ class GitHistoryFallbackTests(unittest.TestCase):
         self.assertEqual(result, "updated")
         self.assertEqual(
             renamed.read_text(encoding="utf-8"),
-            headers.with_header("Renamed", new_body, NEW_UPDATED),
+            headers.with_header(
+                "Renamed",
+                new_body,
+                NEW_UPDATED,
+                "Clash/Rules/Example/Renamed.list",
+            ),
         )
 
     def test_new_file_race_refreshes_copied_timestamp(self) -> None:
