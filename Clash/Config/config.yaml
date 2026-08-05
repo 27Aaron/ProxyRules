@@ -1,0 +1,500 @@
+# Mihomo / Clash Meta — full config
+# Repo: https://github.com/27Aaron/ProxyRules
+# 节点: Sub-Store AIO | 测速: Cloudflare (代理) / vivo (国内)
+
+mixed-port: 7890
+allow-lan: true
+ipv6: true
+mode: rule
+log-level: info
+bind-address: "*"
+unified-delay: true
+tcp-concurrent: true
+keep-alive-idle: 30
+keep-alive-interval: 15
+find-process-mode: strict
+authentication: ["mihomo:27Aaron"]
+skip-auth-prefixes: [127.0.0.1/8, "::1/128"]
+
+external-ui: ui
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-controller: 127.0.0.1:9090
+secret: 27Aaron
+profile: { store-selected: true, store-fake-ip: true }
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP: { ports: [80, 8080-8880], override-destination: true }
+    TLS: { ports: [443, 8443] }
+    QUIC: { ports: [443, 8443] }
+  skip-domain: ["Mijia Cloud", "+.push.apple.com"]
+
+ntp:
+  enable: true
+  write-to-system: false
+  server: "ntp.aliyun.com"
+  port: 123
+  interval: 60
+
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  strict-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  dns-hijack: ["any:53", "tcp://any:53"]
+
+chinaDNS:
+  &chinaDNS [
+    "https://dns.alidns.com/dns-query#DIRECT",
+    "https://doh.pub/dns-query#DIRECT",
+  ]
+foreignDNS:
+  &foreignDNS [
+    "https://dns.cloudflare.com/dns-query#Proxies",
+    "https://dns.google/dns-query#Proxies",
+  ]
+
+dns:
+  enable: true
+  ipv6: true
+  use-hosts: true
+  cache-algorithm: arc
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter: ["rule-set:private", "rule-set:fakeip_filter"]
+  proxy-server-nameserver: *chinaDNS
+  default-nameserver: ["223.5.5.5", "119.29.29.29"]
+  nameserver: *foreignDNS
+  nameserver-policy:
+    "rule-set:cn": *chinaDNS
+  direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
+
+hosts:
+  "dns.alidns.com": ["223.5.5.5", "223.6.6.6"]
+  "doh.pub": ["1.12.12.12", "120.53.53.53"]
+  "dns.cloudflare.com": ["1.1.1.1", "1.0.0.1"]
+  "dns.google": ["8.8.8.8", "8.8.4.4"]
+  "services.googleapis.cn": ["services.googleapis.com"]
+  "+.mcdn.bilivideo.com": ["0.0.0.0"]
+  "+.mcdn.bilivideo.cn": ["0.0.0.0"]
+  "+.edge.mountaintoys.cn": ["0.0.0.0"]
+  "+.h2.smtcdns.net": ["0.0.0.0"]
+
+proxy-providers:
+  Sub:
+    type: http
+    url: "https://sub.store/download/collection/AIO?target=ClashMeta"
+    interval: 3600
+    path: ./providers/Sub.yaml
+    health-check:
+      enable: true
+      url: http://cp.cloudflare.com/generate_204
+      interval: 600
+      timeout: 3000
+      lazy: true
+
+group_common:
+  select: &group_select
+    type: select
+    interval: 600
+    timeout: 3000
+    max-failed-times: 3
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+
+  url-test: &group_url_test
+    type: url-test
+    interval: 300
+    timeout: 3000
+    max-failed-times: 3
+    empty-fallback: REJECT
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+    tolerance: 20
+    include-all: true
+    exclude-type: DIRECT
+    hidden: true
+
+proxy-groups:
+  # --- 主策略 ---
+  - name: Proxies
+    <<: *group_select
+    proxies:
+      [
+        手动选择,
+        自动选择,
+        香港自动,
+        日本自动,
+        美国自动,
+        台湾自动,
+        新加坡自动,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+
+  - name: AI
+    <<: *group_select
+    proxies:
+      [
+        日本节点,
+        美国节点,
+        日本自动,
+        美国自动,
+        Proxies,
+        香港节点,
+        台湾节点,
+        新加坡节点,
+        DIRECT,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
+
+  - name: Google
+    <<: *group_select
+    proxies:
+      [
+        Proxies,
+        DIRECT,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+        香港自动,
+        日本自动,
+        美国自动,
+        台湾自动,
+        新加坡自动,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png
+
+  - name: Apple
+    <<: *group_select
+    proxies:
+      [
+        DIRECT,
+        Proxies,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+        香港自动,
+        日本自动,
+        美国自动,
+        台湾自动,
+        新加坡自动,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
+
+  - name: Telegram
+    <<: *group_select
+    proxies:
+      [
+        Proxies,
+        DIRECT,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+        香港自动,
+        日本自动,
+        美国自动,
+        台湾自动,
+        新加坡自动,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png
+
+  - name: Twitter
+    <<: *group_select
+    proxies:
+      [
+        Proxies,
+        DIRECT,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+        香港自动,
+        日本自动,
+        美国自动,
+        台湾自动,
+        新加坡自动,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
+
+  - name: IP-Attribution
+    <<: *group_select
+    proxies:
+      [
+        DIRECT,
+        REJECT,
+        Proxies,
+        香港节点,
+        日本节点,
+        美国节点,
+        台湾节点,
+        新加坡节点,
+      ]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png
+
+  # --- 节点选择 ---
+  - name: 手动选择
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
+
+  - name: 香港节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
+
+  - name: 日本节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+
+  - name: 美国节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+
+  - name: 台湾节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
+
+  - name: 新加坡节点
+    <<: *group_select
+    include-all: true
+    exclude-type: DIRECT
+    filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
+
+  - name: Direct
+    <<: *group_select
+    proxies: [DIRECT, Proxies]
+    icon: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Direct.png
+
+  - name: Final
+    <<: *group_select
+    proxies: [Proxies, Direct]
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png
+
+  # --- 自动测速（隐藏）---
+  - name: 自动选择
+    <<: *group_url_test
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+
+  - name: 香港自动
+    <<: *group_url_test
+    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
+
+  - name: 日本自动
+    <<: *group_url_test
+    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
+
+  - name: 美国自动
+    <<: *group_url_test
+    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
+
+  - name: 台湾自动
+    <<: *group_url_test
+    filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
+
+  - name: 新加坡自动
+    <<: *group_url_test
+    filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
+
+rule_providers_common:
+  rule_providers_domain:
+    &rule_providers_domain {
+      type: http,
+      format: mrs,
+      interval: 86400,
+      behavior: domain,
+    }
+  rule_providers_ip:
+    &rule_providers_ip {
+      type: http,
+      format: mrs,
+      interval: 86400,
+      behavior: ipcidr,
+    }
+  rule_providers_classical:
+    &rule_providers_classical {
+      type: http,
+      format: yaml,
+      interval: 86400,
+      behavior: classical,
+    }
+
+rule-providers:
+  private:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
+    path: "./ruleset/private.mrs"
+  private_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    path: "./ruleset/private_ip.mrs"
+  games_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
+    path: "./ruleset/category-games@cn.mrs"
+  epicgames:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
+    path: "./ruleset/epicgames.mrs"
+  nvidia_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
+    path: "./ruleset/nvidia@cn.mrs"
+  apple_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple@cn.mrs"
+    path: "./ruleset/apple@cn.mrs"
+  microsoft_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
+    path: "./ruleset/microsoft@cn.mrs"
+  geolocation-cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
+    path: "./ruleset/geolocation-cn.mrs"
+  cn_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    path: "./ruleset/cn_ip.mrs"
+
+  ai:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
+    path: "./ruleset/ai.mrs"
+  youtube:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
+    path: "./ruleset/youtube.mrs"
+  googlefcm:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs"
+    path: "./ruleset/googlefcm.mrs"
+  google:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
+    path: "./ruleset/google.mrs"
+  google_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
+    path: "./ruleset/google_ip.mrs"
+  apple:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs"
+    path: "./ruleset/apple.mrs"
+  telegram:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
+    path: "./ruleset/telegram.mrs"
+  telegram_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
+    path: "./ruleset/telegram_ip.mrs"
+  twitter:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
+    path: "./ruleset/twitter.mrs"
+  twitter_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs"
+    path: "./ruleset/twitter_ip.mrs"
+  gfw:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs"
+    path: "./ruleset/gfw.mrs"
+
+  fakeip_filter:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/fakeip-filter.mrs"
+    path: "./ruleset/fakeip-filter.mrs"
+  cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/direct.mrs"
+    path: "./ruleset/cn.mrs"
+
+  # 本仓库规则
+  APNs:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/APNs/APNs.yaml"
+    path: "./ruleset/APNs.yaml"
+  GoogleFCM:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GoogleFCM/GoogleFCM.yaml"
+    path: "./ruleset/GoogleFCM.yaml"
+  IP-Attribution:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
+    path: "./ruleset/IP-Attribution.yaml"
+
+rules:
+  - DST-PORT,22,手动选择
+
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
+
+  # 苹果推送直连
+  - RULE-SET,APNs,DIRECT
+
+  # IP 归属地
+  - RULE-SET,IP-Attribution,IP-Attribution
+
+  # 禁用国外 QUIC
+  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
+
+  # 国内服务直连
+  - RULE-SET,games_cn,Direct
+  - RULE-SET,epicgames,Direct
+  - RULE-SET,nvidia_cn,Direct
+  - RULE-SET,apple_cn,Direct
+  - RULE-SET,microsoft_cn,Direct
+
+  # 服务分流
+  - RULE-SET,ai,AI
+  - RULE-SET,youtube,Google
+  - RULE-SET,GoogleFCM,Google
+  - RULE-SET,googlefcm,Google
+  - RULE-SET,google,Google
+  - RULE-SET,apple,Apple
+  - RULE-SET,telegram,Telegram
+  - RULE-SET,twitter,Twitter
+
+  - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter_ip,Twitter,no-resolve
+
+  - RULE-SET,gfw,Proxies
+  - RULE-SET,geolocation-cn,Direct
+  - RULE-SET,cn_ip,Direct,no-resolve
+  - MATCH,Final
