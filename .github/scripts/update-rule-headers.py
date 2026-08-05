@@ -183,6 +183,16 @@ def iter_rule_files(root: Path) -> list[Path]:
     return files
 
 
+def has_meta_header(text: str) -> bool:
+    """True if file already has our generated header block."""
+    for line in text.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        return s.startswith("# NAME:")
+    return False
+
+
 def process_file(path: Path, updated: str, force: bool, root: Path) -> str:
     """Returns: updated | unchanged | skip"""
     raw = path.read_text(encoding="utf-8")
@@ -193,7 +203,10 @@ def process_file(path: Path, updated: str, force: bool, root: Path) -> str:
     reason = "--all" if force else ""
 
     if not need:
-        if not has_parent():
+        # First-time / stripped files: always write header once
+        if not has_meta_header(raw):
+            need, reason = True, "missing header"
+        elif not has_parent():
             need, reason = True, "no HEAD~1"
         else:
             prev = git_show(f"HEAD~1:{rel}")

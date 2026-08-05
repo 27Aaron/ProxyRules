@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Format repo files for CI (no local Nix required).
+"""Format repo files for CI (no local tooling required).
 
-- Markdown: prettier
-- YAML: yamlfmt + undo !!merge (Clash needs <<:)
-- .list / .conf: strip leading & trailing whitespace per line
+Handled:
+  - *.md          → prettier
+  - *.yaml / *.yml → yamlfmt (+ strip !!merge for Clash)
+  - *.list / *.conf → trim leading/trailing whitespace per line
+
+Skipped directories (never walked):
+  .git / .github / node_modules / result
+
+Not handled (left as-is):
+  *.js, *.sgmodule, LICENSE, and anything under .github/
 
 Usage:
   python3 .github/scripts/format-repo.py
@@ -15,10 +22,8 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
-CLIENTS = ("Clash", "Surge", "Loon", "Shadowrocket")
 SKIP_DIR_NAMES = {".git", ".github", "node_modules", "result"}
 
 
@@ -46,15 +51,13 @@ def run(cmd: list[str], **kwargs) -> None:
 
 
 def iter_files(root: Path, suffixes: tuple[str, ...]) -> list[Path]:
+    """Walk repo, skip SKIP_DIR_NAMES, match filename suffixes."""
     out: list[Path] = []
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIR_NAMES]
         for name in filenames:
-            p = Path(dirpath) / name
-            if p.suffix.lower() in suffixes or name.endswith(suffixes):
-                # suffix check: .yaml .yml .md .list .conf
-                if any(name.endswith(s) for s in suffixes):
-                    out.append(p)
+            if any(name.endswith(s) for s in suffixes):
+                out.append(Path(dirpath) / name)
     return sorted(out)
 
 
@@ -66,7 +69,6 @@ def format_markdown(root: Path) -> None:
     files = iter_files(root, (".md",))
     if not files:
         return
-    # batch to avoid huge argv
     chunk = 50
     for i in range(0, len(files), chunk):
         batch = files[i : i + chunk]
@@ -96,8 +98,7 @@ def format_yaml(root: Path) -> None:
 
     for path in files:
         rel = path.relative_to(root)
-        with path.open("r", encoding="utf-8") as f:
-            original = f.read()
+        original = path.read_text(encoding="utf-8")
         proc = subprocess.run(
             [yamlfmt, *conf_args, "-"],
             input=original,
@@ -109,6 +110,7 @@ def format_yaml(root: Path) -> None:
         if proc.returncode != 0:
             print(f"yamlfmt failed on {rel}: {proc.stderr}", file=sys.stderr)
             continue
+        # Clash/Mihomo merge keys must stay as <<: not !!merge <<:
         text = proc.stdout.replace("!!merge <<:", "<<:")
         if text != original:
             path.write_text(text, encoding="utf-8")
@@ -116,20 +118,14 @@ def format_yaml(root: Path) -> None:
 
 
 def trim_list_conf(root: Path) -> None:
+    """Strip per-line leading/trailing whitespace; ensure single trailing newline."""
     files = iter_files(root, (".list", ".conf"))
     for path in files:
         original = path.read_text(encoding="utf-8")
-        lines = []
-        for line in original.splitlines():
-            lines.append(line.strip())  # leading + trailing ws
-        # drop trailing empty lines then one final newline
+        lines = [line.strip() for line in original.splitlines()]
         while lines and lines[-1] == "":
             lines.pop()
-        new = "\n".join(lines) + ("\n" if lines or original.endswith("\n") else "")
-        if lines:
-            new = "\n".join(lines) + "\n"
-        else:
-            new = ""
+        new = ("\n".join(lines) + "\n") if lines else ""
         if new != original:
             path.write_text(new, encoding="utf-8")
             print(f"trim {path.relative_to(root)}")
