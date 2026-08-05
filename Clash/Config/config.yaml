@@ -146,7 +146,7 @@ proxy-groups:
   - name: Manual
     <<: *group_select
     include-all: true
-    icon: https://github.com/Orz-3/mini/raw/master/Color/Manual.png
+    icon: https://raw.githubusercontent.com/shindgew/WHATSINStash/main/icon/fallback.png
 
   - name: AI
     <<: *group_select
