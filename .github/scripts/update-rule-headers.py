@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Refresh meta headers on Rules/*.list and Rules/*.yaml.
+"""Refresh canonical metadata headers on rule files.
 
-Smart mode (default): only rewrite a file when its *rule body* (content without
-the meta header) changed vs HEAD~1. Avoids UPDATED-only churn.
+By default, rule bodies are compared with ``HEAD~1``. Pass ``--base`` in CI
+to compare with the commit before the push instead, including pushes that
+contain multiple commits. Metadata is repaired on every run, while the
+existing ``UPDATED`` value is preserved when the rule body did not change.
 
 Usage:
   python3 .github/scripts/update-rule-headers.py
+  python3 .github/scripts/update-rule-headers.py --base <revision>
   python3 .github/scripts/update-rule-headers.py --all
-  python3 .github/scripts/update-rule-headers.py path/to/file.list
+  python3 .github/scripts/update-rule-headers.py Clash/Rules/Foo/Foo.list
 """
 
 from __future__ import annotations
@@ -23,6 +26,8 @@ from pathlib import Path
 
 AUTHOR = "27Aaron"
 REPO = "https://github.com/27Aaron/ProxyRules"
+DEFAULT_BASE = "HEAD~1"
+TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 CLIENTS = ("Clash", "Surge", "Loon", "Shadowrocket")
 
@@ -43,13 +48,20 @@ TYPE_ORDER = [
     "PROTOCOL",
 ]
 
-HEADER_PREFIXES = (
-    "# NAME:",
-    "# AUTHOR:",
-    "# REPO:",
-    "# UPDATED:",
-    "# TOTAL:",
+CORE_METADATA_RE = re.compile(
+    r"^#\s*(?:NAME|AUTHOR|REPO|UPDATED|TOTAL)(?:\s*:|\s|$)",
+    re.IGNORECASE,
 )
+TYPE_METADATA_RE = re.compile(
+    r"^#\s*(?:"
+    + "|".join(re.escape(rule_type) for rule_type in TYPE_ORDER)
+    + r")\s*:",
+    re.IGNORECASE,
+)
+NAME_LINE_RE = re.compile(r"^#\s*NAME\s*:", re.IGNORECASE)
+UPDATED_LINE_RE = re.compile(r"^# UPDATED: (.+)$")
+COUNT_LINE_RE = re.compile(r"^# [A-Z][A-Z0-9-]*: \d+\s*$")
+ZERO_REVISION_RE = re.compile(r"0+")
 
 RULE_TYPE_RE = re.compile(
     r"^(?:-\s*)?"
@@ -59,7 +71,13 @@ RULE_TYPE_RE = re.compile(
     re.IGNORECASE,
 )
 
-COUNT_LINE_RE = re.compile(r"^# [A-Z][A-Z0-9-]*: \d+\s*$")
+
+class InvalidBaseRevision(ValueError):
+    """Raised when an explicitly requested Git base cannot be resolved."""
+
+
+class InvalidRulePath(ValueError):
+    """Raised when a requested path is outside the managed rule trees."""
 
 
 def repo_root() -> Path:
@@ -73,25 +91,39 @@ def repo_root() -> Path:
             return Path(out)
     except (subprocess.CalledProcessError, FileNotFoundError):
         pass
-    # .github/scripts/ → repo root
+    # .github/scripts/ -> repo root
     return Path(__file__).resolve().parents[2]
 
 
+def read_utf8(path: Path) -> str:
+    with path.open("r", encoding="utf-8", newline="") as file:
+        return file.read()
+
+
+def write_utf8_lf(path: Path, text: str) -> None:
+    with path.open("w", encoding="utf-8", newline="\n") as file:
+        file.write(text)
+
+
 def is_header_line(line: str) -> bool:
-    s = line.strip()
-    if not s.startswith("#"):
+    stripped = line.strip()
+    if not stripped.startswith("#"):
         return False
-    if s.startswith(HEADER_PREFIXES):
-        return True
-    return COUNT_LINE_RE.match(s) is not None
+    return bool(
+        CORE_METADATA_RE.match(stripped)
+        or TYPE_METADATA_RE.match(stripped)
+        or COUNT_LINE_RE.match(stripped)
+    )
 
 
 def strip_header(text: str) -> str:
     lines = text.splitlines()
-    i = 0
-    while i < len(lines) and (not lines[i].strip() or is_header_line(lines[i])):
-        i += 1
-    body = "\n".join(lines[i:])
+    index = 0
+    while index < len(lines) and (
+        not lines[index].strip() or is_header_line(lines[index])
+    ):
+        index += 1
+    body = "\n".join(lines[index:])
     if body and not body.endswith("\n"):
         body += "\n"
     return body.lstrip("\n") if body.startswith("\n") else body
@@ -103,27 +135,27 @@ def body_hash(text: str) -> str:
 
 
 def rule_type(line: str) -> str | None:
-    s = line.strip()
-    if not s or s.startswith("#") or s == "payload:":
+    stripped = line.strip()
+    if not stripped or stripped.startswith("#") or stripped == "payload:":
         return None
-    if s.startswith("- "):
-        s = s[2:].lstrip()
-    m = RULE_TYPE_RE.match(s)
-    return m.group(1).upper() if m else None
+    if stripped.startswith("- "):
+        stripped = stripped[2:].lstrip()
+    match = RULE_TYPE_RE.match(stripped)
+    return match.group(1).upper() if match else None
 
 
 def count_types(body: str) -> Counter[str]:
     counts: Counter[str] = Counter()
     for line in body.splitlines():
-        t = rule_type(line)
-        if t:
-            counts[t] += 1
+        detected_type = rule_type(line)
+        if detected_type:
+            counts[detected_type] += 1
     return counts
 
 
 def ordered_types(counts: Counter[str]) -> list[str]:
-    known = [t for t in TYPE_ORDER if counts.get(t)]
-    extra = sorted(t for t in counts if t not in TYPE_ORDER)
+    known = [rule_type for rule_type in TYPE_ORDER if counts.get(rule_type)]
+    extra = sorted(rule_type for rule_type in counts if rule_type not in TYPE_ORDER)
     return known + extra
 
 
@@ -135,8 +167,8 @@ def build_header(name: str, counts: Counter[str], updated: str) -> str:
         f"# REPO: {REPO}",
         f"# UPDATED: {updated}",
     ]
-    for t in ordered_types(counts):
-        lines.append(f"# {t}: {counts[t]}")
+    for detected_type in ordered_types(counts):
+        lines.append(f"# {detected_type}: {counts[detected_type]}")
     lines.append(f"# TOTAL: {total}")
     return "\n".join(lines) + "\n"
 
@@ -149,27 +181,136 @@ def with_header(name: str, text: str, updated: str) -> str:
     return header + "\n" + body
 
 
-def git_show(rev_path: str) -> str | None:
-    try:
-        return subprocess.check_output(
-            ["git", "show", rev_path],
-            text=True,
-            stderr=subprocess.DEVNULL,
-        )
-    except subprocess.CalledProcessError:
-        return None
+def has_meta_header(text: str) -> bool:
+    """Return whether the leading metadata block contains a NAME field."""
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if not is_header_line(stripped):
+            return False
+        if NAME_LINE_RE.match(stripped):
+            return True
+    return False
 
 
-def has_parent() -> bool:
+def existing_updated(text: str) -> str | None:
+    """Read a canonical timestamp from the leading metadata block."""
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if not is_header_line(stripped):
+            break
+        match = UPDATED_LINE_RE.fullmatch(stripped)
+        if not match:
+            continue
+        value = match.group(1)
+        try:
+            parsed = datetime.strptime(value, TIMESTAMP_FORMAT)
+        except ValueError:
+            return None
+        return value if parsed.strftime(TIMESTAMP_FORMAT) == value else None
+    return None
+
+
+def git_revision_exists(revision: str, root: Path | None = None) -> bool:
+    if revision.startswith("-"):
+        return False
     try:
         subprocess.check_call(
-            ["git", "rev-parse", "--verify", "HEAD~1"],
+            [
+                "git",
+                "rev-parse",
+                "--verify",
+                "--end-of-options",
+                f"{revision}^{{commit}}",
+            ],
+            cwd=root,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
         return True
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError):
         return False
+
+
+def resolve_base(
+    requested: str | None,
+    *,
+    explicit: bool,
+    root: Path | None = None,
+) -> str | None:
+    """Resolve the comparison base, allowing an empty/all-zero push sentinel."""
+    if requested is not None:
+        revision = requested.strip()
+        if not revision or ZERO_REVISION_RE.fullmatch(revision):
+            return None
+    else:
+        revision = DEFAULT_BASE
+
+    if git_revision_exists(revision, root):
+        return revision
+    if explicit:
+        raise InvalidBaseRevision(f"base revision does not exist: {revision}")
+    return None
+
+
+def git_show(
+    base: str,
+    relative_path: str,
+    root: Path | None = None,
+) -> str | None:
+    try:
+        output = subprocess.check_output(
+            ["git", "show", f"{base}:{relative_path}"],
+            cwd=root,
+            stderr=subprocess.DEVNULL,
+        )
+        return output.decode("utf-8")
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+
+def git_updated_revisions(
+    relative_path: str,
+    root: Path | None = None,
+) -> list[str]:
+    """Return revisions whose diff touched the file's UPDATED line."""
+    try:
+        output = subprocess.check_output(
+            [
+                "git",
+                "log",
+                "--follow",
+                "--format=%H",
+                "-G",
+                r"^# UPDATED:",
+                "--",
+                relative_path,
+            ],
+            cwd=root,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+        return [revision for revision in output.splitlines() if revision]
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+
+
+def git_last_semantic_updated(
+    relative_path: str,
+    root: Path | None = None,
+) -> str | None:
+    """Return the file at its newest semantic UPDATED timestamp change."""
+    for revision in git_updated_revisions(relative_path, root):
+        after = git_show(revision, relative_path, root)
+        before = git_show(f"{revision}^", relative_path, root)
+        if after is None or before is None:
+            return None
+        if existing_updated(after) != existing_updated(before):
+            return after
+    return None
 
 
 def iter_rule_files(root: Path) -> list[Path]:
@@ -183,47 +324,91 @@ def iter_rule_files(root: Path) -> list[Path]:
     return files
 
 
-def has_meta_header(text: str) -> bool:
-    """True if file already has our generated header block."""
-    for line in text.splitlines():
-        s = line.strip()
-        if not s:
-            continue
-        return s.startswith("# NAME:")
-    return False
+def resolve_rule_path(path: str | Path, root: Path) -> Path:
+    root = root.resolve()
+    candidate = Path(path)
+    if not candidate.is_absolute():
+        candidate = root / candidate
+    if candidate.is_symlink():
+        raise InvalidRulePath(f"symbolic links are not managed rule files: {path}")
+    candidate = candidate.resolve()
+
+    try:
+        relative = candidate.relative_to(root)
+    except ValueError as exc:
+        raise InvalidRulePath(f"path is outside repository: {path}") from exc
+
+    parts = relative.parts
+    if (
+        len(parts) < 3
+        or parts[0] not in CLIENTS
+        or parts[1] != "Rules"
+        or candidate.suffix not in {".list", ".yaml"}
+    ):
+        raise InvalidRulePath(f"path is not a managed rule file: {relative}")
+    return candidate
 
 
-def process_file(path: Path, updated: str, force: bool, root: Path) -> str:
-    """Returns: updated | unchanged | skip"""
-    raw = path.read_text(encoding="utf-8")
-    rel = path.relative_to(root).as_posix()
-    name = path.stem
+def process_file(
+    path: Path,
+    updated: str,
+    force: bool,
+    root: Path,
+    base: str | None = None,
+    *,
+    history_fallback: bool = False,
+) -> str:
+    """Canonicalize one rule file. Return updated, unchanged, or skip."""
+    raw = read_utf8(path)
+    relative = path.relative_to(root).as_posix()
+    previous_updated = existing_updated(raw)
+    reason = ""
 
-    need = force
-    reason = "--all" if force else ""
-
-    if not need:
-        # First-time / stripped files: always write header once
-        if not has_meta_header(raw):
-            need, reason = True, "missing header"
-        elif not has_parent():
-            need, reason = True, "no HEAD~1"
+    if force:
+        refresh_updated = True
+        reason = "--all"
+    elif not has_meta_header(raw):
+        refresh_updated = True
+        reason = "missing header"
+    elif base is not None:
+        previous = git_show(base, relative, root)
+        if previous is None:
+            refresh_updated = True
+            reason = "new file"
+        elif body_hash(previous) != body_hash(raw):
+            refresh_updated = True
+            reason = "body changed"
+        elif previous_updated is None:
+            refresh_updated = True
+            reason = "missing or invalid UPDATED"
+        elif history_fallback:
+            last_updated = git_last_semantic_updated(relative, root)
+            if last_updated is None:
+                refresh_updated = True
+                reason = "header history unavailable"
+            elif body_hash(last_updated) != body_hash(raw):
+                refresh_updated = True
+                reason = "body changed since last header update"
+            else:
+                refresh_updated = False
         else:
-            prev = git_show(f"HEAD~1:{rel}")
-            if prev is None:
-                need, reason = True, "new file"
-            elif body_hash(prev) != body_hash(raw):
-                need, reason = True, "body changed"
+            refresh_updated = False
+    elif previous_updated is None:
+        refresh_updated = True
+        reason = "missing or invalid UPDATED"
+    else:
+        refresh_updated = False
 
-    if not need:
-        return "skip"
+    header_updated = updated if refresh_updated else previous_updated
+    if header_updated is None:  # Kept explicit for type checkers and future edits.
+        header_updated = updated
+    new_text = with_header(path.stem, raw, header_updated)
 
-    new_text = with_header(name, raw, updated)
     if new_text == raw:
-        return "unchanged"
+        return "unchanged" if force else "skip"
 
-    path.write_text(new_text, encoding="utf-8")
-    print(f"updated {rel} ({reason})")
+    write_utf8_lf(path, new_text)
+    print(f"updated {relative} ({reason or 'metadata repaired'})")
     return "updated"
 
 
@@ -232,40 +417,65 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--all",
         action="store_true",
-        help="regenerate headers for every rule file",
+        help="regenerate every header and refresh its UPDATED timestamp",
+    )
+    parser.add_argument(
+        "--base",
+        metavar="REVISION",
+        help=f"compare rule bodies with REVISION (default: {DEFAULT_BASE})",
     )
     parser.add_argument("paths", nargs="*", help="optional rule file paths")
     args = parser.parse_args(argv[1:])
 
-    root = repo_root()
-    updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    root = repo_root().resolve()
+    updated = datetime.now().strftime(TIMESTAMP_FORMAT)
 
-    if args.paths:
-        paths = [(root / p).resolve() if not Path(p).is_absolute() else Path(p) for p in args.paths]
-    else:
-        paths = iter_rule_files(root)
+    try:
+        base = resolve_base(
+            args.base,
+            explicit=args.base is not None,
+            root=root,
+        )
+        if args.paths:
+            paths = [resolve_rule_path(path, root) for path in args.paths]
+        else:
+            paths = [resolve_rule_path(path, root) for path in iter_rule_files(root)]
+    except (InvalidBaseRevision, InvalidRulePath) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
 
     if not paths:
         print("no rule files found", file=sys.stderr)
         return 1
 
     stats = {"updated": 0, "unchanged": 0, "skip": 0}
+    missing = 0
+    history_fallback = args.base is not None and base is not None
     for path in paths:
         if not path.is_file():
             print(f"skip missing: {path}", file=sys.stderr)
+            missing += 1
             continue
-        status = process_file(path, updated, args.all, root)
-        stats[status] = stats.get(status, 0) + 1
+        status = process_file(
+            path,
+            updated,
+            args.all,
+            root,
+            base,
+            history_fallback=history_fallback,
+        )
+        stats[status] += 1
+        relative = path.relative_to(root)
         if status == "skip":
-            print(f"skip {path.relative_to(root)} (rule body unchanged vs HEAD~1)")
+            print(f"skip {relative} (canonical header unchanged)")
         elif status == "unchanged":
-            print(f"unchanged {path.relative_to(root)}")
+            print(f"unchanged {relative}")
 
     print(
         f"done: updated={stats['updated']} "
         f"unchanged={stats['unchanged']} skip={stats['skip']}"
     )
-    return 0
+    return 1 if missing else 0
 
 
 if __name__ == "__main__":

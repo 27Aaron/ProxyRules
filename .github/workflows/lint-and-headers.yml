@@ -1,97 +1,390 @@
-# Local stays clean: headers + format run only in CI.
-# Order: rule headers → format → two separate bot commits (both [skip ci]).
 name: Lint & Headers
 
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - "**/*.conf"
+      - "**/*.list"
+      - "**/*.md"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - ".github/package.json"
+      - ".github/package-lock.json"
+      - ".github/scripts/**"
+
+permissions:
+  contents: read
 
 concurrency:
-  group: lint-and-headers-${{ github.ref }}
+  group: lint-and-headers-${{ github.workflow }}-${{ github.ref }}-${{ github.run_attempt > 1 && github.run_id || 'current' }}
   cancel-in-progress: true
 
+env:
+  ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+  ACTIONLINT_VERSION: 1.7.12
+  GIT_LITERAL_PATHSPECS: "1"
+  SHELLCHECK_SHA256: 8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198
+  SHELLCHECK_VERSION: 0.11.0
+  YAMLFMT_SHA256: 1f300d9257b232bb3b541d7fb1b0e6b3c121bcbab381c86cd38cb8722be8a566
+  YAMLFMT_VERSION: 0.21.0
+
 jobs:
-  lint-and-headers:
-    # Bot commits use [skip ci] and normally won't re-trigger; belt-and-suspenders:
-    if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+  prepare:
+    name: Validate and prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      has_changes: ${{ steps.patches.outputs.has_changes }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 2
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
 
-      - name: Set up Node (prettier)
-        uses: actions/setup-node@v4
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
+          cache: npm
+          cache-dependency-path: .github/package-lock.json
 
-      - name: Install formatters
+      - name: Install locked tools
+        shell: bash
+        working-directory: .github
         run: |
           set -euo pipefail
-          npm install -g prettier@3
-          # yamlfmt (static binary)
-          YF_VERSION=0.21.0
-          curl -fsSL -o /tmp/yamlfmt.tar.gz \
-            "https://github.com/google/yamlfmt/releases/download/v${YF_VERSION}/yamlfmt_${YF_VERSION}_Linux_x86_64.tar.gz"
-          tar -xzf /tmp/yamlfmt.tar.gz -C /tmp yamlfmt
-          sudo install -m 755 /tmp/yamlfmt /usr/local/bin/yamlfmt
-          prettier --version
-          yamlfmt -version || yamlfmt --version || true
 
-      - name: 1) Refresh rule headers
-        run: python3 .github/scripts/update-rule-headers.py
+          npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Commit headers (if any)
+          tool_dir="${RUNNER_TEMP}/tools"
+          mkdir -p "$tool_dir"
+
+          yamlfmt_archive="${RUNNER_TEMP}/yamlfmt.tar.gz"
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+            --retry 3 --retry-all-errors \
+            --output "$yamlfmt_archive" \
+            "https://github.com/google/yamlfmt/releases/download/v${YAMLFMT_VERSION}/yamlfmt_${YAMLFMT_VERSION}_Linux_x86_64.tar.gz"
+          echo "${YAMLFMT_SHA256}  ${yamlfmt_archive}" | sha256sum --check -
+          tar -xzf "$yamlfmt_archive" -C "$tool_dir" yamlfmt
+
+          actionlint_archive="${RUNNER_TEMP}/actionlint.tar.gz"
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+            --retry 3 --retry-all-errors \
+            --output "$actionlint_archive" \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  ${actionlint_archive}" | sha256sum --check -
+          tar -xzf "$actionlint_archive" -C "$tool_dir" actionlint
+
+          shellcheck_archive="${RUNNER_TEMP}/shellcheck.tar.xz"
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+            --retry 3 --retry-all-errors \
+            --output "$shellcheck_archive" \
+            "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
+          echo "${SHELLCHECK_SHA256}  ${shellcheck_archive}" | sha256sum --check -
+          tar -xJf "$shellcheck_archive" --strip-components=1 -C "$tool_dir" \
+            "shellcheck-v${SHELLCHECK_VERSION}/shellcheck"
+
+          ln -s "${GITHUB_WORKSPACE}/.github/node_modules/.bin/prettier" \
+            "$tool_dir/prettier"
+          chmod 755 "$tool_dir/actionlint" "$tool_dir/shellcheck" \
+            "$tool_dir/yamlfmt"
+
+      - name: Test maintenance scripts
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
+      - name: Lint workflows
+        run: |
+          "${RUNNER_TEMP}/tools/actionlint" \
+            -shellcheck "${RUNNER_TEMP}/tools/shellcheck"
+
+      - name: Lint CI metadata
+        run: |
+          "${RUNNER_TEMP}/tools/yamlfmt" -lint \
+            -conf .github/yamlfmt.yml \
+            .github/dependabot.yml .github/yamlfmt.yml
+          "${RUNNER_TEMP}/tools/prettier" --check --no-config \
+            --no-editorconfig --ignore-path=/dev/null -- \
+            .github/package.json .github/package-lock.json
+
+      - name: Format repository
+        env:
+          CI: "true"
+        run: |
+          export PATH="${RUNNER_TEMP}/tools:${PATH}"
+          python3 .github/scripts/format-repo.py
+
+      - name: Capture format patch
+        shell: bash
         run: |
           set -euo pipefail
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
-          if git diff --quiet; then
-            echo "No header changes."
-            exit 0
+          patch_dir="${RUNNER_TEMP}/maintenance-patches"
+          mkdir -p "$patch_dir"
+
+          if ! git diff --quiet --diff-filter=ACDRTUXB --; then
+            echo "Formatting attempted a non-modification change."
+            git diff --name-status
+            exit 1
+          fi
+          diff_summary="$(git diff --summary --)"
+          if [[ -n "$diff_summary" ]]; then
+            echo "Formatting attempted a mode change."
+            printf '%s\n' "$diff_summary"
+            exit 1
           fi
 
-          git add -- Clash/Rules Surge/Rules Loon/Rules Shadowrocket/Rules || true
-          if git diff --staged --quiet; then
-            echo "Nothing staged for headers."
-            exit 0
+          format_paths=()
+          while IFS= read -r -d '' changed_path; do
+            case "$changed_path" in
+              .github/*)
+                echo "Formatting must not modify .github: $changed_path"
+                exit 1
+                ;;
+              *.conf | *.list | *.md | *.yaml | *.yml)
+                format_paths+=("$changed_path")
+                ;;
+              *)
+                echo "Unexpected format path: $changed_path"
+                exit 1
+                ;;
+            esac
+          done < <(git diff --name-only --diff-filter=M -z --)
+
+          if ((${#format_paths[@]})); then
+            git diff --check -- "${format_paths[@]}"
+            git diff --binary --no-ext-diff --no-textconv -- \
+              "${format_paths[@]}" > "$patch_dir/format.patch"
+            git apply --check --cached "$patch_dir/format.patch"
+            git apply --cached "$patch_dir/format.patch"
+          else
+            : > "$patch_dir/format.patch"
           fi
 
-          git commit -m "chore(rules): refresh rule headers [skip ci]"
-          git push
-          echo "Pushed headers commit."
-
-      - name: 2) Format repository
-        run: python3 .github/scripts/format-repo.py
-
-      - name: Commit format (if any)
+      - name: Refresh rule headers for push
+        if: github.event_name == 'push'
+        env:
+          BASE_SHA: ${{ github.event.before }}
+        shell: bash
         run: |
           set -euo pipefail
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-
-          if git diff --quiet; then
-            echo "No format changes."
-            exit 0
+          if [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]] && \
+            git rev-parse --verify --quiet --end-of-options \
+              "${BASE_SHA}^{commit}" > /dev/null; then
+            python3 .github/scripts/update-rule-headers.py --base "$BASE_SHA"
+          else
+            echo "Push base is unavailable; refreshing every rule header."
+            python3 .github/scripts/update-rule-headers.py --all
           fi
 
-          git add -A
-          # do not commit workflow secrets etc. — whole tree format is fine for this repo
-          if git diff --staged --quiet; then
-            echo "Nothing staged for format."
-            exit 0
+      - name: Canonicalize rule headers for pull request
+        if: github.event_name == 'pull_request'
+        run: python3 .github/scripts/update-rule-headers.py --base 0000000000000000000000000000000000000000
+
+      - name: Capture header patch
+        id: patches
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          patch_dir="${RUNNER_TEMP}/maintenance-patches"
+
+          if ! git diff --quiet --diff-filter=ACDRTUXB --; then
+            echo "Header generation attempted a non-modification change."
+            git diff --name-status
+            exit 1
+          fi
+          diff_summary="$(git diff --summary --)"
+          if [[ -n "$diff_summary" ]]; then
+            echo "Header generation attempted a mode change."
+            printf '%s\n' "$diff_summary"
+            exit 1
           fi
 
-          git commit -m "style: apply repository format [skip ci]"
-          git push
-          echo "Pushed format commit."
+          header_paths=()
+          while IFS= read -r -d '' changed_path; do
+            case "$changed_path" in
+              Clash/Rules/*.list | Clash/Rules/*.yaml | \
+                Loon/Rules/*.list | Loon/Rules/*.yaml | \
+                Shadowrocket/Rules/*.list | Shadowrocket/Rules/*.yaml | \
+                Surge/Rules/*.list | Surge/Rules/*.yaml)
+                header_paths+=("$changed_path")
+                ;;
+              *)
+                echo "Unexpected header path: $changed_path"
+                exit 1
+                ;;
+            esac
+          done < <(git diff --name-only --diff-filter=M -z --)
+
+          if ((${#header_paths[@]})); then
+            git diff --check -- "${header_paths[@]}"
+            git diff --binary --no-ext-diff --no-textconv -- \
+              "${header_paths[@]}" > "$patch_dir/headers.patch"
+            git apply --check --cached "$patch_dir/headers.patch"
+            git apply --cached "$patch_dir/headers.patch"
+          else
+            : > "$patch_dir/headers.patch"
+          fi
+
+          git diff --cached --check
+          git diff --exit-code --
+          (
+            cd "$patch_dir"
+            sha256sum headers.patch format.patch > SHA256SUMS
+          )
+          if [[ -s "$patch_dir/headers.patch" || -s "$patch_dir/format.patch" ]]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
+          git status --short --untracked-files=no
+
+      - name: Verify pull request is canonical
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --cached --exit-code --
+          git diff --exit-code --
+
+      - name: Upload maintenance patches
+        if: github.event_name == 'push' && steps.patches.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: maintenance-patches-${{ github.run_id }}
+          path: ${{ runner.temp }}/maintenance-patches
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 1
+
+  publish:
+    name: Commit maintenance changes
+    if: github.event_name == 'push' && needs.prepare.outputs.has_changes == 'true'
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout triggering commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init --quiet .
+          git config core.hooksPath /dev/null
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Download maintenance patches
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: maintenance-patches-${{ github.run_id }}
+          path: ${{ runner.temp }}/maintenance-patches
+
+      - name: Verify patch checksums
+        working-directory: ${{ runner.temp }}/maintenance-patches
+        run: sha256sum --check SHA256SUMS
+
+      - name: Apply and commit maintenance patches
+        id: commits
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          patch_dir="${RUNNER_TEMP}/maintenance-patches"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          validate_staged_paths() {
+            local scope="$1"
+
+            if git diff --cached --quiet --; then
+              echo "Patch produced no changes."
+              exit 1
+            fi
+            if ! git diff --cached --quiet --diff-filter=ACDRTUXB --; then
+              echo "Patch contains a non-modification change."
+              git diff --cached --name-status
+              exit 1
+            fi
+            diff_summary="$(git diff --cached --summary --)"
+            if [[ -n "$diff_summary" ]]; then
+              echo "Patch contains a mode change."
+              printf '%s\n' "$diff_summary"
+              exit 1
+            fi
+
+            changed_paths=()
+            while IFS= read -r -d '' changed_path; do
+              if [[ "$scope" == "headers" ]]; then
+                case "$changed_path" in
+                  Clash/Rules/*.list | Clash/Rules/*.yaml | \
+                    Loon/Rules/*.list | Loon/Rules/*.yaml | \
+                    Shadowrocket/Rules/*.list | Shadowrocket/Rules/*.yaml | \
+                    Surge/Rules/*.list | Surge/Rules/*.yaml)
+                    ;;
+                  *)
+                    echo "Unexpected header path: $changed_path"
+                    exit 1
+                    ;;
+                esac
+              else
+                case "$changed_path" in
+                  .github/*)
+                    echo "Formatting must not modify .github: $changed_path"
+                    exit 1
+                    ;;
+                  *.conf | *.list | *.md | *.yaml | *.yml)
+                    ;;
+                  *)
+                    echo "Unexpected format path: $changed_path"
+                    exit 1
+                    ;;
+                esac
+              fi
+              changed_paths+=("$changed_path")
+            done < <(git diff --cached --name-only --diff-filter=M -z --)
+
+            git diff --cached --check -- "${changed_paths[@]}"
+            git diff --exit-code --
+          }
+
+          if [[ -s "$patch_dir/format.patch" ]]; then
+            git apply --check --index "$patch_dir/format.patch"
+            git apply --index "$patch_dir/format.patch"
+            validate_staged_paths format
+            git commit -m "style: apply repository format [skip ci]"
+          fi
+
+          if [[ -s "$patch_dir/headers.patch" ]]; then
+            git apply --check --index "$patch_dir/headers.patch"
+            git apply --index "$patch_dir/headers.patch"
+            validate_staged_paths headers
+            git commit -m "chore(rules): refresh rule headers [skip ci]"
+          fi
+
+          if [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push maintenance commits
+        if: steps.commits.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          remote="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push \
+            --force-with-lease="${TARGET_REF}:${GITHUB_SHA}" \
+            "$remote" "HEAD:${TARGET_REF}"

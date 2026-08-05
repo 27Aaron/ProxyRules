@@ -5,7 +5,7 @@ formatter:
   line_ending: lf
   retain_line_breaks: true
   retain_line_breaks_single: true
-  drop_merge_tag: false
+  drop_merge_tag: true
   pad_line_comments: 1
   scan_folded_as_literal: true
   trim_trailing_whitespace: true
