@@ -1,0 +1,21 @@
+# Multi-formatter orchestrator — run via: nix fmt
+on-unmatched = "info"
+
+# Uses wrapper that undoes yamlfmt's !!merge rewrite (Clash needs <<:)
+[formatter.yamlfmt]
+command = "proxyrules-yamlfmt"
+includes = ["*.yaml", "*.yml"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write", "--prose-wrap", "preserve"]
+includes = ["*.md"]
+
+[formatter.nixfmt]
+command = "nixfmt"
+includes = ["*.nix"]
+
+# .list / .conf: strip leading+trailing whitespace + final newline (never reorder rules)
+[formatter.trim-ws]
+command = "proxyrules-trim-ws"
+includes = ["*.list", "*.conf"]
