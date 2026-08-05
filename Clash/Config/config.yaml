@@ -280,10 +280,6 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
     path: "./ruleset/cn_ip.mrs"
 
-  ai:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
-    path: "./ruleset/ai.mrs"
   youtube:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
@@ -413,7 +409,6 @@ rules:
   - RULE-SET,microsoft_cn,Direct
 
   # 服务分流
-  - RULE-SET,ai,AI
   - RULE-SET,youtube,Google
   - RULE-SET,GoogleFCM,Google
   - RULE-SET,googlefcm,Google
