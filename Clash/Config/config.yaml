@@ -20,14 +20,14 @@ external-ui: ui
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 127.0.0.1:9090
 secret: 27Aaron
-profile: { store-selected: true, store-fake-ip: true }
+profile: {store-selected: true, store-fake-ip: true}
 
 sniffer:
   enable: true
   sniff:
-    HTTP: { ports: [80, 8080-8880], override-destination: true }
-    TLS: { ports: [443, 8443] }
-    QUIC: { ports: [443, 8443] }
+    HTTP: {ports: [80, 8080-8880], override-destination: true}
+    TLS: {ports: [443, 8443]}
+    QUIC: {ports: [443, 8443]}
   skip-domain: ["Mijia Cloud", "+.push.apple.com"]
 
 ntp:
@@ -46,16 +46,8 @@ tun:
   auto-detect-interface: true
   dns-hijack: ["any:53", "tcp://any:53"]
 
-chinaDNS:
-  &chinaDNS [
-    "https://dns.alidns.com/dns-query#DIRECT",
-    "https://doh.pub/dns-query#DIRECT",
-  ]
-foreignDNS:
-  &foreignDNS [
-    "https://dns.cloudflare.com/dns-query#Proxies",
-    "https://dns.google/dns-query#Proxies",
-  ]
+chinaDNS: &chinaDNS ["https://dns.alidns.com/dns-query#DIRECT", "https://doh.pub/dns-query#DIRECT"]
+foreignDNS: &foreignDNS ["https://dns.cloudflare.com/dns-query#Proxies", "https://dns.google/dns-query#Proxies"]
 
 dns:
   enable: true
@@ -123,128 +115,37 @@ proxy-groups:
   # --- 主策略 ---
   - name: Proxies
     <<: *group_select
-    proxies:
-      [
-        手动选择,
-        自动选择,
-        香港自动,
-        日本自动,
-        美国自动,
-        台湾自动,
-        新加坡自动,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-      ]
+    proxies: [手动选择, 自动选择, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 
   - name: AI
     <<: *group_select
-    proxies:
-      [
-        日本节点,
-        美国节点,
-        日本自动,
-        美国自动,
-        Proxies,
-        香港节点,
-        台湾节点,
-        新加坡节点,
-        DIRECT,
-      ]
+    proxies: [日本节点, 美国节点, 日本自动, 美国自动, Proxies, 香港节点, 台湾节点, 新加坡节点, DIRECT]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png
 
   - name: Google
     <<: *group_select
-    proxies:
-      [
-        Proxies,
-        DIRECT,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-        香港自动,
-        日本自动,
-        美国自动,
-        台湾自动,
-        新加坡自动,
-      ]
+    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png
 
   - name: Apple
     <<: *group_select
-    proxies:
-      [
-        DIRECT,
-        Proxies,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-        香港自动,
-        日本自动,
-        美国自动,
-        台湾自动,
-        新加坡自动,
-      ]
+    proxies: [DIRECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
 
   - name: Telegram
     <<: *group_select
-    proxies:
-      [
-        Proxies,
-        DIRECT,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-        香港自动,
-        日本自动,
-        美国自动,
-        台湾自动,
-        新加坡自动,
-      ]
+    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png
 
   - name: Twitter
     <<: *group_select
-    proxies:
-      [
-        Proxies,
-        DIRECT,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-        香港自动,
-        日本自动,
-        美国自动,
-        台湾自动,
-        新加坡自动,
-      ]
+    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
 
   - name: IP-Attribution
     <<: *group_select
-    proxies:
-      [
-        DIRECT,
-        REJECT,
-        Proxies,
-        香港节点,
-        日本节点,
-        美国节点,
-        台湾节点,
-        新加坡节点,
-      ]
+    proxies: [DIRECT, REJECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Available.png
 
   # --- 节点选择 ---
@@ -330,27 +231,9 @@ proxy-groups:
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
 
 rule_providers_common:
-  rule_providers_domain:
-    &rule_providers_domain {
-      type: http,
-      format: mrs,
-      interval: 86400,
-      behavior: domain,
-    }
-  rule_providers_ip:
-    &rule_providers_ip {
-      type: http,
-      format: mrs,
-      interval: 86400,
-      behavior: ipcidr,
-    }
-  rule_providers_classical:
-    &rule_providers_classical {
-      type: http,
-      format: yaml,
-      interval: 86400,
-      behavior: classical,
-    }
+  rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
+  rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
+  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
 
 rule-providers:
   private:
