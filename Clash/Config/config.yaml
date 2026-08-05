@@ -23,14 +23,14 @@ external-ui: ui
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 127.0.0.1:9090
 secret: 27Aaron
-profile: { store-selected: true, store-fake-ip: true }
+profile: {store-selected: true, store-fake-ip: true}
 
 sniffer:
   enable: true
   sniff:
-    HTTP: { ports: [80, 8080-8880], override-destination: true }
-    TLS: { ports: [443, 8443] }
-    QUIC: { ports: [443, 8443] }
+    HTTP: {ports: [80, 8080-8880], override-destination: true}
+    TLS: {ports: [443, 8443]}
+    QUIC: {ports: [443, 8443]}
   skip-domain: ["Mijia Cloud", "+.push.apple.com", "captive.apple.com"]
 
 ntp:
@@ -68,16 +68,8 @@ tun:
     - ff00::/8
     - ::ffff:0:0:0:0/96
 
-chinaDNS:
-  &chinaDNS [
-    "https://dns.alidns.com/dns-query#DIRECT",
-    "https://doh.pub/dns-query#DIRECT",
-  ]
-foreignDNS:
-  &foreignDNS [
-    "https://dns.cloudflare.com/dns-query#Proxies",
-    "https://dns.google/dns-query#Proxies",
-  ]
+chinaDNS: &chinaDNS ["https://dns.alidns.com/dns-query#DIRECT", "https://doh.pub/dns-query#DIRECT"]
+foreignDNS: &foreignDNS ["https://dns.cloudflare.com/dns-query#Proxies", "https://dns.google/dns-query#Proxies"]
 
 dns:
   enable: true
@@ -229,27 +221,9 @@ proxy-groups:
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
 rule_providers_common:
-  rule_providers_domain:
-    &rule_providers_domain {
-      type: http,
-      format: mrs,
-      interval: 86400,
-      behavior: domain,
-    }
-  rule_providers_ip:
-    &rule_providers_ip {
-      type: http,
-      format: mrs,
-      interval: 86400,
-      behavior: ipcidr,
-    }
-  rule_providers_classical:
-    &rule_providers_classical {
-      type: http,
-      format: yaml,
-      interval: 86400,
-      behavior: classical,
-    }
+  rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
+  rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
+  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
 
 # > Rule providers
 rule-providers:
