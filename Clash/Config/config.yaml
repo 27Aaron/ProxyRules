@@ -48,6 +48,7 @@ tun:
   auto-redirect: true
   auto-detect-interface: true
   dns-hijack: ["any:53", "tcp://any:53"]
+  # > Route exclude
   route-exclude-address:
     - 10.0.0.0/8
     - 100.64.0.0/10
@@ -86,11 +87,10 @@ dns:
   use-system-hosts: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  # > Fake-IP filter
   fake-ip-filter:
     - "rule-set:private"
     - "rule-set:fakeip_filter"
-    - "captive.apple.com"
-    - "e.crashlytics.com"
   proxy-server-nameserver: *chinaDNS
   default-nameserver: ["223.5.5.5", "119.29.29.29"]
   nameserver: *foreignDNS
@@ -145,6 +145,7 @@ group_common:
     hidden: true
 
 proxy-groups:
+  # > Main
   - name: Proxies
     <<: *group_select
     proxies: [Manual, Auto, HKG, JPN, SGP, TWN, USA]
@@ -190,6 +191,7 @@ proxy-groups:
     proxies: [Proxies, Manual, Direct]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
 
+  # > Select / Auto
   - name: Manual
     <<: *group_select
     include-all: true
@@ -200,6 +202,7 @@ proxy-groups:
     <<: *group_url_test
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
 
+  # > Regions
   - name: HKG
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
@@ -248,7 +251,9 @@ rule_providers_common:
       behavior: classical,
     }
 
+# > Rule providers
 rule-providers:
+  # > External
   private:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
@@ -336,6 +341,7 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/direct.mrs"
     path: "./ruleset/cn.mrs"
 
+  # > Local repo
   APNs:
     <<: *rule_providers_classical
     url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/APNs/APNs.yaml"
@@ -374,46 +380,48 @@ rule-providers:
     path: "./ruleset/IP-Attribution.yaml"
 
 rules:
+  # > SSH
   - DST-PORT,22,Manual
 
+  # > Private
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
 
-  # 苹果推送
+  # > APNs
   - RULE-SET,APNs,Manual
 
-  # 苹果智能
+  # > Apple Intelligence
   - RULE-SET,Apple-Intelligence,AI
 
-  # xAI / Grok
+  # > xAI / Grok
   - RULE-SET,xAI,AI
 
-  # OpenAI / ChatGPT
+  # > OpenAI / ChatGPT / Sora
   - RULE-SET,OpenAI,AI
 
-  # GitHub Copilot
+  # > GitHub Copilot
   - RULE-SET,GitHub-Copilot,AI
 
-  # Gemini / Google AI
+  # > Gemini / Google AI
   - RULE-SET,Gemini,AI
 
-  # Anthropic / Claude
+  # > Anthropic / Claude
   - RULE-SET,Anthropic,AI
 
-  # IP 归属地
+  # > IP Attribution
   - RULE-SET,IP-Attribution,IP-Attribution
 
-  # 禁用国外 QUIC
+  # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
 
-  # 国内服务直连
+  # > Direct (CN services)
   - RULE-SET,games_cn,Direct
   - RULE-SET,epicgames,Direct
   - RULE-SET,nvidia_cn,Direct
   - RULE-SET,apple_cn,Direct
   - RULE-SET,microsoft_cn,Direct
 
-  # 服务分流
+  # > Services
   - RULE-SET,youtube,Google
   - RULE-SET,GoogleFCM,Google
   - RULE-SET,googlefcm,Google
@@ -422,10 +430,12 @@ rules:
   - RULE-SET,telegram,Telegram
   - RULE-SET,twitter,Twitter
 
+  # > Services (IP)
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
+  # > Fallback
   - RULE-SET,gfw,Proxies
   - RULE-SET,geolocation-cn,Direct
   - RULE-SET,cn_ip,Direct,no-resolve
