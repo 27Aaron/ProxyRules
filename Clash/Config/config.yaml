@@ -351,6 +351,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/xAI/xAI.yaml"
     path: "./ruleset/xAI.yaml"
+  OpenAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/OpenAI/OpenAI.yaml"
+    path: "./ruleset/OpenAI.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -370,6 +374,9 @@ rules:
 
   # xAI / Grok
   - RULE-SET,xAI,AI
+
+  # OpenAI / ChatGPT / Sora
+  - RULE-SET,OpenAI,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution
