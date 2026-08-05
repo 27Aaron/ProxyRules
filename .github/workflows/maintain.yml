@@ -1,0 +1,97 @@
+# Local stays clean: headers + format run only in CI.
+# Order: rule headers → format → two separate bot commits (both [skip ci]).
+name: Maintain
+
+on:
+  push:
+    branches: [main, master]
+
+concurrency:
+  group: maintain-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  maintain:
+    # Bot commits use [skip ci] and normally won't re-trigger; belt-and-suspenders:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node (prettier)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install formatters
+        run: |
+          set -euo pipefail
+          npm install -g prettier@3
+          # yamlfmt (static binary)
+          YF_VERSION=0.21.0
+          curl -fsSL -o /tmp/yamlfmt.tar.gz \
+            "https://github.com/google/yamlfmt/releases/download/v${YF_VERSION}/yamlfmt_${YF_VERSION}_Linux_x86_64.tar.gz"
+          tar -xzf /tmp/yamlfmt.tar.gz -C /tmp yamlfmt
+          sudo install -m 755 /tmp/yamlfmt /usr/local/bin/yamlfmt
+          prettier --version
+          yamlfmt -version || yamlfmt --version || true
+
+      - name: 1) Refresh rule headers
+        run: python3 .github/scripts/update-rule-headers.py
+
+      - name: Commit headers (if any)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No header changes."
+            exit 0
+          fi
+
+          git add -- Clash/Rules Surge/Rules Loon/Rules Shadowrocket/Rules || true
+          if git diff --staged --quiet; then
+            echo "Nothing staged for headers."
+            exit 0
+          fi
+
+          git commit -m "chore(rules): refresh rule headers [skip ci]"
+          git push
+          echo "Pushed headers commit."
+
+      - name: 2) Format repository
+        run: python3 .github/scripts/format-repo.py
+
+      - name: Commit format (if any)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No format changes."
+            exit 0
+          fi
+
+          git add -A
+          # do not commit workflow secrets etc. — whole tree format is fine for this repo
+          if git diff --staged --quiet; then
+            echo "Nothing staged for format."
+            exit 0
+          fi
+
+          git commit -m "style: apply repository format [skip ci]"
+          git push
+          echo "Pushed format commit."

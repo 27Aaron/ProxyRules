@@ -1,4 +1,4 @@
-# https://github.com/google/yamlfmt
+# Used by CI format-repo.py
 formatter:
   type: basic
   indent: 2
