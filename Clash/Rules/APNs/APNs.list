@@ -1,3 +1,13 @@
+# NAME: APNs
+# AUTHOR: 27Aaron
+# REPO: https://github.com/27Aaron/ProxyRules
+# UPDATED: 2026-08-05 07:05:19
+# DOMAIN-SUFFIX: 2
+# DOMAIN-KEYWORD: 1
+# IP-CIDR: 5
+# IP-CIDR6: 4
+# TOTAL: 12
+
 DOMAIN-SUFFIX,push.apple.com
 DOMAIN-SUFFIX,akadns.net
 DOMAIN-KEYWORD,apple.com.edgekey.net

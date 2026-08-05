@@ -1,3 +1,14 @@
+# NAME: IP-Attribution
+# AUTHOR: 27Aaron
+# REPO: https://github.com/27Aaron/ProxyRules
+# UPDATED: 2026-08-05 07:05:19
+# DOMAIN: 53
+# DOMAIN-SUFFIX: 50
+# DOMAIN-KEYWORD: 14
+# IP-CIDR: 115
+# IP-CIDR6: 1
+# TOTAL: 233
+
 DOMAIN,httpdns.bilivideo.com,REJECT
 IP-CIDR,47.101.175.206/32,REJECT,no-resolve
 IP-CIDR,47.100.123.169/32,REJECT,no-resolve
