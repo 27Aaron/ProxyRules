@@ -347,6 +347,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/Apple-Intelligence/Apple-Intelligence.yaml"
     path: "./ruleset/Apple-Intelligence.yaml"
+  xAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/xAI/xAI.yaml"
+    path: "./ruleset/xAI.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -363,6 +367,9 @@ rules:
 
   # 苹果智能（走 AI 策略，便于选美区等）
   - RULE-SET,Apple-Intelligence,AI
+
+  # xAI / Grok
+  - RULE-SET,xAI,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution
