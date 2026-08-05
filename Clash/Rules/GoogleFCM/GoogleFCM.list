@@ -1,3 +1,4 @@
+# -----------------------------------------------------
 # NAME: GoogleFCM
 # AUTHOR: 27Aaron
 # REPO: https://github.com/27Aaron/ProxyRules
@@ -5,6 +6,7 @@
 # DOMAIN: 15
 # IP-CIDR: 26
 # TOTAL: 41
+# -----------------------------------------------------
 
 DOMAIN,alt1-mtalk.google.com
 DOMAIN,alt2-mtalk.google.com
