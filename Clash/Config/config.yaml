@@ -424,8 +424,13 @@ rules:
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
-  # > Fallback
+  # > Proxy (GFW)
   - RULE-SET,gfw,Proxies
+
+  # > Direct CN
   - RULE-SET,geolocation-cn,Direct
   - RULE-SET,cn_ip,Direct,no-resolve
+  - GEOIP,CN,DIRECT
+
+  # > Final
   - MATCH,Final
