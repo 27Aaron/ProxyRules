@@ -5,7 +5,6 @@ Walks each client's ``Config/`` tree for ``.conf`` / ``.yaml`` / ``.yml``
 (including nested paths such as Surge/Config/iOS/). README and other files
 are left untouched.
 
-
 Usage:
   python3 .github/scripts/update-config-headers.py
   python3 .github/scripts/update-config-headers.py --base <revision>
