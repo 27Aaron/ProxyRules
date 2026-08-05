@@ -140,59 +140,59 @@ proxy-groups:
   # > Main
   - name: Proxies
     <<: *group_select
-    proxies: [Manual, Auto, HKG, JPN, SGP, TWN, USA]
+    proxies: [Auto, HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   - name: AI
     <<: *group_select
-    proxies: [Manual, JPN, SGP, TWN, USA]
+    proxies: [JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
   - name: Google
     <<: *group_select
-    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
+    proxies: [HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
   - name: Apple
     <<: *group_select
-    proxies: [DIRECT, Manual, HKG, JPN, SGP, TWN, USA]
+    proxies: [DIRECT, HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple.png
 
   - name: Telegram
     <<: *group_select
-    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
+    proxies: [HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png
 
   - name: Twitter
     <<: *group_select
-    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
+    proxies: [HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
 
   - name: IP-Attribution
     <<: *group_select
-    proxies: [DIRECT, Manual, HKG, JPN, SGP, TWN, USA]
+    proxies: [DIRECT, HKG, JPN, SGP, TWN, USA, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Available.png
 
   - name: Direct
     <<: *group_select
-    proxies: [DIRECT, Manual, Proxies]
+    proxies: [DIRECT, Proxies, Manual]
     icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
 
   - name: Final
     <<: *group_select
-    proxies: [Proxies, Manual, Direct]
+    proxies: [Proxies, Direct, Manual]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
 
-  # > Select / Auto
+  # > Auto / Select
+  - name: Auto
+    <<: *group_url_test
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+
   - name: Manual
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
-
-  - name: Auto
-    <<: *group_url_test
-    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
 
   # > Regions
   - name: HKG
