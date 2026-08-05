@@ -343,6 +343,10 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/GoogleFCM/GoogleFCM.yaml"
     path: "./ruleset/GoogleFCM.yaml"
+  AppleIntelligence:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/AppleIntelligence/AppleIntelligence.yaml"
+    path: "./ruleset/AppleIntelligence.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
@@ -356,6 +360,9 @@ rules:
 
   # 苹果推送直连
   - RULE-SET,APNs,DIRECT
+
+  # 苹果智能（走 AI 策略，便于选美区等）
+  - RULE-SET,AppleIntelligence,AI
 
   # IP 归属地
   - RULE-SET,IP-Attribution,IP-Attribution
