@@ -1,20 +1,16 @@
 # -----------------------------------------------------
 # NAME: Apple-Intelligence
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 17:02:34
+# UPDATED: 2026-08-05 17:06:17
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Rules/Apple-Intelligence/Apple-Intelligence.yaml
-# DOMAIN-SUFFIX: 9
-# TOTAL: 9
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
 # -----------------------------------------------------
 
 payload:
   - DOMAIN-SUFFIX,apple-relay.apple.com
-  - DOMAIN-SUFFIX,apple-relay.fastly-edge.com
   - DOMAIN-SUFFIX,apple-relay.cloudflare.com
-  - DOMAIN-SUFFIX,apple-relay.akamaized.net
-  - DOMAIN-SUFFIX,gateway.icloud.com
-  - DOMAIN-SUFFIX,guzzoni.apple.com
-  - DOMAIN-SUFFIX,cp4.cloudflare.com
+  - DOMAIN-SUFFIX,apple-relay.fastly-edge.com
+  - DOMAIN-SUFFIX,apple-relay.mask.apple-dns.net
   - DOMAIN-SUFFIX,gspe1-ssl.ls.apple.com
-  - DOMAIN-SUFFIX,apps.mzstatic.com
