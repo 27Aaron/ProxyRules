@@ -1,13 +1,15 @@
 # -----------------------------------------------------
 # NAME: OpenAI
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 17:16:38
+# UPDATED: 2026-08-05 17:39:10
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Rules/OpenAI/OpenAI.list
 # DOMAIN: 11
 # DOMAIN-SUFFIX: 10
 # DOMAIN-KEYWORD: 2
-# TOTAL: 23
+# IP-CIDR: 3
+# IP-CIDR6: 1
+# TOTAL: 27
 # -----------------------------------------------------
 
 DOMAIN,openaiapi-site.azureedge.net
@@ -33,3 +35,7 @@ DOMAIN-SUFFIX,sora.com
 DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-KEYWORD,chatgpt-async-webps-prod-
 DOMAIN-KEYWORD,openaicom-api-
+IP-CIDR,199.47.142.0/23,no-resolve
+IP-CIDR,24.199.123.28/32,no-resolve
+IP-CIDR,64.23.132.171/32,no-resolve
+IP-CIDR6,2604:f20::/32,no-resolve
