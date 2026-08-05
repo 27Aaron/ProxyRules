@@ -5,10 +5,6 @@
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Config/config.yaml
 # -----------------------------------------------------
 
-# Mihomo / Clash Meta — full config
-# Repo: https://github.com/27Aaron/ProxyRules
-# 节点: Sub-Store AIO | 测速: Cloudflare (代理) / vivo (国内)
-
 mixed-port: 7890
 allow-lan: true
 ipv6: true
@@ -27,14 +23,14 @@ external-ui: ui
 external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
 external-controller: 127.0.0.1:9090
 secret: 27Aaron
-profile: {store-selected: true, store-fake-ip: true}
+profile: { store-selected: true, store-fake-ip: true }
 
 sniffer:
   enable: true
   sniff:
-    HTTP: {ports: [80, 8080-8880], override-destination: true}
-    TLS: {ports: [443, 8443]}
-    QUIC: {ports: [443, 8443]}
+    HTTP: { ports: [80, 8080-8880], override-destination: true }
+    TLS: { ports: [443, 8443] }
+    QUIC: { ports: [443, 8443] }
   skip-domain: ["Mijia Cloud", "+.push.apple.com"]
 
 ntp:
@@ -53,8 +49,16 @@ tun:
   auto-detect-interface: true
   dns-hijack: ["any:53", "tcp://any:53"]
 
-chinaDNS: &chinaDNS ["https://dns.alidns.com/dns-query#DIRECT", "https://doh.pub/dns-query#DIRECT"]
-foreignDNS: &foreignDNS ["https://dns.cloudflare.com/dns-query#Proxies", "https://dns.google/dns-query#Proxies"]
+chinaDNS:
+  &chinaDNS [
+    "https://dns.alidns.com/dns-query#DIRECT",
+    "https://doh.pub/dns-query#DIRECT",
+  ]
+foreignDNS:
+  &foreignDNS [
+    "https://dns.cloudflare.com/dns-query#Proxies",
+    "https://dns.google/dns-query#Proxies",
+  ]
 
 dns:
   enable: true
@@ -119,128 +123,108 @@ group_common:
     hidden: true
 
 proxy-groups:
-  # --- 主策略 ---
   - name: Proxies
     <<: *group_select
-    proxies: [手动选择, 自动选择, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
+    proxies: [Manual, Auto, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   - name: AI
     <<: *group_select
-    proxies: [日本节点, 美国节点, 日本自动, 美国自动, Proxies, 香港节点, 台湾节点, 新加坡节点, DIRECT]
+    proxies: [Manual, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
   - name: Google
     <<: *group_select
-    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
+    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
   - name: Apple
     <<: *group_select
-    proxies: [DIRECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
+    proxies: [DIRECT, Manual, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Apple.png
 
   - name: Telegram
     <<: *group_select
-    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
+    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png
 
   - name: Twitter
     <<: *group_select
-    proxies: [Proxies, DIRECT, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点, 香港自动, 日本自动, 美国自动, 台湾自动, 新加坡自动]
+    proxies: [Manual, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
 
   - name: IP-Attribution
     <<: *group_select
-    proxies: [DIRECT, REJECT, Proxies, 香港节点, 日本节点, 美国节点, 台湾节点, 新加坡节点]
+    proxies: [DIRECT, Manual, HKG, JPN, SGP, TWN, USA]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Available.png
 
-  # --- 节点选择 ---
-  - name: 手动选择
+  - name: Direct
+    <<: *group_select
+    proxies: [DIRECT, Manual, Proxies]
+    icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
+
+  - name: Final
+    <<: *group_select
+    proxies: [Proxies, Manual, Direct]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
+
+  - name: Manual
     <<: *group_select
     include-all: true
     exclude-type: DIRECT
     icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
 
-  - name: 香港节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
-
-  - name: 日本节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
-
-  - name: 美国节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
-
-  - name: 台湾节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
-
-  - name: 新加坡节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
-
-  - name: Direct
-    <<: *group_select
-    proxies: [DIRECT, Proxies]
-    icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
-
-  - name: Final
-    <<: *group_select
-    proxies: [Proxies, Direct]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
-
-  # --- 自动测速（隐藏）---
-  - name: 自动选择
+  - name: Auto
     <<: *group_url_test
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
 
-  - name: 香港自动
+  - name: HKG
     <<: *group_url_test
-    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
+    filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
 
-  - name: 日本自动
+  - name: JPN
     <<: *group_url_test
-    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
-  - name: 美国自动
+  - name: SGP
     <<: *group_url_test
-    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
-
-  - name: 台湾自动
-    <<: *group_url_test
-    filter: "(?i)(🇹🇼|台湾|台灣|(?<![A-Za-z])TW(?![A-Za-z])|taiwan)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
-
-  - name: 新加坡自动
-    <<: *group_url_test
-    filter: "(?i)(🇸🇬|新加坡|(?<![A-Za-z])SG(?![A-Za-z])|singapore)"
+    filter: '(?i)(🇸🇬|新加坡|Singapore|\bSGP\b|\bSG\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
 
+  - name: TWN
+    <<: *group_url_test
+    filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
+
+  - name: USA
+    <<: *group_url_test
+    filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
+
 rule_providers_common:
-  rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
-  rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
-  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
+  rule_providers_domain:
+    &rule_providers_domain {
+      type: http,
+      format: mrs,
+      interval: 86400,
+      behavior: domain,
+    }
+  rule_providers_ip:
+    &rule_providers_ip {
+      type: http,
+      format: mrs,
+      interval: 86400,
+      behavior: ipcidr,
+    }
+  rule_providers_classical:
+    &rule_providers_classical {
+      type: http,
+      format: yaml,
+      interval: 86400,
+      behavior: classical,
+    }
 
 rule-providers:
   private:
@@ -330,7 +314,6 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/direct.mrs"
     path: "./ruleset/cn.mrs"
 
-  # 本仓库规则
   APNs:
     <<: *rule_providers_classical
     url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/APNs/APNs.yaml"
@@ -369,13 +352,13 @@ rule-providers:
     path: "./ruleset/IP-Attribution.yaml"
 
 rules:
-  - DST-PORT,22,手动选择
+  - DST-PORT,22,Manual
 
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
 
   # 苹果推送直连
-  - RULE-SET,APNs,DIRECT
+  - RULE-SET,APNs,Apple
 
   # 苹果智能（走 AI 策略，便于选美区等）
   - RULE-SET,Apple-Intelligence,AI
@@ -383,7 +366,7 @@ rules:
   # xAI / Grok
   - RULE-SET,xAI,AI
 
-  # OpenAI / ChatGPT / Sora
+  # OpenAI / ChatGPT
   - RULE-SET,OpenAI,AI
 
   # GitHub Copilot
