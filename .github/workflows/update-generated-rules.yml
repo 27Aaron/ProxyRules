@@ -415,6 +415,40 @@ jobs:
             "$output_dir/ruleset/ip-attribution/ip-attribution-direct.list")" -eq 24
           test "$(grep -Ec '^[A-Z0-9-]+,' \
             "$output_dir/ruleset/ip-attribution/ip-attribution-reject.list")" -eq 20
+          jq -e '
+            .schema_version == 2 and
+            .mode == "category-first" and
+            (.sources | keys == ["custom", "geoip", "geosite"]) and
+            (.collections | keys == ["geoip", "geosite", "ruleset"]) and
+            (.collections.geosite.path == "geosite") and
+            (.collections.geoip.path == "geoip") and
+            (.collections.ruleset.path == "ruleset") and
+            (.collections.geosite.sources == ["geosite", "custom"]) and
+            (.collections.geoip.sources == ["geoip", "custom"]) and
+            (.collections.ruleset.sources == ["geosite", "geoip", "custom"]) and
+            all(
+              .collections.geosite.categories[];
+              (.formats | keys == ["list", "mrs", "srs", "yaml"]) and
+              all(.formats[]; (.rules >= 0) and
+                (.counts | type == "object") and
+                (.omitted | type == "object"))
+            ) and
+            all(
+              .collections.geoip.categories[];
+              (.formats | keys == ["list", "mrs", "srs", "yaml"]) and
+              all(.formats[]; (.rules >= 0) and
+                (.counts | type == "object") and
+                (.omitted | type == "object"))
+            ) and
+            all(
+              .collections.ruleset.categories[];
+              (.formats | keys == ["list", "srs", "yaml"]) and
+              all(.formats[]; (.rules >= 0) and
+                (.counts | type == "object") and
+                (.omitted | type == "object"))
+            ) and
+            (.collections.ruleset.unsupported_formats.mrs.reason | length > 0)
+          ' "$output_dir/manifest.json" > /dev/null
 
       - name: Stage generated branch
         id: changes

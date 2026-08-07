@@ -22,12 +22,30 @@ from pathlib import Path
 from typing import Iterable
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9!@._-]*$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 SEPARATOR = "# -----------------------------------------------------"
 PUBLISHED_CLASSICAL_TYPES = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
 UNSUPPORTED_CLASSICAL_TYPES = {"DOMAIN-REGEX"}
+GEOSITE_RULE_TYPES = (
+    "DOMAIN",
+    "DOMAIN-SUFFIX",
+    "DOMAIN-KEYWORD",
+    "DOMAIN-REGEX",
+)
+PORTABLE_GEOSITE_TYPES = GEOSITE_RULE_TYPES[:3]
+MRS_GEOSITE_TYPES = GEOSITE_RULE_TYPES[:2]
+GEOIP_RULE_TYPES = ("IP-CIDR", "IP-CIDR6")
+RULESET_RULE_TYPES = (*GEOSITE_RULE_TYPES, *GEOIP_RULE_TYPES)
+RULE_TYPE_KEYS = {
+    "DOMAIN": "domain",
+    "DOMAIN-SUFFIX": "domain_suffix",
+    "DOMAIN-KEYWORD": "domain_keyword",
+    "DOMAIN-REGEX": "domain_regex",
+    "IP-CIDR": "ipv4",
+    "IP-CIDR6": "ipv6",
+}
 DISPLAY_TIMEZONE = timezone(timedelta(hours=8))
 RULESET_ACTION_GROUPS = {
     "ip-attribution-direct": ("ip-attribution", "direct"),
@@ -85,6 +103,72 @@ def sha256_bytes(data: bytes) -> str:
 
 def sha256_text(text: str) -> str:
     return sha256_bytes(text.encode("utf-8"))
+
+
+def select_counts(
+    counts: dict[str, int], rule_types: Iterable[str]
+) -> dict[str, int]:
+    return {
+        RULE_TYPE_KEYS[rule_type]: counts.get(rule_type, 0)
+        for rule_type in rule_types
+        if counts.get(rule_type, 0)
+    }
+
+
+def format_record(
+    *,
+    relative_path: str,
+    sha256: str,
+    counts: dict[str, int],
+    included_types: Iterable[str],
+    omitted_types: Iterable[str] = (),
+) -> dict[str, object]:
+    included = select_counts(counts, included_types)
+    omitted = select_counts(counts, omitted_types)
+    return {
+        "path": relative_path,
+        "sha256": sha256,
+        "rules": sum(included.values()),
+        "counts": included,
+        "omitted": omitted,
+    }
+
+
+def summarize_formats(
+    categories: dict[str, dict[str, object]],
+    format_names: Iterable[str],
+    additional_omissions: dict[str, dict[str, int]] | None = None,
+) -> dict[str, dict[str, object]]:
+    summary: dict[str, dict[str, object]] = {}
+    for format_name in format_names:
+        rules = 0
+        files = 0
+        counts: dict[str, int] = {}
+        omitted: dict[str, int] = {}
+        for category in categories.values():
+            formats = category.get("formats", {})
+            if not isinstance(formats, dict):
+                continue
+            record = formats.get(format_name)
+            if not isinstance(record, dict):
+                continue
+            files += 1
+            rules += int(record.get("rules", 0))
+            for key, value in record.get("counts", {}).items():
+                counts[str(key)] = counts.get(str(key), 0) + int(value)
+            for key, value in record.get("omitted", {}).items():
+                omitted[str(key)] = omitted.get(str(key), 0) + int(value)
+        for key, value in (additional_omissions or {}).get(
+            format_name, {}
+        ).items():
+            omitted[key] = omitted.get(key, 0) + value
+        summary[format_name] = {
+            "files": files,
+            "rules": rules,
+            "counts": dict(sorted(counts.items())),
+            "omitted": dict(sorted(omitted.items())),
+        }
+    return summary
 
 
 def read_text(path: Path) -> str:
@@ -325,7 +409,7 @@ def parse_ruleset_rules(
 
 def load_previous_categories(
     previous_dir: Path | None,
-    key: str = "categories",
+    collection: str = "geosite",
 ) -> dict[str, dict[str, object]]:
     if previous_dir is None:
         return {}
@@ -336,9 +420,25 @@ def load_previous_categories(
         manifest = json.loads(read_text(manifest_path))
     except json.JSONDecodeError as error:
         raise GenerationError(f"invalid previous manifest: {manifest_path}") from error
-    categories = manifest.get(key, {})
+    collections = manifest.get("collections")
+    if isinstance(collections, dict):
+        collection_data = collections.get(collection, {})
+        if not isinstance(collection_data, dict):
+            raise GenerationError(
+                f"previous manifest collection {collection} must be an object"
+            )
+        categories = collection_data.get("categories", {})
+    else:
+        legacy_keys = {
+            "geosite": "categories",
+            "geoip": "geoip_categories",
+            "ruleset": "ruleset_categories",
+        }
+        categories = manifest.get(legacy_keys[collection], {})
     if not isinstance(categories, dict):
-        raise GenerationError(f"previous manifest {key} must be an object")
+        raise GenerationError(
+            f"previous manifest {collection} categories must be an object"
+        )
     return {
         str(name): value
         for name, value in categories.items()
@@ -458,10 +558,10 @@ def build(options: BuildOptions) -> dict[str, object]:
         validate_category(name)
     previous_categories = load_previous_categories(options.previous_dir)
     previous_geoip_categories = load_previous_categories(
-        options.previous_dir, "geoip_categories"
+        options.previous_dir, "geoip"
     )
     previous_ruleset_categories = load_previous_categories(
-        options.previous_dir, "ruleset_categories"
+        options.previous_dir, "ruleset"
     )
     domain_paths = sorted(options.domain_dir.glob("*.list"), key=lambda path: path.name)
     if len(domain_paths) < options.minimum_categories:
@@ -486,10 +586,8 @@ def build(options: BuildOptions) -> dict[str, object]:
         aliases_by_source.setdefault(source, []).append(alias)
 
     categories: dict[str, dict[str, object]] = {}
-    omitted_categories: dict[str, dict[str, int]] = {}
-    source_portable_rule_total = 0
-    published_rule_total = 0
-    omitted_rule_total = 0
+    omitted_categories: dict[str, dict[str, object]] = {}
+    geosite_source_rule_total = 0
 
     for domain_path in domain_paths:
         name = domain_path.stem
@@ -508,22 +606,20 @@ def build(options: BuildOptions) -> dict[str, object]:
                 f"domain and classical converter outputs disagree for category: {name}"
             )
 
-        unsupported = {
-            "DOMAIN-REGEX": counts["DOMAIN-REGEX"],
-        }
-        omitted_rule_total += sum(unsupported.values())
+        geosite_source_rule_total += sum(counts.values())
         if not portable_rules:
-            omitted_categories[name] = unsupported
+            omitted_source_counts = select_counts(counts, GEOSITE_RULE_TYPES)
+            omitted_source_counts["total"] = sum(counts.values())
+            omitted_categories[name] = {
+                "reason": "category has no portable list or YAML rules",
+                "source_counts": omitted_source_counts,
+            }
             continue
-
-        source_portable_rule_total += len(portable_rules)
 
         mrs_bytes = read_binary(options.domain_dir / f"{name}.mrs")
         srs_bytes = read_binary(options.srs_dir / f"{name}.srs")
 
-        portable_body = "\n".join(portable_rules) + "\n"
         classical_body = read_text(classical_path)
-        portable_hash = sha256_text(portable_body)
         source_hash = sha256_text(classical_body)
         for output_name in (name, *sorted(aliases_by_source.get(name, []))):
             previous = previous_categories.get(output_name, {})
@@ -572,29 +668,46 @@ def build(options: BuildOptions) -> dict[str, object]:
             yaml_sha = sha256_text(yaml_text)
             mrs_sha = sha256_bytes(mrs_bytes)
             srs_sha = sha256_bytes(srs_bytes)
+            source_counts = select_counts(counts, GEOSITE_RULE_TYPES)
+            source_counts["total"] = sum(counts.values())
             category: dict[str, object] = {
                 "path": relative_dir.as_posix(),
                 "updated": updated,
-                "counts": {
-                    "domain": counts["DOMAIN"],
-                    "domain_suffix": counts["DOMAIN-SUFFIX"],
-                    "domain_keyword": counts["DOMAIN-KEYWORD"],
-                    "omitted_domain_regex": counts["DOMAIN-REGEX"],
-                    "total": len(portable_rules),
-                },
+                "source_counts": source_counts,
                 "source_sha256": source_hash,
-                "portable_sha256": portable_hash,
-                "files": {
-                    "list": {"path": list_relative, "sha256": list_sha},
-                    "yaml": {"path": yaml_relative, "sha256": yaml_sha},
-                    "mrs": {"path": mrs_relative, "sha256": mrs_sha},
-                    "srs": {"path": srs_relative, "sha256": srs_sha},
+                "formats": {
+                    "list": format_record(
+                        relative_path=list_relative,
+                        sha256=list_sha,
+                        counts=counts,
+                        included_types=PORTABLE_GEOSITE_TYPES,
+                        omitted_types=("DOMAIN-REGEX",),
+                    ),
+                    "yaml": format_record(
+                        relative_path=yaml_relative,
+                        sha256=yaml_sha,
+                        counts=counts,
+                        included_types=PORTABLE_GEOSITE_TYPES,
+                        omitted_types=("DOMAIN-REGEX",),
+                    ),
+                    "mrs": format_record(
+                        relative_path=mrs_relative,
+                        sha256=mrs_sha,
+                        counts=counts,
+                        included_types=MRS_GEOSITE_TYPES,
+                        omitted_types=("DOMAIN-KEYWORD", "DOMAIN-REGEX"),
+                    ),
+                    "srs": format_record(
+                        relative_path=srs_relative,
+                        sha256=srs_sha,
+                        counts=counts,
+                        included_types=GEOSITE_RULE_TYPES,
+                    ),
                 },
             }
             if output_name != name:
                 category["alias_of"] = name
             categories[output_name] = category
-            published_rule_total += len(portable_rules)
 
     unpublished_aliases = sorted(set(alias_map) - set(categories))
     if unpublished_aliases:
@@ -625,7 +738,7 @@ def build(options: BuildOptions) -> dict[str, object]:
         )
 
     geoip_categories: dict[str, dict[str, object]] = {}
-    geoip_rule_total = 0
+    geoip_source_rule_total = 0
     for geoip_path in geoip_paths:
         name = geoip_path.stem
         validate_category(name)
@@ -637,9 +750,7 @@ def build(options: BuildOptions) -> dict[str, object]:
         mrs_bytes = read_binary(options.geoip_dir / f"{name}.mrs")
         srs_bytes = read_binary(options.geoip_srs_dir / f"{name}.srs")
         source_body = read_text(geoip_path)
-        portable_body = "\n".join(portable_rules) + "\n"
         source_hash = sha256_text(source_body)
-        portable_hash = sha256_text(portable_body)
         previous = previous_geoip_categories.get(name, {})
         if previous.get("source_sha256") == source_hash and isinstance(
             previous.get("updated"), str
@@ -682,36 +793,41 @@ def build(options: BuildOptions) -> dict[str, object]:
         write_binary(options.output_dir / mrs_relative, mrs_bytes)
         write_binary(options.output_dir / srs_relative, srs_bytes)
 
+        source_counts = select_counts(counts, GEOIP_RULE_TYPES)
+        source_counts["total"] = len(source_rules)
         geoip_categories[name] = {
             "path": relative_dir.as_posix(),
             "updated": updated,
-            "counts": {
-                "ipv4": counts["IP-CIDR"],
-                "ipv6": counts["IP-CIDR6"],
-                "total": len(source_rules),
-            },
+            "source_counts": source_counts,
             "source_sha256": source_hash,
-            "portable_sha256": portable_hash,
-            "files": {
-                "list": {
-                    "path": list_relative,
-                    "sha256": sha256_text(list_text),
-                },
-                "yaml": {
-                    "path": yaml_relative,
-                    "sha256": sha256_text(yaml_text),
-                },
-                "mrs": {
-                    "path": mrs_relative,
-                    "sha256": sha256_bytes(mrs_bytes),
-                },
-                "srs": {
-                    "path": srs_relative,
-                    "sha256": sha256_bytes(srs_bytes),
-                },
+            "formats": {
+                "list": format_record(
+                    relative_path=list_relative,
+                    sha256=sha256_text(list_text),
+                    counts=counts,
+                    included_types=GEOIP_RULE_TYPES,
+                ),
+                "yaml": format_record(
+                    relative_path=yaml_relative,
+                    sha256=sha256_text(yaml_text),
+                    counts=counts,
+                    included_types=GEOIP_RULE_TYPES,
+                ),
+                "mrs": format_record(
+                    relative_path=mrs_relative,
+                    sha256=sha256_bytes(mrs_bytes),
+                    counts=counts,
+                    included_types=GEOIP_RULE_TYPES,
+                ),
+                "srs": format_record(
+                    relative_path=srs_relative,
+                    sha256=sha256_bytes(srs_bytes),
+                    counts=counts,
+                    included_types=GEOIP_RULE_TYPES,
+                ),
             },
         }
-        geoip_rule_total += len(source_rules)
+        geoip_source_rule_total += len(source_rules)
 
     missing_geoip = sorted(
         set(options.required_geoip_categories) - set(geoip_categories)
@@ -755,8 +871,6 @@ def build(options: BuildOptions) -> dict[str, object]:
 
     ruleset_categories: dict[str, dict[str, object]] = {}
     ruleset_source_rule_total = 0
-    ruleset_portable_rule_total = 0
-    ruleset_omitted_rule_total = 0
     ruleset_published_at = newest_timestamp(
         published_at, geoip_published_at, custom_published_at
     )
@@ -770,9 +884,7 @@ def build(options: BuildOptions) -> dict[str, object]:
             raise GenerationError(f"incomplete prepared ruleset output: {name}")
         srs_bytes = read_binary(options.ruleset_srs_dir / f"{name}.srs")
         source_body = read_text(ruleset_path)
-        portable_body = "\n".join(portable_rules) + "\n"
         source_hash = sha256_text(source_body)
-        portable_hash = sha256_text(portable_body)
         previous = previous_ruleset_categories.get(name, {})
         if previous.get("source_sha256") == source_hash and isinstance(
             previous.get("updated"), str
@@ -812,41 +924,40 @@ def build(options: BuildOptions) -> dict[str, object]:
         write_text(options.output_dir / yaml_relative, yaml_text)
         write_binary(options.output_dir / srs_relative, srs_bytes)
 
+        source_counts = select_counts(counts, RULESET_RULE_TYPES)
+        source_counts["total"] = len(source_rules)
         category: dict[str, object] = {
             "path": relative_dir.as_posix(),
             "updated": updated,
-            "counts": {
-                "domain": counts["DOMAIN"],
-                "domain_suffix": counts["DOMAIN-SUFFIX"],
-                "domain_keyword": counts["DOMAIN-KEYWORD"],
-                "ipv4": counts["IP-CIDR"],
-                "ipv6": counts["IP-CIDR6"],
-                "omitted_domain_regex": counts["DOMAIN-REGEX"],
-                "total": len(portable_rules),
-            },
+            "source_counts": source_counts,
             "source_sha256": source_hash,
-            "portable_sha256": portable_hash,
-            "files": {
-                "list": {
-                    "path": list_relative,
-                    "sha256": sha256_text(list_text),
-                },
-                "yaml": {
-                    "path": yaml_relative,
-                    "sha256": sha256_text(yaml_text),
-                },
-                "srs": {
-                    "path": srs_relative,
-                    "sha256": sha256_bytes(srs_bytes),
-                },
+            "formats": {
+                "list": format_record(
+                    relative_path=list_relative,
+                    sha256=sha256_text(list_text),
+                    counts=counts,
+                    included_types=(*PORTABLE_GEOSITE_TYPES, *GEOIP_RULE_TYPES),
+                    omitted_types=("DOMAIN-REGEX",),
+                ),
+                "yaml": format_record(
+                    relative_path=yaml_relative,
+                    sha256=sha256_text(yaml_text),
+                    counts=counts,
+                    included_types=(*PORTABLE_GEOSITE_TYPES, *GEOIP_RULE_TYPES),
+                    omitted_types=("DOMAIN-REGEX",),
+                ),
+                "srs": format_record(
+                    relative_path=srs_relative,
+                    sha256=sha256_bytes(srs_bytes),
+                    counts=counts,
+                    included_types=RULESET_RULE_TYPES,
+                ),
             },
         }
         if action is not None:
             category["action"] = action
         ruleset_categories[name] = category
         ruleset_source_rule_total += len(source_rules)
-        ruleset_portable_rule_total += len(portable_rules)
-        ruleset_omitted_rule_total += counts["DOMAIN-REGEX"]
 
     missing_ruleset = sorted(
         set(options.required_ruleset_categories) - set(ruleset_categories)
@@ -862,52 +973,107 @@ def build(options: BuildOptions) -> dict[str, object]:
         options.allow_large_drop,
     )
 
+    omitted_geosite_by_format = {
+        format_name: {} for format_name in ("list", "yaml", "mrs", "srs")
+    }
+    for detail in omitted_categories.values():
+        source_counts = detail.get("source_counts", {})
+        if not isinstance(source_counts, dict):
+            continue
+        for format_name in omitted_geosite_by_format:
+            for key, value in source_counts.items():
+                if key != "total":
+                    current = omitted_geosite_by_format[format_name].get(key, 0)
+                    omitted_geosite_by_format[format_name][key] = current + int(value)
+
+    geosite_formats = summarize_formats(
+        categories,
+        ("list", "yaml", "mrs", "srs"),
+        omitted_geosite_by_format,
+    )
+    geoip_formats = summarize_formats(
+        geoip_categories,
+        ("list", "yaml", "mrs", "srs"),
+    )
+    ruleset_formats = summarize_formats(
+        ruleset_categories,
+        ("list", "yaml", "srs"),
+    )
+
     manifest: dict[str, object] = {
         "schema_version": SCHEMA_VERSION,
-        "mode": "portable-classical",
-        "source": {
-            "repository": options.source_repository,
-            "release": options.source_release,
-            "commit": options.source_commit,
-            "published_at": published_at,
-        },
-        "geoip_source": {
-            "repository": options.geoip_source_repository,
-            "release": options.geoip_source_release,
-            "commit": options.geoip_source_commit,
-            "published_at": geoip_published_at,
-        },
-        "custom_source": {
-            "repository": options.custom_source_repository,
-            "ref": options.custom_source_ref,
-            "commit": options.custom_source_commit,
-            "published_at": custom_published_at,
+        "mode": "category-first",
+        "sources": {
+            "geosite": {
+                "repository": options.source_repository,
+                "release": options.source_release,
+                "commit": options.source_commit,
+                "published_at": published_at,
+            },
+            "geoip": {
+                "repository": options.geoip_source_repository,
+                "release": options.geoip_source_release,
+                "commit": options.geoip_source_commit,
+                "published_at": geoip_published_at,
+            },
+            "custom": {
+                "repository": options.custom_source_repository,
+                "ref": options.custom_source_ref,
+                "commit": options.custom_source_commit,
+                "published_at": custom_published_at,
+            },
         },
         "converter": {
             "repository": options.converter_repository,
             "commit": options.converter_commit,
         },
-        "statistics": {
-            "source_categories": len(domain_paths),
-            "generated_categories": len(categories),
-            "aliases": len(alias_map),
-            "omitted_categories": len(omitted_categories),
-            "portable_rules": source_portable_rule_total,
-            "published_rules": published_rule_total,
-            "omitted_rules": omitted_rule_total,
-            "source_geoip_categories": len(geoip_paths),
-            "generated_geoip_categories": len(geoip_categories),
-            "geoip_rules": geoip_rule_total,
-            "generated_ruleset_categories": len(ruleset_categories),
-            "ruleset_source_rules": ruleset_source_rule_total,
-            "ruleset_portable_rules": ruleset_portable_rule_total,
-            "ruleset_omitted_rules": ruleset_omitted_rule_total,
+        "collections": {
+            "geosite": {
+                "path": "geosite",
+                "sources": ["geosite", "custom"],
+                "statistics": {
+                    "source_categories": len(domain_paths),
+                    "generated_categories": len(categories),
+                    "aliases": len(alias_map),
+                    "omitted_categories": len(omitted_categories),
+                    "source_rules": geosite_source_rule_total,
+                    "formats": geosite_formats,
+                },
+                "categories": dict(sorted(categories.items())),
+                "aliases": dict(sorted(alias_map.items())),
+                "omitted_categories": dict(sorted(omitted_categories.items())),
+            },
+            "geoip": {
+                "path": "geoip",
+                "sources": ["geoip", "custom"],
+                "statistics": {
+                    "source_categories": len(geoip_paths),
+                    "generated_categories": len(geoip_categories),
+                    "source_rules": geoip_source_rule_total,
+                    "formats": geoip_formats,
+                },
+                "categories": dict(sorted(geoip_categories.items())),
+            },
+            "ruleset": {
+                "path": "ruleset",
+                "sources": ["geosite", "geoip", "custom"],
+                "statistics": {
+                    "source_categories": len(ruleset_paths),
+                    "generated_categories": len(ruleset_categories),
+                    "source_rules": ruleset_source_rule_total,
+                    "formats": ruleset_formats,
+                },
+                "unsupported_formats": {
+                    "mrs": {
+                        "reason": (
+                            "the ruleset collection uses classical rules that may "
+                            "mix domain and IP matchers"
+                        )
+                    }
+                },
+                "categories": dict(sorted(ruleset_categories.items())),
+            },
         },
-        "categories": dict(sorted(categories.items())),
-        "geoip_categories": dict(sorted(geoip_categories.items())),
-        "ruleset_categories": dict(sorted(ruleset_categories.items())),
-        "aliases": dict(sorted(alias_map.items())),
-        "omitted_category_details": dict(sorted(omitted_categories.items())),
     }
     write_text(
         options.output_dir / "manifest.json",
@@ -1037,14 +1203,15 @@ def main(argv: list[str] | None = None) -> int:
     except GenerationError as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
-    statistics = manifest["statistics"]
+    collections = manifest["collections"]
+    geosite_statistics = collections["geosite"]["statistics"]
+    geoip_statistics = collections["geoip"]["statistics"]
+    ruleset_statistics = collections["ruleset"]["statistics"]
     print(
         "generated "
-        f"{statistics['generated_categories']} categories with "
-        f"{statistics['published_rules']} published rules and "
-        f"{statistics['generated_geoip_categories']} GeoIP categories with "
-        f"{statistics['geoip_rules']} CIDRs and "
-        f"{statistics['generated_ruleset_categories']} mixed rulesets"
+        f"{geosite_statistics['generated_categories']} geosite categories, "
+        f"{geoip_statistics['generated_categories']} GeoIP categories, and "
+        f"{ruleset_statistics['generated_categories']} mixed rulesets"
     )
     return 0
 
