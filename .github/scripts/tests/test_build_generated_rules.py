@@ -113,15 +113,28 @@ class GeneratedRulesTests(unittest.TestCase):
             "geosite/115/115.list",
             list_text,
         )
-        self.assertIn("# OMITTED-DOMAIN-KEYWORD: 1", list_text)
+        self.assertIn("# DOMAIN-KEYWORD: 1", list_text)
         self.assertIn("# OMITTED-DOMAIN-REGEX: 1", list_text)
-        self.assertTrue(list_text.endswith("exact.115.com\n+.115.com\n"))
-        self.assertIn("payload:\n  - 'exact.115.com'\n  - '+.115.com'\n", yaml_text)
+        self.assertTrue(
+            list_text.endswith(
+                "DOMAIN,exact.115.com\n"
+                "DOMAIN-SUFFIX,115.com\n"
+                "DOMAIN-KEYWORD,115cdn\n"
+            )
+        )
+        self.assertIn(
+            "payload:\n"
+            "  - 'DOMAIN,exact.115.com'\n"
+            "  - 'DOMAIN-SUFFIX,115.com'\n"
+            "  - 'DOMAIN-KEYWORD,115cdn'\n",
+            yaml_text,
+        )
         self.assertEqual(manifest["statistics"]["source_categories"], 2)
         self.assertEqual(manifest["statistics"]["generated_categories"], 1)
         self.assertEqual(manifest["statistics"]["omitted_categories"], 1)
-        self.assertEqual(manifest["statistics"]["portable_rules"], 2)
-        self.assertEqual(manifest["statistics"]["published_rules"], 2)
+        self.assertEqual(manifest["statistics"]["portable_rules"], 3)
+        self.assertEqual(manifest["statistics"]["published_rules"], 3)
+        self.assertEqual(manifest["mode"], "portable-classical")
         self.assertEqual(
             manifest["converter"],
             {
@@ -134,9 +147,9 @@ class GeneratedRulesTests(unittest.TestCase):
             {
                 "domain": 1,
                 "domain_suffix": 1,
-                "omitted_domain_keyword": 1,
+                "domain_keyword": 1,
                 "omitted_domain_regex": 1,
-                "total": 2,
+                "total": 3,
             },
         )
         self.assertTrue((self.output / "README.md").is_file())
@@ -216,7 +229,9 @@ class GeneratedRulesTests(unittest.TestCase):
         alias_path = self.output / "geosite/360/360.list"
         self.assertTrue(alias_path.is_file())
         self.assertTrue(
-            alias_path.read_text(encoding="utf-8").endswith("+.360.com\n")
+            alias_path.read_text(encoding="utf-8").endswith(
+                "DOMAIN-SUFFIX,360.com\n"
+            )
         )
         self.assertEqual(manifest["aliases"], {"360": "qihoo360"})
         self.assertEqual(manifest["categories"]["360"]["alias_of"], "qihoo360")

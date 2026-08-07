@@ -3,8 +3,8 @@
 
 The input directories are produced by MetaCubeX/meta-rules-converter. The
 converter's root directory contains Mihomo ``domain`` behavior rule sets,
-while ``classical`` contains the lossless representation used here to audit
-rules that cannot be represented by domain behavior.
+while ``classical`` contains the representation used for the portable text
+and YAML files published by this script.
 """
 
 from __future__ import annotations
@@ -24,7 +24,8 @@ SCHEMA_VERSION = 1
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9!@._-]*$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 SEPARATOR = "# -----------------------------------------------------"
-UNSUPPORTED_CLASSICAL_TYPES = {"DOMAIN-KEYWORD", "DOMAIN-REGEX"}
+PUBLISHED_CLASSICAL_TYPES = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
+UNSUPPORTED_CLASSICAL_TYPES = {"DOMAIN-REGEX"}
 
 
 class GenerationError(RuntimeError):
@@ -139,8 +140,11 @@ def parse_domain_rules(path: Path) -> list[str]:
     return rules
 
 
-def parse_classical_rules(path: Path) -> tuple[list[str], dict[str, int]]:
-    portable: list[str] = []
+def parse_classical_rules(
+    path: Path,
+) -> tuple[list[str], list[str], dict[str, int]]:
+    domain_behavior: list[str] = []
+    portable_classical: list[str] = []
     counts = {
         "DOMAIN": 0,
         "DOMAIN-SUFFIX": 0,
@@ -158,10 +162,12 @@ def parse_classical_rules(path: Path) -> tuple[list[str], dict[str, int]]:
             )
         counts[rule_type] += 1
         if rule_type == "DOMAIN":
-            portable.append(value)
+            domain_behavior.append(value)
         elif rule_type == "DOMAIN-SUFFIX":
-            portable.append(f"+.{value}")
-    return portable, counts
+            domain_behavior.append(f"+.{value}")
+        if rule_type in PUBLISHED_CLASSICAL_TYPES:
+            portable_classical.append(line)
+    return domain_behavior, portable_classical, counts
 
 
 def load_previous_categories(
@@ -221,7 +227,7 @@ def build_header(
             lines.append(f"# OMITTED-{rule_type}: {count}")
         elif count:
             lines.append(f"# {rule_type}: {count}")
-    portable_total = counts["DOMAIN"] + counts["DOMAIN-SUFFIX"]
+    portable_total = sum(counts[rule_type] for rule_type in PUBLISHED_CLASSICAL_TYPES)
     lines.extend((f"# TOTAL: {portable_total}", SEPARATOR))
     return "\n".join(lines) + "\n"
 
@@ -257,10 +263,10 @@ geosite/netflix/netflix.list
 geosite/netflix/netflix.yaml
 ```
 
-当前两个格式均为 Mihomo `behavior: domain`：
+当前输出为跨客户端的 classical 域名规则：
 
-- `.list` 使用 `format: text`
-- `.yaml` 使用 `format: yaml`
+- `.list` 可用于 Surge、Loon、Shadowrocket，也可用于 Mihomo/Clash 的 `behavior: classical` + `format: text`
+- `.yaml` 用于 Mihomo/Clash 的 `behavior: classical` + `format: yaml`
 
 示例地址：
 
@@ -269,7 +275,7 @@ geosite/netflix/netflix.yaml
 {base}/netflix/netflix.yaml
 ```
 
-`domain` behavior 无法表示上游的 `DOMAIN-KEYWORD` 和 `DOMAIN-REGEX`。这些规则不会被静默转换，具体省略数量记录在文件头和 `manifest.json` 中。
+共享规则支持 `DOMAIN`、`DOMAIN-SUFFIX` 和 `DOMAIN-KEYWORD`。跨客户端无法统一表示的 `DOMAIN-REGEX` 不会被静默转换，具体省略数量记录在文件头和 `manifest.json` 中。
 
 上游版本、分类统计和正文哈希请查看 `manifest.json`，文件校验值请查看 `SHA256SUMS`。
 """
@@ -346,25 +352,26 @@ def build(options: BuildOptions) -> dict[str, object]:
         if not converter_yaml.is_file() or not classical_path.is_file():
             raise GenerationError(f"incomplete converter output for category: {name}")
 
-        domain_rules = parse_domain_rules(domain_path)
-        classical_portable, counts = parse_classical_rules(classical_path)
-        if domain_rules != classical_portable:
+        converter_domain_rules = parse_domain_rules(domain_path)
+        classical_domain_rules, portable_rules, counts = parse_classical_rules(
+            classical_path
+        )
+        if converter_domain_rules != classical_domain_rules:
             raise GenerationError(
                 f"domain and classical converter outputs disagree for category: {name}"
             )
 
         unsupported = {
-            "DOMAIN-KEYWORD": counts["DOMAIN-KEYWORD"],
             "DOMAIN-REGEX": counts["DOMAIN-REGEX"],
         }
         omitted_rule_total += sum(unsupported.values())
-        if not domain_rules:
+        if not portable_rules:
             omitted_categories[name] = unsupported
             continue
 
-        source_portable_rule_total += len(domain_rules)
+        source_portable_rule_total += len(portable_rules)
 
-        portable_body = "\n".join(domain_rules) + "\n"
+        portable_body = "\n".join(portable_rules) + "\n"
         classical_body = read_text(classical_path)
         portable_hash = sha256_text(portable_body)
         source_hash = sha256_text(classical_body)
@@ -400,8 +407,8 @@ def build(options: BuildOptions) -> dict[str, object]:
                 updated=updated,
                 counts=counts,
             )
-            list_text = render_rule_file(list_header, domain_rules)
-            yaml_text = render_yaml_file(yaml_header, domain_rules)
+            list_text = render_rule_file(list_header, portable_rules)
+            yaml_text = render_yaml_file(yaml_header, portable_rules)
             write_text(options.output_dir / list_relative, list_text)
             write_text(options.output_dir / yaml_relative, yaml_text)
 
@@ -413,9 +420,9 @@ def build(options: BuildOptions) -> dict[str, object]:
                 "counts": {
                     "domain": counts["DOMAIN"],
                     "domain_suffix": counts["DOMAIN-SUFFIX"],
-                    "omitted_domain_keyword": counts["DOMAIN-KEYWORD"],
+                    "domain_keyword": counts["DOMAIN-KEYWORD"],
                     "omitted_domain_regex": counts["DOMAIN-REGEX"],
-                    "total": len(domain_rules),
+                    "total": len(portable_rules),
                 },
                 "source_sha256": source_hash,
                 "portable_sha256": portable_hash,
@@ -427,7 +434,7 @@ def build(options: BuildOptions) -> dict[str, object]:
             if output_name != name:
                 category["alias_of"] = name
             categories[output_name] = category
-            published_rule_total += len(domain_rules)
+            published_rule_total += len(portable_rules)
 
     unpublished_aliases = sorted(set(alias_map) - set(categories))
     if unpublished_aliases:
@@ -452,7 +459,7 @@ def build(options: BuildOptions) -> dict[str, object]:
 
     manifest: dict[str, object] = {
         "schema_version": SCHEMA_VERSION,
-        "mode": "mihomo-domain",
+        "mode": "portable-classical",
         "source": {
             "repository": options.source_repository,
             "release": options.source_release,
