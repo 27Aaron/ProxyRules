@@ -1,32 +1,46 @@
-# Anthropic website CDN endpoint.
-# Source: https://github.com/v2fly/domain-list-community/blob/master/data/anthropic
-DOMAIN,servd-anthropic-website.b-cdn.net
-
-# Additional Fathom Analytics CDN dependency retained by this custom ruleset.
-# Reference: https://usefathom.com/docs/script/embed
-DOMAIN,cdn.usefathom.com
-
-# Primary Anthropic and Claude domains.
-# Source: https://github.com/v2fly/domain-list-community/blob/master/data/anthropic
+# Primary Anthropic and Claude domain families. These suffix rules also cover
+# API, Console, authentication, MCP, CDN, downloads, assets, and live-preview
+# subdomains published in Anthropic's current network requirements.
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,clau.de
 DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.app
 DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN-SUFFIX,claudemcpcontent.com
 DOMAIN-SUFFIX,claudeusercontent.com
 
-# Complete official Anthropic IPv4 coverage. The inbound range for the Claude
-# API and Console is 160.79.104.0/23, while the outbound range is
-# 160.79.104.0/21. The /21 contains the /23, so only the /21 is retained.
-# Source: https://platform.claude.com/docs/en/api/ip-addresses
+# Standalone CDN hosts used by Anthropic web properties. These names are not
+# subdomains of the primary Anthropic and Claude domain families above.
+DOMAIN,servd-anthropic-website.b-cdn.net
+DOMAIN,anthropic.com.cdn.cloudflare.net
+
+# Authentication and content services referenced by Anthropic web properties.
+DOMAIN,anthropic.auth0.com
+DOMAIN,anthropic-com.ghost.io
+
+# Claude Code telemetry, feature flags, error reporting, and anti-fraud
+# services. The exact Datadog endpoints cover the currently documented hosts;
+# keyword rules are retained as fallbacks for future or alternate endpoints.
+DOMAIN,http-intake.logs.us5.datadoghq.com
+DOMAIN,browser-intake-us5-datadoghq.com
+DOMAIN-SUFFIX,sentry.io
+DOMAIN-SUFFIX,statsigapi.net
+DOMAIN-KEYWORD,datadog
+DOMAIN-KEYWORD,sentry
+DOMAIN-KEYWORD,sift
+
+# Customer support and analytics dependencies used by Anthropic web clients.
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+DOMAIN,cdn.usefathom.com
+
+# Complete Anthropic-owned IPv4 allocation. Anthropic documents the inbound
+# API and Console range as 160.79.104.0/23 and the outbound range as /21. The
+# directly allocated /21 contains the /23, so only the /21 is retained.
 IP-CIDR,160.79.104.0/21,no-resolve
 
-# Official inbound IPv6 range for the Claude API and Console.
-# Source: https://platform.claude.com/docs/en/api/ip-addresses
-IP-CIDR6,2607:6bc0::/48,no-resolve
-
-# Additional IPv6 prefix currently announced by Anthropic AS399358.
-# This prefix is not currently listed in Anthropic's official IP documentation.
-# Source: https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS399358
-IP-CIDR6,2607:6bc0:11::/48,no-resolve
+# Complete Anthropic-owned IPv6 allocation. The official inbound /48 and the
+# additional 2607:6bc0:11::/48 announced by AS399358 are both contained in
+# this directly allocated /32, so the narrower duplicate rules are omitted.
+IP-CIDR6,2607:6bc0::/32,no-resolve
