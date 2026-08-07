@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge maintained custom rules with converted geosite and GeoIP inputs."""
+"""Merge custom overlays and prepare complete classical rulesets."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from typing import Iterable
 
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9!@._-]*$")
 DOMAIN_TYPES = ("DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX")
+PORTABLE_DOMAIN_TYPES = DOMAIN_TYPES[:3]
 IP_TYPES = ("IP-CIDR", "IP-CIDR6")
 SUPPORTED_TYPES = set(DOMAIN_TYPES + IP_TYPES)
 SUPPORTED_ACTIONS = {"DIRECT", "REJECT"}
@@ -271,6 +272,17 @@ def count_rules(rules: Iterable[Rule]) -> dict[str, int]:
     return {key: value for key, value in sorted(counts.items()) if value}
 
 
+def collect_rule_paths(directory: Path, label: str) -> dict[str, Path]:
+    paths: dict[str, Path] = {}
+    for path in sorted(directory.glob("*.list"), key=lambda item: item.name):
+        name = path.stem
+        validate_category(name)
+        if name in paths:
+            raise PreparationError(f"duplicate {label} category: {name}")
+        paths[name] = path
+    return paths
+
+
 def prepare(
     *,
     custom_dir: Path,
@@ -279,6 +291,7 @@ def prepare(
     output_dir: Path,
     minimum_categories: int,
     required_categories: tuple[str, ...],
+    aliases: tuple[tuple[str, str], ...] = (),
 ) -> dict[str, object]:
     for directory, label in (
         (custom_dir, "custom"),
@@ -324,17 +337,39 @@ def prepare(
             f"required custom categories are missing: {', '.join(missing)}"
         )
 
+    geosite_paths = collect_rule_paths(geosite_classical_dir, "geosite")
+    geoip_paths = collect_rule_paths(geoip_dir, "GeoIP")
+    geosite_source_names = set(geosite_paths) | set(custom_by_name)
+    alias_map: dict[str, str] = {}
+    for alias, source in aliases:
+        validate_category(alias)
+        validate_category(source)
+        if alias in geosite_source_names:
+            raise PreparationError(f"alias conflicts with geosite category: {alias}")
+        if alias in alias_map:
+            raise PreparationError(f"duplicate alias: {alias}")
+        if source not in geosite_source_names:
+            raise PreparationError(f"alias source category is missing: {source}")
+        alias_map[alias] = source
+
     metadata_categories: dict[str, dict[str, object]] = {}
     metadata_rulesets: dict[str, dict[str, object]] = {}
+    custom_domains_by_name: dict[str, list[Rule]] = {}
+    custom_ips_by_name: dict[str, list[Rule]] = {}
+    upstream_domains_by_custom_name: dict[str, list[Rule]] = {}
+    upstream_ips_by_custom_name: dict[str, list[Rule]] = {}
+    custom_rules_by_name: dict[str, list[Rule]] = {}
     for name, (source_path, custom_rules) in sorted(custom_by_name.items()):
         custom_domains = [
             rule for rule in custom_rules if rule.rule_type in DOMAIN_TYPES
         ]
         custom_ips = [rule for rule in custom_rules if rule.rule_type in IP_TYPES]
         upstream_domains = parse_upstream_domains(
-            geosite_classical_dir / f"{name}.list"
+            geosite_paths.get(name, geosite_classical_dir / f"{name}.list")
         )
-        upstream_ips = parse_upstream_cidrs(geoip_dir / f"{name}.list")
+        upstream_ips = parse_upstream_cidrs(
+            geoip_paths.get(name, geoip_dir / f"{name}.list")
+        )
         merged_domains = merge_rules(upstream_domains, custom_domains)
         merged_ips = merge_rules(upstream_ips, custom_ips)
         if not merged_domains:
@@ -384,34 +419,11 @@ def prepare(
             render_yaml(ip_classical),
         )
 
-        ruleset_groups: list[tuple[str, str, str, list[Rule]]]
-        if name == "ip-attribution":
-            default_rules = merge_rules(
-                [*upstream_domains, *upstream_ips],
-                [rule for rule in custom_rules if rule.action == "default"],
-            )
-            direct_rules = [rule for rule in custom_rules if rule.action == "direct"]
-            reject_rules = [rule for rule in custom_rules if rule.action == "reject"]
-            ruleset_groups = [
-                (name, "default", name, default_rules),
-                (f"{name}-direct", "direct", name, direct_rules),
-                (f"{name}-reject", "reject", name, reject_rules),
-            ]
-        else:
-            ruleset_groups = [
-                (name, "default", name, [*merged_domains, *merged_ips])
-            ]
-
-        ruleset_total = 0
-        for ruleset_name, action, output_directory, rules in ruleset_groups:
-            rule_count = write_ruleset(output_dir, ruleset_name, rules)
-            ruleset_total += rule_count
-            metadata_rulesets[ruleset_name] = {
-                "source_category": name,
-                "action": action,
-                "output_directory": output_directory,
-                "rules": rule_count,
-            }
+        custom_domains_by_name[name] = merged_domains
+        custom_ips_by_name[name] = merged_ips
+        upstream_domains_by_custom_name[name] = upstream_domains
+        upstream_ips_by_custom_name[name] = upstream_ips
+        custom_rules_by_name[name] = custom_rules
 
         action_counts = {"default": 0, "direct": 0, "reject": 0}
         for rule in custom_rules:
@@ -424,14 +436,89 @@ def prepare(
             "merged_counts": {
                 "geosite": len(merged_domains),
                 "geoip": len(merged_ips),
-                "ruleset": ruleset_total,
+                "ruleset": 0,
             },
         }
 
+    candidate_names = (
+        set(geosite_paths)
+        | set(geoip_paths)
+        | set(custom_by_name)
+        | set(alias_map)
+    )
+    for name in sorted(candidate_names):
+        domain_source = alias_map.get(name, name)
+        if domain_source in custom_domains_by_name:
+            domains = custom_domains_by_name[domain_source]
+        else:
+            domains = parse_upstream_domains(
+                geosite_paths.get(
+                    domain_source,
+                    geosite_classical_dir / f"{domain_source}.list",
+                )
+            )
+        if name in custom_ips_by_name:
+            ips = custom_ips_by_name[name]
+        else:
+            ips = parse_upstream_cidrs(
+                geoip_paths.get(name, geoip_dir / f"{name}.list")
+            )
+
+        has_portable_rule = bool(ips) or any(
+            rule.rule_type in PORTABLE_DOMAIN_TYPES for rule in domains
+        )
+        if not has_portable_rule:
+            continue
+
+        ruleset_groups: list[tuple[str, str, str, list[Rule]]]
+        if name == "ip-attribution" and name in custom_rules_by_name:
+            default_rules = merge_rules(
+                [
+                    *upstream_domains_by_custom_name[name],
+                    *upstream_ips_by_custom_name[name],
+                ],
+                [
+                    rule
+                    for rule in custom_rules_by_name[name]
+                    if rule.action == "default"
+                ],
+            )
+            direct_rules = [
+                rule
+                for rule in custom_rules_by_name[name]
+                if rule.action == "direct"
+            ]
+            reject_rules = [
+                rule
+                for rule in custom_rules_by_name[name]
+                if rule.action == "reject"
+            ]
+            ruleset_groups = [
+                (name, "default", name, default_rules),
+                (f"{name}-direct", "direct", name, direct_rules),
+                (f"{name}-reject", "reject", name, reject_rules),
+            ]
+        else:
+            ruleset_groups = [(name, "default", name, [*domains, *ips])]
+
+        ruleset_total = 0
+        for ruleset_name, action, output_directory, rules in ruleset_groups:
+            rule_count = write_ruleset(output_dir, ruleset_name, rules)
+            ruleset_total += rule_count
+            metadata_rulesets[ruleset_name] = {
+                "source_category": name,
+                "action": action,
+                "output_directory": output_directory,
+                "rules": rule_count,
+            }
+        if name in metadata_categories:
+            metadata_categories[name]["merged_counts"]["ruleset"] = ruleset_total
+
     metadata: dict[str, object] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "categories": metadata_categories,
         "rulesets": metadata_rulesets,
+        "aliases": dict(sorted(alias_map.items())),
     }
     write_text(
         output_dir / "metadata.json",
@@ -448,9 +535,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--minimum-categories", type=int, default=5)
     parser.add_argument("--required-category", action="append", default=[])
+    parser.add_argument(
+        "--alias", action="append", default=[], metavar="ALIAS=SOURCE"
+    )
     args = parser.parse_args(argv)
     if args.minimum_categories < 1:
         parser.error("--minimum-categories must be positive")
+    aliases: list[tuple[str, str]] = []
+    for raw_alias in args.alias:
+        alias, separator, source = raw_alias.partition("=")
+        if not separator or not alias or not source:
+            parser.error(f"invalid --alias value: {raw_alias!r}")
+        aliases.append((alias, source))
+    args.aliases = aliases
     return args
 
 
@@ -464,11 +561,15 @@ def main(argv: list[str] | None = None) -> int:
             output_dir=args.output_dir,
             minimum_categories=args.minimum_categories,
             required_categories=tuple(args.required_category),
+            aliases=tuple(args.aliases),
         )
     except PreparationError as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
-    print(f"prepared {len(metadata['categories'])} custom categories")
+    print(
+        f"prepared {len(metadata['categories'])} custom categories and "
+        f"{len(metadata['rulesets'])} complete rulesets"
+    )
     return 0
 
 
