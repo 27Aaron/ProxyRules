@@ -1,5 +1,13 @@
+# Anthropic website CDN endpoint.
+# Source: https://github.com/v2fly/domain-list-community/blob/master/data/anthropic
 DOMAIN,servd-anthropic-website.b-cdn.net
+
+# Additional Fathom Analytics CDN dependency retained by this custom ruleset.
+# Reference: https://usefathom.com/docs/script/embed
 DOMAIN,cdn.usefathom.com
+
+# Primary Anthropic and Claude domains.
+# Source: https://github.com/v2fly/domain-list-community/blob/master/data/anthropic
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,clau.de
 DOMAIN-SUFFIX,claude.ai
@@ -7,6 +15,18 @@ DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN-SUFFIX,claudemcpcontent.com
 DOMAIN-SUFFIX,claudeusercontent.com
-IP-CIDR,160.79.104.0/23,no-resolve
+
+# Complete official Anthropic IPv4 coverage. The inbound range for the Claude
+# API and Console is 160.79.104.0/23, while the outbound range is
+# 160.79.104.0/21. The /21 contains the /23, so only the /21 is retained.
+# Source: https://platform.claude.com/docs/en/api/ip-addresses
+IP-CIDR,160.79.104.0/21,no-resolve
+
+# Official inbound IPv6 range for the Claude API and Console.
+# Source: https://platform.claude.com/docs/en/api/ip-addresses
 IP-CIDR6,2607:6bc0::/48,no-resolve
+
+# Additional IPv6 prefix currently announced by Anthropic AS399358.
+# This prefix is not currently listed in Anthropic's official IP documentation.
+# Source: https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS399358
 IP-CIDR6,2607:6bc0:11::/48,no-resolve
