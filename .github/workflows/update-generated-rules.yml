@@ -115,6 +115,12 @@ jobs:
             --file "${RUNNER_TEMP}/rules-input/dlc.dat" \
             --out "$converted_dir"
 
+          sing_dir="${RUNNER_TEMP}/converted-geosite-sing"
+          "${RUNNER_TEMP}/bin/meta-rules-converter" geosite \
+            --file "${RUNNER_TEMP}/rules-input/dlc.dat" \
+            --out "$sing_dir" \
+            --type sing-box
+
       - name: Fetch previous rules branch when available
         shell: bash
         run: |
@@ -147,6 +153,7 @@ jobs:
           arguments=(
             --domain-dir "${RUNNER_TEMP}/converted-geosite"
             --classical-dir "${RUNNER_TEMP}/converted-geosite/classical"
+            --srs-dir "${RUNNER_TEMP}/converted-geosite-sing"
             --output-dir "$output_dir"
             --previous-dir "$PREVIOUS_DIR"
             --repository "$GITHUB_REPOSITORY"
@@ -182,7 +189,11 @@ jobs:
           )
           test -s "$output_dir/geosite/115/115.list"
           test -s "$output_dir/geosite/115/115.yaml"
+          test -s "$output_dir/geosite/115/115.mrs"
+          test -s "$output_dir/geosite/115/115.srs"
           test -s "$output_dir/geosite/360/360.list"
+          test -s "$output_dir/geosite/360/360.mrs"
+          test -s "$output_dir/geosite/360/360.srs"
           test -s "$output_dir/geosite/netflix/netflix.yaml"
           grep -Fqx 'DOMAIN-SUFFIX,115.com' \
             "$output_dir/geosite/115/115.list"
