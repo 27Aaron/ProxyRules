@@ -1,0 +1,215 @@
+name: Update generated rules
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/scripts/build-generated-rules.py"
+      - ".github/scripts/tests/test_build_generated_rules.py"
+      - ".github/workflows/update-generated-rules.yml"
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+    inputs:
+      allow_large_drop:
+        description: Allow publishing when more than 5% of categories disappear
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generated-rules-Rules
+  cancel-in-progress: false
+
+env:
+  CONVERTER_REPOSITORY: MetaCubeX/meta-rules-converter
+  CONVERTER_SHA: 7dea27841a3579a633189830c98c08a0434e8b79
+  SOURCE_REPOSITORY: v2fly/domain-list-community
+  TARGET_BRANCH: Rules
+
+jobs:
+  generate:
+    name: Generate and publish Rules branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout generator
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.x"
+          cache: false
+
+      - name: Test generator
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
+      - name: Read latest upstream release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          source_tag="$(gh api "repos/${SOURCE_REPOSITORY}/releases/latest" --jq '.tag_name')"
+          [[ "$source_tag" =~ ^[0-9A-Za-z._-]+$ ]]
+          source_commit="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${source_tag}" --jq '.sha')"
+          source_published_at="$(gh api "repos/${SOURCE_REPOSITORY}/releases/latest" --jq '.published_at')"
+
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]]
+          {
+            echo "SOURCE_TAG=$source_tag"
+            echo "SOURCE_COMMIT=$source_commit"
+            echo "SOURCE_PUBLISHED_AT=$source_published_at"
+          } >> "$GITHUB_ENV"
+
+      - name: Download and verify dlc.dat
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          input_dir="${RUNNER_TEMP}/rules-input"
+          mkdir -p "$input_dir"
+          gh release download "$SOURCE_TAG" \
+            --repo "$SOURCE_REPOSITORY" \
+            --pattern dlc.dat \
+            --pattern dlc.dat.sha256sum \
+            --dir "$input_dir"
+          (
+            cd "$input_dir"
+            sha256sum --check --strict --quiet dlc.dat.sha256sum
+          )
+
+      - name: Build pinned converter
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          converter_dir="${RUNNER_TEMP}/meta-rules-converter"
+          git clone --quiet --filter=blob:none --no-checkout \
+            "https://github.com/${CONVERTER_REPOSITORY}.git" "$converter_dir"
+          git -C "$converter_dir" fetch --quiet --depth=1 origin "$CONVERTER_SHA"
+          git -C "$converter_dir" checkout --quiet --detach FETCH_HEAD
+          test "$(git -C "$converter_dir" rev-parse HEAD)" = "$CONVERTER_SHA"
+          mkdir -p "${RUNNER_TEMP}/bin"
+          (
+            cd "$converter_dir"
+            go build -trimpath -o "${RUNNER_TEMP}/bin/meta-rules-converter" ./
+          )
+
+      - name: Convert geosite sections
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          converted_dir="${RUNNER_TEMP}/converted-geosite"
+          "${RUNNER_TEMP}/bin/meta-rules-converter" geosite \
+            --file "${RUNNER_TEMP}/rules-input/dlc.dat" \
+            --out "$converted_dir"
+
+      - name: Checkout existing Rules branch when available
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          publish_dir="${RUNNER_TEMP}/rules-publish"
+          public_remote="https://github.com/${GITHUB_REPOSITORY}.git"
+          branch_ref="$(git ls-remote --heads "$public_remote" \
+            "refs/heads/${TARGET_BRANCH}")"
+          if [[ -n "$branch_ref" ]]; then
+            git clone --quiet --depth=1 --branch "$TARGET_BRANCH" \
+              "$public_remote" "$publish_dir"
+          else
+            mkdir -p "$publish_dir"
+            git -C "$publish_dir" init --quiet --initial-branch="$TARGET_BRANCH"
+            git -C "$publish_dir" remote add origin "$public_remote"
+          fi
+          echo "PUBLISH_DIR=$publish_dir" >> "$GITHUB_ENV"
+
+      - name: Package category-first rules
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          output_dir="${RUNNER_TEMP}/rules-output"
+          arguments=(
+            --domain-dir "${RUNNER_TEMP}/converted-geosite"
+            --classical-dir "${RUNNER_TEMP}/converted-geosite/classical"
+            --output-dir "$output_dir"
+            --previous-dir "$PUBLISH_DIR"
+            --repository "$GITHUB_REPOSITORY"
+            --branch "$TARGET_BRANCH"
+            --source-repository "$SOURCE_REPOSITORY"
+            --source-release "$SOURCE_TAG"
+            --source-commit "$SOURCE_COMMIT"
+            --source-published-at "$SOURCE_PUBLISHED_AT"
+            --converter-repository "$CONVERTER_REPOSITORY"
+            --converter-commit "$CONVERTER_SHA"
+            --minimum-categories 1000
+            --alias "360=qihoo360"
+            --required-category 115
+            --required-category 360
+            --required-category netflix
+            --required-category cn
+            --required-category 'geolocation-!cn'
+          )
+          if [[ "${{ inputs.allow_large_drop || false }}" == "true" ]]; then
+            arguments+=(--allow-large-drop)
+          fi
+          python3 .github/scripts/build-generated-rules.py "${arguments[@]}"
+
+      - name: Validate generated tree
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          output_dir="${RUNNER_TEMP}/rules-output"
+          (
+            cd "$output_dir"
+            sha256sum --check --strict --quiet SHA256SUMS
+          )
+          test -s "$output_dir/geosite/115/115.list"
+          test -s "$output_dir/geosite/115/115.yaml"
+          test -s "$output_dir/geosite/360/360.list"
+          test -s "$output_dir/geosite/netflix/netflix.yaml"
+
+      - name: Stage generated branch
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rsync -a --delete --exclude .git/ \
+            "${RUNNER_TEMP}/rules-output/" "$PUBLISH_DIR/"
+          git -C "$PUBLISH_DIR" add --all
+          if git -C "$PUBLISH_DIR" diff --cached --quiet --; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            git -C "$PUBLISH_DIR" diff --cached --check
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push Rules branch
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |-
+          set -euo pipefail
+
+          git -C "$PUBLISH_DIR" config user.name "github-actions[bot]"
+          git -C "$PUBLISH_DIR" config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$PUBLISH_DIR" commit --quiet \
+            -m "chore(rules): update v2fly to ${SOURCE_TAG}"
+          authenticated_remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$PUBLISH_DIR" push "$authenticated_remote" \
+            "HEAD:refs/heads/${TARGET_BRANCH}"
