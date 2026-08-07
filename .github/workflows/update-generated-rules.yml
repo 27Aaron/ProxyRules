@@ -180,6 +180,10 @@ jobs:
           test -s "$output_dir/geosite/115/115.yaml"
           test -s "$output_dir/geosite/360/360.list"
           test -s "$output_dir/geosite/netflix/netflix.yaml"
+          grep -Fqx 'DOMAIN-SUFFIX,115.com' \
+            "$output_dir/geosite/115/115.list"
+          grep -Fqx "  - 'DOMAIN-SUFFIX,115.com'" \
+            "$output_dir/geosite/115/115.yaml"
 
       - name: Stage generated branch
         id: changes
