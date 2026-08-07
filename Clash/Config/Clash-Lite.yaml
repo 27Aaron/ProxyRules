@@ -1,0 +1,233 @@
+# -----------------------------------------------------
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 23:53:24
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Config/Clash-Lite.yaml
+# -----------------------------------------------------
+
+mixed-port: 7890
+allow-lan: true
+ipv6: true
+mode: rule
+log-level: info
+bind-address: "*"
+unified-delay: true
+tcp-concurrent: true
+keep-alive-idle: 30
+keep-alive-interval: 15
+find-process-mode: strict
+authentication: ["mihomo:27Aaron"]
+skip-auth-prefixes: [127.0.0.1/8, "::1/128"]
+
+external-ui: ui
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-controller: 127.0.0.1:9090
+secret: 27Aaron
+profile: {store-selected: true, store-fake-ip: true}
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP: {ports: [80, 8080-8880], override-destination: true}
+    TLS: {ports: [443, 8443]}
+    QUIC: {ports: [443, 8443]}
+  skip-domain: ["Mijia Cloud", "+.push.apple.com", "captive.apple.com"]
+
+ntp:
+  enable: true
+  write-to-system: false
+  server: "ntp.aliyun.com"
+  port: 123
+  interval: 60
+
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  strict-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  dns-hijack: ["any:53", "tcp://any:53"]
+  route-exclude-address:
+    - 10.0.0.0/8
+    - 100.64.0.0/10
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.0.0.0/24
+    - 192.0.2.0/24
+    - 192.168.0.0/16
+    - 198.51.100.0/24
+    - 203.0.113.0/24
+    - 224.0.0.0/4
+    - 255.255.255.255/32
+    - ::1/128
+    - fc00::/7
+    - fe80::/10
+    - ff00::/8
+    - ::ffff:0:0:0:0/96
+
+chinaDNS: &chinaDNS ["https://dns.alidns.com/dns-query#DIRECT", "https://doh.pub/dns-query#DIRECT"]
+foreignDNS: &foreignDNS ["https://dns.cloudflare.com/dns-query#Proxies", "https://dns.google/dns-query#Proxies"]
+
+dns:
+  enable: true
+  ipv6: true
+  use-hosts: true
+  cache-algorithm: arc
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "rule-set:private"
+  proxy-server-nameserver: *chinaDNS
+  default-nameserver: ["223.5.5.5", "119.29.29.29"]
+  nameserver: *foreignDNS
+  nameserver-policy:
+    "rule-set:cn": *chinaDNS
+  direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
+
+hosts:
+  "dns.alidns.com": ["223.5.5.5", "223.6.6.6"]
+  "doh.pub": ["1.12.12.12", "120.53.53.53"]
+  "dns.cloudflare.com": ["1.1.1.1", "1.0.0.1"]
+  "dns.google": ["8.8.8.8", "8.8.4.4"]
+  "services.googleapis.cn": ["services.googleapis.com"]
+
+group_common:
+  select: &group_select
+    type: select
+    interval: 600
+    timeout: 3000
+    max-failed-times: 3
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+
+  url-test: &group_url_test
+    type: url-test
+    interval: 300
+    timeout: 3000
+    max-failed-times: 3
+    empty-fallback: REJECT
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+    tolerance: 20
+    include-all: true
+    exclude-type: DIRECT
+    hidden: true
+
+proxy-groups:
+  # > Main
+  - name: Proxies
+    <<: *group_select
+    proxies: [Manual, HKG, JPN, USA]
+    icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
+
+  - name: Manual
+    <<: *group_select
+    include-all: true
+    icon: https://raw.githubusercontent.com/shindgew/WHATSINStash/main/icon/fallback.png
+
+  - name: Google
+    <<: *group_select
+    proxies: [Proxies, Manual, HKG, JPN, USA]
+    icon: https://github.com/Orz-3/mini/raw/master/Color/Google.png
+
+  - name: Twitter
+    <<: *group_select
+    proxies: [Proxies, Manual, HKG, JPN, USA]
+    icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/x.png
+
+  - name: Final
+    <<: *group_select
+    proxies: [Proxies, DIRECT, Manual]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
+
+  # > Regions
+  - name: HKG
+    <<: *group_url_test
+    filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+
+  - name: JPN
+    <<: *group_url_test
+    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/JP.png
+
+  - name: USA
+    <<: *group_url_test
+    filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/US.png
+
+rule_providers_common:
+  domain: &rule_provider_domain {type: http, format: mrs, interval: 86400, behavior: domain}
+  ip: &rule_provider_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
+  text: &rule_provider_text {type: http, format: text, interval: 86400, behavior: classical}
+
+rule-providers:
+  private:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/private/private.mrs"
+    path: "./ruleset/private.mrs"
+  private-ip:
+    <<: *rule_provider_ip
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/private/private.mrs"
+    path: "./ruleset/private-ip.mrs"
+  category-ads-all@ads:
+    <<: *rule_provider_text
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/category-ads-all@ads/category-ads-all@ads.list"
+    path: "./ruleset/category-ads-all@ads.list"
+  google:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/google/google.mrs"
+    path: "./ruleset/google.mrs"
+  google-ip:
+    <<: *rule_provider_ip
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/google/google.mrs"
+    path: "./ruleset/google-ip.mrs"
+  twitter:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/twitter/twitter.mrs"
+    path: "./ruleset/twitter.mrs"
+  twitter-ip:
+    <<: *rule_provider_ip
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/twitter/twitter.mrs"
+    path: "./ruleset/twitter-ip.mrs"
+  proxy:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-!cn/geolocation-!cn.mrs"
+    path: "./ruleset/geolocation-!cn.mrs"
+  cn:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/cn/cn.mrs"
+    path: "./ruleset/cn.mrs"
+  cn-ip:
+    <<: *rule_provider_ip
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/cn/cn.mrs"
+    path: "./ruleset/cn-ip.mrs"
+
+rules:
+  # > Reject
+  - RULE-SET,category-ads-all@ads,REJECT
+
+  # > Private
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private-ip,DIRECT,no-resolve
+
+  # > Google
+  - RULE-SET,google,Google
+  - RULE-SET,google-ip,Google,no-resolve
+
+  # > Twitter
+  - RULE-SET,twitter,Twitter
+  - RULE-SET,twitter-ip,Twitter,no-resolve
+
+  # > Proxy
+  - RULE-SET,proxy,Proxies
+
+  # > Direct CN
+  - RULE-SET,cn,DIRECT
+  - RULE-SET,cn-ip,DIRECT,no-resolve
+
+  # > Final
+  - MATCH,Final
