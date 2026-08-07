@@ -26,7 +26,8 @@ DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-KEYWORD,chatgpt-async-webps-prod-
 DOMAIN-KEYWORD,openaicom-api-
 DOMAIN-KEYWORD,openai
+
+# Network ranges directly allocated to OpenAI OpCo, LLC. The IPv4 prefix is
+# announced by OpenAI AS401518; the IPv6 allocation is retained for future use.
 IP-CIDR,199.47.142.0/23,no-resolve
-IP-CIDR,24.199.123.28/32,no-resolve
-IP-CIDR,64.23.132.171/32,no-resolve
 IP-CIDR6,2604:f20::/32,no-resolve
