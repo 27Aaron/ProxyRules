@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: dlsite
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/dlsite/dlsite.yaml
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,chobit.cc'
+  - 'DOMAIN-SUFFIX,ci-en.jp'
+  - 'DOMAIN-SUFFIX,ci-en.net'
+  - 'DOMAIN-SUFFIX,dlaf.jp'
+  - 'DOMAIN-SUFFIX,dlsite.com'
+  - 'DOMAIN-SUFFIX,dlsite.com.tw'
+  - 'DOMAIN-SUFFIX,dlsite.jp'
+  - 'DOMAIN-SUFFIX,dlsitestudio.com'
+  - 'DOMAIN-SUFFIX,nijiyome.jp'
+  - 'DOMAIN-SUFFIX,triokini.com'

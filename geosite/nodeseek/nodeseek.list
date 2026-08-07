@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: nodeseek
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/nodeseek/nodeseek.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,22112211.xyz
+DOMAIN-SUFFIX,deepflood.com
+DOMAIN-SUFFIX,nodeget.com
+DOMAIN-SUFFIX,nodeimage.com
+DOMAIN-SUFFIX,nodequality.com
+DOMAIN-SUFFIX,nodeseek.com

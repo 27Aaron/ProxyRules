@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: manorama
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/manorama/manorama.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,malayalamanorama.com'
+  - 'DOMAIN-SUFFIX,manorama.com'
+  - 'DOMAIN-SUFFIX,manoramanews.com'
+  - 'DOMAIN-SUFFIX,manoramaonline.com'
+  - 'DOMAIN-SUFFIX,manoramayearbook.in'
+  - 'DOMAIN-SUFFIX,onmanorama.com'
+  - 'DOMAIN-SUFFIX,radiomango.fm'
+  - 'DOMAIN-SUFFIX,theman.in'
+  - 'DOMAIN-SUFFIX,theweek.in'
+  - 'DOMAIN-SUFFIX,vanitaonline.com'
+  - 'DOMAIN-SUFFIX,vanitha.in'
+  - 'DOMAIN-SUFFIX,vanithaveedu.com'

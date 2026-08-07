@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: youporn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/youporn/youporn.list
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,extremetube.com
+DOMAIN-SUFFIX,keezmovies.com
+DOMAIN-SUFFIX,yopornshop.com
+DOMAIN-SUFFIX,youporn.com
+DOMAIN-SUFFIX,youporngay.com
+DOMAIN-SUFFIX,youpornpremium.com
+DOMAIN-SUFFIX,youpornru.com
+DOMAIN-SUFFIX,ypncdn.com

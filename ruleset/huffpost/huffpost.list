@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: huffpost
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/huffpost/huffpost.list
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,huffingtonpost.ca
+DOMAIN-SUFFIX,huffingtonpost.co.uk
+DOMAIN-SUFFIX,huffingtonpost.co.za
+DOMAIN-SUFFIX,huffingtonpost.com
+DOMAIN-SUFFIX,huffingtonpost.com.au
+DOMAIN-SUFFIX,huffingtonpost.com.mx
+DOMAIN-SUFFIX,huffingtonpost.de
+DOMAIN-SUFFIX,huffingtonpost.es
+DOMAIN-SUFFIX,huffingtonpost.fr
+DOMAIN-SUFFIX,huffingtonpost.gr
+DOMAIN-SUFFIX,huffingtonpost.in
+DOMAIN-SUFFIX,huffingtonpost.it
+DOMAIN-SUFFIX,huffingtonpost.jp
+DOMAIN-SUFFIX,huffingtonpost.kr
+DOMAIN-SUFFIX,huffpost.com
+DOMAIN-SUFFIX,huffpostarabi.com
+DOMAIN-SUFFIX,huffpostbrasil.com
+DOMAIN-SUFFIX,huffpostmaghreb.com

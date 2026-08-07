@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: bing@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/bing@cn/bing@cn.yaml
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 7
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bing.com.cn'
+  - 'DOMAIN-SUFFIX,cn.bing.com'
+  - 'DOMAIN-SUFFIX,cn.bing.net'
+  - 'DOMAIN-SUFFIX,cn.mm.bing.net'
+  - 'DOMAIN-SUFFIX,ditu.live.com'
+  - 'DOMAIN-SUFFIX,r.bing.com'
+  - 'DOMAIN-SUFFIX,th.bing.com'
+  - 'DOMAIN,bj1.api.bing.com'
+  - 'DOMAIN,emoi-cncdn.bing.com'

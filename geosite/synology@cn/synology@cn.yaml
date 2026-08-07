@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: synology@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/synology@cn/synology@cn.yaml
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,quickconnect.cn'
+  - 'DOMAIN-SUFFIX,synology.cn'

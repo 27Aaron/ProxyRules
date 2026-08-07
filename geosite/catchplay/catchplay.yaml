@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: catchplay
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/catchplay/catchplay.yaml
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,catchplay.com'
+  - 'DOMAIN-SUFFIX,tra-ww000-cp.akamaized.net'

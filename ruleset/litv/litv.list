@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: litv
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/litv/litv.list
+# DOMAIN: 8
+# DOMAIN-SUFFIX: 3
+# TOTAL: 11
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,litv.tv
+DOMAIN-SUFFIX,litvfreepc.akamaized.net
+DOMAIN-SUFFIX,ofiii.com
+DOMAIN,ntdfreemobile-tgc.cdn.hinet.net
+DOMAIN,ntdfreepc-tgc.cdn.hinet.net
+DOMAIN,ntdfreetv-tgc.cdn.hinet.net
+DOMAIN,ntdfreevcpc-tgc.cdn.hinet.net
+DOMAIN,ntdofifreemobile-tgc.cdn.hinet.net
+DOMAIN,ntdofifreepc-tgc.cdn.hinet.net
+DOMAIN,ntdofifreetv-tgc.cdn.hinet.net
+DOMAIN,ntdofifreevcpc-tgc.cdn.hinet.net

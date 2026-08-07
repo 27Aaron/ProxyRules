@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: gannett
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/gannett/gannett.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,gannett-cdn.com
+DOMAIN-SUFFIX,gannett.com
+DOMAIN-SUFFIX,gannettdigital.com
+DOMAIN-SUFFIX,usatoday.com
+DOMAIN-SUFFIX,usatodaynetworkservice.com

@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: itiger
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/itiger/itiger.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,itiger.com'
+  - 'DOMAIN-SUFFIX,itigergrowth.com'
+  - 'DOMAIN-SUFFIX,itigergrowtha.com'
+  - 'DOMAIN-SUFFIX,itigerup.com'
+  - 'DOMAIN-SUFFIX,laohu8.com'
+  - 'DOMAIN-SUFFIX,skytigris.cn'
+  - 'DOMAIN-SUFFIX,tigerbbs.cn'
+  - 'DOMAIN-SUFFIX,tigerbbs.com'
+  - 'DOMAIN-SUFFIX,xiaohu8.com'

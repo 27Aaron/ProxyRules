@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: origin
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/origin/origin.yaml
+# DOMAIN: 4
+# DOMAIN-SUFFIX: 5
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dawngate.com'
+  - 'DOMAIN-SUFFIX,eastore.com'
+  - 'DOMAIN-SUFFIX,lordofultima.com'
+  - 'DOMAIN-SUFFIX,origin.com'
+  - 'DOMAIN-SUFFIX,origin.tv'
+  - 'DOMAIN,cloudsync-prod.s3.amazonaws.com'
+  - 'DOMAIN,origin-a.akamaihd.net'
+  - 'DOMAIN,rtm.tnt-ea.com'
+  - 'DOMAIN,ssl-lvlt.cdn.ea.com'

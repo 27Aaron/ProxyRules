@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: hkbn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/hkbn/hkbn.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,csifund.org'
+  - 'DOMAIN-SUFFIX,hkbn.com.hk'
+  - 'DOMAIN-SUFFIX,hkbn.net'
+  - 'DOMAIN-SUFFIX,hkbnes.net'
+  - 'DOMAIN-SUFFIX,jos.com'
+  - 'DOMAIN-SUFFIX,speedtest.com.hk'

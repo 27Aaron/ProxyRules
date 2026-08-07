@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: limelight
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/limelight/limelight.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,delvenetworks.com'
+  - 'DOMAIN-SUFFIX,limelight.com'
+  - 'DOMAIN-SUFFIX,lldns.net'
+  - 'DOMAIN-SUFFIX,llnw-trials.com'
+  - 'DOMAIN-SUFFIX,llnw.com'
+  - 'DOMAIN-SUFFIX,llnw.net'
+  - 'DOMAIN-SUFFIX,llnwd.net'
+  - 'DOMAIN-SUFFIX,llnwi.net'

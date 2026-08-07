@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: hotstar
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hotstar/hotstar.list
+# DOMAIN-SUFFIX: 5
+# OMITTED-DOMAIN-REGEX: 1
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,hotstar-cdn.net
+DOMAIN-SUFFIX,hotstar-labs.com
+DOMAIN-SUFFIX,hotstar.com
+DOMAIN-SUFFIX,hotstarext.com
+DOMAIN-SUFFIX,hsprepack.akamaized.net

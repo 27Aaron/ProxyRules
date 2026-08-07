@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: anaconda
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/anaconda/anaconda.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,anaconda.cloud'
+  - 'DOMAIN-SUFFIX,anaconda.com'
+  - 'DOMAIN-SUFFIX,anaconda.org'
+  - 'DOMAIN-SUFFIX,conda.io'

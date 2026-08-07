@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: cheetahmobile
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/cheetahmobile/cheetahmobile.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cheetahfun.com'
+  - 'DOMAIN-SUFFIX,cmcm.com'
+  - 'DOMAIN-SUFFIX,cmcmcdn.com'
+  - 'DOMAIN-SUFFIX,drivergenius.com'
+  - 'DOMAIN-SUFFIX,duba.com'
+  - 'DOMAIN-SUFFIX,duba.net'
+  - 'DOMAIN-SUFFIX,ijinshan.com'
+  - 'DOMAIN-SUFFIX,keniu.com'
+  - 'DOMAIN-SUFFIX,liebao.cn'

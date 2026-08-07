@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: espn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/espn/espn.yaml
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 8
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dtci.co'
+  - 'DOMAIN-SUFFIX,dtci.technology'
+  - 'DOMAIN-SUFFIX,espn.co.uk'
+  - 'DOMAIN-SUFFIX,espn.com'
+  - 'DOMAIN-SUFFIX,espn.net'
+  - 'DOMAIN-SUFFIX,espncdn.com'
+  - 'DOMAIN-SUFFIX,espnqa.com'
+  - 'DOMAIN-SUFFIX,watchespn.com'
+  - 'DOMAIN,espn.api.edge.bamgrid.com'
+  - 'DOMAIN,espn.hb.omtrdc.net'
+  - 'DOMAIN,espndotcom.tt.omtrdc.net'

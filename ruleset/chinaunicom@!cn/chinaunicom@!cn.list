@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: chinaunicom@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/chinaunicom@!cn/chinaunicom@!cn.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,chinaunicom.com.hk
+DOMAIN-SUFFIX,chinaunicomglobal.com
+DOMAIN-SUFFIX,cuguplus.com
+DOMAIN-SUFFIX,cuniq.com
+DOMAIN-SUFFIX,cuniq.sg

@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: mts-ru
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/mts-ru/mts-ru.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,a.mts.ru'
+  - 'DOMAIN-SUFFIX,dbo-dengi.online'
+  - 'DOMAIN-SUFFIX,kion.ru'
+  - 'DOMAIN-SUFFIX,mts-ws.net'
+  - 'DOMAIN-SUFFIX,mts.ru'
+  - 'DOMAIN-SUFFIX,mtsbank.ru'
+  - 'DOMAIN-SUFFIX,mtsdengi.ru'
+  - 'DOMAIN-SUFFIX,mtsmedia.ru'
+  - 'DOMAIN-SUFFIX,mymts.ru'
+  - 'DOMAIN-SUFFIX,obs.mts.ru'
+  - 'DOMAIN-SUFFIX,on-media.ru'
+  - 'DOMAIN-SUFFIX,tvoyodbo.online'

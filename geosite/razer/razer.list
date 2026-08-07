@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: razer
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/razer/razer.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,razer.com
+DOMAIN-SUFFIX,razerapi.com
+DOMAIN-SUFFIX,razerofficial.com
+DOMAIN-SUFFIX,razersupport.com
+DOMAIN-SUFFIX,razersynapse.com
+DOMAIN-SUFFIX,razerzone.com
+DOMAIN-SUFFIX,razerzone.jp
+DOMAIN-SUFFIX,respawnbyrazer.com
+DOMAIN-SUFFIX,rzr.to

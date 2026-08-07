@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: farfetch@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/farfetch@cn/farfetch@cn.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,farfetch.cn'
+  - 'DOMAIN-SUFFIX,farfetch.com.cn'
+  - 'DOMAIN-SUFFIX,farfetch.net.cn'

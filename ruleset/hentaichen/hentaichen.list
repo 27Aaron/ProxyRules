@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: hentaichen
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/hentaichen/hentaichen.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,h-chan.me
+DOMAIN-SUFFIX,hentai-chan.com
+DOMAIN-SUFFIX,hentai-chan.live
+DOMAIN-SUFFIX,hentaichan.live
+DOMAIN-SUFFIX,hentaichan.me
+DOMAIN-SUFFIX,imgschan.xyz

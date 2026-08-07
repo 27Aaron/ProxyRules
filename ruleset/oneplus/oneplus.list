@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: oneplus
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/oneplus/oneplus.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 7
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,h2os.com
+DOMAIN-SUFFIX,oneplus.cn
+DOMAIN-SUFFIX,oneplus.com
+DOMAIN-SUFFIX,oneplus.net
+DOMAIN-SUFFIX,oneplusbbs.com
+DOMAIN-SUFFIX,oneplusmobile.com
+DOMAIN-SUFFIX,opstatics.com
+DOMAIN,community.oneplus.com

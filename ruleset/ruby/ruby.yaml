@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: ruby
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ruby/ruby.yaml
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ruby-lang.org'
+  - 'DOMAIN-SUFFIX,rubygems.org'

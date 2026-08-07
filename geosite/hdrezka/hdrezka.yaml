@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: hdrezka
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hdrezka/hdrezka.yaml
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,hdrezka-home.tv'
+  - 'DOMAIN-SUFFIX,hdrezka.ac'
+  - 'DOMAIN-SUFFIX,hdrezka.ag'
+  - 'DOMAIN-SUFFIX,hdrezka.cm'
+  - 'DOMAIN-SUFFIX,hdrezka.co'
+  - 'DOMAIN-SUFFIX,hdrezka.me'
+  - 'DOMAIN-SUFFIX,hdrezka.org'
+  - 'DOMAIN-SUFFIX,hdrezka.site'
+  - 'DOMAIN-SUFFIX,hdrzk.org'
+  - 'DOMAIN-SUFFIX,rezka.ag'
+  - 'DOMAIN-SUFFIX,stream.voidboost.cc'

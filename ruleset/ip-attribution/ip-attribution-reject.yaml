@@ -1,0 +1,33 @@
+# -----------------------------------------------------
+# NAME: ip-attribution-reject
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 17:20:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ip-attribution/ip-attribution-reject.yaml
+# DOMAIN: 1
+# IP-CIDR: 18
+# IP-CIDR6: 1
+# TOTAL: 20
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,httpdns.bilivideo.com'
+  - 'IP-CIDR,47.100.123.169/32,no-resolve'
+  - 'IP-CIDR,47.101.175.206/32,no-resolve'
+  - 'IP-CIDR,101.91.140.124/32,no-resolve'
+  - 'IP-CIDR,101.91.140.224/32,no-resolve'
+  - 'IP-CIDR,112.64.218.119/32,no-resolve'
+  - 'IP-CIDR,112.65.200.117/32,no-resolve'
+  - 'IP-CIDR,114.116.215.110/32,no-resolve'
+  - 'IP-CIDR,116.63.10.31/32,no-resolve'
+  - 'IP-CIDR,116.63.10.135/32,no-resolve'
+  - 'IP-CIDR,117.144.238.29/32,no-resolve'
+  - 'IP-CIDR,117.185.228.108/32,no-resolve'
+  - 'IP-CIDR,120.46.169.234/32,no-resolve'
+  - 'IP-CIDR,121.36.72.124/32,no-resolve'
+  - 'IP-CIDR,122.9.7.134/32,no-resolve'
+  - 'IP-CIDR,122.9.13.79/32,no-resolve'
+  - 'IP-CIDR,122.9.15.129/32,no-resolve'
+  - 'IP-CIDR,118.89.204.0/23,no-resolve'
+  - 'IP-CIDR6,2402:4e00:1200::/40,no-resolve'
+  - 'IP-CIDR,119.29.29.98/32,no-resolve'

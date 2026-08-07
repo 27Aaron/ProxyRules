@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: category-porn@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-porn@ads/category-porn@ads.list
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 1
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,collector.xhamster.com
+DOMAIN,ad-channel.diwodiwo.xyz
+DOMAIN,ad-display.diwodiwo.xyz

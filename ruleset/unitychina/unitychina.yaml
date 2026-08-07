@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: unitychina
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/unitychina/unitychina.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ads.unitychina.cn'
+  - 'DOMAIN-SUFFIX,splash-ads.cdn.unity.cn'
+  - 'DOMAIN-SUFFIX,splash-ads.unitychina.cn'
+  - 'DOMAIN-SUFFIX,u3d.cn'
+  - 'DOMAIN-SUFFIX,unity.cn'
+  - 'DOMAIN-SUFFIX,unity3dcloud.cn'
+  - 'DOMAIN-SUFFIX,unityads.unity.cn'
+  - 'DOMAIN-SUFFIX,unityads.unitychina.cn'
+  - 'DOMAIN-SUFFIX,unitychina.cn'

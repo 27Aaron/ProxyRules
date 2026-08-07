@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: hinet-eca
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/hinet-eca/hinet-eca.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,eca.hinet.net
+DOMAIN-SUFFIX,gtlsca.nat.gov.tw
+DOMAIN-SUFFIX,pki.hinet.net
+DOMAIN-SUFFIX,publicca.hinet.net
+DOMAIN-SUFFIX,tls.hinet.net

@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: hisense
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hisense/hisense.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,hisense-home.com'
+  - 'DOMAIN-SUFFIX,hisense.com'
+  - 'DOMAIN-SUFFIX,hisensehitachi.com'
+  - 'DOMAIN-SUFFIX,hisensekf.com'
+  - 'DOMAIN-SUFFIX,hismarttv.com'
+  - 'DOMAIN-SUFFIX,juhaokan.org'

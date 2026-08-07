@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: chinatower
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/chinatower/chinatower.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,china-tower.com
+DOMAIN-SUFFIX,chinatowercom.cn
+DOMAIN-SUFFIX,tower.com.cn
+DOMAIN-SUFFIX,tower0788.cn
+DOMAIN-SUFFIX,tower0788.com

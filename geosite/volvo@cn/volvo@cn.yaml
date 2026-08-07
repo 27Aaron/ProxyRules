@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: volvo@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/volvo@cn/volvo@cn.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,vfsco.com.cn'
+  - 'DOMAIN-SUFFIX,volvo.cn'
+  - 'DOMAIN-SUFFIX,volvo.com.cn'
+  - 'DOMAIN-SUFFIX,volvogroup.cn'
+  - 'DOMAIN-SUFFIX,volvogroup.com.cn'
+  - 'DOMAIN-SUFFIX,volvotrucks.com.cn'

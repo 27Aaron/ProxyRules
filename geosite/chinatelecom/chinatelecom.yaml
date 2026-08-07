@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: chinatelecom
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/chinatelecom/chinatelecom.yaml
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,189.cn'
+  - 'DOMAIN-SUFFIX,189smarthome.com'
+  - 'DOMAIN-SUFFIX,21cn.com'
+  - 'DOMAIN-SUFFIX,bestpay.cn'
+  - 'DOMAIN-SUFFIX,bestpay.com.cn'
+  - 'DOMAIN-SUFFIX,chinatelecom-h.com'
+  - 'DOMAIN-SUFFIX,chinatelecom.com.cn'
+  - 'DOMAIN-SUFFIX,chinatelecomglobal.com'
+  - 'DOMAIN-SUFFIX,chinatelecomhk.com'
+  - 'DOMAIN-SUFFIX,chntel.com'
+  - 'DOMAIN-SUFFIX,ctexcel.ca'
+  - 'DOMAIN-SUFFIX,ctexcel.com.hk'
+  - 'DOMAIN-SUFFIX,ctexcel.com'
+  - 'DOMAIN-SUFFIX,ctexcel.fr'
+  - 'DOMAIN-SUFFIX,ctexcel.us'
+  - 'DOMAIN-SUFFIX,dlife.cn'
+  - 'DOMAIN-SUFFIX,play.cn'
+  - 'DOMAIN-SUFFIX,vnet.cn'

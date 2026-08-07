@@ -1,0 +1,26 @@
+# -----------------------------------------------------
+# NAME: speedtest
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/speedtest/speedtest.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 12
+# OMITTED-DOMAIN-REGEX: 1
+# TOTAL: 13
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cdnst.net'
+  - 'DOMAIN-SUFFIX,cellmaps.com'
+  - 'DOMAIN-SUFFIX,ekahau.cloud'
+  - 'DOMAIN-SUFFIX,ekahau.com'
+  - 'DOMAIN-SUFFIX,ookla-speedtest-central.hgconair.hgc.com.hk'
+  - 'DOMAIN-SUFFIX,ookla.com'
+  - 'DOMAIN-SUFFIX,ooklaserver.net'
+  - 'DOMAIN-SUFFIX,pingtest.net'
+  - 'DOMAIN-SUFFIX,speedtest.co'
+  - 'DOMAIN-SUFFIX,speedtest.net'
+  - 'DOMAIN-SUFFIX,speedtestcustom.com'
+  - 'DOMAIN-SUFFIX,webtest.net'
+  - 'DOMAIN,www.speedtest.net.cdn.cloudflare.net'

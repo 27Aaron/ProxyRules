@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: lastfm
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/lastfm/lastfm.list
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 1
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,last.fm
+DOMAIN,lastfm.freetls.fastly.net
+DOMAIN,ws.audioscrobbler.com

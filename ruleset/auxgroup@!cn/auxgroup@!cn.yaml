@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: auxgroup@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/auxgroup@!cn/auxgroup@!cn.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,aufit-air.com'
+  - 'DOMAIN-SUFFIX,aux-global.com'
+  - 'DOMAIN-SUFFIX,auxair.com'
+  - 'DOMAIN-SUFFIX,auxcac.cn'
+  - 'DOMAIN-SUFFIX,auxsmart.com'
+  - 'DOMAIN-SUFFIX,sanxingelectric.com'
+  - 'DOMAIN-SUFFIX,shinflow.com'

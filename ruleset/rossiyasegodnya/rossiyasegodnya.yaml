@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: rossiyasegodnya
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/rossiyasegodnya/rossiyasegodnya.yaml
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,1prime.ru'
+  - 'DOMAIN-SUFFIX,arctic.ru'
+  - 'DOMAIN-SUFFIX,baltnews.com'
+  - 'DOMAIN-SUFFIX,baltnews.lt'
+  - 'DOMAIN-SUFFIX,inosmi.ru'
+  - 'DOMAIN-SUFFIX,jinrieluosi.cn'
+  - 'DOMAIN-SUFFIX,pressria.ru'
+  - 'DOMAIN-SUFFIX,radiosputnik.ru'
+  - 'DOMAIN-SUFFIX,ria.ru'
+  - 'DOMAIN-SUFFIX,rossiyasegodnya.com'
+  - 'DOMAIN-SUFFIX,sputnikglobe.com'
+  - 'DOMAIN-SUFFIX,sputnikimages.com'
+  - 'DOMAIN-SUFFIX,sputnikmediabank.com'
+  - 'DOMAIN-SUFFIX,sputniknews.com'
+  - 'DOMAIN-SUFFIX,tok.media'
+  - 'DOMAIN-SUFFIX,ukraina.ru'
+  - 'DOMAIN-SUFFIX,xn--c1acbl2abdlkab1og.xn--p1ai'

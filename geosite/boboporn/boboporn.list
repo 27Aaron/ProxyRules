@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: boboporn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/boboporn/boboporn.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,boboporn.com
+DOMAIN-SUFFIX,boboporn.net
+DOMAIN-SUFFIX,bobovip.cc
+DOMAIN-SUFFIX,sesez.com

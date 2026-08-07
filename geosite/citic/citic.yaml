@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: citic
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/citic/citic.yaml
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cfc108.com'
+  - 'DOMAIN-SUFFIX,chinaamc.com'
+  - 'DOMAIN-SUFFIX,citic'
+  - 'DOMAIN-SUFFIX,citic-prudential.com.cn'
+  - 'DOMAIN-SUFFIX,citicbank.com'
+  - 'DOMAIN-SUFFIX,citiccapital.com'
+  - 'DOMAIN-SUFFIX,citiciam.com'
+  - 'DOMAIN-SUFFIX,citicifh.com'
+  - 'DOMAIN-SUFFIX,citicprufunds.com.cn'
+  - 'DOMAIN-SUFFIX,citics.com.hk'
+  - 'DOMAIN-SUFFIX,citicsf.com'
+  - 'DOMAIN-SUFFIX,clsa.com'
+  - 'DOMAIN-SUFFIX,cncbinternational.com'
+  - 'DOMAIN-SUFFIX,csc108.com'
+  - 'DOMAIN-SUFFIX,csci.hk'
+  - 'DOMAIN-SUFFIX,ecitic.com'
+  - 'DOMAIN-SUFFIX,xn--fiq64b'

@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: webtype
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/webtype/webtype.yaml
+# DOMAIN-SUFFIX: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,webtype.com'

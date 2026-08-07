@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: squareup
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/squareup/squareup.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cash.app'
+  - 'DOMAIN-SUFFIX,cashbycashapp.com'
+  - 'DOMAIN-SUFFIX,gosq.co'
+  - 'DOMAIN-SUFFIX,gosq.com'
+  - 'DOMAIN-SUFFIX,issquaredown.com'
+  - 'DOMAIN-SUFFIX,issquareup.com'
+  - 'DOMAIN-SUFFIX,mkt.com'
+  - 'DOMAIN-SUFFIX,sellercommunity.com'
+  - 'DOMAIN-SUFFIX,squarecapital.com'
+  - 'DOMAIN-SUFFIX,squarecdn.com'
+  - 'DOMAIN-SUFFIX,squarecloudservices.com'
+  - 'DOMAIN-SUFFIX,squareup.com'

@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: rockstar
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/rockstar/rockstar.yaml
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 3
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,rockstargames.com'
+  - 'DOMAIN-SUFFIX,rockstarnorth.com'
+  - 'DOMAIN-SUFFIX,rsg.sc'
+  - 'DOMAIN,gamedownloads-rockstargames-com.akamaized.net'
+  - 'DOMAIN,media-rockstargames-com.akamaized.net'
+  - 'DOMAIN,videos-rockstargames-com.akamaized.net'

@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: firebase@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/firebase@cn/firebase@cn.yaml
+# DOMAIN: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,crashlyticsreports-pa.googleapis.com'
+  - 'DOMAIN,firebase-settings.crashlytics.com'
+  - 'DOMAIN,update.crashlytics.com'
