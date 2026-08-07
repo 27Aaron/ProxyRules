@@ -8,6 +8,7 @@ on:
       - ".github/scripts/compile-mrs.go"
       - ".github/scripts/prepare-custom-rules.py"
       - ".github/scripts/tests/test_build_generated_rules.py"
+      - ".github/scripts/tests/test_generated_workflow.py"
       - ".github/scripts/tests/test_prepare_custom_rules.py"
       - ".github/workflows/update-generated-rules.yml"
   schedule:
@@ -351,6 +352,8 @@ jobs:
             cd "$output_dir"
             sha256sum --check --strict --quiet SHA256SUMS
           )
+          test -z "$(find "$output_dir" -type l -print -quit)"
+          test -z "$(find "$output_dir" -type f -iname 'README*' -print -quit)"
           test -s "$output_dir/geosite/115/115.list"
           test -s "$output_dir/geosite/115/115.yaml"
           test -s "$output_dir/geosite/115/115.mrs"
@@ -492,8 +495,17 @@ jobs:
           git -C "$PUBLISH_DIR" config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
           commit_time="$(date '+%Y-%m-%d %H:%M:%S UTC+08:00')"
+          commit_time_pattern='^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} UTC\+08:00$'
+          [[ "$commit_time" =~ $commit_time_pattern ]]
           git -C "$PUBLISH_DIR" commit --quiet \
             -m "chore(rules): update ${commit_time}"
+          test "$(git -C "$PUBLISH_DIR" rev-list --count HEAD)" -eq 1
+          root_commit="$(git -C "$PUBLISH_DIR" rev-list --parents -n 1 HEAD)"
+          [[ "$root_commit" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git -C "$PUBLISH_DIR" log -1 --format=%s)" = \
+            "chore(rules): update ${commit_time}"
+          [[ "$(git -C "$PUBLISH_DIR" log -1 --format=%cI)" == *+08:00 ]]
+          test -z "$(git -C "$PUBLISH_DIR" status --porcelain)"
           authenticated_remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           push_options=()
           if [[ -n "$PREVIOUS_SHA" ]]; then
