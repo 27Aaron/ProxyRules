@@ -1,6 +1,6 @@
 # -----------------------------------------------------
 # AUTHOR: 27Aaron
-# UPDATED: 2026-08-05 14:16:28
+# UPDATED: 2026-08-07 20:48:44
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Config/config.yaml
 # -----------------------------------------------------
@@ -82,7 +82,6 @@ dns:
   # > Fake-IP filter
   fake-ip-filter:
     - "rule-set:private"
-    - "rule-set:fakeip_filter"
   proxy-server-nameserver: *chinaDNS
   default-nameserver: ["223.5.5.5", "119.29.29.29"]
   nameserver: *foreignDNS
@@ -221,127 +220,135 @@ rule_providers_common:
 
 # > Rule providers
 rule-providers:
-  # > External
+  # > Generated domain and IP rules
   private:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/private/private.mrs"
     path: "./ruleset/private.mrs"
   private_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/private/private.mrs"
     path: "./ruleset/private_ip.mrs"
   games_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/category-games@cn/category-games@cn.mrs"
     path: "./ruleset/category-games@cn.mrs"
   epicgames:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/epicgames/epicgames.mrs"
     path: "./ruleset/epicgames.mrs"
   nvidia_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/nvidia@cn/nvidia@cn.mrs"
     path: "./ruleset/nvidia@cn.mrs"
   apple_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/apple@cn/apple@cn.mrs"
     path: "./ruleset/apple@cn.mrs"
   microsoft_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/microsoft@cn/microsoft@cn.mrs"
     path: "./ruleset/microsoft@cn.mrs"
   geolocation-cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-cn/geolocation-cn.mrs"
     path: "./ruleset/geolocation-cn.mrs"
   cn_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/cn/cn.mrs"
     path: "./ruleset/cn_ip.mrs"
 
   youtube:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/youtube/youtube.mrs"
     path: "./ruleset/youtube.mrs"
   googlefcm:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/googlefcm/googlefcm.mrs"
     path: "./ruleset/googlefcm.mrs"
+  googlefcm_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/googlefcm/googlefcm.mrs"
+    path: "./ruleset/googlefcm_ip.mrs"
   google:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/google/google.mrs"
     path: "./ruleset/google.mrs"
   google_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/google/google.mrs"
     path: "./ruleset/google_ip.mrs"
   apple:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/apple/apple.mrs"
     path: "./ruleset/apple.mrs"
   telegram:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/telegram/telegram.mrs"
     path: "./ruleset/telegram.mrs"
   telegram_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/telegram/telegram.mrs"
     path: "./ruleset/telegram_ip.mrs"
   twitter:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/twitter/twitter.mrs"
     path: "./ruleset/twitter.mrs"
   twitter_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/twitter/twitter.mrs"
     path: "./ruleset/twitter_ip.mrs"
-  gfw:
+  proxy:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs"
-    path: "./ruleset/gfw.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-!cn/geolocation-!cn.mrs"
+    path: "./ruleset/geolocation-!cn.mrs"
 
-  fakeip_filter:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/fakeip-filter.mrs"
-    path: "./ruleset/fakeip-filter.mrs"
   cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/wwqgtxx/clash-rules@release/direct.mrs"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/cn/cn.mrs"
     path: "./ruleset/cn.mrs"
 
-  # > Local repo
+  # > Complete generated rulesets
   APNs:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/APNs/APNs.yaml"
-    path: "./ruleset/APNs.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/apple-push/apple-push.yaml"
+    path: "./ruleset/apple-push.yaml"
   Apple-Intelligence:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Apple-Intelligence/Apple-Intelligence.yaml"
-    path: "./ruleset/Apple-Intelligence.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/apple-intelligence/apple-intelligence.yaml"
+    path: "./ruleset/apple-intelligence.yaml"
   xAI:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/xAI/xAI.yaml"
-    path: "./ruleset/xAI.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/xai/xai.yaml"
+    path: "./ruleset/xai.yaml"
   OpenAI:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/OpenAI/OpenAI.yaml"
-    path: "./ruleset/OpenAI.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/openai/openai.yaml"
+    path: "./ruleset/openai.yaml"
   GitHub-Copilot:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/GitHub-Copilot/GitHub-Copilot.yaml"
-    path: "./ruleset/GitHub-Copilot.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/github-copilot/github-copilot.yaml"
+    path: "./ruleset/github-copilot.yaml"
   Gemini:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Gemini/Gemini.yaml"
-    path: "./ruleset/Gemini.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/google-gemini/google-gemini.yaml"
+    path: "./ruleset/google-gemini.yaml"
   Anthropic:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/Anthropic/Anthropic.yaml"
-    path: "./ruleset/Anthropic.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/anthropic/anthropic.yaml"
+    path: "./ruleset/anthropic.yaml"
+  IP-Attribution-Reject:
+    <<: *rule_providers_classical
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/ip-attribution/ip-attribution-reject.yaml"
+    path: "./ruleset/ip-attribution-reject.yaml"
+  IP-Attribution-Direct:
+    <<: *rule_providers_classical
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/ip-attribution/ip-attribution-direct.yaml"
+    path: "./ruleset/ip-attribution-direct.yaml"
   IP-Attribution:
     <<: *rule_providers_classical
-    url: "https://github.com/27Aaron/ProxyRules/raw/main/Clash/Rules/IP-Attribution/IP-Attribution.yaml"
-    path: "./ruleset/IP-Attribution.yaml"
+    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/ip-attribution/ip-attribution.yaml"
+    path: "./ruleset/ip-attribution.yaml"
 
 rules:
   # > SSH
@@ -373,6 +380,8 @@ rules:
   - RULE-SET,Anthropic,AI
 
   # > IP Attribution
+  - RULE-SET,IP-Attribution-Reject,REJECT
+  - RULE-SET,IP-Attribution-Direct,DIRECT
   - RULE-SET,IP-Attribution,IP-Attribution
 
   # > Block foreign QUIC
@@ -388,6 +397,7 @@ rules:
   # > Services
   - RULE-SET,youtube,Google
   - RULE-SET,googlefcm,Google
+  - RULE-SET,googlefcm_ip,Google,no-resolve
   - RULE-SET,google,Google
   - RULE-SET,apple,Apple
   - RULE-SET,telegram,Telegram
@@ -398,13 +408,12 @@ rules:
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
-  # > Proxy (GFW)
-  - RULE-SET,gfw,Proxies
+  # > Proxy
+  - RULE-SET,proxy,Proxies
 
   # > Direct CN
   - RULE-SET,geolocation-cn,Direct
   - RULE-SET,cn_ip,Direct,no-resolve
-  - GEOIP,CN,DIRECT
 
   # > Final
   - MATCH,Final

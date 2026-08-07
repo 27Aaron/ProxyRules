@@ -424,6 +424,19 @@ class RulePathTests(unittest.TestCase):
 
 
 class MainTests(unittest.TestCase):
+    def test_empty_repository_is_successful_noop(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            with (
+                mock.patch.object(headers, "repo_root", return_value=root),
+                mock.patch.object(headers, "resolve_base", return_value=None),
+                mock.patch.object(headers.sys, "stderr"),
+            ):
+                result = headers.main(["update-rule-headers.py"])
+
+        self.assertEqual(result, 0)
+
     def test_any_missing_explicit_path_returns_nonzero(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
