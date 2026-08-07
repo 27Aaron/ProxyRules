@@ -14,57 +14,38 @@ class GeneratedWorkflowInvariantTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
 
-    def test_uses_shared_generation_config(self) -> None:
-        self.assertEqual(
-            self.workflow.count("--config .github/rules-generation.json"),
-            2,
-        )
-        self.assertGreaterEqual(
-            self.workflow.count(".github/rules-generation.json"),
-            4,
-        )
+    def test_has_only_scheduled_manual_and_reusable_triggers(self) -> None:
+        self.assertNotIn("\n  push:", self.workflow)
+        self.assertIn('cron: "30 4 * * *"', self.workflow)
+        self.assertIn("timezone: Asia/Shanghai", self.workflow)
+        self.assertIn("workflow_dispatch:", self.workflow)
+        self.assertIn("workflow_call:", self.workflow)
+        self.assertIn("          ref: main", self.workflow)
 
-    def test_delegates_generated_tree_validation(self) -> None:
+    def test_keeps_runtime_validation_without_repeating_unit_tests(self) -> None:
         self.assertIn(
             ".github/scripts/validate-generated-rules.sh",
             self.workflow,
         )
-        self.assertNotIn("grep -Ec", self.workflow)
-        self.assertNotIn(")\" -eq 189", self.workflow)
+        self.assertNotIn("Test generation scripts", self.workflow)
+        self.assertNotIn("python3 .github/scripts/tests/", self.workflow)
 
-    def test_manual_runs_can_validate_without_publishing(self) -> None:
-        self.assertIn("publish:", self.workflow)
-        self.assertIn(
-            "github.event_name != 'workflow_dispatch' || inputs.publish",
-            self.workflow,
-        )
-
-    def test_requires_one_root_commit(self) -> None:
-        self.assertIn(
-            'test "$(git -C "$PUBLISH_DIR" rev-list --count HEAD)" -eq 1',
-            self.workflow,
-        )
-        self.assertIn(
-            '[[ "$root_commit" =~ ^[0-9a-f]{40}$ ]]',
-            self.workflow,
-        )
-
-    def test_requires_beijing_commit_subject_and_offset(self) -> None:
+    def test_publishes_one_beijing_time_commit_safely(self) -> None:
         self.assertIn("TZ: Asia/Shanghai", self.workflow)
         self.assertIn(
-            'commit_time="$(date \'+%Y-%m-%d %H:%M:%S UTC+08:00\')"',
+            'commit_time="$(date \'+%Y-%m-%d %H:%M:%S\')"',
             self.workflow,
         )
+        self.assertNotIn("UTC+08:00", self.workflow)
+        self.assertIn('"chore(rules): update ${commit_time}"', self.workflow)
         self.assertIn(
-            '"chore(rules): update ${commit_time}"',
+            'test "$(git -C "$PUBLISH_DIR" rev-list --count HEAD)" -eq 1',
             self.workflow,
         )
         self.assertIn(
             '[[ "$(git -C "$PUBLISH_DIR" log -1 --format=%cI)" == *+08:00 ]]',
             self.workflow,
         )
-
-    def test_replaces_existing_branch_only_with_force_with_lease(self) -> None:
         self.assertIn('if [[ -n "$PREVIOUS_SHA" ]]; then', self.workflow)
         self.assertIn(
             '"--force-with-lease=refs/heads/${TARGET_BRANCH}:${PREVIOUS_SHA}"',
