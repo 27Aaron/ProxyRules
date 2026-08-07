@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package converted geosite data for the generated ``Rules`` branch.
+"""Package converted geosite data for the generated ``rules`` branch.
 
 The input directories are produced by MetaCubeX/meta-rules-converter. The
 converter's root directory contains Mihomo ``domain`` behavior rule sets,
@@ -243,44 +243,6 @@ def render_yaml_file(header: str, rules: Iterable[str]) -> str:
     return header + "\n" + "\n".join(rendered) + "\n"
 
 
-def build_readme(
-    repository: str,
-    branch: str,
-    source_repository: str,
-    converter_repository: str,
-) -> str:
-    base = f"https://raw.githubusercontent.com/{repository}/{branch}/geosite"
-    return f"""# Generated geosite rules
-
-此分支由 GitHub Actions 自动生成，请勿直接编辑。
-
-生成链路为 [{source_repository}](https://github.com/{source_repository}) 发布的 `dlc.dat` → [{converter_repository}](https://github.com/{converter_repository}) → 本仓库打包脚本。确切上游版本记录在 `manifest.json`。
-
-每个 geosite 分类使用独立目录，文件名保持一致，只通过扩展名区分格式：
-
-```text
-geosite/netflix/netflix.list
-geosite/netflix/netflix.yaml
-```
-
-当前输出为跨客户端的 classical 域名规则：
-
-- `.list` 可用于 Surge、Loon、Shadowrocket，也可用于 Mihomo/Clash 的 `behavior: classical` + `format: text`
-- `.yaml` 用于 Mihomo/Clash 的 `behavior: classical` + `format: yaml`
-
-示例地址：
-
-```text
-{base}/netflix/netflix.list
-{base}/netflix/netflix.yaml
-```
-
-共享规则支持 `DOMAIN`、`DOMAIN-SUFFIX` 和 `DOMAIN-KEYWORD`。跨客户端无法统一表示的 `DOMAIN-REGEX` 不会被静默转换，具体省略数量记录在文件头和 `manifest.json` 中。
-
-上游版本、分类统计和正文哈希请查看 `manifest.json`，文件校验值请查看 `SHA256SUMS`。
-"""
-
-
 def check_large_drop(
     previous_categories: dict[str, dict[str, object]],
     current_count: int,
@@ -484,15 +446,6 @@ def build(options: BuildOptions) -> dict[str, object]:
         "omitted_category_details": dict(sorted(omitted_categories.items())),
     }
     write_text(
-        options.output_dir / "README.md",
-        build_readme(
-            options.repository,
-            options.branch,
-            options.source_repository,
-            options.converter_repository,
-        ),
-    )
-    write_text(
         options.output_dir / "manifest.json",
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
     )
@@ -513,7 +466,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--previous-dir", type=Path)
     parser.add_argument("--repository", default="27Aaron/ProxyRules")
-    parser.add_argument("--branch", default="Rules")
+    parser.add_argument("--branch", default="rules")
     parser.add_argument("--author", default="27Aaron")
     parser.add_argument(
         "--source-repository", default="v2fly/domain-list-community"

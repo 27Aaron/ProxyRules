@@ -21,18 +21,18 @@ permissions:
   contents: write
 
 concurrency:
-  group: generated-rules-Rules
+  group: generated-rules-rules
   cancel-in-progress: false
 
 env:
   CONVERTER_REPOSITORY: MetaCubeX/meta-rules-converter
   CONVERTER_SHA: 7dea27841a3579a633189830c98c08a0434e8b79
   SOURCE_REPOSITORY: v2fly/domain-list-community
-  TARGET_BRANCH: Rules
+  TARGET_BRANCH: rules
 
 jobs:
   generate:
-    name: Generate and publish Rules branch
+    name: Generate and publish rules branch
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -115,24 +115,28 @@ jobs:
             --file "${RUNNER_TEMP}/rules-input/dlc.dat" \
             --out "$converted_dir"
 
-      - name: Checkout existing Rules branch when available
+      - name: Fetch previous rules branch when available
         shell: bash
         run: |
           set -euo pipefail
 
-          publish_dir="${RUNNER_TEMP}/rules-publish"
+          previous_dir="${RUNNER_TEMP}/rules-previous"
           public_remote="https://github.com/${GITHUB_REPOSITORY}.git"
           branch_ref="$(git ls-remote --heads "$public_remote" \
             "refs/heads/${TARGET_BRANCH}")"
           if [[ -n "$branch_ref" ]]; then
+            previous_sha="${branch_ref%%$'\t'*}"
+            [[ "$previous_sha" =~ ^[0-9a-f]{40}$ ]]
             git clone --quiet --depth=1 --branch "$TARGET_BRANCH" \
-              "$public_remote" "$publish_dir"
+              "$public_remote" "$previous_dir"
           else
-            mkdir -p "$publish_dir"
-            git -C "$publish_dir" init --quiet --initial-branch="$TARGET_BRANCH"
-            git -C "$publish_dir" remote add origin "$public_remote"
+            previous_sha=""
+            mkdir -p "$previous_dir"
           fi
-          echo "PUBLISH_DIR=$publish_dir" >> "$GITHUB_ENV"
+          {
+            echo "PREVIOUS_DIR=$previous_dir"
+            echo "PREVIOUS_SHA=$previous_sha"
+          } >> "$GITHUB_ENV"
 
       - name: Package category-first rules
         shell: bash
@@ -144,7 +148,7 @@ jobs:
             --domain-dir "${RUNNER_TEMP}/converted-geosite"
             --classical-dir "${RUNNER_TEMP}/converted-geosite/classical"
             --output-dir "$output_dir"
-            --previous-dir "$PUBLISH_DIR"
+            --previous-dir "$PREVIOUS_DIR"
             --repository "$GITHUB_REPOSITORY"
             --branch "$TARGET_BRANCH"
             --source-repository "$SOURCE_REPOSITORY"
@@ -191,20 +195,34 @@ jobs:
         run: |
           set -euo pipefail
 
-          rsync -a --delete --exclude .git/ \
-            "${RUNNER_TEMP}/rules-output/" "$PUBLISH_DIR/"
-          git -C "$PUBLISH_DIR" add --all
-          if git -C "$PUBLISH_DIR" diff --cached --quiet --; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-          else
-            git -C "$PUBLISH_DIR" diff --cached --check
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          output_dir="${RUNNER_TEMP}/rules-output"
+          if [[ -n "$PREVIOUS_SHA" ]]; then
+            if diff --recursive --brief --exclude=.git \
+              "$output_dir" "$PREVIOUS_DIR" > /dev/null; then
+              echo "has_changes=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            else
+              diff_status=$?
+              if ((diff_status > 1)); then
+                exit "$diff_status"
+              fi
+            fi
           fi
 
-      - name: Commit and push Rules branch
+          publish_dir="${RUNNER_TEMP}/rules-publish"
+          mkdir -p "$publish_dir"
+          git -C "$publish_dir" init --quiet --initial-branch="$TARGET_BRANCH"
+          rsync -a "$output_dir/" "$publish_dir/"
+          git -C "$publish_dir" add --all
+          git -C "$publish_dir" diff --cached --check
+          echo "PUBLISH_DIR=$publish_dir" >> "$GITHUB_ENV"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push rules branch
         if: steps.changes.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          TZ: Asia/Shanghai
         shell: bash
         run: |-
           set -euo pipefail
@@ -212,8 +230,15 @@ jobs:
           git -C "$PUBLISH_DIR" config user.name "github-actions[bot]"
           git -C "$PUBLISH_DIR" config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
+          commit_time="$(date '+%Y-%m-%d %H:%M:%S UTC+08:00')"
           git -C "$PUBLISH_DIR" commit --quiet \
-            -m "chore(rules): update v2fly to ${SOURCE_TAG}"
+            -m "chore(rules): update ${commit_time}"
           authenticated_remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$PUBLISH_DIR" push "$authenticated_remote" \
+          push_options=()
+          if [[ -n "$PREVIOUS_SHA" ]]; then
+            push_options+=(
+              "--force-with-lease=refs/heads/${TARGET_BRANCH}:${PREVIOUS_SHA}"
+            )
+          fi
+          git -C "$PUBLISH_DIR" push "${push_options[@]}" "$authenticated_remote" \
             "HEAD:refs/heads/${TARGET_BRANCH}"
