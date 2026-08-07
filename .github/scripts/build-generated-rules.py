@@ -15,7 +15,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 
@@ -26,6 +26,7 @@ COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 SEPARATOR = "# -----------------------------------------------------"
 PUBLISHED_CLASSICAL_TYPES = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
 UNSUPPORTED_CLASSICAL_TYPES = {"DOMAIN-REGEX"}
+DISPLAY_TIMEZONE = timezone(timedelta(hours=8))
 
 
 class GenerationError(RuntimeError):
@@ -92,7 +93,9 @@ def normalize_timestamp(value: str) -> str:
 
 def display_timestamp(value: str) -> str:
     parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-    return parsed.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return parsed.astimezone(DISPLAY_TIMEZONE).strftime(
+        "%Y-%m-%d %H:%M:%S UTC+08:00"
+    )
 
 
 def validate_category(name: str) -> None:
@@ -203,7 +206,6 @@ def build_header(
     repository: str,
     branch: str,
     relative_path: str,
-    source_repository: str,
     updated: str,
     counts: dict[str, int],
 ) -> str:
@@ -214,7 +216,6 @@ def build_header(
         f"# UPDATED: {display_timestamp(updated)}",
         f"# REPO: https://github.com/{repository}",
         f"# LINK: https://raw.githubusercontent.com/{repository}/{branch}/{relative_path}",
-        f"# SOURCE: https://github.com/{source_repository}",
     ]
     for rule_type in (
         "DOMAIN",
@@ -355,7 +356,6 @@ def build(options: BuildOptions) -> dict[str, object]:
                 repository=options.repository,
                 branch=options.branch,
                 relative_path=list_relative,
-                source_repository=options.source_repository,
                 updated=updated,
                 counts=counts,
             )
@@ -365,7 +365,6 @@ def build(options: BuildOptions) -> dict[str, object]:
                 repository=options.repository,
                 branch=options.branch,
                 relative_path=yaml_relative,
-                source_repository=options.source_repository,
                 updated=updated,
                 counts=counts,
             )

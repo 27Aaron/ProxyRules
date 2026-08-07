@@ -113,6 +113,10 @@ class GeneratedRulesTests(unittest.TestCase):
             "geosite/115/115.list",
             list_text,
         )
+        self.assertIn("# UPDATED: 2026-08-06 02:44:53 UTC+08:00", list_text)
+        self.assertNotIn("# SOURCE:", list_text)
+        self.assertIn("# UPDATED: 2026-08-06 02:44:53 UTC+08:00", yaml_text)
+        self.assertNotIn("# SOURCE:", yaml_text)
         self.assertIn("# DOMAIN-KEYWORD: 1", list_text)
         self.assertIn("# OMITTED-DOMAIN-REGEX: 1", list_text)
         self.assertTrue(
@@ -198,6 +202,10 @@ class GeneratedRulesTests(unittest.TestCase):
             first["categories"]["115"]["source_sha256"],
             second["categories"]["115"]["source_sha256"],
         )
+        second_list = (second_output / "geosite/115/115.list").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("# UPDATED: 2026-01-02 11:04:05 UTC+08:00", second_list)
 
     def test_rejects_converter_disagreement(self) -> None:
         self.add_category(
