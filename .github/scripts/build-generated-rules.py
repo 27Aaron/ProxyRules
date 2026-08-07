@@ -37,6 +37,7 @@ class GenerationError(RuntimeError):
 class BuildOptions:
     domain_dir: Path
     classical_dir: Path
+    srs_dir: Path
     output_dir: Path
     previous_dir: Path | None
     repository: str
@@ -76,6 +77,23 @@ def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="\n") as file:
         file.write(text)
+
+
+def read_binary(path: Path) -> bytes:
+    if path.is_symlink():
+        raise GenerationError(f"symbolic links are not accepted: {path}")
+    try:
+        data = path.read_bytes()
+    except OSError as error:
+        raise GenerationError(f"unable to read binary rule file: {path}") from error
+    if not data:
+        raise GenerationError(f"binary rule file is empty: {path}")
+    return data
+
+
+def write_binary(path: Path, data: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
 
 
 def normalize_timestamp(value: str) -> str:
@@ -274,8 +292,14 @@ def build(options: BuildOptions) -> dict[str, object]:
     if options.output_dir.exists() and any(options.output_dir.iterdir()):
         raise GenerationError(f"output directory must be empty: {options.output_dir}")
     options.output_dir.mkdir(parents=True, exist_ok=True)
-    if not options.domain_dir.is_dir() or not options.classical_dir.is_dir():
-        raise GenerationError("converted domain and classical directories are required")
+    if (
+        not options.domain_dir.is_dir()
+        or not options.classical_dir.is_dir()
+        or not options.srs_dir.is_dir()
+    ):
+        raise GenerationError(
+            "converted domain, classical, and SRS directories are required"
+        )
 
     published_at = normalize_timestamp(options.source_published_at)
     previous_categories = load_previous_categories(options.previous_dir)
@@ -334,6 +358,9 @@ def build(options: BuildOptions) -> dict[str, object]:
 
         source_portable_rule_total += len(portable_rules)
 
+        mrs_bytes = read_binary(options.domain_dir / f"{name}.mrs")
+        srs_bytes = read_binary(options.srs_dir / f"{name}.srs")
+
         portable_body = "\n".join(portable_rules) + "\n"
         classical_body = read_text(classical_path)
         portable_hash = sha256_text(portable_body)
@@ -350,6 +377,8 @@ def build(options: BuildOptions) -> dict[str, object]:
             relative_dir = Path("geosite") / output_name
             list_relative = (relative_dir / f"{output_name}.list").as_posix()
             yaml_relative = (relative_dir / f"{output_name}.yaml").as_posix()
+            mrs_relative = (relative_dir / f"{output_name}.mrs").as_posix()
+            srs_relative = (relative_dir / f"{output_name}.srs").as_posix()
             list_header = build_header(
                 name=output_name,
                 author=options.author,
@@ -372,9 +401,13 @@ def build(options: BuildOptions) -> dict[str, object]:
             yaml_text = render_yaml_file(yaml_header, portable_rules)
             write_text(options.output_dir / list_relative, list_text)
             write_text(options.output_dir / yaml_relative, yaml_text)
+            write_binary(options.output_dir / mrs_relative, mrs_bytes)
+            write_binary(options.output_dir / srs_relative, srs_bytes)
 
             list_sha = sha256_text(list_text)
             yaml_sha = sha256_text(yaml_text)
+            mrs_sha = sha256_bytes(mrs_bytes)
+            srs_sha = sha256_bytes(srs_bytes)
             category: dict[str, object] = {
                 "path": relative_dir.as_posix(),
                 "updated": updated,
@@ -390,6 +423,8 @@ def build(options: BuildOptions) -> dict[str, object]:
                 "files": {
                     "list": {"path": list_relative, "sha256": list_sha},
                     "yaml": {"path": yaml_relative, "sha256": yaml_sha},
+                    "mrs": {"path": mrs_relative, "sha256": mrs_sha},
+                    "srs": {"path": srs_relative, "sha256": srs_sha},
                 },
             }
             if output_name != name:
@@ -462,6 +497,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--domain-dir", required=True, type=Path)
     parser.add_argument("--classical-dir", required=True, type=Path)
+    parser.add_argument("--srs-dir", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--previous-dir", type=Path)
     parser.add_argument("--repository", default="27Aaron/ProxyRules")
@@ -502,6 +538,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     return BuildOptions(
         domain_dir=args.domain_dir,
         classical_dir=args.classical_dir,
+        srs_dir=args.srs_dir,
         output_dir=args.output_dir,
         previous_dir=args.previous_dir,
         repository=args.repository,

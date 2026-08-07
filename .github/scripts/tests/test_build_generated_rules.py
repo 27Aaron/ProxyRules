@@ -26,9 +26,11 @@ class GeneratedRulesTests(unittest.TestCase):
         self.root = Path(self.temporary_directory.name)
         self.domain = self.root / "converted"
         self.classical = self.domain / "classical"
+        self.srs = self.root / "sing-box"
         self.output = self.root / "output"
         self.domain.mkdir()
         self.classical.mkdir()
+        self.srs.mkdir()
 
     def add_category(
         self,
@@ -47,6 +49,8 @@ class GeneratedRulesTests(unittest.TestCase):
         (self.classical / f"{name}.list").write_text(
             "\n".join(classical_rules), encoding="utf-8"
         )
+        (self.domain / f"{name}.mrs").write_bytes(f"mrs:{name}".encode())
+        (self.srs / f"{name}.srs").write_bytes(f"srs:{name}".encode())
 
     def options(
         self,
@@ -61,6 +65,7 @@ class GeneratedRulesTests(unittest.TestCase):
         return generator.BuildOptions(
             domain_dir=self.domain,
             classical_dir=self.classical,
+            srs_dir=self.srs,
             output_dir=output or self.output,
             previous_dir=previous,
             repository="27Aaron/ProxyRules",
@@ -103,8 +108,12 @@ class GeneratedRulesTests(unittest.TestCase):
 
         list_path = self.output / "geosite/115/115.list"
         yaml_path = self.output / "geosite/115/115.yaml"
+        mrs_path = self.output / "geosite/115/115.mrs"
+        srs_path = self.output / "geosite/115/115.srs"
         self.assertTrue(list_path.is_file())
         self.assertTrue(yaml_path.is_file())
+        self.assertEqual(mrs_path.read_bytes(), b"mrs:115")
+        self.assertEqual(srs_path.read_bytes(), b"srs:115")
         self.assertFalse((self.output / "geosite/regex-only").exists())
         list_text = list_path.read_text(encoding="utf-8")
         yaml_text = yaml_path.read_text(encoding="utf-8")
@@ -156,6 +165,10 @@ class GeneratedRulesTests(unittest.TestCase):
                 "total": 3,
             },
         )
+        self.assertEqual(
+            set(manifest["categories"]["115"]["files"]),
+            {"list", "yaml", "mrs", "srs"},
+        )
         self.assertFalse((self.output / "README.md").exists())
         self.assertTrue((self.output / "manifest.json").is_file())
         self.assertTrue((self.output / "SHA256SUMS").is_file())
@@ -168,6 +181,8 @@ class GeneratedRulesTests(unittest.TestCase):
             set(checksum_entries),
             {
                 "geosite/115/115.list",
+                "geosite/115/115.mrs",
+                "geosite/115/115.srs",
                 "geosite/115/115.yaml",
                 "manifest.json",
             },
@@ -235,6 +250,12 @@ class GeneratedRulesTests(unittest.TestCase):
 
         alias_path = self.output / "geosite/360/360.list"
         self.assertTrue(alias_path.is_file())
+        self.assertEqual(
+            (self.output / "geosite/360/360.mrs").read_bytes(), b"mrs:qihoo360"
+        )
+        self.assertEqual(
+            (self.output / "geosite/360/360.srs").read_bytes(), b"srs:qihoo360"
+        )
         self.assertTrue(
             alias_path.read_text(encoding="utf-8").endswith(
                 "DOMAIN-SUFFIX,360.com\n"
@@ -290,6 +311,20 @@ class GeneratedRulesTests(unittest.TestCase):
         )
 
         with self.assertRaisesRegex(generator.GenerationError, "duplicate rule"):
+            generator.build(self.options())
+
+    def test_rejects_missing_binary_rule_file(self) -> None:
+        self.add_115()
+        (self.srs / "115.srs").unlink()
+
+        with self.assertRaisesRegex(generator.GenerationError, "unable to read binary"):
+            generator.build(self.options())
+
+    def test_rejects_empty_binary_rule_file(self) -> None:
+        self.add_115()
+        (self.domain / "115.mrs").write_bytes(b"")
+
+        with self.assertRaisesRegex(generator.GenerationError, "binary rule file is empty"):
             generator.build(self.options())
 
     def test_rejects_large_category_drop(self) -> None:
