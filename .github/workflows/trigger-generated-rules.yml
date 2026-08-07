@@ -1,0 +1,16 @@
+name: Trigger generated rules
+
+on:
+  push:
+    branches: [custom]
+    paths:
+      - "*/*.list"
+      - ".github/workflows/trigger-generated-rules.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: Update generated rules
+    uses: 27Aaron/ProxyRules/.github/workflows/update-generated-rules.yml@main
