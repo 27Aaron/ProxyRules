@@ -64,7 +64,7 @@ class GeneratedRulesTests(unittest.TestCase):
             output_dir=output or self.output,
             previous_dir=previous,
             repository="27Aaron/ProxyRules",
-            branch="Rules",
+            branch="rules",
             author="27Aaron",
             source_repository="v2fly/domain-list-community",
             source_release="test-release",
@@ -109,7 +109,7 @@ class GeneratedRulesTests(unittest.TestCase):
         list_text = list_path.read_text(encoding="utf-8")
         yaml_text = yaml_path.read_text(encoding="utf-8")
         self.assertIn(
-            "# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/Rules/"
+            "# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/"
             "geosite/115/115.list",
             list_text,
         )
@@ -152,7 +152,7 @@ class GeneratedRulesTests(unittest.TestCase):
                 "total": 3,
             },
         )
-        self.assertTrue((self.output / "README.md").is_file())
+        self.assertFalse((self.output / "README.md").exists())
         self.assertTrue((self.output / "manifest.json").is_file())
         self.assertTrue((self.output / "SHA256SUMS").is_file())
         checksums = (self.output / "SHA256SUMS").read_text(encoding="utf-8")
@@ -163,7 +163,6 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertEqual(
             set(checksum_entries),
             {
-                "README.md",
                 "geosite/115/115.list",
                 "geosite/115/115.yaml",
                 "manifest.json",
