@@ -27,10 +27,14 @@ class GeneratedRulesTests(unittest.TestCase):
         self.domain = self.root / "converted"
         self.classical = self.domain / "classical"
         self.srs = self.root / "sing-box"
+        self.geoip = self.root / "converted-geoip"
+        self.geoip_srs = self.root / "converted-geoip-sing"
         self.output = self.root / "output"
         self.domain.mkdir()
         self.classical.mkdir()
         self.srs.mkdir()
+        self.geoip.mkdir()
+        self.geoip_srs.mkdir()
 
     def add_category(
         self,
@@ -52,6 +56,19 @@ class GeneratedRulesTests(unittest.TestCase):
         (self.domain / f"{name}.mrs").write_bytes(f"mrs:{name}".encode())
         (self.srs / f"{name}.srs").write_bytes(f"srs:{name}".encode())
 
+    def add_geoip_category(self, name: str, cidrs: list[str]) -> None:
+        (self.geoip / f"{name}.list").write_text(
+            "\n".join(cidrs), encoding="utf-8"
+        )
+        (self.geoip / f"{name}.yaml").write_text(
+            "payload:\n" + "".join(f"    - {cidr}\n" for cidr in cidrs),
+            encoding="utf-8",
+        )
+        (self.geoip / f"{name}.mrs").write_bytes(f"geoip-mrs:{name}".encode())
+        (self.geoip_srs / f"{name}.srs").write_bytes(
+            f"geoip-srs:{name}".encode()
+        )
+
     def options(
         self,
         *,
@@ -66,6 +83,8 @@ class GeneratedRulesTests(unittest.TestCase):
             domain_dir=self.domain,
             classical_dir=self.classical,
             srs_dir=self.srs,
+            geoip_dir=self.geoip,
+            geoip_srs_dir=self.geoip_srs,
             output_dir=output or self.output,
             previous_dir=previous,
             repository="27Aaron/ProxyRules",
@@ -75,10 +94,16 @@ class GeneratedRulesTests(unittest.TestCase):
             source_release="test-release",
             source_commit="a" * 40,
             source_published_at=PUBLISHED_AT,
+            geoip_source_repository="Loyalsoldier/geoip",
+            geoip_source_release="test-geoip-release",
+            geoip_source_commit="c" * 40,
+            geoip_source_published_at="2026-08-06T00:32:51Z",
             converter_repository="MetaCubeX/meta-rules-converter",
             converter_commit="b" * 40,
             minimum_categories=minimum,
+            minimum_geoip_categories=0,
             required_categories=required,
+            required_geoip_categories=(),
             aliases=aliases,
             max_category_drop_percent=5.0,
             allow_large_drop=allow_large_drop,
@@ -222,6 +247,78 @@ class GeneratedRulesTests(unittest.TestCase):
         )
         self.assertIn("# UPDATED: 2026-01-02 11:04:05 UTC+08:00", second_list)
 
+    def test_builds_complete_geoip_category_with_correct_ip_types(self) -> None:
+        self.add_115()
+        self.add_geoip_category(
+            "cn",
+            ["1.0.1.0/24", "2001:db8::/32"],
+        )
+        options = replace(
+            self.options(),
+            minimum_geoip_categories=1,
+            required_geoip_categories=("cn",),
+        )
+
+        manifest = generator.build(options)
+
+        list_path = self.output / "geoip/cn/cn.list"
+        yaml_path = self.output / "geoip/cn/cn.yaml"
+        separator = "# -----------------------------------------------------"
+        self.assertEqual(
+            list_path.read_text(encoding="utf-8").split(separator)[-1].strip(),
+            "IP-CIDR,1.0.1.0/24,no-resolve\n"
+            "IP-CIDR6,2001:db8::/32,no-resolve",
+        )
+        list_text = list_path.read_text(encoding="utf-8")
+        yaml_text = yaml_path.read_text(encoding="utf-8")
+        self.assertIn("# IP-CIDR: 1", list_text)
+        self.assertIn("# IP-CIDR6: 1", list_text)
+        self.assertIn("# TOTAL: 2", list_text)
+        self.assertIn("# UPDATED: 2026-08-06 08:32:51 UTC+08:00", list_text)
+        self.assertIn("  - 'IP-CIDR,1.0.1.0/24,no-resolve'", yaml_text)
+        self.assertIn("  - 'IP-CIDR6,2001:db8::/32,no-resolve'", yaml_text)
+        self.assertEqual(
+            (self.output / "geoip/cn/cn.mrs").read_bytes(), b"geoip-mrs:cn"
+        )
+        self.assertEqual(
+            (self.output / "geoip/cn/cn.srs").read_bytes(), b"geoip-srs:cn"
+        )
+        self.assertEqual(
+            manifest["geoip_categories"]["cn"]["counts"],
+            {"ipv4": 1, "ipv6": 1, "total": 2},
+        )
+        self.assertEqual(
+            set(manifest["geoip_categories"]["cn"]["files"]),
+            {"list", "yaml", "mrs", "srs"},
+        )
+        self.assertEqual(manifest["statistics"]["generated_geoip_categories"], 1)
+        self.assertEqual(manifest["statistics"]["geoip_rules"], 2)
+        checksums = (self.output / "SHA256SUMS").read_text(encoding="utf-8")
+        for suffix in ("list", "yaml", "mrs", "srs"):
+            self.assertIn(f"  geoip/cn/cn.{suffix}\n", checksums)
+
+    def test_rejects_noncanonical_geoip_rule(self) -> None:
+        self.add_115()
+        self.add_geoip_category("cn", ["1.0.1.1/24"])
+        options = replace(self.options(), minimum_geoip_categories=1)
+
+        with self.assertRaisesRegex(generator.GenerationError, "invalid GeoIP rule"):
+            generator.build(options)
+
+    def test_rejects_missing_required_geoip_category(self) -> None:
+        self.add_115()
+        self.add_geoip_category("cn", ["1.0.1.0/24"])
+        options = replace(
+            self.options(),
+            minimum_geoip_categories=1,
+            required_geoip_categories=("private",),
+        )
+
+        with self.assertRaisesRegex(
+            generator.GenerationError, "required GeoIP categories are missing"
+        ):
+            generator.build(options)
+
     def test_rejects_converter_disagreement(self) -> None:
         self.add_category(
             "115",
@@ -295,6 +392,13 @@ class GeneratedRulesTests(unittest.TestCase):
         options = replace(self.options(), converter_commit="main")
 
         with self.assertRaisesRegex(generator.GenerationError, "converter commit"):
+            generator.build(options)
+
+    def test_rejects_invalid_geoip_source_commit(self) -> None:
+        self.add_115()
+        options = replace(self.options(), geoip_source_commit="master")
+
+        with self.assertRaisesRegex(generator.GenerationError, "GeoIP source commit"):
             generator.build(options)
 
     def test_rejects_unsafe_category_name(self) -> None:

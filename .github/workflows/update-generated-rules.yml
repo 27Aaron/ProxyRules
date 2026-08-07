@@ -28,6 +28,7 @@ env:
   CONVERTER_REPOSITORY: MetaCubeX/meta-rules-converter
   CONVERTER_SHA: 7dea27841a3579a633189830c98c08a0434e8b79
   SOURCE_REPOSITORY: v2fly/domain-list-community
+  GEOIP_SOURCE_REPOSITORY: Loyalsoldier/geoip
   TARGET_BRANCH: rules
 
 jobs:
@@ -50,7 +51,7 @@ jobs:
       - name: Test generator
         run: python3 -m unittest discover -s .github/scripts/tests -v
 
-      - name: Read latest upstream release
+      - name: Read latest upstream releases
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -61,15 +62,23 @@ jobs:
           [[ "$source_tag" =~ ^[0-9A-Za-z._-]+$ ]]
           source_commit="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${source_tag}" --jq '.sha')"
           source_published_at="$(gh api "repos/${SOURCE_REPOSITORY}/releases/latest" --jq '.published_at')"
+          geoip_source_tag="$(gh api "repos/${GEOIP_SOURCE_REPOSITORY}/releases/latest" --jq '.tag_name')"
+          [[ "$geoip_source_tag" =~ ^[0-9A-Za-z._-]+$ ]]
+          geoip_source_commit="$(gh api "repos/${GEOIP_SOURCE_REPOSITORY}/commits/${geoip_source_tag}" --jq '.sha')"
+          geoip_source_published_at="$(gh api "repos/${GEOIP_SOURCE_REPOSITORY}/releases/latest" --jq '.published_at')"
 
           [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$geoip_source_commit" =~ ^[0-9a-f]{40}$ ]]
           {
             echo "SOURCE_TAG=$source_tag"
             echo "SOURCE_COMMIT=$source_commit"
             echo "SOURCE_PUBLISHED_AT=$source_published_at"
+            echo "GEOIP_SOURCE_TAG=$geoip_source_tag"
+            echo "GEOIP_SOURCE_COMMIT=$geoip_source_commit"
+            echo "GEOIP_SOURCE_PUBLISHED_AT=$geoip_source_published_at"
           } >> "$GITHUB_ENV"
 
-      - name: Download and verify dlc.dat
+      - name: Download and verify source data
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -83,9 +92,15 @@ jobs:
             --pattern dlc.dat \
             --pattern dlc.dat.sha256sum \
             --dir "$input_dir"
+          gh release download "$GEOIP_SOURCE_TAG" \
+            --repo "$GEOIP_SOURCE_REPOSITORY" \
+            --pattern geoip.dat \
+            --pattern geoip.dat.sha256sum \
+            --dir "$input_dir"
           (
             cd "$input_dir"
             sha256sum --check --strict --quiet dlc.dat.sha256sum
+            sha256sum --check --strict --quiet geoip.dat.sha256sum
           )
 
       - name: Build pinned converter
@@ -118,6 +133,22 @@ jobs:
           sing_dir="${RUNNER_TEMP}/converted-geosite-sing"
           "${RUNNER_TEMP}/bin/meta-rules-converter" geosite \
             --file "${RUNNER_TEMP}/rules-input/dlc.dat" \
+            --out "$sing_dir" \
+            --type sing-box
+
+      - name: Convert GeoIP sections
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          converted_dir="${RUNNER_TEMP}/converted-geoip"
+          "${RUNNER_TEMP}/bin/meta-rules-converter" geoip \
+            --file "${RUNNER_TEMP}/rules-input/geoip.dat" \
+            --out "$converted_dir"
+
+          sing_dir="${RUNNER_TEMP}/converted-geoip-sing"
+          "${RUNNER_TEMP}/bin/meta-rules-converter" geoip \
+            --file "${RUNNER_TEMP}/rules-input/geoip.dat" \
             --out "$sing_dir" \
             --type sing-box
 
@@ -154,6 +185,8 @@ jobs:
             --domain-dir "${RUNNER_TEMP}/converted-geosite"
             --classical-dir "${RUNNER_TEMP}/converted-geosite/classical"
             --srs-dir "${RUNNER_TEMP}/converted-geosite-sing"
+            --geoip-dir "${RUNNER_TEMP}/converted-geoip"
+            --geoip-srs-dir "${RUNNER_TEMP}/converted-geoip-sing"
             --output-dir "$output_dir"
             --previous-dir "$PREVIOUS_DIR"
             --repository "$GITHUB_REPOSITORY"
@@ -162,15 +195,23 @@ jobs:
             --source-release "$SOURCE_TAG"
             --source-commit "$SOURCE_COMMIT"
             --source-published-at "$SOURCE_PUBLISHED_AT"
+            --geoip-source-repository "$GEOIP_SOURCE_REPOSITORY"
+            --geoip-source-release "$GEOIP_SOURCE_TAG"
+            --geoip-source-commit "$GEOIP_SOURCE_COMMIT"
+            --geoip-source-published-at "$GEOIP_SOURCE_PUBLISHED_AT"
             --converter-repository "$CONVERTER_REPOSITORY"
             --converter-commit "$CONVERTER_SHA"
             --minimum-categories 1000
+            --minimum-geoip-categories 250
             --alias "360=qihoo360"
             --required-category 115
             --required-category 360
             --required-category netflix
             --required-category cn
             --required-category 'geolocation-!cn'
+            --required-geoip-category cn
+            --required-geoip-category private
+            --required-geoip-category us
           )
           if [[ "${{ inputs.allow_large_drop || false }}" == "true" ]]; then
             arguments+=(--allow-large-drop)
@@ -199,6 +240,16 @@ jobs:
             "$output_dir/geosite/115/115.list"
           grep -Fqx "  - 'DOMAIN-SUFFIX,115.com'" \
             "$output_dir/geosite/115/115.yaml"
+          test -s "$output_dir/geoip/cn/cn.list"
+          test -s "$output_dir/geoip/cn/cn.yaml"
+          test -s "$output_dir/geoip/cn/cn.mrs"
+          test -s "$output_dir/geoip/cn/cn.srs"
+          test -s "$output_dir/geoip/private/private.list"
+          test -s "$output_dir/geoip/us/us.srs"
+          grep -Eq '^IP-CIDR,[^,]+,no-resolve$' \
+            "$output_dir/geoip/cn/cn.list"
+          grep -Eq '^IP-CIDR6,[^,]+,no-resolve$' \
+            "$output_dir/geoip/cn/cn.list"
 
       - name: Stage generated branch
         id: changes

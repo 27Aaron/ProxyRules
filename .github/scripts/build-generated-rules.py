@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Package converted geosite data for the generated ``rules`` branch.
+"""Package converted geosite and GeoIP data for the ``rules`` branch.
 
 The input directories are produced by MetaCubeX/meta-rules-converter. The
 converter's root directory contains Mihomo ``domain`` behavior rule sets,
 while ``classical`` contains the representation used for the portable text
-and YAML files published by this script.
+and YAML geosite files. GeoIP text files are rendered from canonical CIDRs so
+IPv4 and IPv6 receive their correct portable rule types.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import ipaddress
 import json
 import re
 import sys
@@ -38,6 +40,8 @@ class BuildOptions:
     domain_dir: Path
     classical_dir: Path
     srs_dir: Path
+    geoip_dir: Path
+    geoip_srs_dir: Path
     output_dir: Path
     previous_dir: Path | None
     repository: str
@@ -47,10 +51,16 @@ class BuildOptions:
     source_release: str
     source_commit: str
     source_published_at: str
+    geoip_source_repository: str
+    geoip_source_release: str
+    geoip_source_commit: str
+    geoip_source_published_at: str
     converter_repository: str
     converter_commit: str
     minimum_categories: int
+    minimum_geoip_categories: int
     required_categories: tuple[str, ...]
+    required_geoip_categories: tuple[str, ...]
     aliases: tuple[tuple[str, str], ...]
     max_category_drop_percent: float
     allow_large_drop: bool
@@ -191,8 +201,46 @@ def parse_classical_rules(
     return domain_behavior, portable_classical, counts
 
 
+def parse_geoip_rules(path: Path) -> tuple[list[str], list[str], dict[str, int]]:
+    source_rules: list[str] = []
+    portable_rules: list[str] = []
+    seen: set[str] = set()
+    counts = {
+        "IP-CIDR": 0,
+        "IP-CIDR6": 0,
+    }
+    for line_number, raw_line in enumerate(read_text(path).splitlines(), start=1):
+        value = raw_line.strip()
+        if not value:
+            continue
+        if value in seen:
+            raise GenerationError(
+                f"duplicate GeoIP rule in {path}:{line_number}: {value}"
+            )
+        try:
+            network = ipaddress.ip_network(value, strict=True)
+        except ValueError as error:
+            raise GenerationError(
+                f"invalid GeoIP rule in {path}:{line_number}: {value!r}"
+            ) from error
+        canonical = network.with_prefixlen
+        if canonical != value:
+            raise GenerationError(
+                f"non-canonical GeoIP rule in {path}:{line_number}: {value!r}"
+            )
+        seen.add(value)
+        source_rules.append(value)
+        rule_type = "IP-CIDR" if network.version == 4 else "IP-CIDR6"
+        portable_rules.append(f"{rule_type},{value},no-resolve")
+        counts[rule_type] += 1
+    if not source_rules:
+        raise GenerationError(f"GeoIP category has no rules: {path}")
+    return source_rules, portable_rules, counts
+
+
 def load_previous_categories(
     previous_dir: Path | None,
+    key: str = "categories",
 ) -> dict[str, dict[str, object]]:
     if previous_dir is None:
         return {}
@@ -203,9 +251,9 @@ def load_previous_categories(
         manifest = json.loads(read_text(manifest_path))
     except json.JSONDecodeError as error:
         raise GenerationError(f"invalid previous manifest: {manifest_path}") from error
-    categories = manifest.get("categories", {})
+    categories = manifest.get(key, {})
     if not isinstance(categories, dict):
-        raise GenerationError("previous manifest categories must be an object")
+        raise GenerationError(f"previous manifest {key} must be an object")
     return {
         str(name): value
         for name, value in categories.items()
@@ -235,18 +283,16 @@ def build_header(
         f"# REPO: https://github.com/{repository}",
         f"# LINK: https://raw.githubusercontent.com/{repository}/{branch}/{relative_path}",
     ]
-    for rule_type in (
-        "DOMAIN",
-        "DOMAIN-SUFFIX",
-        "DOMAIN-KEYWORD",
-        "DOMAIN-REGEX",
-    ):
-        count = counts[rule_type]
+    for rule_type, count in counts.items():
         if count and rule_type in UNSUPPORTED_CLASSICAL_TYPES:
             lines.append(f"# OMITTED-{rule_type}: {count}")
         elif count:
             lines.append(f"# {rule_type}: {count}")
-    portable_total = sum(counts[rule_type] for rule_type in PUBLISHED_CLASSICAL_TYPES)
+    portable_total = sum(
+        count
+        for rule_type, count in counts.items()
+        if rule_type not in UNSUPPORTED_CLASSICAL_TYPES
+    )
     lines.extend((f"# TOTAL: {portable_total}", SEPARATOR))
     return "\n".join(lines) + "\n"
 
@@ -283,6 +329,10 @@ def check_large_drop(
 def build(options: BuildOptions) -> dict[str, object]:
     if not COMMIT_RE.fullmatch(options.source_commit):
         raise GenerationError("source commit must be a lowercase 40-character SHA")
+    if not COMMIT_RE.fullmatch(options.geoip_source_commit):
+        raise GenerationError(
+            "GeoIP source commit must be a lowercase 40-character SHA"
+        )
     if not COMMIT_RE.fullmatch(options.converter_commit):
         raise GenerationError("converter commit must be a lowercase 40-character SHA")
     if options.output_dir.is_symlink():
@@ -296,13 +346,19 @@ def build(options: BuildOptions) -> dict[str, object]:
         not options.domain_dir.is_dir()
         or not options.classical_dir.is_dir()
         or not options.srs_dir.is_dir()
+        or not options.geoip_dir.is_dir()
+        or not options.geoip_srs_dir.is_dir()
     ):
         raise GenerationError(
-            "converted domain, classical, and SRS directories are required"
+            "converted geosite and GeoIP directories are required"
         )
 
     published_at = normalize_timestamp(options.source_published_at)
+    geoip_published_at = normalize_timestamp(options.geoip_source_published_at)
     previous_categories = load_previous_categories(options.previous_dir)
+    previous_geoip_categories = load_previous_categories(
+        options.previous_dir, "geoip_categories"
+    )
     domain_paths = sorted(options.domain_dir.glob("*.list"), key=lambda path: path.name)
     if len(domain_paths) < options.minimum_categories:
         raise GenerationError(
@@ -453,6 +509,112 @@ def build(options: BuildOptions) -> dict[str, object]:
         options.allow_large_drop,
     )
 
+    geoip_paths = sorted(options.geoip_dir.glob("*.list"), key=lambda path: path.name)
+    if len(geoip_paths) < options.minimum_geoip_categories:
+        raise GenerationError(
+            f"found only {len(geoip_paths)} GeoIP categories; "
+            f"minimum is {options.minimum_geoip_categories}"
+        )
+
+    geoip_categories: dict[str, dict[str, object]] = {}
+    geoip_rule_total = 0
+    for geoip_path in geoip_paths:
+        name = geoip_path.stem
+        validate_category(name)
+        converter_yaml = options.geoip_dir / f"{name}.yaml"
+        if not converter_yaml.is_file():
+            raise GenerationError(f"incomplete GeoIP converter output: {name}")
+
+        source_rules, portable_rules, counts = parse_geoip_rules(geoip_path)
+        mrs_bytes = read_binary(options.geoip_dir / f"{name}.mrs")
+        srs_bytes = read_binary(options.geoip_srs_dir / f"{name}.srs")
+        source_body = read_text(geoip_path)
+        portable_body = "\n".join(portable_rules) + "\n"
+        source_hash = sha256_text(source_body)
+        portable_hash = sha256_text(portable_body)
+        previous = previous_geoip_categories.get(name, {})
+        if previous.get("source_sha256") == source_hash and isinstance(
+            previous.get("updated"), str
+        ):
+            updated = normalize_timestamp(str(previous["updated"]))
+        else:
+            updated = geoip_published_at
+
+        relative_dir = Path("geoip") / name
+        list_relative = (relative_dir / f"{name}.list").as_posix()
+        yaml_relative = (relative_dir / f"{name}.yaml").as_posix()
+        mrs_relative = (relative_dir / f"{name}.mrs").as_posix()
+        srs_relative = (relative_dir / f"{name}.srs").as_posix()
+        list_header = build_header(
+            name=name,
+            author=options.author,
+            repository=options.repository,
+            branch=options.branch,
+            relative_path=list_relative,
+            updated=updated,
+            counts=counts,
+        )
+        yaml_header = build_header(
+            name=name,
+            author=options.author,
+            repository=options.repository,
+            branch=options.branch,
+            relative_path=yaml_relative,
+            updated=updated,
+            counts=counts,
+        )
+        list_text = render_rule_file(list_header, portable_rules)
+        yaml_text = render_yaml_file(yaml_header, portable_rules)
+        write_text(options.output_dir / list_relative, list_text)
+        write_text(options.output_dir / yaml_relative, yaml_text)
+        write_binary(options.output_dir / mrs_relative, mrs_bytes)
+        write_binary(options.output_dir / srs_relative, srs_bytes)
+
+        geoip_categories[name] = {
+            "path": relative_dir.as_posix(),
+            "updated": updated,
+            "counts": {
+                "ipv4": counts["IP-CIDR"],
+                "ipv6": counts["IP-CIDR6"],
+                "total": len(source_rules),
+            },
+            "source_sha256": source_hash,
+            "portable_sha256": portable_hash,
+            "files": {
+                "list": {
+                    "path": list_relative,
+                    "sha256": sha256_text(list_text),
+                },
+                "yaml": {
+                    "path": yaml_relative,
+                    "sha256": sha256_text(yaml_text),
+                },
+                "mrs": {
+                    "path": mrs_relative,
+                    "sha256": sha256_bytes(mrs_bytes),
+                },
+                "srs": {
+                    "path": srs_relative,
+                    "sha256": sha256_bytes(srs_bytes),
+                },
+            },
+        }
+        geoip_rule_total += len(source_rules)
+
+    missing_geoip = sorted(
+        set(options.required_geoip_categories) - set(geoip_categories)
+    )
+    if missing_geoip:
+        raise GenerationError(
+            f"required GeoIP categories are missing: {', '.join(missing_geoip)}"
+        )
+    check_large_drop(
+        previous_geoip_categories,
+        len(geoip_categories),
+        options.max_category_drop_percent,
+        options.allow_large_drop,
+    )
+
     manifest: dict[str, object] = {
         "schema_version": SCHEMA_VERSION,
         "mode": "portable-classical",
@@ -461,6 +623,12 @@ def build(options: BuildOptions) -> dict[str, object]:
             "release": options.source_release,
             "commit": options.source_commit,
             "published_at": published_at,
+        },
+        "geoip_source": {
+            "repository": options.geoip_source_repository,
+            "release": options.geoip_source_release,
+            "commit": options.geoip_source_commit,
+            "published_at": geoip_published_at,
         },
         "converter": {
             "repository": options.converter_repository,
@@ -474,8 +642,12 @@ def build(options: BuildOptions) -> dict[str, object]:
             "portable_rules": source_portable_rule_total,
             "published_rules": published_rule_total,
             "omitted_rules": omitted_rule_total,
+            "source_geoip_categories": len(geoip_paths),
+            "generated_geoip_categories": len(geoip_categories),
+            "geoip_rules": geoip_rule_total,
         },
         "categories": dict(sorted(categories.items())),
+        "geoip_categories": dict(sorted(geoip_categories.items())),
         "aliases": dict(sorted(alias_map.items())),
         "omitted_category_details": dict(sorted(omitted_categories.items())),
     }
@@ -498,6 +670,8 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     parser.add_argument("--domain-dir", required=True, type=Path)
     parser.add_argument("--classical-dir", required=True, type=Path)
     parser.add_argument("--srs-dir", required=True, type=Path)
+    parser.add_argument("--geoip-dir", required=True, type=Path)
+    parser.add_argument("--geoip-srs-dir", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--previous-dir", type=Path)
     parser.add_argument("--repository", default="27Aaron/ProxyRules")
@@ -510,11 +684,19 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--source-published-at", required=True)
     parser.add_argument(
+        "--geoip-source-repository", default="Loyalsoldier/geoip"
+    )
+    parser.add_argument("--geoip-source-release", required=True)
+    parser.add_argument("--geoip-source-commit", required=True)
+    parser.add_argument("--geoip-source-published-at", required=True)
+    parser.add_argument(
         "--converter-repository", default="MetaCubeX/meta-rules-converter"
     )
     parser.add_argument("--converter-commit", required=True)
     parser.add_argument("--minimum-categories", type=int, default=1000)
+    parser.add_argument("--minimum-geoip-categories", type=int, default=250)
     parser.add_argument("--required-category", action="append", default=[])
+    parser.add_argument("--required-geoip-category", action="append", default=[])
     parser.add_argument(
         "--alias",
         action="append",
@@ -527,6 +709,8 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
     args = parser.parse_args(argv)
     if args.minimum_categories < 1:
         parser.error("--minimum-categories must be positive")
+    if args.minimum_geoip_categories < 1:
+        parser.error("--minimum-geoip-categories must be positive")
     if not 0 <= args.max_category_drop_percent <= 100:
         parser.error("--max-category-drop-percent must be between 0 and 100")
     aliases: list[tuple[str, str]] = []
@@ -539,6 +723,8 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         domain_dir=args.domain_dir,
         classical_dir=args.classical_dir,
         srs_dir=args.srs_dir,
+        geoip_dir=args.geoip_dir,
+        geoip_srs_dir=args.geoip_srs_dir,
         output_dir=args.output_dir,
         previous_dir=args.previous_dir,
         repository=args.repository,
@@ -548,10 +734,16 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         source_release=args.source_release,
         source_commit=args.source_commit,
         source_published_at=args.source_published_at,
+        geoip_source_repository=args.geoip_source_repository,
+        geoip_source_release=args.geoip_source_release,
+        geoip_source_commit=args.geoip_source_commit,
+        geoip_source_published_at=args.geoip_source_published_at,
         converter_repository=args.converter_repository,
         converter_commit=args.converter_commit,
         minimum_categories=args.minimum_categories,
+        minimum_geoip_categories=args.minimum_geoip_categories,
         required_categories=tuple(args.required_category),
+        required_geoip_categories=tuple(args.required_geoip_category),
         aliases=tuple(aliases),
         max_category_drop_percent=args.max_category_drop_percent,
         allow_large_drop=args.allow_large_drop,
@@ -569,7 +761,9 @@ def main(argv: list[str] | None = None) -> int:
     print(
         "generated "
         f"{statistics['generated_categories']} categories with "
-        f"{statistics['published_rules']} published rules"
+        f"{statistics['published_rules']} published rules and "
+        f"{statistics['generated_geoip_categories']} GeoIP categories with "
+        f"{statistics['geoip_rules']} CIDRs"
     )
     return 0
 
