@@ -29,6 +29,10 @@ SEPARATOR = "# -----------------------------------------------------"
 PUBLISHED_CLASSICAL_TYPES = {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}
 UNSUPPORTED_CLASSICAL_TYPES = {"DOMAIN-REGEX"}
 DISPLAY_TIMEZONE = timezone(timedelta(hours=8))
+RULESET_ACTION_GROUPS = {
+    "ip-attribution-direct": ("ip-attribution", "direct"),
+    "ip-attribution-reject": ("ip-attribution", "reject"),
+}
 
 
 class GenerationError(RuntimeError):
@@ -732,9 +736,14 @@ def build(options: BuildOptions) -> dict[str, object]:
             f"minimum is {options.minimum_ruleset_categories}"
         )
     ruleset_names = {path.stem for path in ruleset_paths}
-    if custom_categories != ruleset_names:
+    allowed_rulesets = set(custom_categories)
+    if "ip-attribution" in custom_categories:
+        allowed_rulesets.update(RULESET_ACTION_GROUPS)
+    if not custom_categories.issubset(ruleset_names) or not ruleset_names.issubset(
+        allowed_rulesets
+    ):
         missing_rulesets = sorted(custom_categories - ruleset_names)
-        unexpected_rulesets = sorted(ruleset_names - custom_categories)
+        unexpected_rulesets = sorted(ruleset_names - allowed_rulesets)
         details: list[str] = []
         if missing_rulesets:
             details.append("missing " + ", ".join(missing_rulesets))
@@ -772,7 +781,10 @@ def build(options: BuildOptions) -> dict[str, object]:
         else:
             updated = ruleset_published_at
 
-        relative_dir = Path("ruleset") / name
+        output_directory, action = RULESET_ACTION_GROUPS.get(name, (name, None))
+        if name == "ip-attribution":
+            action = "default"
+        relative_dir = Path("ruleset") / output_directory
         list_relative = (relative_dir / f"{name}.list").as_posix()
         yaml_relative = (relative_dir / f"{name}.yaml").as_posix()
         srs_relative = (relative_dir / f"{name}.srs").as_posix()
@@ -800,7 +812,7 @@ def build(options: BuildOptions) -> dict[str, object]:
         write_text(options.output_dir / yaml_relative, yaml_text)
         write_binary(options.output_dir / srs_relative, srs_bytes)
 
-        ruleset_categories[name] = {
+        category: dict[str, object] = {
             "path": relative_dir.as_posix(),
             "updated": updated,
             "counts": {
@@ -829,6 +841,9 @@ def build(options: BuildOptions) -> dict[str, object]:
                 },
             },
         }
+        if action is not None:
+            category["action"] = action
+        ruleset_categories[name] = category
         ruleset_source_rule_total += len(source_rules)
         ruleset_portable_rule_total += len(portable_rules)
         ruleset_omitted_rule_total += counts["DOMAIN-REGEX"]

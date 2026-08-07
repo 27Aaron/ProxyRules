@@ -249,6 +249,21 @@ def render_yaml(values: Iterable[str]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def write_ruleset(output_dir: Path, name: str, rules: Iterable[Rule]) -> int:
+    portable_rules = [rule.portable() for rule in rules]
+    if not portable_rules:
+        raise PreparationError(f"prepared ruleset is empty: {name}")
+    write_text(
+        output_dir / f"ruleset/{name}.list",
+        render_lines(portable_rules),
+    )
+    write_text(
+        output_dir / f"ruleset/{name}.yaml",
+        render_yaml(portable_rules),
+    )
+    return len(portable_rules)
+
+
 def count_rules(rules: Iterable[Rule]) -> dict[str, int]:
     counts = {rule_type.lower().replace("-", "_"): 0 for rule_type in SUPPORTED_TYPES}
     for rule in rules:
@@ -310,19 +325,18 @@ def prepare(
         )
 
     metadata_categories: dict[str, dict[str, object]] = {}
+    metadata_rulesets: dict[str, dict[str, object]] = {}
     for name, (source_path, custom_rules) in sorted(custom_by_name.items()):
         custom_domains = [
             rule for rule in custom_rules if rule.rule_type in DOMAIN_TYPES
         ]
         custom_ips = [rule for rule in custom_rules if rule.rule_type in IP_TYPES]
-        merged_domains = merge_rules(
-            parse_upstream_domains(geosite_classical_dir / f"{name}.list"),
-            custom_domains,
+        upstream_domains = parse_upstream_domains(
+            geosite_classical_dir / f"{name}.list"
         )
-        merged_ips = merge_rules(
-            parse_upstream_cidrs(geoip_dir / f"{name}.list"),
-            custom_ips,
-        )
+        upstream_ips = parse_upstream_cidrs(geoip_dir / f"{name}.list")
+        merged_domains = merge_rules(upstream_domains, custom_domains)
+        merged_ips = merge_rules(upstream_ips, custom_ips)
         if not merged_domains:
             raise PreparationError(f"custom category has no domain rules: {name}")
         if not merged_ips:
@@ -342,7 +356,6 @@ def prepare(
         domain_classical = [rule.portable() for rule in merged_domains]
         bare_cidrs = [rule.value for rule in merged_ips]
         ip_classical = [rule.portable() for rule in merged_ips]
-        ruleset = [*domain_classical, *ip_classical]
 
         write_text(
             output_dir / f"geosite/domain/{name}.list",
@@ -370,14 +383,35 @@ def prepare(
             output_dir / f"geoip/classical/{name}.yaml",
             render_yaml(ip_classical),
         )
-        write_text(
-            output_dir / f"ruleset/{name}.list",
-            render_lines(ruleset),
-        )
-        write_text(
-            output_dir / f"ruleset/{name}.yaml",
-            render_yaml(ruleset),
-        )
+
+        ruleset_groups: list[tuple[str, str, str, list[Rule]]]
+        if name == "ip-attribution":
+            default_rules = merge_rules(
+                [*upstream_domains, *upstream_ips],
+                [rule for rule in custom_rules if rule.action == "default"],
+            )
+            direct_rules = [rule for rule in custom_rules if rule.action == "direct"]
+            reject_rules = [rule for rule in custom_rules if rule.action == "reject"]
+            ruleset_groups = [
+                (name, "default", name, default_rules),
+                (f"{name}-direct", "direct", name, direct_rules),
+                (f"{name}-reject", "reject", name, reject_rules),
+            ]
+        else:
+            ruleset_groups = [
+                (name, "default", name, [*merged_domains, *merged_ips])
+            ]
+
+        ruleset_total = 0
+        for ruleset_name, action, output_directory, rules in ruleset_groups:
+            rule_count = write_ruleset(output_dir, ruleset_name, rules)
+            ruleset_total += rule_count
+            metadata_rulesets[ruleset_name] = {
+                "source_category": name,
+                "action": action,
+                "output_directory": output_directory,
+                "rules": rule_count,
+            }
 
         action_counts = {"default": 0, "direct": 0, "reject": 0}
         for rule in custom_rules:
@@ -390,13 +424,14 @@ def prepare(
             "merged_counts": {
                 "geosite": len(merged_domains),
                 "geoip": len(merged_ips),
-                "ruleset": len(ruleset),
+                "ruleset": ruleset_total,
             },
         }
 
     metadata: dict[str, object] = {
         "schema_version": 1,
         "categories": metadata_categories,
+        "rulesets": metadata_rulesets,
     }
     write_text(
         output_dir / "metadata.json",

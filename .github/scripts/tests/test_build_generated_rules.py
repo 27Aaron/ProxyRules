@@ -430,6 +430,55 @@ class GeneratedRulesTests(unittest.TestCase):
         with self.assertRaisesRegex(generator.GenerationError, "unsupported ruleset"):
             generator.build(options)
 
+    def test_places_ip_attribution_action_groups_in_one_directory(self) -> None:
+        self.add_115()
+        self.add_ruleset_category(
+            "ip-attribution", ["DOMAIN,proxy.example.com"]
+        )
+        self.add_ruleset_category(
+            "ip-attribution-direct", ["DOMAIN-SUFFIX,direct.example.com"]
+        )
+        self.add_ruleset_category(
+            "ip-attribution-reject", ["IP-CIDR,192.0.2.0/24,no-resolve"]
+        )
+        required = (
+            "ip-attribution",
+            "ip-attribution-direct",
+            "ip-attribution-reject",
+        )
+        options = replace(
+            self.options(),
+            custom_categories=("ip-attribution",),
+            minimum_ruleset_categories=3,
+            required_ruleset_categories=required,
+        )
+
+        manifest = generator.build(options)
+
+        shared_directory = self.output / "ruleset/ip-attribution"
+        for name in required:
+            for suffix in ("list", "yaml", "srs"):
+                self.assertTrue((shared_directory / f"{name}.{suffix}").is_file())
+        self.assertFalse((self.output / "ruleset/ip-attribution-direct").exists())
+        self.assertFalse((self.output / "ruleset/ip-attribution-reject").exists())
+        self.assertEqual(
+            manifest["ruleset_categories"]["ip-attribution"]["action"],
+            "default",
+        )
+        self.assertEqual(
+            manifest["ruleset_categories"]["ip-attribution-direct"]["action"],
+            "direct",
+        )
+        self.assertEqual(
+            manifest["ruleset_categories"]["ip-attribution-reject"]["action"],
+            "reject",
+        )
+        for name in required:
+            self.assertEqual(
+                manifest["ruleset_categories"][name]["path"],
+                "ruleset/ip-attribution",
+            )
+
     def test_rejects_converter_disagreement(self) -> None:
         self.add_category(
             "115",
