@@ -7,7 +7,9 @@ import unittest
 from pathlib import Path
 
 
-SCRIPT_PATH = Path(__file__).resolve().parents[1] / "prepare-custom-rules.py"
+SCRIPTS_DIR = Path(__file__).resolve().parents[1]
+SCRIPT_PATH = SCRIPTS_DIR / "prepare-custom-rules.py"
+sys.path.insert(0, str(SCRIPTS_DIR))
 SPEC = importlib.util.spec_from_file_location("prepare_custom_rules", SCRIPT_PATH)
 assert SPEC is not None and SPEC.loader is not None
 preparer = importlib.util.module_from_spec(SPEC)
@@ -50,6 +52,28 @@ class PrepareCustomRulesTests(unittest.TestCase):
             required_categories=required,
             aliases=aliases,
         )
+
+    def test_cli_loads_shared_generation_config(self) -> None:
+        config_path = Path(__file__).resolve().parents[2] / "rules-generation.json"
+
+        args = preparer.parse_args(
+            [
+                "--config",
+                str(config_path),
+                "--custom-dir",
+                str(self.custom),
+                "--geosite-classical-dir",
+                str(self.geosite),
+                "--geoip-dir",
+                str(self.geoip),
+                "--output-dir",
+                str(self.output),
+            ]
+        )
+
+        self.assertEqual(args.minimum_categories, 5)
+        self.assertIn("anthropic", args.required_category)
+        self.assertEqual(args.aliases, [("360", "qihoo360")])
 
     def test_prepares_complete_ruleset_union_and_aliases(self) -> None:
         (self.geosite / "site-only.list").write_text(

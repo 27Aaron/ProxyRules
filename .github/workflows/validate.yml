@@ -1,0 +1,76 @@
+name: Validate repository
+
+on:
+  pull_request:
+    paths:
+      - ".gitignore"
+      - "**/*.conf"
+      - "**/*.list"
+      - "**/*.md"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - ".github/package.json"
+      - ".github/package-lock.json"
+      - ".github/rules-generation.json"
+      - ".github/scripts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Test and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install validation tools
+        working-directory: .github
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./scripts/install-ci-tools.sh "${RUNNER_TEMP}/tools" \
+            actionlint prettier shellcheck yamlfmt
+
+      - name: Test automation scripts
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+
+      - name: Lint workflows and shell scripts
+        run: |
+          "${RUNNER_TEMP}/tools/actionlint" \
+            -shellcheck "${RUNNER_TEMP}/tools/shellcheck"
+          "${RUNNER_TEMP}/tools/shellcheck" \
+            .github/scripts/install-ci-tools.sh \
+            .github/scripts/validate-generated-rules.sh
+
+      - name: Lint automation metadata
+        run: |
+          "${RUNNER_TEMP}/tools/yamlfmt" -lint \
+            -conf .github/yamlfmt.yml \
+            .github/dependabot.yml .github/yamlfmt.yml
+          "${RUNNER_TEMP}/tools/prettier" --check --no-config \
+            --no-editorconfig --ignore-path=/dev/null -- \
+            .github/package.json .github/package-lock.json \
+            .github/rules-generation.json
+
+      - name: Verify canonical repository files
+        env:
+          CI: "true"
+        run: |
+          export PATH="${RUNNER_TEMP}/tools:${PATH}"
+          python3 .github/scripts/format-repo.py
+          python3 .github/scripts/update-rule-headers.py \
+            --base 0000000000000000000000000000000000000000
+          python3 .github/scripts/update-config-headers.py \
+            --base 0000000000000000000000000000000000000000
+          git diff --check
+          git diff --exit-code

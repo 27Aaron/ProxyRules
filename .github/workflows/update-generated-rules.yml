@@ -7,9 +7,13 @@ on:
       - ".github/scripts/build-generated-rules.py"
       - ".github/scripts/compile-mrs.go"
       - ".github/scripts/prepare-custom-rules.py"
+      - ".github/scripts/rules_generation_config.py"
+      - ".github/scripts/validate-generated-rules.sh"
       - ".github/scripts/tests/test_build_generated_rules.py"
       - ".github/scripts/tests/test_generated_workflow.py"
       - ".github/scripts/tests/test_prepare_custom_rules.py"
+      - ".github/scripts/tests/test_rules_generation_config.py"
+      - ".github/rules-generation.json"
       - ".github/workflows/update-generated-rules.yml"
   schedule:
     - cron: "17 2 * * *"
@@ -19,6 +23,11 @@ on:
         description: Allow publishing when more than 5% of categories disappear
         required: false
         default: false
+        type: boolean
+      publish:
+        description: Publish the generated rules branch after validation
+        required: false
+        default: true
         type: boolean
 
 permissions:
@@ -38,7 +47,7 @@ env:
 
 jobs:
   generate:
-    name: Generate and publish rules branch
+    name: Build generated rules
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -53,8 +62,12 @@ jobs:
           go-version: "1.26.x"
           cache: false
 
-      - name: Test generator
-        run: python3 -m unittest discover -s .github/scripts/tests -v
+      - name: Test generation scripts
+        run: |
+          python3 .github/scripts/tests/test_rules_generation_config.py
+          python3 .github/scripts/tests/test_prepare_custom_rules.py
+          python3 .github/scripts/tests/test_build_generated_rules.py
+          python3 .github/scripts/tests/test_generated_workflow.py
 
       - name: Checkout custom rules
         uses: actions/checkout@v7
@@ -187,17 +200,11 @@ jobs:
 
           prepared_dir="${RUNNER_TEMP}/prepared-custom"
           python3 .github/scripts/prepare-custom-rules.py \
+            --config .github/rules-generation.json \
             --custom-dir "${GITHUB_WORKSPACE}/custom-source" \
             --geosite-classical-dir "${RUNNER_TEMP}/converted-geosite/classical" \
             --geoip-dir "${RUNNER_TEMP}/converted-geoip" \
-            --output-dir "$prepared_dir" \
-            --minimum-categories 5 \
-            --alias "360=qihoo360" \
-            --required-category anthropic \
-            --required-category apple-push \
-            --required-category googlefcm \
-            --required-category ip-attribution \
-            --required-category openai
+            --output-dir "$prepared_dir"
 
           compiled_dir="${RUNNER_TEMP}/compiled-custom"
           "${RUNNER_TEMP}/bin/meta-rules-converter" clash \
@@ -277,6 +284,7 @@ jobs:
 
           output_dir="${RUNNER_TEMP}/rules-output"
           arguments=(
+            --config .github/rules-generation.json
             --domain-dir "${RUNNER_TEMP}/converted-geosite"
             --classical-dir "${RUNNER_TEMP}/converted-geosite/classical"
             --srs-dir "${RUNNER_TEMP}/converted-geosite-sing"
@@ -302,35 +310,6 @@ jobs:
             --custom-source-published-at "$CUSTOM_SOURCE_PUBLISHED_AT"
             --converter-repository "$CONVERTER_REPOSITORY"
             --converter-commit "$CONVERTER_SHA"
-            --minimum-categories 1000
-            --minimum-geoip-categories 250
-            --minimum-ruleset-categories 2000
-            --alias "360=qihoo360"
-            --required-category 115
-            --required-category 360
-            --required-category netflix
-            --required-category cn
-            --required-category 'geolocation-!cn'
-            --required-category anthropic
-            --required-category apple-push
-            --required-category googlefcm
-            --required-category ip-attribution
-            --required-category openai
-            --required-geoip-category cn
-            --required-geoip-category private
-            --required-geoip-category us
-            --required-geoip-category anthropic
-            --required-geoip-category apple-push
-            --required-geoip-category googlefcm
-            --required-geoip-category ip-attribution
-            --required-geoip-category openai
-            --required-ruleset-category anthropic
-            --required-ruleset-category apple-push
-            --required-ruleset-category googlefcm
-            --required-ruleset-category ip-attribution
-            --required-ruleset-category ip-attribution-direct
-            --required-ruleset-category ip-attribution-reject
-            --required-ruleset-category openai
           )
           while IFS= read -r name; do
             arguments+=(--custom-category "$name")
@@ -344,152 +323,11 @@ jobs:
           python3 .github/scripts/build-generated-rules.py "${arguments[@]}"
 
       - name: Validate generated tree
-        shell: bash
         run: |
-          set -euo pipefail
-
-          output_dir="${RUNNER_TEMP}/rules-output"
-          (
-            cd "$output_dir"
-            sha256sum --check --strict --quiet SHA256SUMS
-          )
-          test -z "$(find "$output_dir" -type l -print -quit)"
-          test -z "$(find "$output_dir" -type f -iname 'README*' -print -quit)"
-          test -s "$output_dir/geosite/115/115.list"
-          test -s "$output_dir/geosite/115/115.yaml"
-          test -s "$output_dir/geosite/115/115.mrs"
-          test -s "$output_dir/geosite/115/115.srs"
-          test -s "$output_dir/geosite/360/360.list"
-          test -s "$output_dir/geosite/360/360.mrs"
-          test -s "$output_dir/geosite/360/360.srs"
-          test -s "$output_dir/geosite/netflix/netflix.yaml"
-          grep -Fqx 'DOMAIN-SUFFIX,115.com' \
-            "$output_dir/geosite/115/115.list"
-          grep -Fqx "  - 'DOMAIN-SUFFIX,115.com'" \
-            "$output_dir/geosite/115/115.yaml"
-          test -s "$output_dir/geoip/cn/cn.list"
-          test -s "$output_dir/geoip/cn/cn.yaml"
-          test -s "$output_dir/geoip/cn/cn.mrs"
-          test -s "$output_dir/geoip/cn/cn.srs"
-          test -s "$output_dir/geoip/private/private.list"
-          test -s "$output_dir/geoip/us/us.srs"
-          grep -Eq '^IP-CIDR,[^,]+,no-resolve$' \
-            "$output_dir/geoip/cn/cn.list"
-          grep -Eq '^IP-CIDR6,[^,]+,no-resolve$' \
-            "$output_dir/geoip/cn/cn.list"
-          for name in 115 360 cn us; do
-            test -s "$output_dir/ruleset/$name/$name.list"
-            test -s "$output_dir/ruleset/$name/$name.yaml"
-            test -s "$output_dir/ruleset/$name/$name.srs"
-            test ! -e "$output_dir/ruleset/$name/$name.mrs"
-          done
-          grep -Fqx 'DOMAIN-SUFFIX,115.com' \
-            "$output_dir/ruleset/115/115.list"
-          grep -Eq '^IP-CIDR6?,[^,]+,no-resolve$' \
-            "$output_dir/ruleset/us/us.list"
-          grep -Eq '^DOMAIN[^,]*,' "$output_dir/ruleset/cn/cn.list"
-          grep -Eq '^IP-CIDR6?,[^,]+,no-resolve$' \
-            "$output_dir/ruleset/cn/cn.list"
-          for name in anthropic apple-push googlefcm ip-attribution openai; do
-            test -s "$output_dir/geosite/$name/$name.list"
-            test -s "$output_dir/geosite/$name/$name.yaml"
-            test -s "$output_dir/geosite/$name/$name.mrs"
-            test -s "$output_dir/geosite/$name/$name.srs"
-            test -s "$output_dir/geoip/$name/$name.list"
-            test -s "$output_dir/geoip/$name/$name.yaml"
-            test -s "$output_dir/geoip/$name/$name.mrs"
-            test -s "$output_dir/geoip/$name/$name.srs"
-            test -s "$output_dir/ruleset/$name/$name.list"
-            test -s "$output_dir/ruleset/$name/$name.yaml"
-            test -s "$output_dir/ruleset/$name/$name.srs"
-            test ! -e "$output_dir/ruleset/$name/$name.mrs"
-          done
-          grep -Fqx 'DOMAIN-SUFFIX,anthropic.com' \
-            "$output_dir/geosite/anthropic/anthropic.list"
-          grep -Fqx 'IP-CIDR,160.79.104.0/21,no-resolve' \
-            "$output_dir/geoip/anthropic/anthropic.list"
-          grep -Fqx 'DOMAIN-SUFFIX,anthropic.com' \
-            "$output_dir/ruleset/anthropic/anthropic.list"
-          grep -Fqx 'IP-CIDR,160.79.104.0/21,no-resolve' \
-            "$output_dir/ruleset/anthropic/anthropic.list"
-          if grep -Eq ',(DIRECT|REJECT)(,|$)' \
-            "$output_dir/ruleset/ip-attribution/ip-attribution.list"; then
-            exit 1
-          fi
-          for name in ip-attribution-direct ip-attribution-reject; do
-            test -s "$output_dir/ruleset/ip-attribution/$name.list"
-            test -s "$output_dir/ruleset/ip-attribution/$name.yaml"
-            test -s "$output_dir/ruleset/ip-attribution/$name.srs"
-            test ! -e "$output_dir/ruleset/ip-attribution/$name.mrs"
-            if grep -Eq ',(DIRECT|REJECT)(,|$)' \
-              "$output_dir/ruleset/ip-attribution/$name.list"; then
-              exit 1
-            fi
-          done
-          test "$(grep -Ec '^[A-Z0-9-]+,' \
-            "$output_dir/ruleset/ip-attribution/ip-attribution.list")" -eq 189
-          test "$(grep -Ec '^[A-Z0-9-]+,' \
-            "$output_dir/ruleset/ip-attribution/ip-attribution-direct.list")" -eq 24
-          test "$(grep -Ec '^[A-Z0-9-]+,' \
-            "$output_dir/ruleset/ip-attribution/ip-attribution-reject.list")" -eq 20
-          test -z "$(find "$output_dir/ruleset" \
-            -type f -name '*.mrs' -print -quit)"
-          ruleset_files="$(find "$output_dir/ruleset" \
-            -type f -name '*.list' | wc -l)"
-          test "$ruleset_files" -ge 2000
-          jq -e '
-            (.collections.geosite.categories | keys) as $geosite_categories |
-            (.collections.geoip.categories | keys) as $geoip_categories |
-            (($geosite_categories + $geoip_categories) | unique | sort) as $expected |
-            ([
-              .collections.ruleset.categories | to_entries[] |
-              select((.value.action // "default") == "default") | .key
-            ] | sort) as $actual |
-            .schema_version == 2 and
-            .mode == "category-first" and
-            (.sources | keys == ["custom", "geoip", "geosite"]) and
-            (.collections | keys == ["geoip", "geosite", "ruleset"]) and
-            (.collections.geosite.path == "geosite") and
-            (.collections.geoip.path == "geoip") and
-            (.collections.ruleset.path == "ruleset") and
-            (.collections.geosite.sources == ["geosite", "custom"]) and
-            (.collections.geoip.sources == ["geoip", "custom"]) and
-            (.collections.ruleset.sources == ["geosite", "geoip", "custom"]) and
-            ($actual == $expected) and
-            (.collections.ruleset.statistics.default_categories ==
-              ($expected | length)) and
-            (.collections.ruleset.statistics.action_groups == 2) and
-            (.collections.ruleset.statistics.generated_categories ==
-              (($expected | length) + 2)) and
-            (.collections.ruleset.statistics.formats.list.files ==
-              .collections.ruleset.statistics.generated_categories) and
-            (.collections.ruleset.statistics.formats.yaml.files ==
-              .collections.ruleset.statistics.generated_categories) and
-            (.collections.ruleset.statistics.formats.srs.files ==
-              .collections.ruleset.statistics.generated_categories) and
-            all(
-              .collections.geosite.categories[];
-              (.formats | keys == ["list", "mrs", "srs", "yaml"]) and
-              all(.formats[]; (.rules >= 0) and
-                (.counts | type == "object") and
-                (.omitted | type == "object"))
-            ) and
-            all(
-              .collections.geoip.categories[];
-              (.formats | keys == ["list", "mrs", "srs", "yaml"]) and
-              all(.formats[]; (.rules >= 0) and
-                (.counts | type == "object") and
-                (.omitted | type == "object"))
-            ) and
-            all(
-              .collections.ruleset.categories[];
-              (.formats | keys == ["list", "srs", "yaml"]) and
-              all(.formats[]; (.rules >= 0) and
-                (.counts | type == "object") and
-                (.omitted | type == "object"))
-            ) and
-            (.collections.ruleset.unsupported_formats.mrs.reason | length > 0)
-          ' "$output_dir/manifest.json" > /dev/null
+          .github/scripts/validate-generated-rules.sh \
+            "${RUNNER_TEMP}/rules-output" \
+            "${RUNNER_TEMP}/prepared-custom/metadata.json" \
+            .github/rules-generation.json
 
       - name: Stage generated branch
         id: changes
@@ -521,7 +359,9 @@ jobs:
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push rules branch
-        if: steps.changes.outputs.has_changes == 'true'
+        if: >-
+          steps.changes.outputs.has_changes == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.publish)
         env:
           GH_TOKEN: ${{ github.token }}
           TZ: Asia/Shanghai

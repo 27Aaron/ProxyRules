@@ -21,6 +21,11 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 
+from rules_generation_config import (
+    RulesGenerationConfigError,
+    load_rules_generation_config,
+)
+
 
 SCHEMA_VERSION = 2
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9!@._-]*$")
@@ -1105,6 +1110,11 @@ def build(options: BuildOptions) -> dict[str, object]:
 
 def parse_args(argv: list[str] | None = None) -> BuildOptions:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="shared generated-rules policy",
+    )
     parser.add_argument("--domain-dir", required=True, type=Path)
     parser.add_argument("--classical-dir", required=True, type=Path)
     parser.add_argument("--srs-dir", required=True, type=Path)
@@ -1140,22 +1150,71 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         "--converter-repository", default="MetaCubeX/meta-rules-converter"
     )
     parser.add_argument("--converter-commit", required=True)
-    parser.add_argument("--minimum-categories", type=int, default=1000)
-    parser.add_argument("--minimum-geoip-categories", type=int, default=250)
-    parser.add_argument("--minimum-ruleset-categories", type=int, default=5)
-    parser.add_argument("--required-category", action="append", default=[])
-    parser.add_argument("--required-geoip-category", action="append", default=[])
-    parser.add_argument("--required-ruleset-category", action="append", default=[])
+    parser.add_argument("--minimum-categories", type=int)
+    parser.add_argument("--minimum-geoip-categories", type=int)
+    parser.add_argument("--minimum-ruleset-categories", type=int)
+    parser.add_argument("--required-category", action="append")
+    parser.add_argument("--required-geoip-category", action="append")
+    parser.add_argument("--required-ruleset-category", action="append")
     parser.add_argument(
         "--alias",
         action="append",
-        default=[],
         metavar="ALIAS=SOURCE",
         help="publish SOURCE under an additional ALIAS name",
     )
-    parser.add_argument("--max-category-drop-percent", type=float, default=5.0)
+    parser.add_argument("--max-category-drop-percent", type=float)
     parser.add_argument("--allow-large-drop", action="store_true")
     args = parser.parse_args(argv)
+
+    policy_options = (
+        "minimum_categories",
+        "minimum_geoip_categories",
+        "minimum_ruleset_categories",
+        "required_category",
+        "required_geoip_category",
+        "required_ruleset_category",
+        "alias",
+        "max_category_drop_percent",
+    )
+    if args.config is not None:
+        if any(getattr(args, option) is not None for option in policy_options):
+            parser.error(
+                "--config cannot be combined with generation policy overrides"
+            )
+        try:
+            config = load_rules_generation_config(args.config)
+        except RulesGenerationConfigError as error:
+            parser.error(str(error))
+        args.minimum_categories = config.minimum_geosite_categories
+        args.minimum_geoip_categories = config.minimum_geoip_categories
+        args.minimum_ruleset_categories = config.minimum_ruleset_categories
+        args.required_category = list(config.required_geosite_categories)
+        args.required_geoip_category = list(config.required_geoip_categories)
+        args.required_ruleset_category = list(config.required_ruleset_categories)
+        aliases = list(config.aliases)
+        args.max_category_drop_percent = config.max_category_drop_percent
+    else:
+        if args.minimum_categories is None:
+            args.minimum_categories = 1000
+        if args.minimum_geoip_categories is None:
+            args.minimum_geoip_categories = 250
+        if args.minimum_ruleset_categories is None:
+            args.minimum_ruleset_categories = 5
+        if args.required_category is None:
+            args.required_category = []
+        if args.required_geoip_category is None:
+            args.required_geoip_category = []
+        if args.required_ruleset_category is None:
+            args.required_ruleset_category = []
+        if args.max_category_drop_percent is None:
+            args.max_category_drop_percent = 5.0
+        aliases = []
+        for raw_alias in args.alias or []:
+            alias, separator, source = raw_alias.partition("=")
+            if not separator or not alias or not source:
+                parser.error(f"invalid --alias value: {raw_alias!r}")
+            aliases.append((alias, source))
+
     if args.minimum_categories < 1:
         parser.error("--minimum-categories must be positive")
     if args.minimum_geoip_categories < 1:
@@ -1164,12 +1223,6 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         parser.error("--minimum-ruleset-categories must be positive")
     if not 0 <= args.max_category_drop_percent <= 100:
         parser.error("--max-category-drop-percent must be between 0 and 100")
-    aliases: list[tuple[str, str]] = []
-    for raw_alias in args.alias:
-        alias, separator, source = raw_alias.partition("=")
-        if not separator or not alias or not source:
-            parser.error(f"invalid --alias value: {raw_alias!r}")
-        aliases.append((alias, source))
     return BuildOptions(
         domain_dir=args.domain_dir,
         classical_dir=args.classical_dir,

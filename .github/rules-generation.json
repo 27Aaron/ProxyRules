@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "aliases": {
+    "360": "qihoo360"
+  },
+  "minimum_categories": {
+    "custom": 5,
+    "geosite": 1000,
+    "geoip": 250,
+    "ruleset": 2000
+  },
+  "required_categories": {
+    "custom": [
+      "anthropic",
+      "apple-push",
+      "googlefcm",
+      "ip-attribution",
+      "openai"
+    ],
+    "geosite": [
+      "115",
+      "360",
+      "netflix",
+      "cn",
+      "geolocation-!cn",
+      "anthropic",
+      "apple-push",
+      "googlefcm",
+      "ip-attribution",
+      "openai"
+    ],
+    "geoip": [
+      "cn",
+      "private",
+      "us",
+      "anthropic",
+      "apple-push",
+      "googlefcm",
+      "ip-attribution",
+      "openai"
+    ],
+    "ruleset": [
+      "anthropic",
+      "apple-push",
+      "googlefcm",
+      "ip-attribution",
+      "ip-attribution-direct",
+      "ip-attribution-reject",
+      "openai"
+    ]
+  },
+  "max_category_drop_percent": 5.0
+}

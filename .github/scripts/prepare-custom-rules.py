@@ -13,6 +13,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+from rules_generation_config import (
+    RulesGenerationConfigError,
+    load_rules_generation_config,
+)
+
 
 CATEGORY_RE = re.compile(r"^[a-z0-9][a-z0-9!@._-]*$")
 DOMAIN_TYPES = ("DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX")
@@ -529,20 +534,52 @@ def prepare(
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="shared generated-rules policy",
+    )
     parser.add_argument("--custom-dir", required=True, type=Path)
     parser.add_argument("--geosite-classical-dir", required=True, type=Path)
     parser.add_argument("--geoip-dir", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
-    parser.add_argument("--minimum-categories", type=int, default=5)
-    parser.add_argument("--required-category", action="append", default=[])
+    parser.add_argument("--minimum-categories", type=int)
+    parser.add_argument("--required-category", action="append")
     parser.add_argument(
-        "--alias", action="append", default=[], metavar="ALIAS=SOURCE"
+        "--alias", action="append", metavar="ALIAS=SOURCE"
     )
     args = parser.parse_args(argv)
+    policy_options_used = any(
+        value is not None
+        for value in (
+            args.minimum_categories,
+            args.required_category,
+            args.alias,
+        )
+    )
+    if args.config is not None:
+        if policy_options_used:
+            parser.error(
+                "--config cannot be combined with --minimum-categories, "
+                "--required-category, or --alias"
+            )
+        try:
+            config = load_rules_generation_config(args.config)
+        except RulesGenerationConfigError as error:
+            parser.error(str(error))
+        args.minimum_categories = config.minimum_custom_categories
+        args.required_category = list(config.required_custom_categories)
+        args.aliases = list(config.aliases)
+        return args
+
+    if args.minimum_categories is None:
+        args.minimum_categories = 5
+    if args.required_category is None:
+        args.required_category = []
     if args.minimum_categories < 1:
         parser.error("--minimum-categories must be positive")
     aliases: list[tuple[str, str]] = []
-    for raw_alias in args.alias:
+    for raw_alias in args.alias or []:
         alias, separator, source = raw_alias.partition("=")
         if not separator or not alias or not source:
             parser.error(f"invalid --alias value: {raw_alias!r}")
