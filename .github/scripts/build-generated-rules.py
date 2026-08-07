@@ -852,28 +852,24 @@ def build(options: BuildOptions) -> dict[str, object]:
             f"minimum is {options.minimum_ruleset_categories}"
         )
     ruleset_names = {path.stem for path in ruleset_paths}
-    allowed_rulesets = set(custom_categories)
+    default_ruleset_names = set(categories) | set(geoip_categories)
+    expected_rulesets = set(default_ruleset_names)
     if "ip-attribution" in custom_categories:
-        allowed_rulesets.update(RULESET_ACTION_GROUPS)
-    if not custom_categories.issubset(ruleset_names) or not ruleset_names.issubset(
-        allowed_rulesets
-    ):
-        missing_rulesets = sorted(custom_categories - ruleset_names)
-        unexpected_rulesets = sorted(ruleset_names - allowed_rulesets)
+        expected_rulesets.update(RULESET_ACTION_GROUPS)
+    if ruleset_names != expected_rulesets:
+        missing_rulesets = sorted(expected_rulesets - ruleset_names)
+        unexpected_rulesets = sorted(ruleset_names - expected_rulesets)
         details: list[str] = []
         if missing_rulesets:
             details.append("missing " + ", ".join(missing_rulesets))
         if unexpected_rulesets:
             details.append("unexpected " + ", ".join(unexpected_rulesets))
         raise GenerationError(
-            "custom ruleset categories disagree: " + "; ".join(details)
+            "complete ruleset categories disagree: " + "; ".join(details)
         )
 
     ruleset_categories: dict[str, dict[str, object]] = {}
     ruleset_source_rule_total = 0
-    ruleset_published_at = newest_timestamp(
-        published_at, geoip_published_at, custom_published_at
-    )
     for ruleset_path in ruleset_paths:
         name = ruleset_path.stem
         validate_category(name)
@@ -891,7 +887,22 @@ def build(options: BuildOptions) -> dict[str, object]:
         ):
             updated = normalize_timestamp(str(previous["updated"]))
         else:
-            updated = ruleset_published_at
+            source_name = RULESET_ACTION_GROUPS.get(name, (name, None))[0]
+            source_timestamps: list[str] = []
+            if source_name in categories:
+                source_timestamps.append(published_at)
+            if source_name in geoip_categories:
+                source_timestamps.append(geoip_published_at)
+            if source_name in custom_categories or (
+                source_name in alias_map
+                and alias_map[source_name] in custom_categories
+            ):
+                source_timestamps.append(custom_published_at)
+            if not source_timestamps:
+                raise GenerationError(
+                    f"ruleset category has no matching source: {name}"
+                )
+            updated = newest_timestamp(*source_timestamps)
 
         output_directory, action = RULESET_ACTION_GROUPS.get(name, (name, None))
         if name == "ip-attribution":
@@ -1060,6 +1071,9 @@ def build(options: BuildOptions) -> dict[str, object]:
                 "statistics": {
                     "source_categories": len(ruleset_paths),
                     "generated_categories": len(ruleset_categories),
+                    "default_categories": len(default_ruleset_names),
+                    "action_groups": len(ruleset_categories)
+                    - len(default_ruleset_names),
                     "source_rules": ruleset_source_rule_total,
                     "formats": ruleset_formats,
                 },

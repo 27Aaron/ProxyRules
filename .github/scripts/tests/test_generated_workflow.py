@@ -59,6 +59,18 @@ class GeneratedWorkflowInvariantTests(unittest.TestCase):
         self.assertNotIn('push --force ', self.workflow)
         self.assertNotIn('push -f ', self.workflow)
 
+    def test_requires_complete_ruleset_union(self) -> None:
+        self.assertIn("--minimum-ruleset-categories 2000", self.workflow)
+        self.assertIn("($actual == $expected)", self.workflow)
+        self.assertIn(
+            ".collections.ruleset.statistics.default_categories",
+            self.workflow,
+        )
+        self.assertIn(
+            "-type f -name '*.mrs' -print -quit",
+            self.workflow,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

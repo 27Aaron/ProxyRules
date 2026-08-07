@@ -180,7 +180,7 @@ jobs:
             --out "$sing_dir" \
             --type sing-box
 
-      - name: Prepare and compile custom rules
+      - name: Prepare custom overlays and complete rulesets
         shell: bash
         run: |
           set -euo pipefail
@@ -192,6 +192,7 @@ jobs:
             --geoip-dir "${RUNNER_TEMP}/converted-geoip" \
             --output-dir "$prepared_dir" \
             --minimum-categories 5 \
+            --alias "360=qihoo360" \
             --required-category anthropic \
             --required-category apple-push \
             --required-category googlefcm \
@@ -303,7 +304,7 @@ jobs:
             --converter-commit "$CONVERTER_SHA"
             --minimum-categories 1000
             --minimum-geoip-categories 250
-            --minimum-ruleset-categories 7
+            --minimum-ruleset-categories 2000
             --alias "360=qihoo360"
             --required-category 115
             --required-category 360
@@ -376,6 +377,19 @@ jobs:
             "$output_dir/geoip/cn/cn.list"
           grep -Eq '^IP-CIDR6,[^,]+,no-resolve$' \
             "$output_dir/geoip/cn/cn.list"
+          for name in 115 360 cn us; do
+            test -s "$output_dir/ruleset/$name/$name.list"
+            test -s "$output_dir/ruleset/$name/$name.yaml"
+            test -s "$output_dir/ruleset/$name/$name.srs"
+            test ! -e "$output_dir/ruleset/$name/$name.mrs"
+          done
+          grep -Fqx 'DOMAIN-SUFFIX,115.com' \
+            "$output_dir/ruleset/115/115.list"
+          grep -Eq '^IP-CIDR6?,[^,]+,no-resolve$' \
+            "$output_dir/ruleset/us/us.list"
+          grep -Eq '^DOMAIN[^,]*,' "$output_dir/ruleset/cn/cn.list"
+          grep -Eq '^IP-CIDR6?,[^,]+,no-resolve$' \
+            "$output_dir/ruleset/cn/cn.list"
           for name in anthropic apple-push googlefcm ip-attribution openai; do
             test -s "$output_dir/geosite/$name/$name.list"
             test -s "$output_dir/geosite/$name/$name.yaml"
@@ -418,7 +432,19 @@ jobs:
             "$output_dir/ruleset/ip-attribution/ip-attribution-direct.list")" -eq 24
           test "$(grep -Ec '^[A-Z0-9-]+,' \
             "$output_dir/ruleset/ip-attribution/ip-attribution-reject.list")" -eq 20
+          test -z "$(find "$output_dir/ruleset" \
+            -type f -name '*.mrs' -print -quit)"
+          ruleset_files="$(find "$output_dir/ruleset" \
+            -type f -name '*.list' | wc -l)"
+          test "$ruleset_files" -ge 2000
           jq -e '
+            (.collections.geosite.categories | keys) as $geosite_categories |
+            (.collections.geoip.categories | keys) as $geoip_categories |
+            (($geosite_categories + $geoip_categories) | unique | sort) as $expected |
+            ([
+              .collections.ruleset.categories | to_entries[] |
+              select((.value.action // "default") == "default") | .key
+            ] | sort) as $actual |
             .schema_version == 2 and
             .mode == "category-first" and
             (.sources | keys == ["custom", "geoip", "geosite"]) and
@@ -429,6 +455,18 @@ jobs:
             (.collections.geosite.sources == ["geosite", "custom"]) and
             (.collections.geoip.sources == ["geoip", "custom"]) and
             (.collections.ruleset.sources == ["geosite", "geoip", "custom"]) and
+            ($actual == $expected) and
+            (.collections.ruleset.statistics.default_categories ==
+              ($expected | length)) and
+            (.collections.ruleset.statistics.action_groups == 2) and
+            (.collections.ruleset.statistics.generated_categories ==
+              (($expected | length) + 2)) and
+            (.collections.ruleset.statistics.formats.list.files ==
+              .collections.ruleset.statistics.generated_categories) and
+            (.collections.ruleset.statistics.formats.yaml.files ==
+              .collections.ruleset.statistics.generated_categories) and
+            (.collections.ruleset.statistics.formats.srs.files ==
+              .collections.ruleset.statistics.generated_categories) and
             all(
               .collections.geosite.categories[];
               (.formats | keys == ["list", "mrs", "srs", "yaml"]) and

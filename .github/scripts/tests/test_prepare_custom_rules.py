@@ -35,7 +35,12 @@ class PrepareCustomRulesTests(unittest.TestCase):
             "\n".join(lines) + "\n", encoding="utf-8"
         )
 
-    def prepare(self, *, required: tuple[str, ...] = ()):
+    def prepare(
+        self,
+        *,
+        required: tuple[str, ...] = (),
+        aliases: tuple[tuple[str, str], ...] = (),
+    ):
         return preparer.prepare(
             custom_dir=self.custom,
             geosite_classical_dir=self.geosite,
@@ -43,7 +48,70 @@ class PrepareCustomRulesTests(unittest.TestCase):
             output_dir=self.output,
             minimum_categories=1,
             required_categories=required,
+            aliases=aliases,
         )
+
+    def test_prepares_complete_ruleset_union_and_aliases(self) -> None:
+        (self.geosite / "site-only.list").write_text(
+            "DOMAIN-SUFFIX,site.example\n", encoding="utf-8"
+        )
+        (self.geosite / "shared.list").write_text(
+            "DOMAIN-KEYWORD,shared\n", encoding="utf-8"
+        )
+        (self.geosite / "alias-source.list").write_text(
+            "DOMAIN-SUFFIX,alias.example\n", encoding="utf-8"
+        )
+        (self.geosite / "regex-only.list").write_text(
+            r"DOMAIN-REGEX,^regex[0-9]+\.example$" "\n",
+            encoding="utf-8",
+        )
+        (self.geoip / "ip-only.list").write_text(
+            "192.0.2.0/24\n", encoding="utf-8"
+        )
+        (self.geoip / "shared.list").write_text(
+            "2001:db8::/32\n", encoding="utf-8"
+        )
+        self.add_custom(
+            "anthropic",
+            [
+                "DOMAIN-SUFFIX,anthropic.com",
+                "IP-CIDR,160.79.104.0/23,no-resolve",
+            ],
+        )
+
+        metadata = self.prepare(aliases=(("alias", "alias-source"),))
+
+        self.assertEqual(
+            set(metadata["rulesets"]),
+            {
+                "alias",
+                "alias-source",
+                "anthropic",
+                "ip-only",
+                "shared",
+                "site-only",
+            },
+        )
+        self.assertFalse((self.output / "ruleset/regex-only.list").exists())
+        self.assertEqual(
+            (self.output / "ruleset/site-only.list").read_text(encoding="utf-8"),
+            "DOMAIN-SUFFIX,site.example\n",
+        )
+        self.assertEqual(
+            (self.output / "ruleset/ip-only.list").read_text(encoding="utf-8"),
+            "IP-CIDR,192.0.2.0/24,no-resolve\n",
+        )
+        self.assertEqual(
+            (self.output / "ruleset/shared.list").read_text(encoding="utf-8"),
+            "DOMAIN-KEYWORD,shared\n"
+            "IP-CIDR6,2001:db8::/32,no-resolve\n",
+        )
+        self.assertEqual(
+            (self.output / "ruleset/alias.list").read_text(encoding="utf-8"),
+            "DOMAIN-SUFFIX,alias.example\n",
+        )
+        self.assertEqual(metadata["schema_version"], 2)
+        self.assertEqual(metadata["aliases"], {"alias": "alias-source"})
 
     def test_merges_upstream_and_custom_rules_for_all_outputs(self) -> None:
         (self.geosite / "anthropic.list").write_text(

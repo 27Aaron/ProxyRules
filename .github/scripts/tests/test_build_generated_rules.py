@@ -59,6 +59,8 @@ class GeneratedRulesTests(unittest.TestCase):
         )
         (self.domain / f"{name}.mrs").write_bytes(f"mrs:{name}".encode())
         (self.srs / f"{name}.srs").write_bytes(f"srs:{name}".encode())
+        if any(not rule.startswith("DOMAIN-REGEX,") for rule in classical_rules):
+            self.merge_ruleset_category(name, classical_rules)
 
     def add_geoip_category(self, name: str, cidrs: list[str]) -> None:
         (self.geoip / f"{name}.list").write_text(
@@ -72,6 +74,14 @@ class GeneratedRulesTests(unittest.TestCase):
         (self.geoip_srs / f"{name}.srs").write_bytes(
             f"geoip-srs:{name}".encode()
         )
+        self.merge_ruleset_category(
+            name,
+            [
+                f"{'IP-CIDR6' if ':' in cidr else 'IP-CIDR'},"
+                f"{cidr},no-resolve"
+                for cidr in cidrs
+            ],
+        )
 
     def add_ruleset_category(self, name: str, rules: list[str]) -> None:
         (self.ruleset / f"{name}.list").write_text(
@@ -84,6 +94,13 @@ class GeneratedRulesTests(unittest.TestCase):
         (self.ruleset_srs / f"{name}.srs").write_bytes(
             f"ruleset-srs:{name}".encode()
         )
+
+    def merge_ruleset_category(self, name: str, rules: list[str]) -> None:
+        path = self.ruleset / f"{name}.list"
+        existing = (
+            path.read_text(encoding="utf-8").splitlines() if path.exists() else []
+        )
+        self.add_ruleset_category(name, list(dict.fromkeys([*existing, *rules])))
 
     def options(
         self,
@@ -326,6 +343,9 @@ class GeneratedRulesTests(unittest.TestCase):
                 "geosite/115/115.srs",
                 "geosite/115/115.yaml",
                 "manifest.json",
+                "ruleset/115/115.list",
+                "ruleset/115/115.srs",
+                "ruleset/115/115.yaml",
             },
         )
         for relative_path, digest in checksum_entries.items():
@@ -557,10 +577,10 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertEqual(category["formats"]["yaml"]["rules"], 5)
         self.assertEqual(category["formats"]["srs"]["rules"], 6)
         self.assertEqual(category["formats"]["srs"]["omitted"], {})
-        self.assertEqual(ruleset["statistics"]["source_rules"], 6)
+        self.assertEqual(ruleset["statistics"]["source_rules"], 10)
         self.assertEqual(
             ruleset["statistics"]["formats"]["list"]["omitted"],
-            {"domain_regex": 1},
+            {"domain_regex": 2},
         )
         self.assertIn("mrs", ruleset["unsupported_formats"])
         self.assertIn(
@@ -576,8 +596,60 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", geosite_text)
         self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", geoip_text)
 
+    def test_builds_complete_ruleset_union(self) -> None:
+        self.add_115()
+        self.add_category(
+            "site-only",
+            ["+.site.example"],
+            ["DOMAIN-SUFFIX,site.example"],
+        )
+        self.add_geoip_category("ip-only", ["192.0.2.0/24"])
+        self.add_category(
+            "shared",
+            ["+.shared.example"],
+            ["DOMAIN-SUFFIX,shared.example"],
+        )
+        self.add_geoip_category("shared", ["2001:db8::/32"])
+
+        manifest = generator.build(self.options())
+
+        rulesets = manifest["collections"]["ruleset"]
+        self.assertEqual(
+            set(rulesets["categories"]),
+            {"115", "ip-only", "shared", "site-only"},
+        )
+        self.assertEqual(rulesets["statistics"]["default_categories"], 4)
+        self.assertEqual(rulesets["statistics"]["action_groups"], 0)
+        shared = (self.output / "ruleset/shared/shared.list").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("DOMAIN-SUFFIX,shared.example\n", shared)
+        self.assertIn("IP-CIDR6,2001:db8::/32,no-resolve\n", shared)
+        self.assertTrue((self.output / "ruleset/site-only/site-only.srs").is_file())
+        self.assertTrue((self.output / "ruleset/ip-only/ip-only.yaml").is_file())
+
+    def test_rejects_missing_complete_ruleset_category(self) -> None:
+        self.add_115()
+        for directory, suffix in (
+            (self.ruleset, "list"),
+            (self.ruleset, "yaml"),
+            (self.ruleset_srs, "srs"),
+        ):
+            (directory / f"115.{suffix}").unlink()
+
+        with self.assertRaisesRegex(
+            generator.GenerationError,
+            "complete ruleset categories disagree: missing 115",
+        ):
+            generator.build(self.options())
+
     def test_rejects_action_in_prepared_ruleset(self) -> None:
         self.add_115()
+        self.add_category(
+            "anthropic",
+            ["+.anthropic.com"],
+            ["DOMAIN-SUFFIX,anthropic.com"],
+        )
         self.add_ruleset_category(
             "anthropic", ["DOMAIN-SUFFIX,anthropic.com,DIRECT"]
         )
@@ -592,6 +664,11 @@ class GeneratedRulesTests(unittest.TestCase):
 
     def test_places_ip_attribution_action_groups_in_one_directory(self) -> None:
         self.add_115()
+        self.add_category(
+            "ip-attribution",
+            ["proxy.example.com"],
+            ["DOMAIN,proxy.example.com"],
+        )
         self.add_ruleset_category(
             "ip-attribution", ["DOMAIN,proxy.example.com"]
         )
@@ -658,6 +735,7 @@ class GeneratedRulesTests(unittest.TestCase):
             ["+.360.com"],
             ["DOMAIN-SUFFIX,360.com"],
         )
+        self.add_ruleset_category("360", ["DOMAIN-SUFFIX,360.com"])
 
         manifest = generator.build(
             self.options(
