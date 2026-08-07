@@ -14,14 +14,28 @@ class GeneratedWorkflowInvariantTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
 
-    def test_rejects_readmes_and_symbolic_links(self) -> None:
+    def test_uses_shared_generation_config(self) -> None:
+        self.assertEqual(
+            self.workflow.count("--config .github/rules-generation.json"),
+            2,
+        )
+        self.assertGreaterEqual(
+            self.workflow.count(".github/rules-generation.json"),
+            4,
+        )
+
+    def test_delegates_generated_tree_validation(self) -> None:
         self.assertIn(
-            "test -z \"$(find \"$output_dir\" -type l -print -quit)\"",
+            ".github/scripts/validate-generated-rules.sh",
             self.workflow,
         )
+        self.assertNotIn("grep -Ec", self.workflow)
+        self.assertNotIn(")\" -eq 189", self.workflow)
+
+    def test_manual_runs_can_validate_without_publishing(self) -> None:
+        self.assertIn("publish:", self.workflow)
         self.assertIn(
-            "test -z \"$(find \"$output_dir\" -type f -iname 'README*' "
-            "-print -quit)\"",
+            "github.event_name != 'workflow_dispatch' || inputs.publish",
             self.workflow,
         )
 
@@ -56,20 +70,8 @@ class GeneratedWorkflowInvariantTests(unittest.TestCase):
             '"--force-with-lease=refs/heads/${TARGET_BRANCH}:${PREVIOUS_SHA}"',
             self.workflow,
         )
-        self.assertNotIn('push --force ', self.workflow)
-        self.assertNotIn('push -f ', self.workflow)
-
-    def test_requires_complete_ruleset_union(self) -> None:
-        self.assertIn("--minimum-ruleset-categories 2000", self.workflow)
-        self.assertIn("($actual == $expected)", self.workflow)
-        self.assertIn(
-            ".collections.ruleset.statistics.default_categories",
-            self.workflow,
-        )
-        self.assertIn(
-            "-type f -name '*.mrs' -print -quit",
-            self.workflow,
-        )
+        self.assertNotIn("push --force ", self.workflow)
+        self.assertNotIn("push -f ", self.workflow)
 
 
 if __name__ == "__main__":

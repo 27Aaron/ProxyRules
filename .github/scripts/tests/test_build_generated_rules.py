@@ -9,7 +9,9 @@ from dataclasses import replace
 from pathlib import Path
 
 
-SCRIPT_PATH = Path(__file__).resolve().parents[1] / "build-generated-rules.py"
+SCRIPTS_DIR = Path(__file__).resolve().parents[1]
+SCRIPT_PATH = SCRIPTS_DIR / "build-generated-rules.py"
+sys.path.insert(0, str(SCRIPTS_DIR))
 SPEC = importlib.util.spec_from_file_location("build_generated_rules", SCRIPT_PATH)
 assert SPEC is not None and SPEC.loader is not None
 generator = importlib.util.module_from_spec(SPEC)
@@ -39,6 +41,57 @@ class GeneratedRulesTests(unittest.TestCase):
         self.geoip_srs.mkdir()
         self.ruleset.mkdir()
         self.ruleset_srs.mkdir()
+
+    def test_cli_loads_shared_generation_config(self) -> None:
+        config_path = Path(__file__).resolve().parents[2] / "rules-generation.json"
+        commit = "a" * 40
+        published_at = "2026-08-07T00:00:00Z"
+
+        options = generator.parse_args(
+            [
+                "--config",
+                str(config_path),
+                "--domain-dir",
+                str(self.domain),
+                "--classical-dir",
+                str(self.classical),
+                "--srs-dir",
+                str(self.srs),
+                "--geoip-dir",
+                str(self.geoip),
+                "--geoip-srs-dir",
+                str(self.geoip_srs),
+                "--ruleset-dir",
+                str(self.ruleset),
+                "--ruleset-srs-dir",
+                str(self.ruleset_srs),
+                "--output-dir",
+                str(self.output),
+                "--source-release",
+                "source",
+                "--source-commit",
+                commit,
+                "--source-published-at",
+                published_at,
+                "--geoip-source-release",
+                "geoip",
+                "--geoip-source-commit",
+                commit,
+                "--geoip-source-published-at",
+                published_at,
+                "--custom-source-commit",
+                commit,
+                "--custom-source-published-at",
+                published_at,
+                "--converter-commit",
+                commit,
+            ]
+        )
+
+        self.assertEqual(options.minimum_categories, 1000)
+        self.assertEqual(options.minimum_ruleset_categories, 2000)
+        self.assertIn("anthropic", options.required_categories)
+        self.assertEqual(options.aliases, (("360", "qihoo360"),))
 
     def add_category(
         self,
