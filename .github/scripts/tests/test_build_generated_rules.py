@@ -192,12 +192,28 @@ class GeneratedRulesTests(unittest.TestCase):
             "  - 'DOMAIN-KEYWORD,115cdn'\n",
             yaml_text,
         )
-        self.assertEqual(manifest["statistics"]["source_categories"], 2)
-        self.assertEqual(manifest["statistics"]["generated_categories"], 1)
-        self.assertEqual(manifest["statistics"]["omitted_categories"], 1)
-        self.assertEqual(manifest["statistics"]["portable_rules"], 3)
-        self.assertEqual(manifest["statistics"]["published_rules"], 3)
-        self.assertEqual(manifest["mode"], "portable-classical")
+        self.assertEqual(manifest["schema_version"], 2)
+        self.assertEqual(manifest["mode"], "category-first")
+        self.assertEqual(set(manifest["sources"]), {"geosite", "geoip", "custom"})
+        self.assertEqual(set(manifest["collections"]), {"geosite", "geoip", "ruleset"})
+        self.assertEqual(
+            manifest["sources"]["geosite"]["repository"],
+            "v2fly/domain-list-community",
+        )
+        self.assertEqual(
+            manifest["sources"]["geoip"]["repository"], "Loyalsoldier/geoip"
+        )
+        self.assertEqual(manifest["sources"]["custom"]["ref"], "custom")
+        for legacy_key in (
+            "source",
+            "geoip_source",
+            "custom_source",
+            "statistics",
+            "categories",
+            "geoip_categories",
+            "ruleset_categories",
+        ):
+            self.assertNotIn(legacy_key, manifest)
         self.assertEqual(
             manifest["converter"],
             {
@@ -205,19 +221,94 @@ class GeneratedRulesTests(unittest.TestCase):
                 "commit": "b" * 40,
             },
         )
+        geosite = manifest["collections"]["geosite"]
+        self.assertEqual(geosite["sources"], ["geosite", "custom"])
         self.assertEqual(
-            manifest["categories"]["115"]["counts"],
+            manifest["collections"]["geoip"]["sources"], ["geoip", "custom"]
+        )
+        self.assertEqual(
+            manifest["collections"]["ruleset"]["sources"],
+            ["geosite", "geoip", "custom"],
+        )
+        statistics = geosite["statistics"]
+        self.assertEqual(statistics["source_categories"], 2)
+        self.assertEqual(statistics["generated_categories"], 1)
+        self.assertEqual(statistics["omitted_categories"], 1)
+        self.assertEqual(statistics["source_rules"], 5)
+        self.assertEqual(
+            statistics["formats"],
+            {
+                "list": {
+                    "files": 1,
+                    "rules": 3,
+                    "counts": {
+                        "domain": 1,
+                        "domain_keyword": 1,
+                        "domain_suffix": 1,
+                    },
+                    "omitted": {"domain_regex": 2},
+                },
+                "yaml": {
+                    "files": 1,
+                    "rules": 3,
+                    "counts": {
+                        "domain": 1,
+                        "domain_keyword": 1,
+                        "domain_suffix": 1,
+                    },
+                    "omitted": {"domain_regex": 2},
+                },
+                "mrs": {
+                    "files": 1,
+                    "rules": 2,
+                    "counts": {"domain": 1, "domain_suffix": 1},
+                    "omitted": {"domain_keyword": 1, "domain_regex": 2},
+                },
+                "srs": {
+                    "files": 1,
+                    "rules": 4,
+                    "counts": {
+                        "domain": 1,
+                        "domain_keyword": 1,
+                        "domain_regex": 1,
+                        "domain_suffix": 1,
+                    },
+                    "omitted": {"domain_regex": 1},
+                },
+            },
+        )
+        category = geosite["categories"]["115"]
+        self.assertEqual(
+            category["source_counts"],
             {
                 "domain": 1,
                 "domain_suffix": 1,
                 "domain_keyword": 1,
-                "omitted_domain_regex": 1,
-                "total": 3,
+                "domain_regex": 1,
+                "total": 4,
             },
         )
         self.assertEqual(
-            set(manifest["categories"]["115"]["files"]),
+            set(category["formats"]),
             {"list", "yaml", "mrs", "srs"},
+        )
+        self.assertEqual(category["formats"]["list"]["rules"], 3)
+        self.assertEqual(
+            category["formats"]["list"]["omitted"], {"domain_regex": 1}
+        )
+        self.assertEqual(category["formats"]["mrs"]["rules"], 2)
+        self.assertEqual(
+            category["formats"]["mrs"]["omitted"],
+            {"domain_keyword": 1, "domain_regex": 1},
+        )
+        self.assertEqual(category["formats"]["srs"]["rules"], 4)
+        self.assertEqual(category["formats"]["srs"]["omitted"], {})
+        self.assertEqual(
+            geosite["omitted_categories"]["regex-only"],
+            {
+                "reason": "category has no portable list or YAML rules",
+                "source_counts": {"domain_regex": 1, "total": 1},
+            },
         )
         self.assertFalse((self.output / "README.md").exists())
         self.assertTrue((self.output / "manifest.json").is_file())
@@ -249,7 +340,9 @@ class GeneratedRulesTests(unittest.TestCase):
         first = generator.build(self.options(output=first_output))
         first_manifest_path = first_output / "manifest.json"
         saved = json.loads(first_manifest_path.read_text(encoding="utf-8"))
-        saved["categories"]["115"]["updated"] = "2026-01-02T03:04:05Z"
+        saved["collections"]["geosite"]["categories"]["115"][
+            "updated"
+        ] = "2026-01-02T03:04:05Z"
         first_manifest_path.write_text(
             json.dumps(saved, indent=2) + "\n", encoding="utf-8"
         )
@@ -260,17 +353,50 @@ class GeneratedRulesTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            second["categories"]["115"]["updated"],
+            second["collections"]["geosite"]["categories"]["115"]["updated"],
             "2026-01-02T03:04:05Z",
         )
         self.assertEqual(
-            first["categories"]["115"]["source_sha256"],
-            second["categories"]["115"]["source_sha256"],
+            first["collections"]["geosite"]["categories"]["115"][
+                "source_sha256"
+            ],
+            second["collections"]["geosite"]["categories"]["115"][
+                "source_sha256"
+            ],
         )
         second_list = (second_output / "geosite/115/115.list").read_text(
             encoding="utf-8"
         )
         self.assertIn("# UPDATED: 2026-01-02 11:04:05 UTC+08:00", second_list)
+
+    def test_migrates_updated_timestamp_from_manifest_v1(self) -> None:
+        self.add_115()
+        previous = self.root / "previous-v1"
+        previous.mkdir()
+        source_hash = generator.sha256_text(
+            (self.classical / "115.list").read_text(encoding="utf-8")
+        )
+        (previous / "manifest.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "categories": {
+                        "115": {
+                            "updated": "2026-01-02T03:04:05Z",
+                            "source_sha256": source_hash,
+                        }
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        manifest = generator.build(self.options(previous=previous))
+
+        self.assertEqual(
+            manifest["collections"]["geosite"]["categories"]["115"]["updated"],
+            "2026-01-02T03:04:05Z",
+        )
 
     def test_builds_complete_geoip_category_with_correct_ip_types(self) -> None:
         self.add_115()
@@ -308,16 +434,34 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertEqual(
             (self.output / "geoip/cn/cn.srs").read_bytes(), b"geoip-srs:cn"
         )
+        geoip = manifest["collections"]["geoip"]
+        category = geoip["categories"]["cn"]
         self.assertEqual(
-            manifest["geoip_categories"]["cn"]["counts"],
+            category["source_counts"],
             {"ipv4": 1, "ipv6": 1, "total": 2},
         )
         self.assertEqual(
-            set(manifest["geoip_categories"]["cn"]["files"]),
+            set(category["formats"]),
             {"list", "yaml", "mrs", "srs"},
         )
-        self.assertEqual(manifest["statistics"]["generated_geoip_categories"], 1)
-        self.assertEqual(manifest["statistics"]["geoip_rules"], 2)
+        for format_name in ("list", "yaml", "mrs", "srs"):
+            self.assertEqual(category["formats"][format_name]["rules"], 2)
+            self.assertEqual(
+                category["formats"][format_name]["counts"],
+                {"ipv4": 1, "ipv6": 1},
+            )
+            self.assertEqual(category["formats"][format_name]["omitted"], {})
+        self.assertEqual(geoip["statistics"]["generated_categories"], 1)
+        self.assertEqual(geoip["statistics"]["source_rules"], 2)
+        self.assertEqual(
+            geoip["statistics"]["formats"]["srs"],
+            {
+                "files": 1,
+                "rules": 2,
+                "counts": {"ipv4": 1, "ipv6": 1},
+                "omitted": {},
+            },
+        )
         checksums = (self.output / "SHA256SUMS").read_text(encoding="utf-8")
         for suffix in ("list", "yaml", "mrs", "srs"):
             self.assertIn(f"  geoip/cn/cn.{suffix}\n", checksums)
@@ -391,21 +535,37 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertIn("# IP-CIDR: 1", list_text)
         self.assertIn("# IP-CIDR6: 1", list_text)
         self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", list_text)
+        ruleset = manifest["collections"]["ruleset"]
+        category = ruleset["categories"]["anthropic"]
+        self.assertEqual(set(category["formats"]), {"list", "yaml", "srs"})
         self.assertEqual(
-            set(manifest["ruleset_categories"]["anthropic"]["files"]),
-            {"list", "yaml", "srs"},
-        )
-        self.assertEqual(
-            manifest["ruleset_categories"]["anthropic"]["counts"],
+            category["source_counts"],
             {
                 "domain": 1,
                 "domain_suffix": 1,
                 "domain_keyword": 1,
+                "domain_regex": 1,
                 "ipv4": 1,
                 "ipv6": 1,
-                "omitted_domain_regex": 1,
-                "total": 5,
+                "total": 6,
             },
+        )
+        self.assertEqual(category["formats"]["list"]["rules"], 5)
+        self.assertEqual(
+            category["formats"]["list"]["omitted"], {"domain_regex": 1}
+        )
+        self.assertEqual(category["formats"]["yaml"]["rules"], 5)
+        self.assertEqual(category["formats"]["srs"]["rules"], 6)
+        self.assertEqual(category["formats"]["srs"]["omitted"], {})
+        self.assertEqual(ruleset["statistics"]["source_rules"], 6)
+        self.assertEqual(
+            ruleset["statistics"]["formats"]["list"]["omitted"],
+            {"domain_regex": 1},
+        )
+        self.assertIn("mrs", ruleset["unsupported_formats"])
+        self.assertIn(
+            "mix domain and IP",
+            ruleset["unsupported_formats"]["mrs"]["reason"],
         )
         geosite_text = (self.output / "geosite/anthropic/anthropic.list").read_text(
             encoding="utf-8"
@@ -461,21 +621,22 @@ class GeneratedRulesTests(unittest.TestCase):
                 self.assertTrue((shared_directory / f"{name}.{suffix}").is_file())
         self.assertFalse((self.output / "ruleset/ip-attribution-direct").exists())
         self.assertFalse((self.output / "ruleset/ip-attribution-reject").exists())
+        categories = manifest["collections"]["ruleset"]["categories"]
         self.assertEqual(
-            manifest["ruleset_categories"]["ip-attribution"]["action"],
+            categories["ip-attribution"]["action"],
             "default",
         )
         self.assertEqual(
-            manifest["ruleset_categories"]["ip-attribution-direct"]["action"],
+            categories["ip-attribution-direct"]["action"],
             "direct",
         )
         self.assertEqual(
-            manifest["ruleset_categories"]["ip-attribution-reject"]["action"],
+            categories["ip-attribution-reject"]["action"],
             "reject",
         )
         for name in required:
             self.assertEqual(
-                manifest["ruleset_categories"][name]["path"],
+                categories[name]["path"],
                 "ruleset/ip-attribution",
             )
 
@@ -518,10 +679,16 @@ class GeneratedRulesTests(unittest.TestCase):
                 "DOMAIN-SUFFIX,360.com\n"
             )
         )
-        self.assertEqual(manifest["aliases"], {"360": "qihoo360"})
-        self.assertEqual(manifest["categories"]["360"]["alias_of"], "qihoo360")
-        self.assertEqual(manifest["statistics"]["portable_rules"], 1)
-        self.assertEqual(manifest["statistics"]["published_rules"], 2)
+        geosite = manifest["collections"]["geosite"]
+        self.assertEqual(geosite["aliases"], {"360": "qihoo360"})
+        self.assertEqual(geosite["categories"]["360"]["alias_of"], "qihoo360")
+        self.assertEqual(geosite["statistics"]["source_rules"], 1)
+        self.assertEqual(
+            geosite["statistics"]["formats"]["list"]["rules"], 2
+        )
+        self.assertEqual(
+            geosite["statistics"]["formats"]["list"]["files"], 2
+        )
 
     def test_rejects_alias_when_source_has_no_portable_rules(self) -> None:
         self.add_category(
