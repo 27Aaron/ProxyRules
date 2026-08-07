@@ -5,7 +5,10 @@ on:
     branches: [main]
     paths:
       - ".github/scripts/build-generated-rules.py"
+      - ".github/scripts/compile-mrs.go"
+      - ".github/scripts/prepare-custom-rules.py"
       - ".github/scripts/tests/test_build_generated_rules.py"
+      - ".github/scripts/tests/test_prepare_custom_rules.py"
       - ".github/workflows/update-generated-rules.yml"
   schedule:
     - cron: "17 2 * * *"
@@ -29,6 +32,7 @@ env:
   CONVERTER_SHA: 7dea27841a3579a633189830c98c08a0434e8b79
   SOURCE_REPOSITORY: v2fly/domain-list-community
   GEOIP_SOURCE_REPOSITORY: Loyalsoldier/geoip
+  CUSTOM_SOURCE_REF: custom
   TARGET_BRANCH: rules
 
 jobs:
@@ -51,6 +55,14 @@ jobs:
       - name: Test generator
         run: python3 -m unittest discover -s .github/scripts/tests -v
 
+      - name: Checkout custom rules
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.CUSTOM_SOURCE_REF }}
+          path: custom-source
+          fetch-depth: 1
+          persist-credentials: false
+
       - name: Read latest upstream releases
         env:
           GH_TOKEN: ${{ github.token }}
@@ -66,9 +78,13 @@ jobs:
           [[ "$geoip_source_tag" =~ ^[0-9A-Za-z._-]+$ ]]
           geoip_source_commit="$(gh api "repos/${GEOIP_SOURCE_REPOSITORY}/commits/${geoip_source_tag}" --jq '.sha')"
           geoip_source_published_at="$(gh api "repos/${GEOIP_SOURCE_REPOSITORY}/releases/latest" --jq '.published_at')"
+          custom_source_dir="${GITHUB_WORKSPACE}/custom-source"
+          custom_source_commit="$(git -C "$custom_source_dir" rev-parse HEAD)"
+          custom_source_published_at="$(git -C "$custom_source_dir" show -s --format=%cI HEAD)"
 
           [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]]
           [[ "$geoip_source_commit" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$custom_source_commit" =~ ^[0-9a-f]{40}$ ]]
           {
             echo "SOURCE_TAG=$source_tag"
             echo "SOURCE_COMMIT=$source_commit"
@@ -76,6 +92,8 @@ jobs:
             echo "GEOIP_SOURCE_TAG=$geoip_source_tag"
             echo "GEOIP_SOURCE_COMMIT=$geoip_source_commit"
             echo "GEOIP_SOURCE_PUBLISHED_AT=$geoip_source_published_at"
+            echo "CUSTOM_SOURCE_COMMIT=$custom_source_commit"
+            echo "CUSTOM_SOURCE_PUBLISHED_AT=$custom_source_published_at"
           } >> "$GITHUB_ENV"
 
       - name: Download and verify source data
@@ -119,6 +137,15 @@ jobs:
             cd "$converter_dir"
             go build -trimpath -o "${RUNNER_TEMP}/bin/meta-rules-converter" ./
           )
+          helper_dir="$converter_dir/cmd/proxyrules-compile-mrs"
+          mkdir -p "$helper_dir"
+          cp "${GITHUB_WORKSPACE}/.github/scripts/compile-mrs.go" \
+            "$helper_dir/main.go"
+          (
+            cd "$converter_dir"
+            go build -trimpath -o "${RUNNER_TEMP}/bin/compile-mrs" \
+              ./cmd/proxyrules-compile-mrs
+          )
 
       - name: Convert geosite sections
         shell: bash
@@ -151,6 +178,70 @@ jobs:
             --file "${RUNNER_TEMP}/rules-input/geoip.dat" \
             --out "$sing_dir" \
             --type sing-box
+
+      - name: Prepare and compile custom rules
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          prepared_dir="${RUNNER_TEMP}/prepared-custom"
+          python3 .github/scripts/prepare-custom-rules.py \
+            --custom-dir "${GITHUB_WORKSPACE}/custom-source" \
+            --geosite-classical-dir "${RUNNER_TEMP}/converted-geosite/classical" \
+            --geoip-dir "${RUNNER_TEMP}/converted-geoip" \
+            --output-dir "$prepared_dir" \
+            --minimum-categories 5 \
+            --required-category anthropic \
+            --required-category apple-push \
+            --required-category googlefcm \
+            --required-category ip-attribution \
+            --required-category openai
+
+          compiled_dir="${RUNNER_TEMP}/compiled-custom"
+          "${RUNNER_TEMP}/bin/meta-rules-converter" clash \
+            --file "$prepared_dir/geosite/classical" \
+            --out "$compiled_dir/geosite" \
+            --type sing-box
+          "${RUNNER_TEMP}/bin/meta-rules-converter" clash \
+            --file "$prepared_dir/geoip/classical" \
+            --out "$compiled_dir/geoip" \
+            --type sing-box
+          "${RUNNER_TEMP}/bin/meta-rules-converter" clash \
+            --file "$prepared_dir/ruleset" \
+            --out "$compiled_dir/ruleset" \
+            --type sing-box
+
+          mkdir -p "$prepared_dir/ruleset-srs"
+          while IFS= read -r name; do
+            cp "$prepared_dir/geosite/domain/${name}.list" \
+              "${RUNNER_TEMP}/converted-geosite/${name}.list"
+            cp "$prepared_dir/geosite/domain/${name}.yaml" \
+              "${RUNNER_TEMP}/converted-geosite/${name}.yaml"
+            cp "$prepared_dir/geosite/classical/${name}.list" \
+              "${RUNNER_TEMP}/converted-geosite/classical/${name}.list"
+            cp "$prepared_dir/geosite/classical/${name}.yaml" \
+              "${RUNNER_TEMP}/converted-geosite/classical/${name}.yaml"
+            "${RUNNER_TEMP}/bin/compile-mrs" \
+              --behavior domain \
+              --input "$prepared_dir/geosite/domain/${name}.list" \
+              --output "${RUNNER_TEMP}/converted-geosite/${name}.mrs"
+            cp "$compiled_dir/geosite/${name}/domain.srs" \
+              "${RUNNER_TEMP}/converted-geosite-sing/${name}.srs"
+
+            cp "$prepared_dir/geoip/${name}.list" \
+              "${RUNNER_TEMP}/converted-geoip/${name}.list"
+            cp "$prepared_dir/geoip/${name}.yaml" \
+              "${RUNNER_TEMP}/converted-geoip/${name}.yaml"
+            "${RUNNER_TEMP}/bin/compile-mrs" \
+              --behavior ipcidr \
+              --input "$prepared_dir/geoip/${name}.list" \
+              --output "${RUNNER_TEMP}/converted-geoip/${name}.mrs"
+            cp "$compiled_dir/geoip/${name}/ip.srs" \
+              "${RUNNER_TEMP}/converted-geoip-sing/${name}.srs"
+
+            cp "$compiled_dir/ruleset/${name}/classical.srs" \
+              "$prepared_dir/ruleset-srs/${name}.srs"
+          done < <(jq -r '.categories | keys[]' "$prepared_dir/metadata.json")
 
       - name: Fetch previous rules branch when available
         shell: bash
@@ -187,6 +278,8 @@ jobs:
             --srs-dir "${RUNNER_TEMP}/converted-geosite-sing"
             --geoip-dir "${RUNNER_TEMP}/converted-geoip"
             --geoip-srs-dir "${RUNNER_TEMP}/converted-geoip-sing"
+            --ruleset-dir "${RUNNER_TEMP}/prepared-custom/ruleset"
+            --ruleset-srs-dir "${RUNNER_TEMP}/prepared-custom/ruleset-srs"
             --output-dir "$output_dir"
             --previous-dir "$PREVIOUS_DIR"
             --repository "$GITHUB_REPOSITORY"
@@ -199,19 +292,45 @@ jobs:
             --geoip-source-release "$GEOIP_SOURCE_TAG"
             --geoip-source-commit "$GEOIP_SOURCE_COMMIT"
             --geoip-source-published-at "$GEOIP_SOURCE_PUBLISHED_AT"
+            --custom-source-repository "$GITHUB_REPOSITORY"
+            --custom-source-ref "$CUSTOM_SOURCE_REF"
+            --custom-source-commit "$CUSTOM_SOURCE_COMMIT"
+            --custom-source-published-at "$CUSTOM_SOURCE_PUBLISHED_AT"
             --converter-repository "$CONVERTER_REPOSITORY"
             --converter-commit "$CONVERTER_SHA"
             --minimum-categories 1000
             --minimum-geoip-categories 250
+            --minimum-ruleset-categories 5
             --alias "360=qihoo360"
             --required-category 115
             --required-category 360
             --required-category netflix
             --required-category cn
             --required-category 'geolocation-!cn'
+            --required-category anthropic
+            --required-category apple-push
+            --required-category googlefcm
+            --required-category ip-attribution
+            --required-category openai
             --required-geoip-category cn
             --required-geoip-category private
             --required-geoip-category us
+            --required-geoip-category anthropic
+            --required-geoip-category apple-push
+            --required-geoip-category googlefcm
+            --required-geoip-category ip-attribution
+            --required-geoip-category openai
+            --required-ruleset-category anthropic
+            --required-ruleset-category apple-push
+            --required-ruleset-category googlefcm
+            --required-ruleset-category ip-attribution
+            --required-ruleset-category openai
+          )
+          while IFS= read -r name; do
+            arguments+=(--custom-category "$name")
+          done < <(
+            jq -r '.categories | keys[]' \
+              "${RUNNER_TEMP}/prepared-custom/metadata.json"
           )
           if [[ "${{ inputs.allow_large_drop || false }}" == "true" ]]; then
             arguments+=(--allow-large-drop)
@@ -250,6 +369,32 @@ jobs:
             "$output_dir/geoip/cn/cn.list"
           grep -Eq '^IP-CIDR6,[^,]+,no-resolve$' \
             "$output_dir/geoip/cn/cn.list"
+          for name in anthropic apple-push googlefcm ip-attribution openai; do
+            test -s "$output_dir/geosite/$name/$name.list"
+            test -s "$output_dir/geosite/$name/$name.yaml"
+            test -s "$output_dir/geosite/$name/$name.mrs"
+            test -s "$output_dir/geosite/$name/$name.srs"
+            test -s "$output_dir/geoip/$name/$name.list"
+            test -s "$output_dir/geoip/$name/$name.yaml"
+            test -s "$output_dir/geoip/$name/$name.mrs"
+            test -s "$output_dir/geoip/$name/$name.srs"
+            test -s "$output_dir/ruleset/$name/$name.list"
+            test -s "$output_dir/ruleset/$name/$name.yaml"
+            test -s "$output_dir/ruleset/$name/$name.srs"
+            test ! -e "$output_dir/ruleset/$name/$name.mrs"
+          done
+          grep -Fqx 'DOMAIN-SUFFIX,anthropic.com' \
+            "$output_dir/geosite/anthropic/anthropic.list"
+          grep -Fqx 'IP-CIDR,160.79.104.0/21,no-resolve' \
+            "$output_dir/geoip/anthropic/anthropic.list"
+          grep -Fqx 'DOMAIN-SUFFIX,anthropic.com' \
+            "$output_dir/ruleset/anthropic/anthropic.list"
+          grep -Fqx 'IP-CIDR,160.79.104.0/21,no-resolve' \
+            "$output_dir/ruleset/anthropic/anthropic.list"
+          if grep -Eq ',(DIRECT|REJECT)(,|$)' \
+            "$output_dir/ruleset/ip-attribution/ip-attribution.list"; then
+            exit 1
+          fi
 
       - name: Stage generated branch
         id: changes
