@@ -472,7 +472,7 @@ def main(argv: list[str]) -> int:
 
     if not paths:
         print("no rule files found", file=sys.stderr)
-        return 1
+        return 0
 
     stats = {"updated": 0, "unchanged": 0, "skip": 0}
     missing = 0
