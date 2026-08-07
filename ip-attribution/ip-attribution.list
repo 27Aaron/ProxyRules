@@ -1,233 +1,356 @@
+# Routes service endpoints that determine or display an account's IP location.
+# Explicit DIRECT and REJECT actions preserve DNS and media exceptions.
+
+# Bilibili
+# Block private HTTPDNS endpoints to prevent direct resolution.
 DOMAIN,httpdns.bilivideo.com,REJECT
-IP-CIDR,47.101.175.206/32,REJECT,no-resolve
 IP-CIDR,47.100.123.169/32,REJECT,no-resolve
-IP-CIDR,120.46.169.234/32,REJECT,no-resolve
-IP-CIDR,121.36.72.124/32,REJECT,no-resolve
-IP-CIDR,116.63.10.135/32,REJECT,no-resolve
-IP-CIDR,122.9.7.134/32,REJECT,no-resolve
-IP-CIDR,117.185.228.108/32,REJECT,no-resolve
-IP-CIDR,117.144.238.29/32,REJECT,no-resolve
-IP-CIDR,122.9.13.79/32,REJECT,no-resolve
-IP-CIDR,122.9.15.129/32,REJECT,no-resolve
-IP-CIDR,101.91.140.224/32,REJECT,no-resolve
+IP-CIDR,47.101.175.206/32,REJECT,no-resolve
 IP-CIDR,101.91.140.124/32,REJECT,no-resolve
-IP-CIDR,114.116.215.110/32,REJECT,no-resolve
-IP-CIDR,116.63.10.31/32,REJECT,no-resolve
+IP-CIDR,101.91.140.224/32,REJECT,no-resolve
 IP-CIDR,112.64.218.119/32,REJECT,no-resolve
 IP-CIDR,112.65.200.117/32,REJECT,no-resolve
-DOMAIN-SUFFIX,biliapi.net
+IP-CIDR,114.116.215.110/32,REJECT,no-resolve
+IP-CIDR,116.63.10.31/32,REJECT,no-resolve
+IP-CIDR,116.63.10.135/32,REJECT,no-resolve
+IP-CIDR,117.144.238.29/32,REJECT,no-resolve
+IP-CIDR,117.185.228.108/32,REJECT,no-resolve
+IP-CIDR,120.46.169.234/32,REJECT,no-resolve
+IP-CIDR,121.36.72.124/32,REJECT,no-resolve
+IP-CIDR,122.9.7.134/32,REJECT,no-resolve
+IP-CIDR,122.9.13.79/32,REJECT,no-resolve
+IP-CIDR,122.9.15.129/32,REJECT,no-resolve
+
+# Route Bilibili APIs and the main site through proxy.
 DOMAIN-SUFFIX,biliapi.com
+DOMAIN-SUFFIX,biliapi.net
 DOMAIN-SUFFIX,bilibili.com
+
+# Proxy the shared public DNS range; rejecting it can affect other services.
 IP-CIDR,203.107.1.0/24,no-resolve
-DOMAIN-SUFFIX,bilivideo.com,DIRECT
+
+# Keep video and static-content CDNs direct.
 DOMAIN-SUFFIX,akamaized.net,DIRECT
+DOMAIN-SUFFIX,bilivideo.com,DIRECT
 DOMAIN-SUFFIX,hdslb.com,DIRECT
 DOMAIN-SUFFIX,szbdyd.com,DIRECT
+
+# Weibo
+# Route site, CDN, image, and dynamically named Weibo hosts through proxy.
+DOMAIN-SUFFIX,sinaimg.cn
+DOMAIN-SUFFIX,wbimg.cn
+DOMAIN-SUFFIX,wbimg.com
 DOMAIN-SUFFIX,weibo.cn
 DOMAIN-SUFFIX,weibo.com
 DOMAIN-SUFFIX,weibocdn.com
-DOMAIN-SUFFIX,wbimg.cn
-DOMAIN-SUFFIX,wbimg.com
-DOMAIN-SUFFIX,sinaimg.cn
 DOMAIN-KEYWORD,weibo
-DOMAIN,tieba.baidu.com
-DOMAIN,tbmsg.baidu.com
-DOMAIN,tb5.bdstatic.com
+
+# Baidu Tieba
+# Route Tieba site, API, messaging, logging, and analytics endpoints.
+DOMAIN,c.tieba.baidu.com
 DOMAIN,fclog.baidu.com
 DOMAIN,gsp0.baidu.com
 DOMAIN,hm.baidu.com
-DOMAIN,www.baidu.com
+DOMAIN,tb5.bdstatic.com
+DOMAIN,tbmsg.baidu.com
+DOMAIN,tieba.baidu.com
 DOMAIN,tiebac.baidu.com
-IP-CIDR,180.76.76.0/24,no-resolve
-DOMAIN,httpsdns.baidu.com
-DOMAIN,c.tieba.baidu.com
+DOMAIN,www.baidu.com
+
+# Route Baidu HTTPDNS endpoints and the associated public DNS range.
 DOMAIN,httpdns.baidu.com
 DOMAIN,httpdns.baidubce.com
-DOMAIN,szshort.weixin.qq.com
+DOMAIN,httpsdns.baidu.com
+IP-CIDR,180.76.76.0/24,no-resolve
+
+# WeChat
+# Route short-connection gateways and Official Account comments through proxy.
+DOMAIN,mp.weixin.qq.com
 DOMAIN,szextshort.weixin.qq.com
 DOMAIN,szminorshort.weixin.qq.com
-DOMAIN,mp.weixin.qq.com
+DOMAIN,szshort.weixin.qq.com
+
+# Zhihu
+# Route Zhihu application traffic and the observed attribution endpoint.
 DOMAIN-SUFFIX,zhihu.com
 IP-CIDR,103.41.167.0/24,no-resolve
+
+# Block known Zhihu HTTPDNS ranges to prevent direct resolution.
 IP-CIDR,118.89.204.198/23,REJECT,no-resolve
 IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/40,REJECT,no-resolve
+
+# Douyin
+# Route known dynamic API and search hostname patterns through proxy.
 DOMAIN-KEYWORD,core-c-lq
 DOMAIN-KEYWORD,core-lq
 DOMAIN-KEYWORD,normal-c-lq
 DOMAIN-KEYWORD,normal-lq
-DOMAIN-KEYWORD,search-quic-lq
 DOMAIN-KEYWORD,search-lq
-DOMAIN-SUFFIX,zijieapi.com,DIRECT
+DOMAIN-KEYWORD,search-quic-lq
+
+# Keep broad API suffixes direct to avoid unnecessary media proxying.
 DOMAIN-SUFFIX,ecombdapi.com,DIRECT
-DOMAIN-KEYWORD,-normal-hl
-DOMAIN-KEYWORD,-normal-c-hl
+DOMAIN-SUFFIX,zijieapi.com,DIRECT
+
+# Route additional regional API hostname patterns through proxy.
 DOMAIN-KEYWORD,-core-c-hl
-DOMAIN-KEYWORD,-normal-lf
-DOMAIN-KEYWORD,-normal-c-lf
 DOMAIN-KEYWORD,-core-c-lf
+DOMAIN-KEYWORD,-normal-c-hl
+DOMAIN-KEYWORD,-normal-c-lf
+DOMAIN-KEYWORD,-normal-hl
+DOMAIN-KEYWORD,-normal-lf
+
+# Route the desktop web, login, and application API endpoints.
 DOMAIN,sso.douyin.com
 DOMAIN,www.douyin.com
 DOMAIN-SUFFIX,snssdk.com
+
+# Toutiao
+# Route the Toutiao attribution API through proxy.
 DOMAIN-SUFFIX,toutiaoapi.com
+
+# Kuaishou
+# Route both API domain families; clients may fall back between them.
 DOMAIN-SUFFIX,gifshow.com
 DOMAIN-SUFFIX,ksapisrv.com
+
+# Xiaohongshu
+# Route Xiaohongshu domains and dynamically named hosts through proxy.
 DOMAIN-SUFFIX,xiaohongshu.com
 DOMAIN-KEYWORD,xiaohongshu
-IP-CIDR,114.55.236.88/32,no-resolve
-IP-CIDR,47.97.64.97/32,no-resolve
-IP-CIDR,47.97.66.48/32,no-resolve
-IP-CIDR,81.69.116.86/32,no-resolve
-IP-CIDR,119.45.249.52/32,no-resolve
-IP-CIDR,81.69.116.87/32,no-resolve
-IP-CIDR,119.45.2.92/32,no-resolve
+
+# Route observed addresses returned by edith.xiaohongshu.com.
 IP-CIDR,1.13.12.27/32,no-resolve
-IP-CIDR,81.69.116.102/32,no-resolve
-IP-CIDR,43.159.25.122/32,no-resolve
-IP-CIDR,43.159.25.28/32,no-resolve
-IP-CIDR,47.246.29.223/32,no-resolve
-IP-CIDR,47.246.29.226/32,no-resolve
-IP-CIDR,47.246.29.227/32,no-resolve
-IP-CIDR,47.246.29.225/32,no-resolve
-IP-CIDR,47.246.29.224/32,no-resolve
-IP-CIDR,47.246.29.222/32,no-resolve
-IP-CIDR,47.246.29.229/32,no-resolve
-IP-CIDR,47.246.29.228/32,no-resolve
-IP-CIDR,211.152.149.12/32,no-resolve
-IP-CIDR,49.51.224.95/32,no-resolve
-IP-CIDR,43.175.44.15/32,no-resolve
 IP-CIDR,23.236.104.30/32,no-resolve
 IP-CIDR,43.132.81.61/32,no-resolve
-IP-CIDR,101.33.27.26/32,no-resolve
-IP-CIDR,43.152.29.38/32,no-resolve
+IP-CIDR,43.132.83.9/32,no-resolve
+IP-CIDR,43.132.83.54/32,no-resolve
+IP-CIDR,43.132.83.175/32,no-resolve
+IP-CIDR,43.132.84.11/32,no-resolve
+IP-CIDR,43.132.91.37/32,no-resolve
+IP-CIDR,43.132.91.45/32,no-resolve
+IP-CIDR,43.132.91.110/32,no-resolve
 IP-CIDR,43.152.26.110/32,no-resolve
-IP-CIDR,101.33.11.32/32,no-resolve
-IP-CIDR,163.181.1.228/32,no-resolve
-IP-CIDR,163.181.1.226/32,no-resolve
-IP-CIDR,163.181.1.230/32,no-resolve
-IP-CIDR,163.181.1.227/32,no-resolve
-IP-CIDR,163.181.1.231/32,no-resolve
-IP-CIDR,163.181.1.229/32,no-resolve
-IP-CIDR,163.181.1.224/32,no-resolve
-IP-CIDR,163.181.1.225/32,no-resolve
-IP-CIDR,47.246.23.230/32,no-resolve
-IP-CIDR,47.246.23.234/32,no-resolve
-IP-CIDR,47.246.23.228/32,no-resolve
-IP-CIDR,47.246.23.233/32,no-resolve
-IP-CIDR,47.246.23.231/32,no-resolve
-IP-CIDR,47.246.23.232/32,no-resolve
-IP-CIDR,47.246.23.227/32,no-resolve
-IP-CIDR,47.246.23.229/32,no-resolve
+IP-CIDR,43.152.29.38/32,no-resolve
 IP-CIDR,43.152.42.109/32,no-resolve
+IP-CIDR,43.159.25.28/32,no-resolve
+IP-CIDR,43.159.25.122/32,no-resolve
+IP-CIDR,43.175.22.26/32,no-resolve
 IP-CIDR,43.175.22.27/32,no-resolve
 IP-CIDR,43.175.22.42/32,no-resolve
-IP-CIDR,43.175.22.26/32,no-resolve
-IP-CIDR,43.132.84.11/32,no-resolve
-IP-CIDR,101.33.20.34/32,no-resolve
-IP-CIDR,49.51.224.105/32,no-resolve
+IP-CIDR,43.175.44.15/32,no-resolve
+IP-CIDR,47.97.64.97/32,no-resolve
+IP-CIDR,47.97.66.48/32,no-resolve
+IP-CIDR,47.246.23.227/32,no-resolve
+IP-CIDR,47.246.23.228/32,no-resolve
+IP-CIDR,47.246.23.229/32,no-resolve
+IP-CIDR,47.246.23.230/32,no-resolve
+IP-CIDR,47.246.23.231/32,no-resolve
+IP-CIDR,47.246.23.232/32,no-resolve
+IP-CIDR,47.246.23.233/32,no-resolve
+IP-CIDR,47.246.23.234/32,no-resolve
+IP-CIDR,47.246.29.222/32,no-resolve
+IP-CIDR,47.246.29.223/32,no-resolve
+IP-CIDR,47.246.29.224/32,no-resolve
+IP-CIDR,47.246.29.225/32,no-resolve
+IP-CIDR,47.246.29.226/32,no-resolve
+IP-CIDR,47.246.29.227/32,no-resolve
+IP-CIDR,47.246.29.228/32,no-resolve
+IP-CIDR,47.246.29.229/32,no-resolve
+IP-CIDR,49.51.224.95/32,no-resolve
 IP-CIDR,49.51.224.103/32,no-resolve
+IP-CIDR,49.51.224.105/32,no-resolve
+IP-CIDR,81.69.116.86/32,no-resolve
+IP-CIDR,81.69.116.87/32,no-resolve
+IP-CIDR,81.69.116.102/32,no-resolve
+IP-CIDR,101.33.11.32/32,no-resolve
+IP-CIDR,101.33.20.34/32,no-resolve
+IP-CIDR,101.33.27.26/32,no-resolve
+IP-CIDR,114.55.236.88/32,no-resolve
+IP-CIDR,119.45.2.92/32,no-resolve
+IP-CIDR,119.45.249.52/32,no-resolve
+IP-CIDR,150.109.222.97/32,no-resolve
+IP-CIDR,150.109.222.99/32,no-resolve
+IP-CIDR,150.109.222.102/32,no-resolve
+IP-CIDR,150.109.222.103/32,no-resolve
+IP-CIDR,150.109.222.109/32,no-resolve
+IP-CIDR,150.109.222.110/32,no-resolve
+IP-CIDR,150.109.223.49/32,no-resolve
+IP-CIDR,163.181.1.224/32,no-resolve
+IP-CIDR,163.181.1.225/32,no-resolve
+IP-CIDR,163.181.1.226/32,no-resolve
+IP-CIDR,163.181.1.227/32,no-resolve
+IP-CIDR,163.181.1.228/32,no-resolve
+IP-CIDR,163.181.1.229/32,no-resolve
+IP-CIDR,163.181.1.230/32,no-resolve
+IP-CIDR,163.181.1.231/32,no-resolve
+IP-CIDR,163.181.92.231/32,no-resolve
 IP-CIDR,163.181.92.232/32,no-resolve
 IP-CIDR,163.181.92.233/32,no-resolve
+IP-CIDR,163.181.92.234/32,no-resolve
+IP-CIDR,163.181.92.235/32,no-resolve
+IP-CIDR,163.181.92.236/32,no-resolve
 IP-CIDR,163.181.92.237/32,no-resolve
 IP-CIDR,163.181.92.238/32,no-resolve
-IP-CIDR,163.181.92.231/32,no-resolve
-IP-CIDR,163.181.92.234/32,no-resolve
-IP-CIDR,163.181.92.236/32,no-resolve
-IP-CIDR,163.181.92.235/32,no-resolve
-IP-CIDR,43.132.83.175/32,no-resolve
-IP-CIDR,43.132.83.54/32,no-resolve
-IP-CIDR,43.132.83.9/32,no-resolve
-IP-CIDR,43.132.91.37/32,no-resolve
-IP-CIDR,43.132.91.110/32,no-resolve
-IP-CIDR,43.132.91.45/32,no-resolve
-IP-CIDR,150.109.222.109/32,no-resolve
-IP-CIDR,150.109.222.102/32,no-resolve
-IP-CIDR,150.109.222.97/32,no-resolve
-IP-CIDR,150.109.223.49/32,no-resolve
-IP-CIDR,150.109.222.103/32,no-resolve
-IP-CIDR,150.109.222.99/32,no-resolve
-IP-CIDR,150.109.222.110/32,no-resolve
 IP-CIDR,203.205.220.62/32,no-resolve
+IP-CIDR,211.152.149.12/32,no-resolve
+
+# Keylol
+# Route the forum comment endpoint through proxy.
 DOMAIN,keylol.com
+
+# Xigua Video
+# Route the site through proxy to hide the direct address; the proxy location
+# may still not be displayed by the service.
 DOMAIN-SUFFIX,ixigua.com
+
+# Wenshushu
+# Route the web application through proxy.
 DOMAIN,www.wenshushu.cn
+
+# Douban
+# Block the known HTTPDNS address before routing app and web traffic.
 IP-CIDR,119.29.29.98/32,REJECT,no-resolve
-IP-CIDR,120.53.130.158/32,no-resolve
 DOMAIN,frodo.douban.com
 DOMAIN,www.douban.com
+DOMAIN-SUFFIX,douban.com
+
+# Route observed Douban service addresses through proxy.
+IP-CIDR,49.233.242.15/32,no-resolve
+IP-CIDR,81.70.124.99/32,no-resolve
+IP-CIDR,81.70.125.19/32,no-resolve
+IP-CIDR,120.53.130.158/32,no-resolve
+IP-CIDR,140.143.177.206/32,no-resolve
+
+# Coolapk
+# Route both application API generations through proxy.
 DOMAIN,api.coolapk.com
 DOMAIN,api2.coolapk.com
+
+# TapTap
+# Route the application API through proxy.
 DOMAIN,api.taptapdada.com
+
+# NetEase Dashen
+# Route the application API through proxy.
 DOMAIN,god.gameyw.netease.com
+
+# Huya
+# Route the Huya domain family through proxy.
 DOMAIN-SUFFIX,huya.com
+
+# Dongqiudi
+# Route the Dongqiudi domain family through proxy.
 DOMAIN-SUFFIX,dongqiudi.com
-DOMAIN,ngabbs.com
+
+# NGA
+# Route forum, profile, and comment endpoints through proxy.
 DOMAIN,bbs.nga.cn
 DOMAIN,nga.178.com
+DOMAIN,ngabbs.com
+
+# Xiaomi Community
+# Route the community API through proxy.
 DOMAIN,api.vip.miui.com
-DOMAIN-SUFFIX,music.163.com
-DOMAIN,nstool.netease.com
-DOMAIN,wanproxy.127.net
-DOMAIN,mam.netease.com
-DOMAIN,dt.netease.im
+
+# NetEase Cloud Music
+# Route application APIs, discovery services, and media hostnames through proxy.
+DOMAIN,ac.dun.163.com
 DOMAIN,api.iplay.163.com
 DOMAIN,api.k.163.com
+DOMAIN,dt.netease.im
 DOMAIN,lbs.netease.im
+DOMAIN,mam.netease.com
+DOMAIN,nstool.netease.com
 DOMAIN,wannos.127.net
-DOMAIN,ac.dun.163.com
-DOMAIN-SUFFIX,music.126.net
+DOMAIN,wanproxy.127.net
 DOMAIN-SUFFIX,laiqukankan.com
+DOMAIN-SUFFIX,music.126.net
+DOMAIN-SUFFIX,music.163.com
+DOMAIN-SUFFIX,music.163.com.163jiasu.com
 DOMAIN-SUFFIX,music.ntes53.netease.com
+
+# Route observed service and accelerator addresses through proxy.
+IP-CIDR,1.95.21.35/32,no-resolve
+IP-CIDR,45.254.48.1/32,no-resolve
+IP-CIDR,47.100.127.239/32,no-resolve
+IP-CIDR,59.111.19.33/32,no-resolve
+IP-CIDR,59.111.19.53/32,no-resolve
+IP-CIDR,59.111.160.195/32,no-resolve
 IP-CIDR,101.71.154.241/32,no-resolve
 IP-CIDR,103.126.92.132/32,no-resolve
 IP-CIDR,103.126.92.133/32,no-resolve
+IP-CIDR,111.48.137.146/32,no-resolve
 IP-CIDR,112.13.119.18/32,no-resolve
 IP-CIDR,112.13.122.4/32,no-resolve
 IP-CIDR,115.236.118.34/32,no-resolve
 IP-CIDR,115.236.121.4/32,no-resolve
-IP-CIDR,45.254.48.1/32,no-resolve
-IP-CIDR,59.111.160.195/32,no-resolve
-IP-CIDR,59.111.19.33/32,no-resolve
-IP-CIDR,59.111.19.53/32,no-resolve
-DOMAIN-SUFFIX,music.163.com.163jiasu.com
 IP-CIDR,119.36.90.80/32,no-resolve
-IP-CIDR,111.48.137.146/32,no-resolve
-IP-CIDR,1.95.21.35/32,no-resolve
-IP-CIDR,47.100.127.239/32,no-resolve
-DOMAIN-SUFFIX,lofter.com
+
+# LOFTER
+# Route application endpoints through proxy and keep the image CDN direct.
 DOMAIN,yaolu.yuedu.163.com
+DOMAIN-SUFFIX,lofter.com
 DOMAIN-SUFFIX,lf127.net,DIRECT
-DOMAIN-SUFFIX,hls3-akm.douyucdn.cn,DIRECT
-DOMAIN-SUFFIX,hlsa-akm.douyucdn.cn,DIRECT
+
+# Douyu
+# Keep live streams, danmaku, and image endpoints direct.
+DOMAIN-SUFFIX,akm-tct.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,danmuproxy.douyu.com,DIRECT
 DOMAIN-SUFFIX,hls1a-akm.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,hls3-akm.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,hls3a-akm.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,hlsa-akm.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,img.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,tc-tct1.douyucdn.cn,DIRECT
+DOMAIN-SUFFIX,tx2play1.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,vplay1a.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,vplay3a.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,ws-tct.douyucdn.cn,DIRECT
-DOMAIN-SUFFIX,akm-tct.douyucdn.cn,DIRECT
-DOMAIN-SUFFIX,tx2play1.douyucdn.cn,DIRECT
-DOMAIN-SUFFIX,tc-tct1.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,ws3.douyucdn.cn,DIRECT
 DOMAIN-SUFFIX,wsproxy.douyu.com,DIRECT
-DOMAIN-SUFFIX,danmuproxy.douyu.com,DIRECT
-DOMAIN-SUFFIX,img.douyucdn.cn,DIRECT
-DOMAIN-SUFFIX,douyucdn.cn
+
+# Route the remaining Douyu application domains through proxy.
 DOMAIN-SUFFIX,douyu.com
+DOMAIN-SUFFIX,douyucdn.cn
+
+# Miyoushe
+# Route the legacy and current community APIs through proxy.
 DOMAIN,bbs-api.mihoyo.com
 DOMAIN,bbs-api.miyoushe.com
-DOMAIN-SUFFIX,douban.com
-IP-CIDR,49.233.242.15/32,no-resolve
-IP-CIDR,81.70.124.99/32,no-resolve
-IP-CIDR,81.70.125.19/32,no-resolve
-IP-CIDR,140.143.177.206/32,no-resolve
+
+# Xiaoheihe
+# Route the application API through proxy; static image CDNs are not included.
 DOMAIN,api.xiaoheihe.cn
+
+# QQ Music
+# Keep the exact image host direct before routing its wider suffix through proxy.
 DOMAIN,y.qq.com,DIRECT
 DOMAIN-SUFFIX,y.qq.com
+
+# Skland
+# Route the community API through proxy.
 DOMAIN,zonai.skland.com
+
+# Soul
+# Keep image hosts direct before routing the wider application suffix.
 DOMAIN,china-img.soulapp.cn,DIRECT
 DOMAIN,img.soulapp.cn,DIRECT
 DOMAIN-SUFFIX,soulapp.cn
+
+# Qidian
+# Route comment, review, profile, and login APIs through proxy.
 DOMAIN,druidv6.if.qidian.com
 DOMAIN,ptlogin6.qidian.com
+
+# Perfect World Esports
+# Route the application API through proxy.
 DOMAIN,api.wmpvp.com
+
+# Hupu
+# Route the mobile community API through proxy.
 DOMAIN,bbs.mobileapi.hupu.com
+
+# ITHome
+# Route the comment endpoint through proxy.
 DOMAIN,cmt.ithome.com
