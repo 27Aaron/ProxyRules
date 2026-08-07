@@ -97,8 +97,17 @@ class PrepareCustomRulesTests(unittest.TestCase):
             metadata["categories"]["anthropic"]["merged_counts"],
             {"geosite": 4, "geoip": 2, "ruleset": 6},
         )
+        self.assertEqual(
+            metadata["rulesets"]["anthropic"],
+            {
+                "source_category": "anthropic",
+                "action": "default",
+                "output_directory": "anthropic",
+                "rules": 6,
+            },
+        )
 
-    def test_strips_actions_from_combined_ruleset_and_records_them(self) -> None:
+    def test_splits_ip_attribution_rules_by_action(self) -> None:
         self.add_custom(
             "ip-attribution",
             [
@@ -110,20 +119,51 @@ class PrepareCustomRulesTests(unittest.TestCase):
 
         metadata = self.prepare()
 
-        ruleset = (self.output / "ruleset/ip-attribution.list").read_text(
+        default_rules = (self.output / "ruleset/ip-attribution.list").read_text(
             encoding="utf-8"
         )
+        direct_rules = (
+            self.output / "ruleset/ip-attribution-direct.list"
+        ).read_text(encoding="utf-8")
+        reject_rules = (
+            self.output / "ruleset/ip-attribution-reject.list"
+        ).read_text(encoding="utf-8")
+        self.assertEqual(default_rules, "DOMAIN,www.example.com\n")
         self.assertEqual(
-            ruleset,
-            "DOMAIN,www.example.com\n"
-            "DOMAIN-SUFFIX,static.example.com\n"
-            "IP-CIDR,192.0.2.0/24,no-resolve\n",
+            direct_rules, "DOMAIN-SUFFIX,static.example.com\n"
         )
-        self.assertNotIn("DIRECT", ruleset)
-        self.assertNotIn("REJECT", ruleset)
+        self.assertEqual(
+            reject_rules, "IP-CIDR,192.0.2.0/24,no-resolve\n"
+        )
+        for rules in (default_rules, direct_rules, reject_rules):
+            self.assertNotIn("DIRECT", rules)
+            self.assertNotIn("REJECT", rules)
         self.assertEqual(
             metadata["categories"]["ip-attribution"]["actions"],
             {"default": 1, "direct": 1, "reject": 1},
+        )
+        self.assertEqual(
+            metadata["rulesets"],
+            {
+                "ip-attribution": {
+                    "source_category": "ip-attribution",
+                    "action": "default",
+                    "output_directory": "ip-attribution",
+                    "rules": 1,
+                },
+                "ip-attribution-direct": {
+                    "source_category": "ip-attribution",
+                    "action": "direct",
+                    "output_directory": "ip-attribution",
+                    "rules": 1,
+                },
+                "ip-attribution-reject": {
+                    "source_category": "ip-attribution",
+                    "action": "reject",
+                    "output_directory": "ip-attribution",
+                    "rules": 1,
+                },
+            },
         )
 
     def test_rejects_unknown_modifier(self) -> None:

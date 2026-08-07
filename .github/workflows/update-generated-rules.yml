@@ -239,9 +239,11 @@ jobs:
             cp "$compiled_dir/geoip/${name}/ip.srs" \
               "${RUNNER_TEMP}/converted-geoip-sing/${name}.srs"
 
+          done < <(jq -r '.categories | keys[]' "$prepared_dir/metadata.json")
+          while IFS= read -r name; do
             cp "$compiled_dir/ruleset/${name}/classical.srs" \
               "$prepared_dir/ruleset-srs/${name}.srs"
-          done < <(jq -r '.categories | keys[]' "$prepared_dir/metadata.json")
+          done < <(jq -r '.rulesets | keys[]' "$prepared_dir/metadata.json")
 
       - name: Fetch previous rules branch when available
         shell: bash
@@ -300,7 +302,7 @@ jobs:
             --converter-commit "$CONVERTER_SHA"
             --minimum-categories 1000
             --minimum-geoip-categories 250
-            --minimum-ruleset-categories 5
+            --minimum-ruleset-categories 7
             --alias "360=qihoo360"
             --required-category 115
             --required-category 360
@@ -324,6 +326,8 @@ jobs:
             --required-ruleset-category apple-push
             --required-ruleset-category googlefcm
             --required-ruleset-category ip-attribution
+            --required-ruleset-category ip-attribution-direct
+            --required-ruleset-category ip-attribution-reject
             --required-ruleset-category openai
           )
           while IFS= read -r name; do
@@ -395,6 +399,22 @@ jobs:
             "$output_dir/ruleset/ip-attribution/ip-attribution.list"; then
             exit 1
           fi
+          for name in ip-attribution-direct ip-attribution-reject; do
+            test -s "$output_dir/ruleset/ip-attribution/$name.list"
+            test -s "$output_dir/ruleset/ip-attribution/$name.yaml"
+            test -s "$output_dir/ruleset/ip-attribution/$name.srs"
+            test ! -e "$output_dir/ruleset/ip-attribution/$name.mrs"
+            if grep -Eq ',(DIRECT|REJECT)(,|$)' \
+              "$output_dir/ruleset/ip-attribution/$name.list"; then
+              exit 1
+            fi
+          done
+          test "$(grep -Ec '^[A-Z0-9-]+,' \
+            "$output_dir/ruleset/ip-attribution/ip-attribution.list")" -eq 189
+          test "$(grep -Ec '^[A-Z0-9-]+,' \
+            "$output_dir/ruleset/ip-attribution/ip-attribution-direct.list")" -eq 24
+          test "$(grep -Ec '^[A-Z0-9-]+,' \
+            "$output_dir/ruleset/ip-attribution/ip-attribution-reject.list")" -eq 20
 
       - name: Stage generated branch
         id: changes
