@@ -29,12 +29,16 @@ class GeneratedRulesTests(unittest.TestCase):
         self.srs = self.root / "sing-box"
         self.geoip = self.root / "converted-geoip"
         self.geoip_srs = self.root / "converted-geoip-sing"
+        self.ruleset = self.root / "prepared-ruleset"
+        self.ruleset_srs = self.root / "compiled-ruleset"
         self.output = self.root / "output"
         self.domain.mkdir()
         self.classical.mkdir()
         self.srs.mkdir()
         self.geoip.mkdir()
         self.geoip_srs.mkdir()
+        self.ruleset.mkdir()
+        self.ruleset_srs.mkdir()
 
     def add_category(
         self,
@@ -69,6 +73,18 @@ class GeneratedRulesTests(unittest.TestCase):
             f"geoip-srs:{name}".encode()
         )
 
+    def add_ruleset_category(self, name: str, rules: list[str]) -> None:
+        (self.ruleset / f"{name}.list").write_text(
+            "\n".join(rules), encoding="utf-8"
+        )
+        (self.ruleset / f"{name}.yaml").write_text(
+            "payload:\n" + "".join(f"    - {rule}\n" for rule in rules),
+            encoding="utf-8",
+        )
+        (self.ruleset_srs / f"{name}.srs").write_bytes(
+            f"ruleset-srs:{name}".encode()
+        )
+
     def options(
         self,
         *,
@@ -85,6 +101,8 @@ class GeneratedRulesTests(unittest.TestCase):
             srs_dir=self.srs,
             geoip_dir=self.geoip,
             geoip_srs_dir=self.geoip_srs,
+            ruleset_dir=self.ruleset,
+            ruleset_srs_dir=self.ruleset_srs,
             output_dir=output or self.output,
             previous_dir=previous,
             repository="27Aaron/ProxyRules",
@@ -98,12 +116,19 @@ class GeneratedRulesTests(unittest.TestCase):
             geoip_source_release="test-geoip-release",
             geoip_source_commit="c" * 40,
             geoip_source_published_at="2026-08-06T00:32:51Z",
+            custom_source_repository="27Aaron/ProxyRules",
+            custom_source_ref="custom",
+            custom_source_commit="d" * 40,
+            custom_source_published_at="2026-08-07T05:30:00+08:00",
+            custom_categories=(),
             converter_repository="MetaCubeX/meta-rules-converter",
             converter_commit="b" * 40,
             minimum_categories=minimum,
             minimum_geoip_categories=0,
+            minimum_ruleset_categories=0,
             required_categories=required,
             required_geoip_categories=(),
+            required_ruleset_categories=(),
             aliases=aliases,
             max_category_drop_percent=5.0,
             allow_large_drop=allow_large_drop,
@@ -319,6 +344,92 @@ class GeneratedRulesTests(unittest.TestCase):
         ):
             generator.build(options)
 
+    def test_builds_mixed_ruleset_without_mrs_and_omits_regex_from_text(self) -> None:
+        self.add_115()
+        self.add_category(
+            "anthropic",
+            ["api.anthropic.com", "+.anthropic.com"],
+            [
+                "DOMAIN,api.anthropic.com",
+                "DOMAIN-SUFFIX,anthropic.com",
+                "DOMAIN-KEYWORD,claude",
+                r"DOMAIN-REGEX,^api[0-9]+\.anthropic\.com$",
+            ],
+        )
+        self.add_geoip_category(
+            "anthropic", ["160.79.104.0/23", "2607:6bc0::/48"]
+        )
+        self.add_ruleset_category(
+            "anthropic",
+            [
+                "DOMAIN,api.anthropic.com",
+                "DOMAIN-SUFFIX,anthropic.com",
+                "DOMAIN-KEYWORD,claude",
+                r"DOMAIN-REGEX,^api[0-9]+\.anthropic\.com$",
+                "IP-CIDR,160.79.104.0/23,no-resolve",
+                "IP-CIDR6,2607:6bc0::/48,no-resolve",
+            ],
+        )
+        options = replace(
+            self.options(),
+            custom_categories=("anthropic",),
+            minimum_ruleset_categories=1,
+            required_ruleset_categories=("anthropic",),
+        )
+
+        manifest = generator.build(options)
+
+        list_path = self.output / "ruleset/anthropic/anthropic.list"
+        yaml_path = self.output / "ruleset/anthropic/anthropic.yaml"
+        srs_path = self.output / "ruleset/anthropic/anthropic.srs"
+        list_text = list_path.read_text(encoding="utf-8")
+        self.assertTrue(yaml_path.is_file())
+        self.assertEqual(srs_path.read_bytes(), b"ruleset-srs:anthropic")
+        self.assertFalse((self.output / "ruleset/anthropic/anthropic.mrs").exists())
+        self.assertNotIn("DOMAIN-REGEX,", list_text.split("\n\n", maxsplit=1)[-1])
+        self.assertIn("# OMITTED-DOMAIN-REGEX: 1", list_text)
+        self.assertIn("# IP-CIDR: 1", list_text)
+        self.assertIn("# IP-CIDR6: 1", list_text)
+        self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", list_text)
+        self.assertEqual(
+            set(manifest["ruleset_categories"]["anthropic"]["files"]),
+            {"list", "yaml", "srs"},
+        )
+        self.assertEqual(
+            manifest["ruleset_categories"]["anthropic"]["counts"],
+            {
+                "domain": 1,
+                "domain_suffix": 1,
+                "domain_keyword": 1,
+                "ipv4": 1,
+                "ipv6": 1,
+                "omitted_domain_regex": 1,
+                "total": 5,
+            },
+        )
+        geosite_text = (self.output / "geosite/anthropic/anthropic.list").read_text(
+            encoding="utf-8"
+        )
+        geoip_text = (self.output / "geoip/anthropic/anthropic.list").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", geosite_text)
+        self.assertIn("# UPDATED: 2026-08-07 05:30:00 UTC+08:00", geoip_text)
+
+    def test_rejects_action_in_prepared_ruleset(self) -> None:
+        self.add_115()
+        self.add_ruleset_category(
+            "anthropic", ["DOMAIN-SUFFIX,anthropic.com,DIRECT"]
+        )
+        options = replace(
+            self.options(),
+            custom_categories=("anthropic",),
+            minimum_ruleset_categories=1,
+        )
+
+        with self.assertRaisesRegex(generator.GenerationError, "unsupported ruleset"):
+            generator.build(options)
+
     def test_rejects_converter_disagreement(self) -> None:
         self.add_category(
             "115",
@@ -399,6 +510,13 @@ class GeneratedRulesTests(unittest.TestCase):
         options = replace(self.options(), geoip_source_commit="master")
 
         with self.assertRaisesRegex(generator.GenerationError, "GeoIP source commit"):
+            generator.build(options)
+
+    def test_rejects_invalid_custom_source_commit(self) -> None:
+        self.add_115()
+        options = replace(self.options(), custom_source_commit="custom")
+
+        with self.assertRaisesRegex(generator.GenerationError, "custom source commit"):
             generator.build(options)
 
     def test_rejects_unsafe_category_name(self) -> None:
