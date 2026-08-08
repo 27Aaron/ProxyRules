@@ -1,9 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  Copy01Icon,
-  Download01Icon,
-  FileCodeIcon,
-} from "@hugeicons/core-free-icons"
+import { Copy01Icon, Download01Icon } from "@hugeicons/core-free-icons"
 import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
@@ -72,8 +68,7 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
   return (
     <Card className="preview-card h-full min-h-[36rem]">
       <CardHeader className="border-b">
-        <div className="flex min-w-0 items-center gap-2">
-          <HugeiconsIcon icon={FileCodeIcon} strokeWidth={1.8} />
+        <div className="flex min-w-0 items-center">
           <CardTitle className="truncate">{result.fileName}</CardTitle>
         </div>
         <CardDescription>{t("preview.description")}</CardDescription>

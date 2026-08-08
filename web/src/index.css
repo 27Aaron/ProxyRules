@@ -230,6 +230,28 @@
     background: color-mix(in oklch, var(--accent), transparent 18%);
   }
 
+  .selection-toggle {
+    @apply border-input bg-transparent text-foreground hover:border-primary/45 hover:bg-accent/55;
+  }
+
+  [data-slot="toggle-group-item"].selection-toggle[data-state="on"] {
+    color: var(--primary-foreground) !important;
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary), transparent 72%);
+  }
+
+  [data-slot="toggle-group-item"].selection-toggle[data-state="on"]:hover {
+    color: var(--primary-foreground) !important;
+    background: color-mix(in oklch, var(--primary), black 8%) !important;
+    border-color: var(--primary) !important;
+  }
+
+  [data-slot="toggle-group-item"].selection-toggle[data-state="on"]
+    .text-muted-foreground {
+    color: color-mix(in oklch, var(--primary-foreground), transparent 20%);
+  }
+
   .preview-card {
     @apply ring-foreground/15;
   }

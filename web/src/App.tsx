@@ -4,12 +4,10 @@ import {
   Delete02Icon,
   Github01Icon,
   GlobalIcon,
-  Layers01Icon,
   Moon02Icon,
   RefreshIcon,
   Route01Icon,
   Search01Icon,
-  Settings02Icon,
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
 import { useTheme } from "next-themes"
@@ -21,7 +19,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -272,9 +269,6 @@ export function App() {
           <CardHeader>
             <CardTitle>{t("step.client.title")}</CardTitle>
             <CardDescription>{t("step.client.description")}</CardDescription>
-            <CardAction>
-              <HugeiconsIcon icon={Route01Icon} strokeWidth={1.7} />
-            </CardAction>
           </CardHeader>
           <CardContent>
             <ToggleGroup
@@ -292,7 +286,11 @@ export function App() {
               spacing={1}
             >
               {CLIENTS.map((client) => (
-                <ToggleGroupItem key={client.id} value={client.id}>
+                <ToggleGroupItem
+                  key={client.id}
+                  value={client.id}
+                  className="selection-toggle"
+                >
                   {client.label}
                 </ToggleGroupItem>
               ))}
@@ -304,9 +302,6 @@ export function App() {
           <CardHeader>
             <CardTitle>{t("step.region.title")}</CardTitle>
             <CardDescription>{t("step.region.description")}</CardDescription>
-            <CardAction>
-              <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.7} />
-            </CardAction>
           </CardHeader>
           <CardContent>
             <ToggleGroup
@@ -323,7 +318,11 @@ export function App() {
               spacing={1}
             >
               {REGIONS.map((region) => (
-                <ToggleGroupItem key={region.id} value={region.id}>
+                <ToggleGroupItem
+                  key={region.id}
+                  value={region.id}
+                  className="selection-toggle"
+                >
                   <span className="font-mono">{region.id}</span>
                   <span className="text-muted-foreground">
                     {t(`region.${region.id}` as TranslationKey)}
@@ -338,9 +337,6 @@ export function App() {
           <CardHeader>
             <CardTitle>{t("step.groups.title")}</CardTitle>
             <CardDescription>{t("step.groups.description")}</CardDescription>
-            <CardAction>
-              <HugeiconsIcon icon={Layers01Icon} strokeWidth={1.7} />
-            </CardAction>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FieldSet>
@@ -495,9 +491,6 @@ export function App() {
           <CardHeader>
             <CardTitle>{t("step.settings.title")}</CardTitle>
             <CardDescription>{t("step.settings.description")}</CardDescription>
-            <CardAction>
-              <HugeiconsIcon icon={Settings02Icon} strokeWidth={1.7} />
-            </CardAction>
           </CardHeader>
           <CardContent>
             <SettingsPanel state={state} setState={setState} />
