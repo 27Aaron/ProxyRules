@@ -8,7 +8,6 @@ import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -58,7 +57,6 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
         <div className="flex min-w-0 items-center">
           <CardTitle className="truncate">{result.fileName}</CardTitle>
         </div>
-        <CardDescription>{t("preview.description")}</CardDescription>
         <CardAction>
           <Badge variant="outline">
             {t("preview.lines", { count: lineCount })}

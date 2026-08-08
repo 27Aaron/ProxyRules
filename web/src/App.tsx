@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -45,11 +44,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
@@ -274,10 +268,9 @@ export function App() {
   const controls = (
     <div className="control-column">
       <div className="route-stack">
-        <Card className="route-step" data-step="01">
+        <Card>
           <CardHeader>
             <CardTitle>{t("step.client.title")}</CardTitle>
-            <CardDescription>{t("step.client.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <ToggleGroup
@@ -307,10 +300,9 @@ export function App() {
           </CardContent>
         </Card>
 
-        <Card className="route-step" data-step="02">
+        <Card>
           <CardHeader>
             <CardTitle>{t("step.region.title")}</CardTitle>
-            <CardDescription>{t("step.region.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <ToggleGroup
@@ -342,10 +334,9 @@ export function App() {
           </CardContent>
         </Card>
 
-        <Card className="route-step" data-step="03">
+        <Card>
           <CardHeader>
             <CardTitle>{t("step.groups.title")}</CardTitle>
-            <CardDescription>{t("step.groups.description")}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FieldSet>
@@ -494,10 +485,9 @@ export function App() {
           </CardContent>
         </Card>
 
-        <Card className="route-step" data-step="04">
+        <Card>
           <CardHeader>
             <CardTitle>{t("step.settings.title")}</CardTitle>
-            <CardDescription>{t("step.settings.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <SettingsPanel state={state} setState={setState} />
@@ -530,25 +520,12 @@ export function App() {
       <AppHeader onReset={resetAll} />
       <main className="workspace-shell">
         {isDesktop ? (
-          <ResizablePanelGroup
-            orientation="horizontal"
-            className="workspace-panels"
-          >
-            <ResizablePanel
-              className="control-panel"
-              defaultSize="38.2%"
-              minSize="30%"
-              maxSize="50%"
-            >
-              {controls}
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel defaultSize="61.8%" minSize="50%">
-              <div className="preview-column">
-                <ConfigPreview result={result} errors={errors} />
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
+          <div className="workspace-panels">
+            <div className="control-panel">{controls}</div>
+            <div className="preview-column">
+              <ConfigPreview result={result} errors={errors} />
+            </div>
+          </div>
         ) : (
           <div className="flex flex-col gap-6">
             {controls}
