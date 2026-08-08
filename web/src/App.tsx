@@ -347,7 +347,7 @@ export function App() {
               <FieldLegend className="sr-only">
                 {t("step.groups.common")}
               </FieldLegend>
-              <FieldGroup className="grid gap-2 sm:grid-cols-2">
+              <FieldGroup className="grid gap-1 sm:grid-cols-2">
                 {FEATURED_GROUPS.map((group) => {
                   const checked = state.featuredGroups.includes(group.id)
                   return (

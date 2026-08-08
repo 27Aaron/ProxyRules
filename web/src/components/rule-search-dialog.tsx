@@ -105,14 +105,14 @@ export function RuleSearchDialog({
           <HugeiconsIcon icon={DatabaseSearchIcon} strokeWidth={1.8} />
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <h2 className="font-heading text-base font-semibold">
+          <h2 className="font-heading text-lg font-semibold">
             {t("search.heading")}
           </h2>
           <p className="text-xs text-muted-foreground">{t("search.help")}</p>
         </div>
       </div>
 
-      <Command shouldFilter={false}>
+      <Command shouldFilter={false} className="rounded-none p-0">
         <CommandInput
           value={query}
           onValueChange={setQuery}
