@@ -18,7 +18,6 @@ import { toast } from "sonner"
 import { ConfigPreview } from "@/components/config-preview"
 import { SettingsPanel } from "@/components/settings-panel"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -103,9 +102,6 @@ function AppHeader({ onReset }: { onReset: () => void }) {
             CONFIG STUDIO
           </span>
         </div>
-        <Badge variant="outline" className="ml-1 hidden sm:inline-flex">
-          纯本地生成
-        </Badge>
       </div>
 
       <div className="flex items-center gap-1">
