@@ -101,6 +101,34 @@ describe("Config Studio", () => {
     })
   })
 
+  it("resets preview scrolling when the client file changes", async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    const mihomoScroll = document.querySelector(".config-scroll") as HTMLElement
+    mihomoScroll.scrollTop = 320
+
+    const mihomoLineCount = document.querySelectorAll(".config-line").length
+    expect(
+      document.querySelector('[data-slot="badge"]')?.textContent
+    ).toContain(String(mihomoLineCount))
+    expect(
+      document.querySelector(".config-line:last-child .config-line-text")
+        ?.textContent
+    ).not.toBe("")
+
+    await user.click(screen.getByRole("radio", { name: "Surge" }))
+    await screen.findByText("Surge.conf")
+
+    const surgeScroll = document.querySelector(".config-scroll") as HTMLElement
+    expect(surgeScroll).not.toBe(mihomoScroll)
+    expect(surgeScroll.scrollTop).toBe(0)
+    const surgeLineCount = document.querySelectorAll(".config-line").length
+    expect(
+      document.querySelector('[data-slot="badge"]')?.textContent
+    ).toContain(String(surgeLineCount))
+  })
+
   it("shows the correct node source field for each client", async () => {
     const user = userEvent.setup()
     renderApp()

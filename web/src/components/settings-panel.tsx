@@ -363,7 +363,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
           ) : null}
 
           {state.client === "loon" ? (
-            <FieldGroup className="grid gap-3 sm:grid-cols-2">
+            <FieldGroup className="field-grid-two grid gap-3">
               <Field>
                 <FieldLabel htmlFor="loon-subscription-name">
                   {t("settings.subscriptionName")}
@@ -452,7 +452,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
             />
           </Field>
 
-          <FieldGroup className="grid gap-3 sm:grid-cols-3">
+          <FieldGroup className="field-grid-three grid gap-3">
             <Field>
               <FieldLabel htmlFor="group-interval">
                 {t("settings.groupInterval")}
@@ -515,7 +515,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
 
           {state.client === "mihomo" ? (
             <>
-              <FieldGroup className="grid gap-3 sm:grid-cols-2">
+              <FieldGroup className="field-grid-two grid gap-3">
                 <Field>
                   <FieldLabel htmlFor="mixed-port">
                     {t("settings.mixedPort")}
@@ -581,7 +581,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 </Field>
               </FieldGroup>
 
-              <FieldGroup className="grid gap-3 sm:grid-cols-2">
+              <FieldGroup className="field-grid-two grid gap-3">
                 <Field>
                   <FieldLabel htmlFor="external-controller">
                     {t("settings.externalController")}
@@ -831,7 +831,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
 
           {state.client === "loon" ? (
             <>
-              <FieldGroup className="grid gap-3 sm:grid-cols-2">
+              <FieldGroup className="field-grid-two grid gap-3">
                 <Field>
                   <FieldLabel htmlFor="loon-interface">
                     {t("settings.interfaceMode")}

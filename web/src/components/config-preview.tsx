@@ -27,7 +27,7 @@ async function copyText(content: string) {
 
 export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
   const { t } = useI18n()
-  const lines = result.content.split("\n")
+  const lines = result.content.replace(/\r?\n$/, "").split("\n")
   const lineCount = lines.length
   const disabled = errors.length > 0
 
@@ -64,7 +64,7 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
         </CardAction>
       </CardHeader>
       <CardContent className="min-h-0 flex-1 overflow-hidden px-0">
-        <div className="config-scroll size-full">
+        <div key={result.fileName} className="config-scroll size-full">
           <pre className="config-code">
             <code>
               {lines.map((line, index) => (

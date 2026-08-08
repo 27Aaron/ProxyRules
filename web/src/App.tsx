@@ -370,14 +370,11 @@ export function App() {
                 if (!value) return
                 selectClient(value as ClientId)
               }}
-              className="grid w-full grid-cols-2 sm:grid-cols-4"
+              className="client-choice-grid grid w-full"
               spacing={1}
             >
               {CLIENTS.map((client) => (
-                <ToggleGroupItem
-                  key={client.id}
-                  value={client.id}
-                >
+                <ToggleGroupItem key={client.id} value={client.id}>
                   {client.label}
                 </ToggleGroupItem>
               ))}
@@ -399,10 +396,7 @@ export function App() {
               spacing={1}
             >
               {REGIONS.map((region) => (
-                <ToggleGroupItem
-                  key={region.id}
-                  value={region.id}
-                >
+                <ToggleGroupItem key={region.id} value={region.id}>
                   <span className="font-mono">{region.id}</span>
                   <span className="text-muted-foreground">
                     {t(`region.${region.id}` as TranslationKey)}
@@ -422,7 +416,7 @@ export function App() {
               <FieldLegend className="sr-only">
                 {t("step.groups.common")}
               </FieldLegend>
-              <FieldGroup className="grid gap-1 sm:grid-cols-2">
+              <FieldGroup className="featured-choice-grid grid gap-1">
                 {FEATURED_GROUPS.map((group) => {
                   const checked = state.featuredGroups.includes(group.id)
                   return (
@@ -463,11 +457,10 @@ export function App() {
               <HugeiconsIcon icon={Search01Icon} data-icon="inline-start" />
               {t("step.groups.search")}
             </Button>
-
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="settings-card">
           <CardHeader>
             <CardTitle>{t("step.settings.title")}</CardTitle>
           </CardHeader>

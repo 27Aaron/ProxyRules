@@ -81,8 +81,16 @@
   --signal-foreground: #a92f2f;
   --interactive-hover: color-mix(in oklch, var(--foreground), transparent 94%);
   --interactive-selected: color-mix(in oklch, var(--primary), transparent 88%);
-  --interactive-selected-hover: color-mix(in oklch, var(--primary), transparent 84%);
-  --interactive-selected-border: color-mix(in oklch, var(--primary), transparent 52%);
+  --interactive-selected-hover: color-mix(
+    in oklch,
+    var(--primary),
+    transparent 84%
+  );
+  --interactive-selected-border: color-mix(
+    in oklch,
+    var(--primary),
+    transparent 52%
+  );
   --sidebar: #f1f1f2;
   --sidebar-foreground: #18191a;
   --sidebar-primary: #f05252;
@@ -175,7 +183,7 @@
   .workspace-panels {
     display: grid;
     height: calc(100svh - 3.5rem);
-    grid-template-columns: 38.2fr 61.8fr;
+    grid-template-columns: minmax(0, 38.2fr) minmax(0, 61.8fr);
   }
 
   .control-panel {
@@ -204,15 +212,40 @@
   }
 
   .preview-column {
-    @apply h-full min-h-0 pt-2 pr-5 pb-5 pl-2;
+    @apply h-full min-h-0 min-w-0 pt-2 pr-5 pb-5 pl-2;
   }
 
   .route-stack {
-    @apply flex min-h-full flex-col gap-4;
+    @apply flex min-h-full shrink-0 flex-col gap-4;
+  }
+
+  .route-stack > * {
+    min-width: 0;
+    flex-shrink: 0;
   }
 
   .route-stack > :last-child {
     flex: 1 0 auto;
+  }
+
+  .settings-card > [data-slot="card-footer"] {
+    margin-top: auto;
+  }
+
+  .client-choice-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr));
+  }
+
+  .featured-choice-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+
+  .field-grid-two {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+
+  .field-grid-three {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr));
   }
 
   .choice-field {
@@ -267,12 +300,12 @@
   }
 
   .interactive-option:is(
-      [data-state="on"],
-      [data-state="checked"],
-      [data-state="active"],
-      [data-selected="true"],
-      [data-active]
-    ) {
+    [data-state="on"],
+    [data-state="checked"],
+    [data-state="active"],
+    [data-selected="true"],
+    [data-active]
+  ) {
     color: var(--foreground);
     background: var(--interactive-selected);
     border-color: var(--interactive-selected-border);
