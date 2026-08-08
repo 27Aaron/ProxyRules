@@ -1,3 +1,8 @@
+---
+import { AppRoot } from "@/components/app-root"
+import "@/index.css"
+---
+
 <!doctype html>
 <html lang="zh-CN">
   <head>
@@ -7,11 +12,11 @@
       name="description"
       content="为 Mihomo、Surge、Loon 与 Shadowrocket 生成 ProxyRules 配置。"
     />
-    <meta name="theme-color" content="#f5f8f5" />
+    <meta name="theme-color" content="#07080a" />
+    <link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>↝</text></svg>`} />
     <title>ProxyRules Config Studio</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <AppRoot client:only="react" />
   </body>
 </html>

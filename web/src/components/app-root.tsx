@@ -1,15 +1,12 @@
-import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
 import { ThemeProvider } from "next-themes"
 
-import "./index.css"
-import App from "./App.tsx"
+import App from "@/App"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { I18nProvider } from "@/lib/i18n"
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+export function AppRoot() {
+  return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <I18nProvider>
         <TooltipProvider>
@@ -18,5 +15,5 @@ createRoot(document.getElementById("root")!).render(
         </TooltipProvider>
       </I18nProvider>
     </ThemeProvider>
-  </StrictMode>
-)
+  )
+}

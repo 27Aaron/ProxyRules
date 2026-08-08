@@ -52,7 +52,7 @@ jobs:
       - name: Build WebUI
         working-directory: web
         env:
-          VITE_BASE_PATH: /ProxyRules/
+          ASTRO_BASE_PATH: /ProxyRules/
         run: pnpm build
 
       - name: Publish gh-pages

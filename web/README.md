@@ -1,6 +1,6 @@
 # ProxyRules Config Studio
 
-基于 React、TypeScript、Vite 与 shadcn/ui 的纯前端配置生成器。
+基于 Astro、React、TypeScript 与 shadcn/ui 的静态配置生成器。Astro 负责页面、构建与静态输出，高交互配置器作为 React Island 在浏览器中运行。
 
 ## 功能
 
@@ -18,6 +18,8 @@
 pnpm install --frozen-lockfile
 pnpm dev
 ```
+
+开发服务器默认在 `/ProxyRules/` 提供页面。生产环境可通过 `ASTRO_BASE_PATH` 覆盖部署路径。
 
 提交前运行：
 
