@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useI18n } from "@/lib/i18n"
 import type { ConfiguratorState, GeneralSettings } from "@/lib/types"
 
 type SettingsPanelProps = {
@@ -33,6 +34,7 @@ function positiveInteger(value: string, fallback: number) {
 }
 
 export function SettingsPanel({ state, setState }: SettingsPanelProps) {
+  const { t } = useI18n()
   const updateSettings = (
     updater: (settings: GeneralSettings) => GeneralSettings
   ) => {
@@ -45,15 +47,17 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
   return (
     <Tabs defaultValue="network">
       <TabsList className="w-full">
-        <TabsTrigger value="network">网络与测试</TabsTrigger>
-        <TabsTrigger value="rules">规则行为</TabsTrigger>
-        <TabsTrigger value="client">客户端</TabsTrigger>
+        <TabsTrigger value="network">{t("settings.network")}</TabsTrigger>
+        <TabsTrigger value="rules">{t("settings.rules")}</TabsTrigger>
+        <TabsTrigger value="client">{t("settings.client")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value="network">
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="rule-base-url">规则地址</FieldLabel>
+            <FieldLabel htmlFor="rule-base-url">
+              {t("settings.ruleUrl")}
+            </FieldLabel>
             <Input
               id="rule-base-url"
               value={state.settings.ruleBaseUrl}
@@ -64,11 +68,15 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 }))
               }
             />
-            <FieldDescription>所有远程 ruleset 的基础地址。</FieldDescription>
+            <FieldDescription>
+              {t("settings.ruleUrlDescription")}
+            </FieldDescription>
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="internet-test-url">联网测试地址</FieldLabel>
+            <FieldLabel htmlFor="internet-test-url">
+              {t("settings.internetUrl")}
+            </FieldLabel>
             <Input
               id="internet-test-url"
               value={state.settings.internetTestUrl}
@@ -82,7 +90,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="proxy-test-url">代理测速地址</FieldLabel>
+            <FieldLabel htmlFor="proxy-test-url">
+              {t("settings.proxyUrl")}
+            </FieldLabel>
             <Input
               id="proxy-test-url"
               value={state.settings.proxyTestUrl}
@@ -97,7 +107,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
 
           <FieldGroup className="grid gap-3 sm:grid-cols-3">
             <Field>
-              <FieldLabel htmlFor="rule-interval">规则更新（秒）</FieldLabel>
+              <FieldLabel htmlFor="rule-interval">
+                {t("settings.ruleInterval")}
+              </FieldLabel>
               <Input
                 id="rule-interval"
                 type="number"
@@ -115,7 +127,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="group-interval">地区测速（秒）</FieldLabel>
+              <FieldLabel htmlFor="group-interval">
+                {t("settings.groupInterval")}
+              </FieldLabel>
               <Input
                 id="group-interval"
                 type="number"
@@ -133,7 +147,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="timeout">超时（秒）</FieldLabel>
+              <FieldLabel htmlFor="timeout">{t("settings.timeout")}</FieldLabel>
               <Input
                 id="timeout"
                 type="number"
@@ -156,9 +170,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
 
       <TabsContent value="rules">
         <FieldSet>
-          <FieldLegend variant="label">内置规则</FieldLegend>
+          <FieldLegend variant="label">{t("settings.builtin")}</FieldLegend>
           <FieldDescription>
-            这些规则构成基础分流，并始终排在 FINAL 之前。
+            {t("settings.builtinDescription")}
           </FieldDescription>
           <FieldGroup>
             <Field orientation="horizontal">
@@ -173,8 +187,12 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 }
               />
               <FieldContent>
-                <FieldLabel htmlFor="block-ads">拦截广告</FieldLabel>
-                <FieldDescription>使用 category-ads-all@ads。</FieldDescription>
+                <FieldLabel htmlFor="block-ads">
+                  {t("settings.blockAds")}
+                </FieldLabel>
+                <FieldDescription>
+                  {t("settings.blockAdsDescription")}
+                </FieldDescription>
               </FieldContent>
             </Field>
 
@@ -190,8 +208,12 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 }
               />
               <FieldContent>
-                <FieldLabel htmlFor="direct-private">私有网络直连</FieldLabel>
-                <FieldDescription>避免局域网流量进入代理。</FieldDescription>
+                <FieldLabel htmlFor="direct-private">
+                  {t("settings.directPrivate")}
+                </FieldLabel>
+                <FieldDescription>
+                  {t("settings.directPrivateDescription")}
+                </FieldDescription>
               </FieldContent>
             </Field>
 
@@ -207,8 +229,12 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 }
               />
               <FieldContent>
-                <FieldLabel htmlFor="direct-china">中国大陆直连</FieldLabel>
-                <FieldDescription>使用完整 cn ruleset。</FieldDescription>
+                <FieldLabel htmlFor="direct-china">
+                  {t("settings.directChina")}
+                </FieldLabel>
+                <FieldDescription>
+                  {t("settings.directChinaDescription")}
+                </FieldDescription>
               </FieldContent>
             </Field>
           </FieldGroup>
@@ -226,9 +252,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
               }
             />
             <FieldContent>
-              <FieldLabel htmlFor="ipv6">启用 IPv6</FieldLabel>
+              <FieldLabel htmlFor="ipv6">{t("settings.ipv6")}</FieldLabel>
               <FieldDescription>
-                同步写入当前客户端的 IPv6 设置。
+                {t("settings.ipv6Description")}
               </FieldDescription>
             </FieldContent>
           </Field>
@@ -259,7 +285,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="mihomo-log-level">日志级别</FieldLabel>
+                  <FieldLabel htmlFor="mihomo-log-level">
+                    {t("settings.logLevel")}
+                  </FieldLabel>
                   <Select
                     value={state.settings.mihomo.logLevel}
                     onValueChange={(value) =>
@@ -332,7 +360,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                     }))
                   }
                 />
-                <FieldDescription>留空则不设置控制器密码。</FieldDescription>
+                <FieldDescription>
+                  {t("settings.secretDescription")}
+                </FieldDescription>
               </Field>
 
               <Field orientation="horizontal">
@@ -346,7 +376,9 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                     }))
                   }
                 />
-                <FieldLabel htmlFor="allow-lan">允许局域网连接</FieldLabel>
+                <FieldLabel htmlFor="allow-lan">
+                  {t("settings.allowLan")}
+                </FieldLabel>
               </Field>
               <Field orientation="horizontal">
                 <Switch
@@ -359,14 +391,16 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                     }))
                   }
                 />
-                <FieldLabel htmlFor="tun">启用 TUN</FieldLabel>
+                <FieldLabel htmlFor="tun">{t("settings.tun")}</FieldLabel>
               </Field>
             </>
           ) : null}
 
           {state.client === "surge" ? (
             <Field>
-              <FieldLabel htmlFor="surge-log-level">日志级别</FieldLabel>
+              <FieldLabel htmlFor="surge-log-level">
+                {t("settings.logLevel")}
+              </FieldLabel>
               <Select
                 value={state.settings.surge.logLevel}
                 onValueChange={(value) =>
@@ -440,8 +474,12 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                 }
               />
               <FieldContent>
-                <FieldLabel htmlFor="bypass-system">绕过系统服务</FieldLabel>
-                <FieldDescription>写入 bypass-system。</FieldDescription>
+                <FieldLabel htmlFor="bypass-system">
+                  {t("settings.bypassSystem")}
+                </FieldLabel>
+                <FieldDescription>
+                  {t("settings.bypassSystemDescription")}
+                </FieldDescription>
               </FieldContent>
             </Field>
           ) : null}

@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event"
 
 import App from "@/App"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { I18nProvider } from "@/lib/i18n"
 
 beforeAll(() => {
   const values = new Map<string, string>()
@@ -49,9 +50,11 @@ afterEach(() => {
 
 function renderApp() {
   return render(
-    <TooltipProvider>
-      <App />
-    </TooltipProvider>
+    <I18nProvider>
+      <TooltipProvider>
+        <App />
+      </TooltipProvider>
+    </I18nProvider>
   )
 }
 

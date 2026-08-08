@@ -6,14 +6,17 @@ import "./index.css"
 import App from "./App.tsx"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { I18nProvider } from "@/lib/i18n"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <TooltipProvider>
-        <App />
-        <Toaster position="bottom-right" />
-      </TooltipProvider>
+      <I18nProvider>
+        <TooltipProvider>
+          <App />
+          <Toaster position="bottom-right" />
+        </TooltipProvider>
+      </I18nProvider>
     </ThemeProvider>
   </StrictMode>
 )

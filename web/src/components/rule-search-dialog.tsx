@@ -28,6 +28,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { Switch } from "@/components/ui/switch"
 import { isReservedCategory, loadCatalog } from "@/lib/catalog"
+import { useI18n, type TranslationKey } from "@/lib/i18n"
 import type { CatalogEntry } from "@/lib/types"
 
 type RuleSearchDialogProps = {
@@ -37,18 +38,13 @@ type RuleSearchDialogProps = {
   onSelect: (entry: CatalogEntry) => void
 }
 
-const KIND_LABELS = {
-  domain: "域名",
-  ip: "IP",
-  mixed: "域名 + IP",
-} as const
-
 export function RuleSearchDialog({
   open,
   onOpenChange,
   selectedIds,
   onSelect,
 }: RuleSearchDialogProps) {
+  const { t } = useI18n()
   const [catalog, setCatalog] = React.useState<CatalogEntry[] | null>(null)
   const [error, setError] = React.useState("")
   const [query, setQuery] = React.useState("")
@@ -99,8 +95,8 @@ export function RuleSearchDialog({
     <CommandDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="搜索规则"
-      description="从 rules 分支的 manifest.json 中查找完整 ruleset。"
+      title={t("search.title")}
+      description={t("search.description")}
       className="sm:max-w-2xl"
       showCloseButton
     >
@@ -110,11 +106,9 @@ export function RuleSearchDialog({
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <h2 className="font-heading text-base font-semibold">
-            添加独立策略组
+            {t("search.heading")}
           </h2>
-          <p className="text-xs text-muted-foreground">
-            选中一条规则后，将自动创建同名策略组并接入完整 ruleset。
-          </p>
+          <p className="text-xs text-muted-foreground">{t("search.help")}</p>
         </div>
       </div>
 
@@ -122,7 +116,7 @@ export function RuleSearchDialog({
         <CommandInput
           value={query}
           onValueChange={setQuery}
-          placeholder="搜索 Netflix、Spotify、YouTube…"
+          placeholder={t("search.placeholder")}
           autoFocus
         />
 
@@ -134,9 +128,11 @@ export function RuleSearchDialog({
               onCheckedChange={setShowAttributes}
             />
             <FieldContent>
-              <FieldLabel htmlFor="show-attributes">显示属性子集</FieldLabel>
+              <FieldLabel htmlFor="show-attributes">
+                {t("search.attributes")}
+              </FieldLabel>
               <FieldDescription>
-                包含带有 @ads、@cn 等属性的细分规则。
+                {t("search.attributesDescription")}
               </FieldDescription>
             </FieldContent>
           </Field>
@@ -146,11 +142,11 @@ export function RuleSearchDialog({
           <div className="px-3 pb-3">
             <Alert variant="destructive">
               <HugeiconsIcon icon={InformationCircleIcon} strokeWidth={1.8} />
-              <AlertTitle>无法读取规则清单</AlertTitle>
+              <AlertTitle>{t("search.loadFailed")}</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
               <Button variant="outline" size="sm" onClick={retry}>
                 <HugeiconsIcon icon={RefreshIcon} data-icon="inline-start" />
-                重新加载
+                {t("search.reload")}
               </Button>
             </Alert>
           </div>
@@ -159,7 +155,7 @@ export function RuleSearchDialog({
         {!catalog && !error ? (
           <div
             className="flex flex-col gap-2 px-3 pb-3"
-            aria-label="正在加载规则"
+            aria-label={t("search.loading")}
           >
             <Skeleton className="h-9 w-full" />
             <Skeleton className="h-9 w-full" />
@@ -169,8 +165,10 @@ export function RuleSearchDialog({
 
         {catalog ? (
           <CommandList>
-            <CommandEmpty>没有找到匹配的规则。</CommandEmpty>
-            <CommandGroup heading={`规则分类 · 显示 ${results.length} 条`}>
+            <CommandEmpty>{t("search.empty")}</CommandEmpty>
+            <CommandGroup
+              heading={t("search.results", { count: results.length })}
+            >
               {results.map((entry) => {
                 const selected = selectedIds.has(entry.id)
                 return (
@@ -192,9 +190,13 @@ export function RuleSearchDialog({
                         {entry.id}
                       </span>
                     </div>
-                    <Badge variant="outline">{KIND_LABELS[entry.kind]}</Badge>
+                    <Badge variant="outline">
+                      {t(`kind.${entry.kind}` as TranslationKey)}
+                    </Badge>
                     <Badge variant={selected ? "secondary" : "outline"}>
-                      {selected ? "已包含" : entry.rules.toLocaleString()}
+                      {selected
+                        ? t("search.included")
+                        : entry.rules.toLocaleString()}
                     </Badge>
                   </CommandItem>
                 )

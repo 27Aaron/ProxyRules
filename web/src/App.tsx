@@ -41,6 +41,14 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
@@ -54,6 +62,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useConfiguratorState } from "@/hooks/use-configurator-state"
 import { useMediaQuery } from "@/hooks/use-media-query"
+import { LOCALES, useI18n, type Locale, type TranslationKey } from "@/lib/i18n"
 import {
   getSelectedCategoryIds,
   isRegionId,
@@ -87,6 +96,7 @@ function uniqueGroupName(base: string, taken: string[]) {
 
 function AppHeader({ onReset }: { onReset: () => void }) {
   const { resolvedTheme, setTheme } = useTheme()
+  const { locale, setLocale, t } = useI18n()
 
   return (
     <header className="app-header">
@@ -105,14 +115,35 @@ function AppHeader({ onReset }: { onReset: () => void }) {
       </div>
 
       <div className="flex items-center gap-1">
+        <Select
+          value={locale}
+          onValueChange={(value) => setLocale(value as Locale)}
+        >
+          <SelectTrigger
+            aria-label={t("header.language")}
+            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none"
+          >
+            <HugeiconsIcon icon={GlobalIcon} />
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectGroup>
+              {LOCALES.map((language) => (
+                <SelectItem key={language.value} value={language.value}>
+                  {language.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" onClick={onReset}>
               <HugeiconsIcon icon={RefreshIcon} />
-              <span className="sr-only">恢复默认</span>
+              <span className="sr-only">{t("header.reset")}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>恢复默认</TooltipContent>
+          <TooltipContent>{t("header.reset")}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -126,21 +157,21 @@ function AppHeader({ onReset }: { onReset: () => void }) {
               <HugeiconsIcon
                 icon={resolvedTheme === "dark" ? Sun03Icon : Moon02Icon}
               />
-              <span className="sr-only">切换主题</span>
+              <span className="sr-only">{t("header.theme")}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>切换主题</TooltipContent>
+          <TooltipContent>{t("header.theme")}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" asChild>
               <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
                 <HugeiconsIcon icon={Github01Icon} />
-                <span className="sr-only">打开 GitHub 仓库</span>
+                <span className="sr-only">{t("header.openGithub")}</span>
               </a>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>GitHub 仓库</TooltipContent>
+          <TooltipContent>{t("header.github")}</TooltipContent>
         </Tooltip>
       </div>
     </header>
@@ -148,6 +179,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
 }
 
 export function App() {
+  const { t } = useI18n()
   const { state, setState, reset } = useConfiguratorState()
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [searchMounted, setSearchMounted] = React.useState(false)
@@ -161,7 +193,7 @@ export function App() {
 
   const resetAll = () => {
     reset()
-    toast.success("已恢复默认设置")
+    toast.success(t("toast.reset"))
   }
 
   const toggleFeatured = (id: FeaturedGroupId, checked: boolean) => {
@@ -173,7 +205,9 @@ export function App() {
 
     if (checked && duplicates.length > 0) {
       toast.info(
-        `已移除重复规则：${duplicates.map((group) => group.categoryId).join("、")}`
+        t("toast.duplicates", {
+          items: duplicates.map((group) => group.categoryId).join(", "),
+        })
       )
     }
 
@@ -201,7 +235,7 @@ export function App() {
 
   const addCustomGroup = (entry: CatalogEntry) => {
     if (selectedCategoryIds.has(entry.id)) {
-      toast.info(`${entry.id} 已经包含在当前策略组中`)
+      toast.info(t("toast.included", { id: entry.id }))
       return
     }
 
@@ -228,7 +262,7 @@ export function App() {
         ],
       }
     })
-    toast.success(`已添加 ${entry.label}`)
+    toast.success(t("toast.added", { name: entry.label }))
   }
 
   const controls = (
@@ -236,8 +270,8 @@ export function App() {
       <div className="route-stack">
         <Card className="route-step" data-step="01">
           <CardHeader>
-            <CardTitle>选择客户端</CardTitle>
-            <CardDescription>输出对应语法和文件后缀。</CardDescription>
+            <CardTitle>{t("step.client.title")}</CardTitle>
+            <CardDescription>{t("step.client.description")}</CardDescription>
             <CardAction>
               <HugeiconsIcon icon={Route01Icon} strokeWidth={1.7} />
             </CardAction>
@@ -268,10 +302,8 @@ export function App() {
 
         <Card className="route-step" data-step="02">
           <CardHeader>
-            <CardTitle>选择分流地区</CardTitle>
-            <CardDescription>
-              未选地区不会写入配置；Other 永远排除六个已知地区。
-            </CardDescription>
+            <CardTitle>{t("step.region.title")}</CardTitle>
+            <CardDescription>{t("step.region.description")}</CardDescription>
             <CardAction>
               <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.7} />
             </CardAction>
@@ -293,7 +325,9 @@ export function App() {
               {REGIONS.map((region) => (
                 <ToggleGroupItem key={region.id} value={region.id}>
                   <span className="font-mono">{region.id}</span>
-                  <span className="text-muted-foreground">{region.label}</span>
+                  <span className="text-muted-foreground">
+                    {t(`region.${region.id}` as TranslationKey)}
+                  </span>
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -302,17 +336,17 @@ export function App() {
 
         <Card className="route-step" data-step="03">
           <CardHeader>
-            <CardTitle>选择策略组</CardTitle>
-            <CardDescription>
-              常用组直接勾选，其余规则可从完整清单中搜索。
-            </CardDescription>
+            <CardTitle>{t("step.groups.title")}</CardTitle>
+            <CardDescription>{t("step.groups.description")}</CardDescription>
             <CardAction>
               <HugeiconsIcon icon={Layers01Icon} strokeWidth={1.7} />
             </CardAction>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FieldSet>
-              <FieldLegend className="sr-only">常用策略组</FieldLegend>
+              <FieldLegend className="sr-only">
+                {t("step.groups.common")}
+              </FieldLegend>
               <FieldGroup className="grid gap-2 sm:grid-cols-2">
                 {FEATURED_GROUPS.map((group) => {
                   const checked = state.featuredGroups.includes(group.id)
@@ -334,7 +368,9 @@ export function App() {
                         <FieldLabel htmlFor={`featured-${group.id}`}>
                           {group.name}
                         </FieldLabel>
-                        <FieldDescription>{group.description}</FieldDescription>
+                        <FieldDescription>
+                          {t(`group.${group.id}` as TranslationKey)}
+                        </FieldDescription>
                       </FieldContent>
                     </Field>
                   )
@@ -352,14 +388,18 @@ export function App() {
               }}
             >
               <HugeiconsIcon icon={Search01Icon} data-icon="inline-start" />
-              搜索更多规则
+              {t("step.groups.search")}
             </Button>
 
             {state.featuredGroups.length > 0 ||
             state.customGroups.length > 0 ? (
               <FieldSet>
-                <FieldLegend variant="label">已选策略组名称</FieldLegend>
-                <FieldDescription>名称会直接写入生成的配置。</FieldDescription>
+                <FieldLegend variant="label">
+                  {t("step.groups.selected")}
+                </FieldLegend>
+                <FieldDescription>
+                  {t("step.groups.namesDescription")}
+                </FieldDescription>
                 <FieldGroup>
                   {state.featuredGroups.map((id) => {
                     const definition = FEATURED_GROUPS.find(
@@ -392,12 +432,17 @@ export function App() {
                       <FieldContent>
                         <FieldTitle>{group.categoryId}</FieldTitle>
                         <FieldDescription>
-                          {group.rules.toLocaleString()} 条 · {group.kind}
+                          {t("step.groups.rules", {
+                            count: group.rules.toLocaleString(),
+                            kind: t(`kind.${group.kind}` as TranslationKey),
+                          })}
                         </FieldDescription>
                       </FieldContent>
                       <div className="flex min-w-0 items-center gap-1">
                         <Input
-                          aria-label={`${group.categoryId} 策略组名称`}
+                          aria-label={t("step.groups.nameLabel", {
+                            id: group.categoryId,
+                          })}
                           value={group.name}
                           onChange={(event) =>
                             setState((current) => ({
@@ -427,11 +472,15 @@ export function App() {
                             >
                               <HugeiconsIcon icon={Delete02Icon} />
                               <span className="sr-only">
-                                移除 {group.categoryId}
+                                {t("step.groups.remove", {
+                                  id: group.categoryId,
+                                })}
                               </span>
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>移除规则</TooltipContent>
+                          <TooltipContent>
+                            {t("step.groups.removeRule")}
+                          </TooltipContent>
                         </Tooltip>
                       </div>
                     </Field>
@@ -444,10 +493,8 @@ export function App() {
 
         <Card className="route-step" data-step="04">
           <CardHeader>
-            <CardTitle>调整通用设置</CardTitle>
-            <CardDescription>
-              只开放模板中已定义且适合可视化编辑的字段。
-            </CardDescription>
+            <CardTitle>{t("step.settings.title")}</CardTitle>
+            <CardDescription>{t("step.settings.description")}</CardDescription>
             <CardAction>
               <HugeiconsIcon icon={Settings02Icon} strokeWidth={1.7} />
             </CardAction>
@@ -457,7 +504,7 @@ export function App() {
           </CardContent>
           <CardFooter className="border-t">
             <p className="text-xs text-muted-foreground">
-              Proxies、Manual 与 Final 为基础策略组，始终保留。
+              {t("step.settings.footer")}
             </p>
           </CardFooter>
         </Card>
@@ -465,7 +512,7 @@ export function App() {
 
       {errors.length > 0 ? (
         <Alert variant="destructive">
-          <AlertTitle>配置需要修正</AlertTitle>
+          <AlertTitle>{t("validation.title")}</AlertTitle>
           <AlertDescription>
             <ul className="list-disc pl-4">
               {errors.map((error) => (
