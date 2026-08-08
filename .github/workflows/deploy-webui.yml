@@ -1,0 +1,74 @@
+name: Deploy WebUI
+
+on:
+  push:
+    branches:
+      - webui
+    paths:
+      - ".github/workflows/deploy-webui.yml"
+      - "web/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: webui-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Test and lint
+        working-directory: web
+        run: |
+          npm test
+          npm run lint
+
+      - name: Build WebUI
+        working-directory: web
+        env:
+          VITE_BASE_PATH: /ProxyRules/
+        run: npm run build
+
+      - name: Publish gh-pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          publish_dir="${RUNNER_TEMP}/webui-pages"
+          mkdir -p "$publish_dir"
+          cp -R web/dist/. "$publish_dir/"
+          touch "$publish_dir/.nojekyll"
+
+          git -C "$publish_dir" init --quiet
+          git -C "$publish_dir" checkout --quiet --orphan gh-pages
+          git -C "$publish_dir" config user.name "github-actions[bot]"
+          git -C "$publish_dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$publish_dir" add --all
+          git -C "$publish_dir" commit --quiet \
+            -m "chore(webui): deploy ${GITHUB_SHA:0:7}"
+          git -C "$publish_dir" remote add origin \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$publish_dir" push --force origin HEAD:gh-pages
