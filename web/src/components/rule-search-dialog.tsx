@@ -1,7 +1,6 @@
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  DatabaseSearchIcon,
   InformationCircleIcon,
   RefreshIcon,
 } from "@hugeicons/core-free-icons"
@@ -100,11 +99,8 @@ export function RuleSearchDialog({
       className="sm:max-w-2xl"
       showCloseButton
     >
-      <div className="flex items-start gap-3 px-3 pt-3">
-        <div className="route-icon" aria-hidden="true">
-          <HugeiconsIcon icon={DatabaseSearchIcon} strokeWidth={1.8} />
-        </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
+      <div className="px-3 pt-3">
+        <div className="flex min-w-0 flex-col gap-1">
           <h2 className="font-heading text-lg font-semibold">
             {t("search.heading")}
           </h2>

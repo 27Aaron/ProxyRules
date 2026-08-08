@@ -161,16 +161,11 @@
     z-index: 20;
   }
 
-  .brand-mark,
-  .route-icon {
+  .brand-mark {
     @apply grid size-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground;
     box-shadow:
       0 1px 2px rgba(0, 0, 0, 0.22),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-
-  .route-icon {
-    @apply bg-secondary text-secondary-foreground;
   }
 
   .workspace-shell {

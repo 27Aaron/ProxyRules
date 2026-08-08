@@ -162,12 +162,9 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         <div className="brand-mark" aria-hidden="true">
           <HugeiconsIcon icon={Route01Icon} strokeWidth={1.7} />
         </div>
-        <div className="flex min-w-0 flex-col">
+        <div className="min-w-0">
           <span className="truncate font-heading text-sm font-semibold tracking-tight">
             ProxyRules
-          </span>
-          <span className="truncate font-mono text-[0.625rem] text-muted-foreground">
-            CONFIG STUDIO
           </span>
         </div>
       </div>
