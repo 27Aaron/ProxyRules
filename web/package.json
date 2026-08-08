@@ -2,6 +2,10 @@
   "name": "proxyrules-webui",
   "private": true,
   "version": "0.0.1",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=22.13"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

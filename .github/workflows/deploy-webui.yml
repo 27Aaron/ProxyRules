@@ -27,28 +27,33 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          package_json_file: web/package.json
+
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: web/package-lock.json
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
 
       - name: Install dependencies
         working-directory: web
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Test and lint
         working-directory: web
         run: |
-          npm test
-          npm run lint
+          pnpm test
+          pnpm lint
 
       - name: Build WebUI
         working-directory: web
         env:
           VITE_BASE_PATH: /ProxyRules/
-        run: npm run build
+        run: pnpm build
 
       - name: Publish gh-pages
         env:

@@ -12,17 +12,19 @@
 
 ## 本地开发
 
+需要 Node.js 22.13 或更高版本，以及 pnpm 11.20.0。
+
 ```bash
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 提交前运行：
 
 ```bash
-npm test
-npm run lint
-npm run build
+pnpm test
+pnpm lint
+pnpm build
 ```
 
 `webui` 分支更新后，GitHub Actions 会完成验证与构建，并将产物以单提交方式发布到 `gh-pages` 分支。首次启用时，在仓库 Pages 设置中选择 `gh-pages` 分支的根目录即可。
