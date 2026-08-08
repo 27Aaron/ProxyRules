@@ -103,6 +103,9 @@ function AppHeader({ onReset }: { onReset: () => void }) {
             CONFIG STUDIO
           </span>
         </div>
+        <Badge variant="outline" className="ml-1 hidden sm:inline-flex">
+          纯本地生成
+        </Badge>
       </div>
 
       <div className="flex items-center gap-1">
@@ -234,14 +237,6 @@ export function App() {
 
   const controls = (
     <div className="control-column">
-      <div className="intro-copy">
-        <Badge variant="outline">纯本地生成</Badge>
-        <h1>把分流选择，变成可用配置。</h1>
-        <p>
-          选择客户端、地区与策略组。配置只在浏览器内生成，不上传订阅或设置。
-        </p>
-      </div>
-
       <div className="route-stack">
         <Card className="route-step" data-step="01">
           <CardHeader>

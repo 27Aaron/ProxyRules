@@ -51,71 +51,76 @@
 }
 
 :root {
-  --background: oklch(0.975 0.008 145);
-  --foreground: oklch(0.22 0.025 155);
-  --card: oklch(0.998 0.002 145);
-  --card-foreground: oklch(0.22 0.025 155);
-  --popover: oklch(0.998 0.002 145);
-  --popover-foreground: oklch(0.22 0.025 155);
-  --primary: oklch(0.45 0.105 160);
-  --primary-foreground: oklch(0.985 0.006 150);
-  --secondary: oklch(0.935 0.018 150);
-  --secondary-foreground: oklch(0.29 0.035 155);
-  --muted: oklch(0.945 0.012 150);
-  --muted-foreground: oklch(0.5 0.025 155);
-  --accent: oklch(0.92 0.035 150);
-  --accent-foreground: oklch(0.28 0.045 155);
-  --destructive: oklch(0.57 0.205 27);
-  --border: oklch(0.885 0.018 150);
-  --input: oklch(0.875 0.02 150);
-  --ring: oklch(0.54 0.09 160);
-  --chart-1: oklch(0.45 0.105 160);
-  --chart-2: oklch(0.67 0.13 75);
-  --chart-3: oklch(0.52 0.06 235);
-  --chart-4: oklch(0.58 0.08 310);
-  --chart-5: oklch(0.62 0.1 25);
-  --radius: 0.55rem;
-  --signal: oklch(0.67 0.13 75);
-  --signal-foreground: oklch(0.24 0.04 65);
-  --sidebar: oklch(0.96 0.01 150);
-  --sidebar-foreground: oklch(0.22 0.025 155);
-  --sidebar-primary: oklch(0.45 0.105 160);
-  --sidebar-primary-foreground: oklch(0.985 0.006 150);
-  --sidebar-accent: oklch(0.92 0.035 150);
-  --sidebar-accent-foreground: oklch(0.28 0.045 155);
-  --sidebar-border: oklch(0.885 0.018 150);
-  --sidebar-ring: oklch(0.54 0.09 160);
+  --background: #f7f7f8;
+  --foreground: #18191a;
+  --card: #ffffff;
+  --card-foreground: #18191a;
+  --popover: #ffffff;
+  --popover-foreground: #18191a;
+  --primary: #f05252;
+  --primary-foreground: #ffffff;
+  --secondary: #ececed;
+  --secondary-foreground: #2f3031;
+  --muted: #eeeeef;
+  --muted-foreground: #6a6b6c;
+  --accent: #ffe8e8;
+  --accent-foreground: #a92f2f;
+  --destructive: #e5484d;
+  --border: rgba(24, 25, 26, 0.1);
+  --input: rgba(24, 25, 26, 0.14);
+  --ring: #299ee8;
+  --chart-1: #f05252;
+  --chart-2: #299ee8;
+  --chart-3: #45b97c;
+  --chart-4: #f2a900;
+  --chart-5: #9b7ad9;
+  --radius: 0.5rem;
+  --signal: #f05252;
+  --signal-foreground: #a92f2f;
+  --sidebar: #f1f1f2;
+  --sidebar-foreground: #18191a;
+  --sidebar-primary: #f05252;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffe8e8;
+  --sidebar-accent-foreground: #a92f2f;
+  --sidebar-border: rgba(24, 25, 26, 0.1);
+  --sidebar-ring: #299ee8;
 }
 
 .dark {
-  --background: oklch(0.175 0.018 155);
-  --foreground: oklch(0.94 0.012 145);
-  --card: oklch(0.205 0.022 155);
-  --card-foreground: oklch(0.94 0.012 145);
-  --popover: oklch(0.22 0.022 155);
-  --popover-foreground: oklch(0.94 0.012 145);
-  --primary: oklch(0.7 0.11 155);
-  --primary-foreground: oklch(0.18 0.025 155);
-  --secondary: oklch(0.27 0.025 155);
-  --secondary-foreground: oklch(0.92 0.012 145);
-  --muted: oklch(0.255 0.02 155);
-  --muted-foreground: oklch(0.69 0.02 150);
-  --accent: oklch(0.3 0.045 155);
-  --accent-foreground: oklch(0.94 0.012 145);
-  --destructive: oklch(0.69 0.18 25);
-  --border: oklch(0.34 0.025 155);
-  --input: oklch(0.37 0.025 155);
-  --ring: oklch(0.64 0.09 155);
-  --signal: oklch(0.72 0.13 75);
-  --signal-foreground: oklch(0.2 0.035 65);
-  --sidebar: oklch(0.195 0.02 155);
-  --sidebar-foreground: oklch(0.94 0.012 145);
-  --sidebar-primary: oklch(0.7 0.11 155);
-  --sidebar-primary-foreground: oklch(0.18 0.025 155);
-  --sidebar-accent: oklch(0.3 0.045 155);
-  --sidebar-accent-foreground: oklch(0.94 0.012 145);
-  --sidebar-border: oklch(0.34 0.025 155);
-  --sidebar-ring: oklch(0.64 0.09 155);
+  --background: #07080a;
+  --foreground: #f9f9f9;
+  --card: #101111;
+  --card-foreground: #f9f9f9;
+  --popover: #18191a;
+  --popover-foreground: #f9f9f9;
+  --primary: #ff6363;
+  --primary-foreground: #ffffff;
+  --secondary: #1b1c1e;
+  --secondary-foreground: #cecece;
+  --muted: #1b1c1e;
+  --muted-foreground: #9c9c9d;
+  --accent: rgba(255, 99, 99, 0.15);
+  --accent-foreground: #ff8a8a;
+  --destructive: #ff6363;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #55b3ff;
+  --chart-1: #ff6363;
+  --chart-2: #55b3ff;
+  --chart-3: #5fc992;
+  --chart-4: #ffbc33;
+  --chart-5: #a98be8;
+  --signal: #ff6363;
+  --signal-foreground: #ff8a8a;
+  --sidebar: #0d0e10;
+  --sidebar-foreground: #f9f9f9;
+  --sidebar-primary: #ff6363;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(255, 99, 99, 0.15);
+  --sidebar-accent-foreground: #ff8a8a;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #55b3ff;
 }
 
 @layer base {
@@ -129,6 +134,8 @@
 
   body {
     @apply min-w-80 bg-background text-foreground antialiased;
+    font-feature-settings: "calt", "kern", "liga", "ss03";
+    letter-spacing: 0.0125rem;
   }
 
   button,
@@ -151,6 +158,9 @@
   .brand-mark,
   .route-icon {
     @apply grid size-8 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .route-icon {
@@ -173,18 +183,6 @@
     @apply h-full p-6;
   }
 
-  .intro-copy {
-    @apply flex max-w-2xl flex-col items-start gap-3;
-  }
-
-  .intro-copy h1 {
-    @apply max-w-xl font-heading text-3xl font-semibold tracking-[-0.035em] text-balance sm:text-4xl;
-  }
-
-  .intro-copy p {
-    @apply max-w-xl text-sm leading-6 text-muted-foreground text-pretty;
-  }
-
   .route-stack {
     @apply relative flex flex-col gap-4 pl-9;
   }
@@ -194,9 +192,18 @@
     top: 1.75rem;
     bottom: 1.75rem;
     left: 0.82rem;
-    width: 1px;
+    width: 2px;
     content: "";
-    background: color-mix(in oklch, var(--signal), var(--border) 58%);
+    border-radius: 999px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklch, var(--signal), transparent 38%) 3rem,
+      color-mix(in oklch, var(--signal), var(--border) 70%) 55%,
+      color-mix(in oklch, var(--signal), transparent 72%) calc(100% - 3rem),
+      transparent
+    );
+    box-shadow: 0 0 10px color-mix(in oklch, var(--signal), transparent 78%);
   }
 
   .route-step {
@@ -211,8 +218,11 @@
     left: -2.5rem;
     content: attr(data-step);
     color: var(--signal-foreground);
-    border-color: color-mix(in oklch, var(--signal), var(--border) 35%);
-    box-shadow: 0 0 0 4px var(--background);
+    border-color: color-mix(in oklch, var(--signal), var(--border) 52%);
+    box-shadow:
+      0 0 0 4px var(--background),
+      0 0 12px color-mix(in oklch, var(--signal), transparent 82%),
+      inset 0 1px 0 color-mix(in oklch, white, transparent 90%);
   }
 
   .choice-field {
@@ -230,6 +240,14 @@
 
   .preview-card {
     @apply ring-foreground/15;
+  }
+
+  .dark .route-step,
+  .dark .preview-card {
+    box-shadow:
+      0 0 0 1px rgba(27, 28, 30, 0.9),
+      0 12px 32px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.035);
   }
 
   .config-code {
