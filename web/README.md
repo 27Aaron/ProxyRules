@@ -29,4 +29,4 @@ pnpm lint
 pnpm build
 ```
 
-`webui` 分支更新后，GitHub Actions 会完成验证与构建，并将产物以单提交方式发布到 `gh-pages` 分支。首次启用时，在仓库 Pages 设置中选择 `gh-pages` 分支的根目录即可。
+`webui` 分支更新后，GitHub Actions 会完成验证与构建，并通过 GitHub Pages 官方部署流程发布产物。仓库 Pages 的 Build and deployment 来源应设为 GitHub Actions。

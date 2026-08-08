@@ -9,35 +9,32 @@ on:
       - "web/**"
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
   group: webui-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Build and publish
+  build:
+    name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v6
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          package_json_file: web/package.json
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
+          package-json-file: web/package.json
+          runtime: node@24
+          cache: true
           cache-dependency-path: web/pnpm-lock.yaml
+          install: false
 
       - name: Install dependencies
         working-directory: web
@@ -55,25 +52,26 @@ jobs:
           ASTRO_BASE_PATH: /ProxyRules/
         run: pnpm build
 
-      - name: Publish gh-pages
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
 
-          publish_dir="${RUNNER_TEMP}/webui-pages"
-          mkdir -p "$publish_dir"
-          cp -R web/dist/. "$publish_dir/"
-          touch "$publish_dir/.nojekyll"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: web/dist
 
-          git -C "$publish_dir" init --quiet
-          git -C "$publish_dir" checkout --quiet --orphan gh-pages
-          git -C "$publish_dir" config user.name "github-actions[bot]"
-          git -C "$publish_dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C "$publish_dir" add --all
-          git -C "$publish_dir" commit --quiet \
-            -m "chore(webui): deploy ${GITHUB_SHA:0:7}"
-          git -C "$publish_dir" remote add origin \
-            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$publish_dir" push --force origin HEAD:gh-pages
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

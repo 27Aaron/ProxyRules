@@ -10,4 +10,5 @@ WebUI 支持 Mihomo、Surge、Loon 与 Shadowrocket，可按需选择地区、�
 - `custom`：人工维护的自定义规则
 - `rules`：Action 自动生成的规则与 `manifest.json`
 - `webui`：WebUI 源码
-- `gh-pages`：WebUI 构建产物，由 Action 保持为单个提交
+
+`webui` 分支更新后，GitHub Actions 会验证、构建并通过 GitHub Pages 官方部署流程发布站点。
