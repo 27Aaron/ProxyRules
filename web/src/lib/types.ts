@@ -116,6 +116,7 @@ export type GeneralSettings = {
   dohServers: string
   ruleUpdateInterval: number
   groupTestInterval: number
+  groupTolerance: number
   timeoutSeconds: number
   ipv6: boolean
   blockAds: boolean
@@ -124,24 +125,45 @@ export type GeneralSettings = {
   mihomo: {
     mixedPort: number
     allowLan: boolean
+    proxyProviderUrl: string
+    lanAllowedIps: string
     tun: boolean
+    tunStack: "system" | "gvisor" | "mixed"
+    strictRoute: boolean
+    respectDnsRules: boolean
+    sniffer: boolean
     logLevel: "silent" | "error" | "warning" | "info" | "debug"
     externalController: string
     secret: string
   }
   surge: {
     logLevel: "verbose" | "info" | "notify" | "warning"
+    proxyListUrl: string
+    includeSystemDns: boolean
+    encryptedDnsFollowOutboundMode: boolean
+    udpPriority: boolean
+    evaluateBeforeUse: boolean
   }
   loon: {
-    interfaceMode: "auto" | "cellular" | "wifi"
+    subscriptionName: string
+    subscriptionUrl: string
+    interfaceMode: "Auto" | "Cellular" | "Performace" | "Balance"
+    includeSystemDns: boolean
+    hijackDns: boolean
+    disableStun: boolean
+    udpFallbackMode: "DIRECT" | "REJECT"
+    realIp: string
   }
   shadowrocket: {
-    bypassSystem: boolean
+    subscriptionNames: string
+    fallbackDnsServers: string
+    hijackDns: boolean
+    excludeCgnat: boolean
   }
 }
 
 export type ConfiguratorState = {
-  version: 1
+  version: 2
   client: ClientId
   regions: RegionId[]
   featuredGroups: FeaturedGroupId[]
@@ -172,29 +194,56 @@ export type RenderResult = {
 
 export const DEFAULT_SETTINGS: GeneralSettings = {
   ruleBaseUrl: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules",
-  internetTestUrl: "http://wifi.vivo.com.cn/generate_204",
-  proxyTestUrl: "http://cp.cloudflare.com/generate_204",
+  internetTestUrl: "https://cp.cloudflare.com/generate_204",
+  proxyTestUrl: "https://www.gstatic.com/generate_204",
   dnsServers: "223.5.5.5, 119.29.29.29",
-  dohServers:
-    "https://doh.pub/dns-query, https://dns.alidns.com/dns-query",
+  dohServers: "https://doh.pub/dns-query, https://dns.alidns.com/dns-query",
   ruleUpdateInterval: 86400,
-  groupTestInterval: 300,
-  timeoutSeconds: 3,
+  groupTestInterval: 600,
+  groupTolerance: 100,
+  timeoutSeconds: 5,
   ipv6: true,
   blockAds: true,
   directPrivate: true,
   directChina: true,
   mihomo: {
     mixedPort: 7890,
-    allowLan: true,
+    allowLan: false,
+    proxyProviderUrl: "",
+    lanAllowedIps: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16",
     tun: true,
+    tunStack: "mixed",
+    strictRoute: false,
+    respectDnsRules: false,
+    sniffer: false,
     logLevel: "info",
     externalController: "127.0.0.1:9090",
     secret: "",
   },
-  surge: { logLevel: "notify" },
-  loon: { interfaceMode: "auto" },
-  shadowrocket: { bypassSystem: true },
+  surge: {
+    logLevel: "notify",
+    proxyListUrl: "",
+    includeSystemDns: true,
+    encryptedDnsFollowOutboundMode: false,
+    udpPriority: false,
+    evaluateBeforeUse: false,
+  },
+  loon: {
+    subscriptionName: "Subscription",
+    subscriptionUrl: "",
+    interfaceMode: "Auto",
+    includeSystemDns: true,
+    hijackDns: false,
+    disableStun: false,
+    udpFallbackMode: "REJECT",
+    realIp: "*.apple.com, *.icloud.com",
+  },
+  shadowrocket: {
+    subscriptionNames: "",
+    fallbackDnsServers: "system",
+    hijackDns: false,
+    excludeCgnat: false,
+  },
 }
 
 export const DEFAULT_GROUP_NAMES = Object.fromEntries(
@@ -202,7 +251,7 @@ export const DEFAULT_GROUP_NAMES = Object.fromEntries(
 ) as Record<FeaturedGroupId, string>
 
 export const DEFAULT_STATE: ConfiguratorState = {
-  version: 1,
+  version: 2,
   client: "mihomo",
   regions: [],
   featuredGroups: [],

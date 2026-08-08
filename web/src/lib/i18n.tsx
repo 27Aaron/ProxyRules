@@ -71,15 +71,47 @@ const zh = {
   "settings.client": "客户端",
   "settings.ruleUrl": "规则地址",
   "settings.ruleUrlDescription": "所有远程 ruleset 的基础地址。",
+  "settings.ruleInterval": "资源更新（秒）",
+  "settings.ruleIntervalDescription": "更新远程规则或代理列表的间隔。",
   "settings.internetUrl": "联网测试地址",
-  "settings.proxyUrl": "代理测速地址",
   "settings.dnsServers": "DNS 服务器",
-  "settings.dnsServersDescription": "多个地址使用英文逗号分隔。",
-  "settings.dohServers": "加密 DNS（DoH）",
-  "settings.dohServersDescription": "填写一个或多个 HTTPS DNS 地址。",
-  "settings.ruleInterval": "规则更新（秒）",
+  "settings.dnsServersDescriptionMihomo":
+    "引导 DNS；填写 IP 地址或支持的加密 DNS URI，多个值用英文逗号分隔。",
+  "settings.dnsServersDescriptionSurge":
+    "普通 DNS 服务器，多个地址使用英文逗号分隔。",
+  "settings.dnsServersDescriptionLoon":
+    "写入 dns-server，多个地址使用英文逗号分隔。",
+  "settings.dnsServersDescriptionShadowrocket":
+    "普通 DNS 服务器，与加密 DNS 分开填写。",
+  "settings.encryptedDns": "加密 DNS",
+  "settings.encryptedDnsDescription":
+    "支持 https://、h3://、quic:// 与 tls://，多个地址使用英文逗号分隔。",
+  "settings.encryptedDnsDescriptionLoon":
+    "支持 https://、h3:// 与 quic://，多个地址使用英文逗号分隔。",
+  "settings.includeSystemDns": "包含系统 DNS",
+  "settings.includeSystemDnsDescription": "将 system 加入普通 DNS 列表。",
+  "settings.fallbackDns": "备用 DNS",
+  "settings.fallbackDnsDescription":
+    "主 DNS 查询失败时使用；可填写 system 或服务器地址。",
+  "settings.ipv6": "启用 IPv6",
+  "settings.ipv6Description": "同步写入当前客户端的 IPv6 设置。",
+  "settings.proxyUrl": "代理测速地址",
   "settings.groupInterval": "地区测速（秒）",
+  "settings.groupTolerance": "测速容差（毫秒）",
   "settings.timeout": "超时（秒）",
+  "settings.providerUrl": "代理提供者 URL",
+  "settings.providerUrlDescription":
+    "必填，URL 内容需兼容 Mihomo proxy-provider 格式。",
+  "settings.proxyListUrl": "代理列表 URL",
+  "settings.proxyListUrlDescription":
+    "必填，内容需为 Surge 代理定义行，并通过 policy-path 加载。",
+  "settings.subscriptionName": "订阅别名",
+  "settings.subscriptionNameDescription": "用于 Remote Proxy 与节点筛选。",
+  "settings.subscriptionUrl": "订阅 URL",
+  "settings.subscriptionUrlDescription": "必填，写入 Loon Remote Proxy。",
+  "settings.subscriptionNames": "App 内订阅名称",
+  "settings.subscriptionNamesDescription":
+    "可选；多个名称使用英文逗号分隔，留空则匹配全部节点。",
   "settings.builtin": "内置规则",
   "settings.builtinDescription":
     "这些规则构成基础分流，并始终排在 FINAL 之前。",
@@ -89,14 +121,44 @@ const zh = {
   "settings.directPrivateDescription": "避免局域网流量进入代理。",
   "settings.directChina": "中国大陆直连",
   "settings.directChinaDescription": "使用完整 cn ruleset。",
-  "settings.ipv6": "启用 IPv6",
-  "settings.ipv6Description": "同步写入当前客户端的 IPv6 设置。",
+  "settings.mixedPort": "混合端口",
   "settings.logLevel": "日志级别",
-  "settings.secretDescription": "留空则不设置控制器密码。",
+  "settings.externalController": "外部控制器",
+  "settings.apiSecret": "API 密钥",
+  "settings.secretDescription": "回环地址可留空；非回环控制器必须设置密钥。",
   "settings.allowLan": "允许局域网连接",
+  "settings.allowLanDescription": "允许局域网设备连接 Mihomo。",
+  "settings.lanAllowedIps": "允许的局域网网段",
+  "settings.lanAllowedIpsDescription": "多个 CIDR 使用英文逗号分隔。",
   "settings.tun": "启用 TUN",
-  "settings.bypassSystem": "绕过系统服务",
-  "settings.bypassSystemDescription": "写入 bypass-system。",
+  "settings.tunDescription": "接管系统流量并自动配置路由。",
+  "settings.tunStack": "TUN 协议栈",
+  "settings.strictRoute": "严格路由",
+  "settings.strictRouteDescription": "限制未被 TUN 接管的连接。",
+  "settings.respectDnsRules": "DNS 遵循分流规则",
+  "settings.respectDnsRulesDescription": "按规则选择 DNS 查询的出站路径。",
+  "settings.sniffer": "协议嗅探",
+  "settings.snifferDescription": "从流量中还原域名以改善规则匹配。",
+  "settings.encryptedDnsFollowOutbound": "加密 DNS 跟随出站模式",
+  "settings.encryptedDnsFollowOutboundDescription":
+    "让加密 DNS 请求使用当前出站策略。",
+  "settings.udpPriority": "UDP 优先",
+  "settings.udpPriorityDescription": "优先处理 UDP，适合对延迟敏感的场景。",
+  "settings.evaluateBeforeUse": "使用前测速",
+  "settings.evaluateBeforeUseDescription": "选择策略前先评估节点可用性。",
+  "settings.interfaceMode": "接口模式",
+  "settings.realIp": "真实 IP 域名",
+  "settings.realIpDescription":
+    "这些域名不使用 Fake IP；多个值用英文逗号分隔。",
+  "settings.udpFallback": "UDP 不支持时",
+  "settings.udpFallbackDescription": "选择直连或拒绝 UDP 请求。",
+  "settings.hijackDns": "劫持 DNS",
+  "settings.hijackDnsDescription": "接管发往常用 DNS 端口的查询。",
+  "settings.disableStun": "禁用 STUN",
+  "settings.disableStunDescription": "阻止 STUN 暴露直连地址。",
+  "settings.excludeCgnat": "从 TUN 排除 CGNAT",
+  "settings.excludeCgnatDescription":
+    "排除 100.64.0.0/10；使用 Tailscale 时请保持关闭。",
   "search.title": "搜索规则",
   "search.description": "从 rules 分支的 manifest.json 中查找完整 ruleset。",
   "search.heading": "添加独立策略组",
@@ -181,15 +243,50 @@ const en: Record<Key, string> = {
   "settings.client": "Client",
   "settings.ruleUrl": "Rule URL",
   "settings.ruleUrlDescription": "Base URL for all remote rulesets.",
+  "settings.ruleInterval": "Resource update (seconds)",
+  "settings.ruleIntervalDescription":
+    "Update interval for remote rules or proxy lists.",
   "settings.internetUrl": "Internet test URL",
-  "settings.proxyUrl": "Proxy test URL",
   "settings.dnsServers": "DNS servers",
-  "settings.dnsServersDescription": "Separate multiple addresses with commas.",
-  "settings.dohServers": "Encrypted DNS (DoH)",
-  "settings.dohServersDescription": "Enter one or more HTTPS DNS URLs.",
-  "settings.ruleInterval": "Rule update (seconds)",
+  "settings.dnsServersDescriptionMihomo":
+    "Bootstrap DNS; enter IP addresses or supported encrypted DNS URIs, separated with commas.",
+  "settings.dnsServersDescriptionSurge":
+    "Plain DNS servers, separated with commas.",
+  "settings.dnsServersDescriptionLoon":
+    "Written to dns-server; separate multiple addresses with commas.",
+  "settings.dnsServersDescriptionShadowrocket":
+    "Plain DNS servers, entered separately from encrypted DNS.",
+  "settings.encryptedDns": "Encrypted DNS",
+  "settings.encryptedDnsDescription":
+    "Supports https://, h3://, quic://, and tls:// addresses, separated with commas.",
+  "settings.encryptedDnsDescriptionLoon":
+    "Supports https://, h3://, and quic:// addresses, separated with commas.",
+  "settings.includeSystemDns": "Include system DNS",
+  "settings.includeSystemDnsDescription": "Adds system to the plain DNS list.",
+  "settings.fallbackDns": "Fallback DNS",
+  "settings.fallbackDnsDescription":
+    "Used when primary DNS fails; enter system or server addresses.",
+  "settings.ipv6": "Enable IPv6",
+  "settings.ipv6Description": "Writes the IPv6 setting for the current client.",
+  "settings.proxyUrl": "Proxy test URL",
   "settings.groupInterval": "Region test (seconds)",
+  "settings.groupTolerance": "Test tolerance (ms)",
   "settings.timeout": "Timeout (seconds)",
+  "settings.providerUrl": "Proxy provider URL",
+  "settings.providerUrlDescription":
+    "Required. The URL must return Mihomo-compatible provider content.",
+  "settings.proxyListUrl": "Proxy list URL",
+  "settings.proxyListUrlDescription":
+    "Required. Must contain Surge proxy definition lines for policy-path.",
+  "settings.subscriptionName": "Subscription alias",
+  "settings.subscriptionNameDescription":
+    "Used by Remote Proxy and node filters.",
+  "settings.subscriptionUrl": "Subscription URL",
+  "settings.subscriptionUrlDescription":
+    "Required. Written to Loon Remote Proxy.",
+  "settings.subscriptionNames": "In-app subscription names",
+  "settings.subscriptionNamesDescription":
+    "Optional. Separate names with commas; leave blank to match all nodes.",
   "settings.builtin": "Built-in rules",
   "settings.builtinDescription":
     "These rules form the base routing set and always precede FINAL.",
@@ -200,14 +297,50 @@ const en: Record<Key, string> = {
     "Keeps local network traffic out of the proxy.",
   "settings.directChina": "Direct mainland China",
   "settings.directChinaDescription": "Uses the complete cn ruleset.",
-  "settings.ipv6": "Enable IPv6",
-  "settings.ipv6Description": "Writes the IPv6 setting for the current client.",
+  "settings.mixedPort": "Mixed port",
   "settings.logLevel": "Log level",
-  "settings.secretDescription": "Leave blank to omit the controller password.",
+  "settings.externalController": "External controller",
+  "settings.apiSecret": "API secret",
+  "settings.secretDescription":
+    "May be blank on loopback; a non-loopback controller requires a secret.",
   "settings.allowLan": "Allow LAN connections",
+  "settings.allowLanDescription": "Lets LAN devices connect to Mihomo.",
+  "settings.lanAllowedIps": "Allowed LAN networks",
+  "settings.lanAllowedIpsDescription": "Separate CIDR ranges with commas.",
   "settings.tun": "Enable TUN",
-  "settings.bypassSystem": "Bypass system services",
-  "settings.bypassSystemDescription": "Writes bypass-system.",
+  "settings.tunDescription": "Captures system traffic and configures routes.",
+  "settings.tunStack": "TUN stack",
+  "settings.strictRoute": "Strict routing",
+  "settings.strictRouteDescription": "Restricts connections outside TUN.",
+  "settings.respectDnsRules": "DNS follows routing rules",
+  "settings.respectDnsRulesDescription":
+    "Selects the DNS query path using routing rules.",
+  "settings.sniffer": "Protocol sniffing",
+  "settings.snifferDescription":
+    "Recovers domain names from traffic for better rule matching.",
+  "settings.encryptedDnsFollowOutbound": "Encrypted DNS follows outbound mode",
+  "settings.encryptedDnsFollowOutboundDescription":
+    "Routes encrypted DNS requests through the active outbound policy.",
+  "settings.udpPriority": "Prioritize UDP",
+  "settings.udpPriorityDescription":
+    "Prioritizes UDP for latency-sensitive traffic.",
+  "settings.evaluateBeforeUse": "Evaluate before use",
+  "settings.evaluateBeforeUseDescription":
+    "Checks node availability before selecting a policy.",
+  "settings.interfaceMode": "Interface mode",
+  "settings.realIp": "Real-IP domains",
+  "settings.realIpDescription":
+    "Disables Fake IP for these domains; separate values with commas.",
+  "settings.udpFallback": "When UDP is unsupported",
+  "settings.udpFallbackDescription": "Send UDP directly or reject it.",
+  "settings.hijackDns": "Hijack DNS",
+  "settings.hijackDnsDescription": "Captures queries sent to common DNS ports.",
+  "settings.disableStun": "Disable STUN",
+  "settings.disableStunDescription":
+    "Prevents STUN from exposing the direct address.",
+  "settings.excludeCgnat": "Exclude CGNAT from TUN",
+  "settings.excludeCgnatDescription":
+    "Excludes 100.64.0.0/10; keep off when using Tailscale.",
   "search.title": "Search rules",
   "search.description":
     "Find complete rulesets in manifest.json on the rules branch.",
@@ -292,15 +425,51 @@ const ja: Record<Key, string> = {
   "settings.client": "クライアント",
   "settings.ruleUrl": "ルール URL",
   "settings.ruleUrlDescription": "すべてのリモート ruleset のベース URL。",
+  "settings.ruleInterval": "リソース更新（秒）",
+  "settings.ruleIntervalDescription":
+    "リモートルールまたはプロキシリストの更新間隔です。",
   "settings.internetUrl": "接続テスト URL",
-  "settings.proxyUrl": "プロキシテスト URL",
   "settings.dnsServers": "DNS サーバー",
-  "settings.dnsServersDescription": "複数のアドレスはカンマで区切ります。",
-  "settings.dohServers": "暗号化 DNS（DoH）",
-  "settings.dohServersDescription": "1 つ以上の HTTPS DNS URL を入力します。",
-  "settings.ruleInterval": "ルール更新（秒）",
+  "settings.dnsServersDescriptionMihomo":
+    "ブートストラップ DNS です。IP アドレスまたは対応する暗号化 DNS URI をカンマ区切りで入力します。",
+  "settings.dnsServersDescriptionSurge":
+    "通常の DNS サーバーをカンマ区切りで入力します。",
+  "settings.dnsServersDescriptionLoon":
+    "dns-server に書き込みます。複数のアドレスはカンマで区切ります。",
+  "settings.dnsServersDescriptionShadowrocket":
+    "通常の DNS サーバーを暗号化 DNS とは別に入力します。",
+  "settings.encryptedDns": "暗号化 DNS",
+  "settings.encryptedDnsDescription":
+    "https://、h3://、quic://、tls:// に対応します。複数のアドレスはカンマで区切ります。",
+  "settings.encryptedDnsDescriptionLoon":
+    "https://、h3://、quic:// に対応します。複数のアドレスはカンマで区切ります。",
+  "settings.includeSystemDns": "システム DNS を含める",
+  "settings.includeSystemDnsDescription":
+    "通常の DNS リストに system を追加します。",
+  "settings.fallbackDns": "フォールバック DNS",
+  "settings.fallbackDnsDescription":
+    "プライマリ DNS の失敗時に使用します。system またはサーバーアドレスを入力します。",
+  "settings.ipv6": "IPv6 を有効化",
+  "settings.ipv6Description": "現在のクライアントに IPv6 設定を書き込みます。",
+  "settings.proxyUrl": "プロキシテスト URL",
   "settings.groupInterval": "地域テスト（秒）",
+  "settings.groupTolerance": "テスト許容値（ms）",
   "settings.timeout": "タイムアウト（秒）",
+  "settings.providerUrl": "プロキシプロバイダー URL",
+  "settings.providerUrlDescription":
+    "必須。Mihomo 互換のプロバイダー内容を返す URL を指定します。",
+  "settings.proxyListUrl": "プロキシリスト URL",
+  "settings.proxyListUrlDescription":
+    "必須。policy-path 用の Surge プロキシ定義行を含めます。",
+  "settings.subscriptionName": "サブスクリプション別名",
+  "settings.subscriptionNameDescription":
+    "Remote Proxy とノードフィルターで使用します。",
+  "settings.subscriptionUrl": "サブスクリプション URL",
+  "settings.subscriptionUrlDescription":
+    "必須。Loon の Remote Proxy に書き込みます。",
+  "settings.subscriptionNames": "App 内のサブスクリプション名",
+  "settings.subscriptionNamesDescription":
+    "任意。複数の名前はカンマで区切り、空欄の場合は全ノードに一致します。",
   "settings.builtin": "組み込みルール",
   "settings.builtinDescription":
     "基本ルーティングを構成し、常に FINAL より前に配置されます。",
@@ -311,15 +480,52 @@ const ja: Record<Key, string> = {
     "LAN トラフィックをプロキシから除外します。",
   "settings.directChina": "中国本土を直結",
   "settings.directChinaDescription": "完全な cn ruleset を使用します。",
-  "settings.ipv6": "IPv6 を有効化",
-  "settings.ipv6Description": "現在のクライアントに IPv6 設定を書き込みます。",
+  "settings.mixedPort": "Mixed ポート",
   "settings.logLevel": "ログレベル",
+  "settings.externalController": "外部コントローラー",
+  "settings.apiSecret": "API シークレット",
   "settings.secretDescription":
-    "空欄の場合、コントローラーパスワードを設定しません。",
+    "ループバックでは空欄にできます。外部公開する場合はシークレットが必須です。",
   "settings.allowLan": "LAN 接続を許可",
+  "settings.allowLanDescription":
+    "LAN デバイスから Mihomo への接続を許可します。",
+  "settings.lanAllowedIps": "許可する LAN ネットワーク",
+  "settings.lanAllowedIpsDescription": "CIDR はカンマで区切ります。",
   "settings.tun": "TUN を有効化",
-  "settings.bypassSystem": "システムサービスを除外",
-  "settings.bypassSystemDescription": "bypass-system を書き込みます。",
+  "settings.tunDescription":
+    "システムトラフィックを取得し、ルートを設定します。",
+  "settings.tunStack": "TUN スタック",
+  "settings.strictRoute": "厳格なルーティング",
+  "settings.strictRouteDescription": "TUN 外の接続を制限します。",
+  "settings.respectDnsRules": "DNS を振り分けルールに従わせる",
+  "settings.respectDnsRulesDescription":
+    "振り分けルールで DNS クエリの経路を選択します。",
+  "settings.sniffer": "プロトコルスニッフィング",
+  "settings.snifferDescription":
+    "トラフィックからドメイン名を復元してルール判定を改善します。",
+  "settings.encryptedDnsFollowOutbound": "暗号化 DNS を送信モードに従わせる",
+  "settings.encryptedDnsFollowOutboundDescription":
+    "暗号化 DNS リクエストを現在の送信ポリシーで処理します。",
+  "settings.udpPriority": "UDP を優先",
+  "settings.udpPriorityDescription": "遅延に敏感な通信で UDP を優先します。",
+  "settings.evaluateBeforeUse": "使用前に評価",
+  "settings.evaluateBeforeUseDescription":
+    "ポリシー選択前にノードの可用性を確認します。",
+  "settings.interfaceMode": "インターフェースモード",
+  "settings.realIp": "Real-IP ドメイン",
+  "settings.realIpDescription":
+    "これらのドメインでは Fake IP を無効にします。値はカンマで区切ります。",
+  "settings.udpFallback": "UDP 非対応時",
+  "settings.udpFallbackDescription": "UDP を直結または拒否します。",
+  "settings.hijackDns": "DNS をハイジャック",
+  "settings.hijackDnsDescription":
+    "一般的な DNS ポートへの問い合わせを取得します。",
+  "settings.disableStun": "STUN を無効化",
+  "settings.disableStunDescription":
+    "STUN による直接アドレスの露出を防ぎます。",
+  "settings.excludeCgnat": "CGNAT を TUN から除外",
+  "settings.excludeCgnatDescription":
+    "100.64.0.0/10 を除外します。Tailscale 使用時はオフにしてください。",
   "search.title": "ルールを検索",
   "search.description":
     "rules ブランチの manifest.json から ruleset を検索します。",
@@ -405,15 +611,51 @@ const ru: Record<Key, string> = {
   "settings.client": "Клиент",
   "settings.ruleUrl": "Адрес правил",
   "settings.ruleUrlDescription": "Базовый URL для всех удалённых ruleset.",
+  "settings.ruleInterval": "Обновление ресурсов (сек.)",
+  "settings.ruleIntervalDescription":
+    "Интервал обновления удалённых правил или списков прокси.",
   "settings.internetUrl": "URL проверки интернета",
-  "settings.proxyUrl": "URL проверки прокси",
   "settings.dnsServers": "DNS-серверы",
-  "settings.dnsServersDescription": "Разделяйте адреса запятыми.",
-  "settings.dohServers": "Зашифрованный DNS (DoH)",
-  "settings.dohServersDescription": "Укажите один или несколько HTTPS-адресов DNS.",
-  "settings.ruleInterval": "Обновление правил (сек.)",
+  "settings.dnsServersDescriptionMihomo":
+    "Начальный DNS: укажите IP-адреса или поддерживаемые URI зашифрованного DNS через запятую.",
+  "settings.dnsServersDescriptionSurge":
+    "Обычные DNS-серверы, разделённые запятыми.",
+  "settings.dnsServersDescriptionLoon":
+    "Записываются в dns-server; разделяйте адреса запятыми.",
+  "settings.dnsServersDescriptionShadowrocket":
+    "Обычные DNS-серверы, отдельно от зашифрованного DNS.",
+  "settings.encryptedDns": "Зашифрованный DNS",
+  "settings.encryptedDnsDescription":
+    "Поддерживает адреса https://, h3://, quic:// и tls://, разделённые запятыми.",
+  "settings.encryptedDnsDescriptionLoon":
+    "Поддерживает адреса https://, h3:// и quic://, разделённые запятыми.",
+  "settings.includeSystemDns": "Добавить системный DNS",
+  "settings.includeSystemDnsDescription":
+    "Добавляет system в список обычных DNS.",
+  "settings.fallbackDns": "Резервный DNS",
+  "settings.fallbackDnsDescription":
+    "Используется при сбое основного DNS; укажите system или адреса серверов.",
+  "settings.ipv6": "Включить IPv6",
+  "settings.ipv6Description": "Добавляет настройку IPv6 для текущего клиента.",
+  "settings.proxyUrl": "URL проверки прокси",
   "settings.groupInterval": "Проверка регионов (сек.)",
+  "settings.groupTolerance": "Допуск теста (мс)",
   "settings.timeout": "Тайм-аут (сек.)",
+  "settings.providerUrl": "URL провайдера прокси",
+  "settings.providerUrlDescription":
+    "Обязательно. URL должен возвращать совместимый с Mihomo провайдер.",
+  "settings.proxyListUrl": "URL списка прокси",
+  "settings.proxyListUrlDescription":
+    "Обязательно. Должен содержать строки прокси Surge для policy-path.",
+  "settings.subscriptionName": "Псевдоним подписки",
+  "settings.subscriptionNameDescription":
+    "Используется в Remote Proxy и фильтрах узлов.",
+  "settings.subscriptionUrl": "URL подписки",
+  "settings.subscriptionUrlDescription":
+    "Обязательно. Записывается в Remote Proxy Loon.",
+  "settings.subscriptionNames": "Имена подписок в приложении",
+  "settings.subscriptionNamesDescription":
+    "Необязательно. Разделяйте имена запятыми; пустое поле выбирает все узлы.",
   "settings.builtin": "Встроенные правила",
   "settings.builtinDescription":
     "Эти правила образуют базовую маршрутизацию и всегда идут до FINAL.",
@@ -424,15 +666,53 @@ const ru: Record<Key, string> = {
     "Локальный трафик не направляется через прокси.",
   "settings.directChina": "Прямой доступ к материковому Китаю",
   "settings.directChinaDescription": "Используется полный cn ruleset.",
-  "settings.ipv6": "Включить IPv6",
-  "settings.ipv6Description": "Добавляет настройку IPv6 для текущего клиента.",
+  "settings.mixedPort": "Смешанный порт",
   "settings.logLevel": "Уровень журнала",
+  "settings.externalController": "Внешний контроллер",
+  "settings.apiSecret": "Секрет API",
   "settings.secretDescription":
-    "Оставьте пустым, чтобы не задавать пароль контроллера.",
+    "На loopback можно оставить пустым; внешний контроллер требует секрет.",
   "settings.allowLan": "Разрешить подключения LAN",
+  "settings.allowLanDescription":
+    "Разрешает устройствам LAN подключаться к Mihomo.",
+  "settings.lanAllowedIps": "Разрешённые сети LAN",
+  "settings.lanAllowedIpsDescription": "Разделяйте диапазоны CIDR запятыми.",
   "settings.tun": "Включить TUN",
-  "settings.bypassSystem": "Обходить системные службы",
-  "settings.bypassSystemDescription": "Добавляет bypass-system.",
+  "settings.tunDescription":
+    "Перехватывает системный трафик и настраивает маршруты.",
+  "settings.tunStack": "Стек TUN",
+  "settings.strictRoute": "Строгая маршрутизация",
+  "settings.strictRouteDescription": "Ограничивает подключения вне TUN.",
+  "settings.respectDnsRules": "DNS следует правилам маршрутизации",
+  "settings.respectDnsRulesDescription":
+    "Выбирает путь DNS-запросов по правилам маршрутизации.",
+  "settings.sniffer": "Анализ протоколов",
+  "settings.snifferDescription":
+    "Восстанавливает домены из трафика для точного сопоставления правил.",
+  "settings.encryptedDnsFollowOutbound":
+    "Зашифрованный DNS следует исходящему режиму",
+  "settings.encryptedDnsFollowOutboundDescription":
+    "Направляет зашифрованные DNS-запросы по активной исходящей политике.",
+  "settings.udpPriority": "Приоритет UDP",
+  "settings.udpPriorityDescription":
+    "Даёт приоритет UDP для чувствительного к задержкам трафика.",
+  "settings.evaluateBeforeUse": "Проверять перед использованием",
+  "settings.evaluateBeforeUseDescription":
+    "Проверяет доступность узлов перед выбором политики.",
+  "settings.interfaceMode": "Режим интерфейса",
+  "settings.realIp": "Домены Real-IP",
+  "settings.realIpDescription":
+    "Отключает Fake IP для этих доменов; разделяйте значения запятыми.",
+  "settings.udpFallback": "Если UDP не поддерживается",
+  "settings.udpFallbackDescription": "Отправить UDP напрямую или отклонить.",
+  "settings.hijackDns": "Перехватывать DNS",
+  "settings.hijackDnsDescription":
+    "Перехватывает запросы на стандартные DNS-порты.",
+  "settings.disableStun": "Отключить STUN",
+  "settings.disableStunDescription": "Не позволяет STUN раскрыть прямой адрес.",
+  "settings.excludeCgnat": "Исключить CGNAT из TUN",
+  "settings.excludeCgnatDescription":
+    "Исключает 100.64.0.0/10; оставьте выключенным при использовании Tailscale.",
   "search.title": "Поиск правил",
   "search.description": "Поиск полных ruleset в manifest.json ветки rules.",
   "search.heading": "Добавить отдельную группу",

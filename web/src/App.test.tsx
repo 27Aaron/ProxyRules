@@ -101,6 +101,56 @@ describe("Config Studio", () => {
     })
   })
 
+  it("shows the correct node source field for each client", async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.click(screen.getByRole("tab", { name: "客户端" }))
+
+    expect(
+      (screen.getByLabelText("代理提供者 URL") as HTMLInputElement).required
+    ).toBe(true)
+
+    await user.click(screen.getByRole("radio", { name: "Surge" }))
+    expect(
+      ((await screen.findByLabelText("代理列表 URL")) as HTMLInputElement)
+        .required
+    ).toBe(true)
+    expect(screen.queryByLabelText("代理提供者 URL")).toBeNull()
+
+    await user.click(screen.getByRole("radio", { name: "Loon" }))
+    expect(await screen.findByLabelText("订阅别名")).toBeTruthy()
+    expect(
+      (screen.getByLabelText("订阅 URL") as HTMLInputElement).required
+    ).toBe(true)
+    expect(screen.queryByLabelText("代理列表 URL")).toBeNull()
+
+    await user.click(screen.getByRole("radio", { name: "Shadowrocket" }))
+    expect(
+      ((await screen.findByLabelText("App 内订阅名称")) as HTMLInputElement)
+        .required
+    ).toBe(false)
+    expect(screen.queryByLabelText("订阅 URL")).toBeNull()
+  })
+
+  it("uses Loon's official interface mode and removes bypass-system", async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.click(screen.getByRole("radio", { name: "Loon" }))
+    await user.click(screen.getByRole("tab", { name: "客户端" }))
+
+    expect(
+      (await screen.findByRole("combobox", { name: "接口模式" })).textContent
+    ).toContain("Auto")
+
+    await user.click(screen.getByRole("radio", { name: "Shadowrocket" }))
+    await screen.findByLabelText("App 内订阅名称")
+
+    expect(screen.queryByRole("switch", { name: "绕过系统服务" })).toBeNull()
+    expect(screen.queryByText("bypass-system")).toBeNull()
+  })
+
   it("restores the empty selection state", async () => {
     const user = userEvent.setup()
     renderApp()
