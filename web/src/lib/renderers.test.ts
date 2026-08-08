@@ -44,7 +44,7 @@ describe("renderConfig", () => {
     const result = renderConfig(state())
     const document = parse(result.content)
 
-    expect(result.fileName).toBe("Clash-Lite.yaml")
+    expect(result.fileName).toBe("Clash.yaml")
     expect(document["mixed-port"]).toBe(7890)
     expect(document["proxy-groups"][0].proxies).toEqual(["Manual"])
     expect(

@@ -1,11 +1,11 @@
 export const CLIENTS = [
-  { id: "mihomo", label: "Mihomo", fileName: "Clash-Lite.yaml" },
-  { id: "surge", label: "Surge", fileName: "Surge-Lite.conf" },
-  { id: "loon", label: "Loon", fileName: "Loon-Lite.conf" },
+  { id: "mihomo", label: "Mihomo", fileName: "Clash.yaml" },
+  { id: "surge", label: "Surge", fileName: "Surge.conf" },
+  { id: "loon", label: "Loon", fileName: "Loon.conf" },
   {
     id: "shadowrocket",
     label: "Shadowrocket",
-    fileName: "Shadowrocket-Lite.conf",
+    fileName: "Shadowrocket.conf",
   },
 ] as const
 

@@ -92,7 +92,7 @@ describe("Config Studio", () => {
 
     await user.click(screen.getByRole("radio", { name: "Surge" }))
     await waitFor(() => {
-      expect(screen.getByText("Surge-Lite.conf")).toBeTruthy()
+      expect(screen.getByText("Surge.conf")).toBeTruthy()
       expect(previewContent()).toContain("[General]")
       expect(previewContent()).toContain("Google = select")
     })
