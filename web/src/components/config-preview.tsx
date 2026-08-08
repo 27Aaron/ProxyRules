@@ -23,21 +23,8 @@ type ConfigPreviewProps = {
 }
 
 async function copyText(content: string) {
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(content)
-    return
-  }
-
-  const textarea = document.createElement("textarea")
-  textarea.value = content
-  textarea.setAttribute("readonly", "")
-  textarea.style.position = "fixed"
-  textarea.style.opacity = "0"
-  document.body.appendChild(textarea)
-  textarea.select()
-  const copied = document.execCommand("copy")
-  textarea.remove()
-  if (!copied) throw new Error("copy failed")
+  if (!navigator.clipboard?.writeText) throw new Error("clipboard unavailable")
+  await navigator.clipboard.writeText(content)
 }
 
 export function ConfigPreview({ result, errors }: ConfigPreviewProps) {

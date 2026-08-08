@@ -169,6 +169,16 @@
     @apply bg-secondary text-secondary-foreground;
   }
 
+  .language-menu [data-slot="select-item"][data-state="checked"] {
+    color: var(--foreground);
+    background: color-mix(in oklch, var(--primary), transparent 88%);
+  }
+
+  .language-menu [data-slot="select-item"]:focus {
+    color: var(--foreground);
+    background: color-mix(in oklch, var(--foreground), transparent 94%);
+  }
+
   .workspace-shell {
     @apply mx-auto w-full max-w-[112rem] p-3 sm:p-4 lg:p-0;
   }

@@ -3,7 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Delete02Icon,
   Github01Icon,
-  GlobalIcon,
+  MessageTranslateIcon,
   Moon02Icon,
   RefreshIcon,
   Route01Icon,
@@ -117,15 +117,25 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         >
           <SelectTrigger
             aria-label={t("header.language")}
-            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none"
+            aria-controls="language-options"
+            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none hover:bg-muted/60 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0"
           >
-            <HugeiconsIcon icon={GlobalIcon} />
+            <HugeiconsIcon icon={MessageTranslateIcon} strokeWidth={1.7} />
             <SelectValue />
           </SelectTrigger>
-          <SelectContent align="end">
+          <SelectContent
+            id="language-options"
+            align="end"
+            position="popper"
+            className="language-menu min-w-36 rounded-md"
+          >
             <SelectGroup>
               {LOCALES.map((language) => (
-                <SelectItem key={language.value} value={language.value}>
+                <SelectItem
+                  key={language.value}
+                  value={language.value}
+                  className="min-h-8 px-2.5 text-sm"
+                >
                   {language.label}
                 </SelectItem>
               ))}
