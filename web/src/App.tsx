@@ -228,6 +228,36 @@ export function App() {
         ),
       }
     })
+
+    toast.success(
+      t(checked ? "toast.groupAdded" : "toast.groupRemoved", {
+        group: definition.name,
+      })
+    )
+  }
+
+  const selectClient = (client: ClientId) => {
+    if (client === state.client) return
+    setState((current) => ({ ...current, client }))
+    const label = CLIENTS.find((item) => item.id === client)?.label ?? client
+    toast.success(t("toast.clientSwitched", { client: label }))
+  }
+
+  const updateRegions = (values: string[]) => {
+    const regions = values.filter(isRegionId)
+    const added = regions.find((region) => !state.regions.includes(region))
+    const removed = state.regions.find((region) => !regions.includes(region))
+
+    setState((current) => ({ ...current, regions }))
+
+    const changed = added ?? removed
+    if (!changed) return
+    const label = `${changed} ${t(`region.${changed}` as TranslationKey)}`
+    toast.success(
+      t(added ? "toast.regionAdded" : "toast.regionRemoved", {
+        region: label,
+      })
+    )
   }
 
   const addCustomGroup = (entry: CatalogEntry) => {
@@ -276,10 +306,7 @@ export function App() {
               value={state.client}
               onValueChange={(value) => {
                 if (!value) return
-                setState((current) => ({
-                  ...current,
-                  client: value as ClientId,
-                }))
+                selectClient(value as ClientId)
               }}
               className="grid w-full grid-cols-2 sm:grid-cols-4"
               spacing={1}
@@ -305,12 +332,7 @@ export function App() {
               type="multiple"
               variant="outline"
               value={state.regions}
-              onValueChange={(values) =>
-                setState((current) => ({
-                  ...current,
-                  regions: values.filter(isRegionId),
-                }))
-              }
+              onValueChange={updateRegions}
               className="flex w-full flex-wrap"
               spacing={1}
             >
