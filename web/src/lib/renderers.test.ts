@@ -102,9 +102,7 @@ describe("strategy model", () => {
     const selected = getSelectedCategoryIds(value)
 
     expect(ai.categories.map((category) => category.id)).toEqual([
-      "apple-intelligence",
       "anthropic",
-      "github-copilot",
       "google-gemini",
       "openai",
       "xai",
