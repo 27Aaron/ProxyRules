@@ -79,6 +79,10 @@
   --radius: 0.5rem;
   --signal: #f05252;
   --signal-foreground: #a92f2f;
+  --interactive-hover: color-mix(in oklch, var(--foreground), transparent 94%);
+  --interactive-selected: color-mix(in oklch, var(--primary), transparent 88%);
+  --interactive-selected-hover: color-mix(in oklch, var(--primary), transparent 84%);
+  --interactive-selected-border: color-mix(in oklch, var(--primary), transparent 52%);
   --sidebar: #f1f1f2;
   --sidebar-foreground: #18191a;
   --sidebar-primary: #f05252;
@@ -169,16 +173,6 @@
     @apply bg-secondary text-secondary-foreground;
   }
 
-  .language-menu [data-slot="select-item"][data-state="checked"] {
-    color: var(--foreground);
-    background: color-mix(in oklch, var(--primary), transparent 88%);
-  }
-
-  .language-menu [data-slot="select-item"]:focus {
-    color: var(--foreground);
-    background: color-mix(in oklch, var(--foreground), transparent 94%);
-  }
-
   .workspace-shell {
     @apply mx-auto w-full max-w-[112rem] p-3 sm:p-4 lg:h-[calc(100svh-3.5rem)] lg:overflow-hidden lg:p-0;
   }
@@ -227,47 +221,7 @@
   }
 
   .choice-field {
-    @apply items-start rounded-sm border-0 px-2 py-3 transition-colors;
-  }
-
-  .choice-field:hover {
-    background: color-mix(in oklch, var(--accent), transparent 52%);
-  }
-
-  .choice-field[data-selected="true"] {
-    background: color-mix(in oklch, var(--accent), transparent 18%);
-  }
-
-  .selection-toggle {
-    @apply border-input bg-transparent text-foreground hover:border-primary/45 hover:bg-accent/55;
-  }
-
-  [data-slot="toggle-group-item"].selection-toggle[data-state="on"] {
-    color: var(--foreground) !important;
-    background: color-mix(in oklch, var(--primary), transparent 84%) !important;
-    border-color: color-mix(
-      in oklch,
-      var(--primary),
-      transparent 42%
-    ) !important;
-    box-shadow: inset 0 0 0 1px
-      color-mix(in oklch, var(--primary), transparent 78%);
-  }
-
-  [data-slot="toggle-group-item"].selection-toggle[data-state="on"]:hover {
-    color: var(--foreground) !important;
-    background: color-mix(in oklch, var(--primary), transparent 78%) !important;
-    border-color: color-mix(
-      in oklch,
-      var(--primary),
-      transparent 34%
-    ) !important;
-  }
-
-  [data-slot="toggle-group-item"].selection-toggle[data-state="on"]
-    .text-muted-foreground {
-    color: var(--foreground) !important;
-    opacity: 0.72;
+    @apply items-start rounded-sm border border-transparent px-2 py-3;
   }
 
   .preview-card {
@@ -302,6 +256,78 @@
   .config-line-text {
     @apply min-w-0 pr-5 pl-4 whitespace-pre-wrap;
     overflow-wrap: anywhere;
+  }
+}
+
+@layer utilities {
+  .interactive-option {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: 150ms;
+  }
+
+  .interactive-option:hover,
+  .interactive-option:focus {
+    color: var(--foreground);
+    background: var(--interactive-hover);
+  }
+
+  .interactive-option:is(
+      [data-state="on"],
+      [data-state="checked"],
+      [data-state="active"],
+      [data-selected="true"],
+      [data-active]
+    ) {
+    color: var(--foreground);
+    background: var(--interactive-selected);
+    border-color: var(--interactive-selected-border);
+    box-shadow: inset 0 0 0 1px
+      color-mix(in oklch, var(--primary), transparent 82%);
+  }
+
+  .interactive-option:is(
+      [data-state="on"],
+      [data-state="checked"],
+      [data-state="active"],
+      [data-selected="true"],
+      [data-active]
+    ):hover {
+    background: var(--interactive-selected-hover);
+  }
+
+  .interactive-option:is([data-state="on"], [data-state="checked"])
+    .text-muted-foreground {
+    color: var(--foreground);
+    opacity: 0.72;
+  }
+
+  .interactive-input {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: 150ms;
+  }
+
+  .interactive-input:hover:not(:disabled):not([data-disabled]):not(
+      [data-state="checked"]
+    ) {
+    border-color: color-mix(in oklch, var(--foreground), transparent 76%);
+  }
+
+  .interactive-input[data-state="checked"]:hover {
+    background: color-mix(in oklch, var(--primary), var(--foreground) 7%);
+  }
+
+  .interactive-switch[data-state="unchecked"]:hover {
+    background: color-mix(in oklch, var(--input), var(--foreground) 7%);
+  }
+
+  .interactive-switch[data-state="checked"]:hover {
+    background: color-mix(in oklch, var(--primary), var(--foreground) 7%);
+  }
+
+  .interactive-action:hover,
+  .interactive-action[aria-expanded="true"] {
+    color: var(--foreground);
+    background: var(--interactive-hover);
   }
 }
 

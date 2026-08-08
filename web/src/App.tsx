@@ -1,7 +1,6 @@
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  Delete02Icon,
   Github01Icon,
   MessageTranslateIcon,
   Moon02Icon,
@@ -33,9 +32,7 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-  FieldTitle,
 } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -112,7 +109,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
           <SelectTrigger
             aria-label={t("header.language")}
             aria-controls="language-options"
-            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none hover:bg-muted/60 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0"
+            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none hover:bg-[var(--interactive-hover)] focus-visible:border-transparent focus-visible:bg-[var(--interactive-hover)] focus-visible:ring-0"
           >
             <HugeiconsIcon icon={MessageTranslateIcon} strokeWidth={1.7} />
             <SelectValue />
@@ -121,7 +118,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
             id="language-options"
             align="end"
             position="popper"
-            className="language-menu min-w-36 rounded-md"
+            className="min-w-36 rounded-md"
           >
             <SelectGroup>
               {LOCALES.map((language) => (
@@ -291,7 +288,6 @@ export function App() {
                 <ToggleGroupItem
                   key={client.id}
                   value={client.id}
-                  className="selection-toggle"
                 >
                   {client.label}
                 </ToggleGroupItem>
@@ -322,7 +318,6 @@ export function App() {
                 <ToggleGroupItem
                   key={region.id}
                   value={region.id}
-                  className="selection-toggle"
                 >
                   <span className="font-mono">{region.id}</span>
                   <span className="text-muted-foreground">
@@ -350,7 +345,7 @@ export function App() {
                     <Field
                       key={group.id}
                       orientation="horizontal"
-                      className="choice-field"
+                      className="interactive-option choice-field"
                       data-selected={checked}
                     >
                       <Checkbox
@@ -385,103 +380,6 @@ export function App() {
               {t("step.groups.search")}
             </Button>
 
-            {state.featuredGroups.length > 0 ||
-            state.customGroups.length > 0 ? (
-              <FieldSet>
-                <FieldLegend variant="label">
-                  {t("step.groups.selected")}
-                </FieldLegend>
-                <FieldDescription>
-                  {t("step.groups.namesDescription")}
-                </FieldDescription>
-                <FieldGroup>
-                  {state.featuredGroups.map((id) => {
-                    const definition = FEATURED_GROUPS.find(
-                      (group) => group.id === id
-                    )!
-                    return (
-                      <Field key={id} orientation="responsive">
-                        <FieldLabel htmlFor={`group-name-${id}`}>
-                          {definition.name}
-                        </FieldLabel>
-                        <Input
-                          id={`group-name-${id}`}
-                          value={state.groupNames[id]}
-                          onChange={(event) =>
-                            setState((current) => ({
-                              ...current,
-                              groupNames: {
-                                ...current.groupNames,
-                                [id]: event.target.value,
-                              },
-                            }))
-                          }
-                        />
-                      </Field>
-                    )
-                  })}
-
-                  {state.customGroups.map((group) => (
-                    <Field key={group.categoryId} orientation="responsive">
-                      <FieldContent>
-                        <FieldTitle>{group.categoryId}</FieldTitle>
-                        <FieldDescription>
-                          {t("step.groups.rules", {
-                            count: group.rules.toLocaleString(),
-                            kind: t(`kind.${group.kind}` as TranslationKey),
-                          })}
-                        </FieldDescription>
-                      </FieldContent>
-                      <div className="flex min-w-0 items-center gap-1">
-                        <Input
-                          aria-label={t("step.groups.nameLabel", {
-                            id: group.categoryId,
-                          })}
-                          value={group.name}
-                          onChange={(event) =>
-                            setState((current) => ({
-                              ...current,
-                              customGroups: current.customGroups.map((item) =>
-                                item.categoryId === group.categoryId
-                                  ? { ...item, name: event.target.value }
-                                  : item
-                              ),
-                            }))
-                          }
-                        />
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() =>
-                                setState((current) => ({
-                                  ...current,
-                                  customGroups: current.customGroups.filter(
-                                    (item) =>
-                                      item.categoryId !== group.categoryId
-                                  ),
-                                }))
-                              }
-                            >
-                              <HugeiconsIcon icon={Delete02Icon} />
-                              <span className="sr-only">
-                                {t("step.groups.remove", {
-                                  id: group.categoryId,
-                                })}
-                              </span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {t("step.groups.removeRule")}
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    </Field>
-                  ))}
-                </FieldGroup>
-              </FieldSet>
-            ) : null}
           </CardContent>
         </Card>
 
