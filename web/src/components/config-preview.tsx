@@ -67,7 +67,7 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
 
   return (
     <Card className="preview-card h-full min-h-[36rem]">
-      <CardHeader className="border-b">
+      <CardHeader className="border-b border-border/60">
         <div className="flex min-w-0 items-center">
           <CardTitle className="truncate">{result.fileName}</CardTitle>
         </div>
@@ -85,7 +85,7 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
           </pre>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="justify-end gap-2 border-t">
+      <CardFooter className="justify-end gap-2 border-t border-border/60">
         <Button variant="outline" onClick={copy} disabled={disabled}>
           <HugeiconsIcon icon={Copy01Icon} data-icon="inline-start" />
           {t("preview.copy")}

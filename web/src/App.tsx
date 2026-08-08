@@ -50,7 +50,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
@@ -374,8 +373,6 @@ export function App() {
               </FieldGroup>
             </FieldSet>
 
-            <Separator />
-
             <Button
               variant="outline"
               onClick={() => {
@@ -495,7 +492,7 @@ export function App() {
           <CardContent>
             <SettingsPanel state={state} setState={setState} />
           </CardContent>
-          <CardFooter className="border-t">
+          <CardFooter>
             <p className="text-xs text-muted-foreground">
               {t("step.settings.footer")}
             </p>
@@ -527,11 +524,11 @@ export function App() {
             orientation="horizontal"
             className="workspace-panels"
           >
-            <ResizablePanel defaultSize="46%" minSize="34%" maxSize="62%">
+            <ResizablePanel defaultSize="38.2%" minSize="30%" maxSize="50%">
               {controls}
             </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize="54%" minSize="38%">
+            <ResizableHandle />
+            <ResizablePanel defaultSize="61.8%" minSize="50%">
               <div className="preview-column">
                 <ConfigPreview result={result} errors={errors} />
               </div>
