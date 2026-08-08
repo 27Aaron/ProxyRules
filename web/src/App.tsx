@@ -84,6 +84,77 @@ function uniqueGroupName(base: string, taken: string[]) {
 function AppHeader({ onReset }: { onReset: () => void }) {
   const { resolvedTheme, setTheme } = useTheme()
   const { locale, setLocale, t } = useI18n()
+  const themeTransition = React.useRef<{
+    skipTransition?: () => void
+  } | null>(null)
+
+  const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const nextTheme = resolvedTheme === "dark" ? "light" : "dark"
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+    const documentWithTransition = document as Document & {
+      startViewTransition?: (update: () => void) => {
+        ready: Promise<void>
+        finished: Promise<void>
+        skipTransition?: () => void
+      }
+    }
+
+    if (!documentWithTransition.startViewTransition || reduceMotion) {
+      setTheme(nextTheme)
+      return
+    }
+
+    const root = document.documentElement
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const originX = bounds.left + bounds.width / 2
+    const originY = bounds.top + bounds.height / 2
+    const radius = Math.hypot(
+      Math.max(originX, window.innerWidth - originX),
+      Math.max(originY, window.innerHeight - originY)
+    )
+
+    themeTransition.current?.skipTransition?.()
+    root.classList.add("theme-transition")
+
+    let transition
+
+    try {
+      transition = documentWithTransition.startViewTransition(() => {
+        setTheme(nextTheme)
+      })
+    } catch {
+      root.classList.remove("theme-transition")
+      setTheme(nextTheme)
+      return
+    }
+    themeTransition.current = transition
+
+    transition.ready
+      .then(() => {
+        root.animate(
+          {
+            clipPath: [
+              `circle(0 at ${originX}px ${originY}px)`,
+              `circle(${radius}px at ${originX}px ${originY}px)`,
+            ],
+          },
+          {
+            duration: 850,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        )
+      })
+      .catch(() => undefined)
+
+    transition.finished.finally(() => {
+      if (themeTransition.current !== transition) return
+      themeTransition.current = null
+      root.classList.remove("theme-transition")
+    })
+  }
 
   return (
     <header className="app-header">
@@ -144,23 +215,6 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
-              }
-            >
-              <HugeiconsIcon
-                icon={resolvedTheme === "dark" ? Sun03Icon : Moon02Icon}
-              />
-              <span className="sr-only">{t("header.theme")}</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{t("header.theme")}</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" asChild>
               <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
                 <HugeiconsIcon icon={Github01Icon} />
@@ -169,6 +223,17 @@ function AppHeader({ onReset }: { onReset: () => void }) {
             </Button>
           </TooltipTrigger>
           <TooltipContent>{t("header.github")}</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
+              <HugeiconsIcon
+                icon={resolvedTheme === "dark" ? Sun03Icon : Moon02Icon}
+              />
+              <span className="sr-only">{t("header.theme")}</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{t("header.theme")}</TooltipContent>
         </Tooltip>
       </div>
     </header>

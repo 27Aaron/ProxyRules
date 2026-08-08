@@ -337,6 +337,28 @@
   }
 }
 
+:root.theme-transition::view-transition-group(root) {
+  animation-duration: 850ms;
+}
+
+:root.theme-transition::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+:root.theme-transition::view-transition-old(root),
+:root.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root.theme-transition::view-transition-old(root) {
+  z-index: 0;
+}
+
+:root.theme-transition::view-transition-new(root) {
+  z-index: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
