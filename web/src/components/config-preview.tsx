@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { useI18n } from "@/lib/i18n"
 import type { RenderResult } from "@/lib/types"
 
@@ -29,7 +28,8 @@ async function copyText(content: string) {
 
 export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
   const { t } = useI18n()
-  const lineCount = result.content.split("\n").length
+  const lines = result.content.split("\n")
+  const lineCount = lines.length
   const disabled = errors.length > 0
 
   const copy = async () => {
@@ -53,7 +53,7 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
   }
 
   return (
-    <Card className="preview-card h-full min-h-[36rem]">
+    <Card className="preview-card h-[calc(100svh-6rem)] min-h-[32rem] lg:h-full lg:min-h-0">
       <CardHeader className="border-b border-border/60">
         <div className="flex min-w-0 items-center">
           <CardTitle className="truncate">{result.fileName}</CardTitle>
@@ -65,12 +65,21 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
           </Badge>
         </CardAction>
       </CardHeader>
-      <CardContent className="min-h-0 flex-1 px-0">
-        <ScrollArea className="h-full max-h-[calc(100svh-13rem)] min-h-[29rem]">
+      <CardContent className="min-h-0 flex-1 overflow-hidden px-0">
+        <div className="config-scroll size-full">
           <pre className="config-code">
-            <code>{result.content}</code>
+            <code>
+              {lines.map((line, index) => (
+                <span className="config-line" key={index}>
+                  <span className="config-line-number" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <span className="config-line-text">{line}</span>
+                </span>
+              ))}
+            </code>
           </pre>
-        </ScrollArea>
+        </div>
       </CardContent>
       <CardFooter className="justify-end gap-2 border-t border-border/60">
         <Button variant="outline" onClick={copy} disabled={disabled}>

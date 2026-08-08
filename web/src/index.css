@@ -180,7 +180,7 @@
   }
 
   .workspace-shell {
-    @apply mx-auto w-full max-w-[112rem] p-3 sm:p-4 lg:p-0;
+    @apply mx-auto w-full max-w-[112rem] p-3 sm:p-4 lg:h-[calc(100svh-3.5rem)] lg:overflow-hidden lg:p-0;
   }
 
   .workspace-panels {
@@ -189,10 +189,25 @@
 
   .control-column {
     @apply flex flex-col gap-6 p-2 sm:p-4 lg:h-full lg:overflow-y-auto lg:p-6;
+    scrollbar-width: none;
+  }
+
+  .control-column::-webkit-scrollbar {
+    display: none;
+  }
+
+  .control-panel > div {
+    overflow: hidden !important;
+  }
+
+  @media (min-width: 64rem) {
+    .control-panel .control-column {
+      overflow-y: auto !important;
+    }
   }
 
   .preview-column {
-    @apply h-full p-6;
+    @apply h-full min-h-0 p-6;
   }
 
   .route-stack {
@@ -276,8 +291,33 @@
   }
 
   .config-code {
-    @apply min-w-max p-4 font-mono text-[0.7rem] leading-5 text-foreground selection:bg-primary selection:text-primary-foreground;
+    @apply w-full min-w-0 py-3 font-mono text-[0.7rem] leading-5 text-foreground selection:bg-primary selection:text-primary-foreground;
     tab-size: 2;
+  }
+
+  .config-scroll {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: color-mix(in oklch, var(--foreground), transparent 82%)
+      transparent;
+    scrollbar-width: thin;
+  }
+
+  .config-line {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    min-height: 1.25rem;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+  }
+
+  .config-line-number {
+    @apply sticky left-0 z-10 border-r border-border/50 bg-card pr-3 text-right text-muted-foreground/55 select-none;
+  }
+
+  .config-line-text {
+    @apply min-w-0 pr-5 pl-4 whitespace-pre-wrap;
+    overflow-wrap: anywhere;
   }
 }
 

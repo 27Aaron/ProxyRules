@@ -534,7 +534,12 @@ export function App() {
             orientation="horizontal"
             className="workspace-panels"
           >
-            <ResizablePanel defaultSize="38.2%" minSize="30%" maxSize="50%">
+            <ResizablePanel
+              className="control-panel"
+              defaultSize="38.2%"
+              minSize="30%"
+              maxSize="50%"
+            >
               {controls}
             </ResizablePanel>
             <ResizableHandle />
