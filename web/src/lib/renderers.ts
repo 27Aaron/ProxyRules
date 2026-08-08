@@ -187,21 +187,6 @@ function buildRulePlan(state: ConfiguratorState, groups: StrategyGroup[]) {
     })
   }
 
-  const attribution = groups.find((group) => group.special === "ip-attribution")
-  if (attribution) {
-    rules.push(
-      ...attribution.categories.map((binding) => ({
-        ...binding,
-        section:
-          binding.action === "reject"
-            ? "IP Attribution · Reject"
-            : binding.action === "direct"
-              ? "IP Attribution · Direct"
-              : "IP Attribution · Proxy",
-      }))
-    )
-  }
-
   if (state.settings.directPrivate) {
     rules.push({
       id: PRIVATE_CATEGORY,
@@ -209,6 +194,16 @@ function buildRulePlan(state: ConfiguratorState, groups: StrategyGroup[]) {
       policy: "DIRECT",
       section: "Private",
     })
+  }
+
+  const attribution = groups.find((group) => group.special === "ip-attribution")
+  if (attribution) {
+    rules.push(
+      ...attribution.categories.map((binding) => ({
+        ...binding,
+        section: "IP Attribution",
+      }))
+    )
   }
 
   for (const group of groups) {

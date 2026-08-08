@@ -59,10 +59,18 @@ describe("renderConfig", () => {
     "keeps IP attribution actions ordered for %s",
     (client) => {
       const content = renderConfig(fullState(client)).content
-      const reject = content.indexOf("# > IP Attribution · Reject")
-      const direct = content.indexOf("# > IP Attribution · Direct")
-      const proxy = content.indexOf("# > IP Attribution · Proxy")
+      const section = content.match(/# > IP Attribution/g) ?? []
+      const adsSection = content.indexOf("# > Reject")
+      const privateSection = content.indexOf("# > Private")
+      const attributionSection = content.indexOf("# > IP Attribution")
+      const reject = content.indexOf("ip-attribution-reject")
+      const direct = content.indexOf("ip-attribution-direct")
+      const proxy = content.indexOf("ruleset/ip-attribution/ip-attribution.list")
 
+      expect(section).toHaveLength(1)
+      expect(adsSection).toBeGreaterThan(-1)
+      expect(privateSection).toBeGreaterThan(adsSection)
+      expect(attributionSection).toBeGreaterThan(privateSection)
       expect(reject).toBeGreaterThan(-1)
       expect(direct).toBeGreaterThan(reject)
       expect(proxy).toBeGreaterThan(direct)
