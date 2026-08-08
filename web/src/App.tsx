@@ -2,10 +2,10 @@ import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   Github01Icon,
+  GlobalIcon,
   MessageTranslateIcon,
   Moon02Icon,
   RefreshIcon,
-  Route01Icon,
   Search01Icon,
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
@@ -160,7 +160,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
     <header className="app-header">
       <div className="flex min-w-0 items-center gap-3">
         <div className="brand-mark" aria-hidden="true">
-          <HugeiconsIcon icon={Route01Icon} strokeWidth={1.7} />
+          <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.7} />
         </div>
         <div className="min-w-0">
           <span className="truncate font-heading text-sm font-semibold tracking-tight">
