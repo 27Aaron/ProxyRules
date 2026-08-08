@@ -112,6 +112,8 @@ export type GeneralSettings = {
   ruleBaseUrl: string
   internetTestUrl: string
   proxyTestUrl: string
+  dnsServers: string
+  dohServers: string
   ruleUpdateInterval: number
   groupTestInterval: number
   timeoutSeconds: number
@@ -172,6 +174,9 @@ export const DEFAULT_SETTINGS: GeneralSettings = {
   ruleBaseUrl: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules",
   internetTestUrl: "http://wifi.vivo.com.cn/generate_204",
   proxyTestUrl: "http://cp.cloudflare.com/generate_204",
+  dnsServers: "223.5.5.5, 119.29.29.29",
+  dohServers:
+    "https://doh.pub/dns-query, https://dns.alidns.com/dns-query",
   ruleUpdateInterval: 86400,
   groupTestInterval: 300,
   timeoutSeconds: 3,

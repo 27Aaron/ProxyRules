@@ -89,23 +89,7 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
             />
           </Field>
 
-          <Field>
-            <FieldLabel htmlFor="proxy-test-url">
-              {t("settings.proxyUrl")}
-            </FieldLabel>
-            <Input
-              id="proxy-test-url"
-              value={state.settings.proxyTestUrl}
-              onChange={(event) =>
-                updateSettings((settings) => ({
-                  ...settings,
-                  proxyTestUrl: event.target.value,
-                }))
-              }
-            />
-          </Field>
-
-          <FieldGroup className="grid gap-3 sm:grid-cols-3">
+          <FieldGroup className="grid gap-3 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="rule-interval">
                 {t("settings.ruleInterval")}
@@ -121,26 +105,6 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
                     ruleUpdateInterval: positiveInteger(
                       event.target.value,
                       settings.ruleUpdateInterval
-                    ),
-                  }))
-                }
-              />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="group-interval">
-                {t("settings.groupInterval")}
-              </FieldLabel>
-              <Input
-                id="group-interval"
-                type="number"
-                min={30}
-                value={state.settings.groupTestInterval}
-                onChange={(event) =>
-                  updateSettings((settings) => ({
-                    ...settings,
-                    groupTestInterval: positiveInteger(
-                      event.target.value,
-                      settings.groupTestInterval
                     ),
                   }))
                 }
@@ -243,6 +207,81 @@ export function SettingsPanel({ state, setState }: SettingsPanelProps) {
 
       <TabsContent value="client">
         <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="proxy-test-url">
+              {t("settings.proxyUrl")}
+            </FieldLabel>
+            <Input
+              id="proxy-test-url"
+              value={state.settings.proxyTestUrl}
+              onChange={(event) =>
+                updateSettings((settings) => ({
+                  ...settings,
+                  proxyTestUrl: event.target.value,
+                }))
+              }
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="group-interval">
+              {t("settings.groupInterval")}
+            </FieldLabel>
+            <Input
+              id="group-interval"
+              type="number"
+              min={30}
+              value={state.settings.groupTestInterval}
+              onChange={(event) =>
+                updateSettings((settings) => ({
+                  ...settings,
+                  groupTestInterval: positiveInteger(
+                    event.target.value,
+                    settings.groupTestInterval
+                  ),
+                }))
+              }
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="dns-servers">
+              {t("settings.dnsServers")}
+            </FieldLabel>
+            <Input
+              id="dns-servers"
+              value={state.settings.dnsServers}
+              onChange={(event) =>
+                updateSettings((settings) => ({
+                  ...settings,
+                  dnsServers: event.target.value,
+                }))
+              }
+            />
+            <FieldDescription>
+              {t("settings.dnsServersDescription")}
+            </FieldDescription>
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="doh-servers">
+              {t("settings.dohServers")}
+            </FieldLabel>
+            <Input
+              id="doh-servers"
+              value={state.settings.dohServers}
+              onChange={(event) =>
+                updateSettings((settings) => ({
+                  ...settings,
+                  dohServers: event.target.value,
+                }))
+              }
+            />
+            <FieldDescription>
+              {t("settings.dohServersDescription")}
+            </FieldDescription>
+          </Field>
+
           <Field orientation="horizontal">
             <Switch
               id="ipv6"

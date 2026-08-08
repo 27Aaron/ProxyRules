@@ -101,6 +101,31 @@ describe("renderConfig", () => {
     expect(content).toContain("ruleset/netflix/netflix.list")
     expect(content).not.toContain(".mrs")
   })
+
+  it("writes shared DNS settings using each client syntax", () => {
+    const settings = {
+      ...DEFAULT_STATE.settings,
+      dnsServers: "1.1.1.1, 8.8.8.8",
+      dohServers: "https://dns.example/dns-query",
+    }
+
+    expect(renderConfig(state({ settings })).content).toContain(
+      'default-nameserver: ["1.1.1.1","8.8.8.8"]'
+    )
+    expect(
+      renderConfig(state({ client: "surge", settings })).content
+    ).toContain("encrypted-dns-server = https://dns.example/dns-query")
+    expect(renderConfig(state({ client: "loon", settings })).content).toContain(
+      "doh-server = https://dns.example/dns-query"
+    )
+    const shadowrocket = renderConfig(
+      state({ client: "shadowrocket", settings })
+    ).content
+    expect(shadowrocket).toContain(
+      "dns-server = system, 1.1.1.1, 8.8.8.8, https://dns.example/dns-query"
+    )
+    expect(shadowrocket).not.toContain("doh-server =")
+  })
 })
 
 describe("strategy model", () => {
@@ -142,6 +167,23 @@ describe("strategy model", () => {
 
     expect(validateState(value)).toContain(
       "策略组名称不能为空，也不能包含逗号或换行"
+    )
+  })
+
+  it("rejects empty DNS and non-HTTPS DoH settings", () => {
+    const value = state({
+      settings: {
+        ...DEFAULT_STATE.settings,
+        dnsServers: "",
+        dohServers: "http://dns.example/dns-query",
+      },
+    })
+
+    expect(validateState(value)).toEqual(
+      expect.arrayContaining([
+        "至少需要填写一个 DNS 服务器",
+        "加密 DNS 必须包含至少一个有效的 HTTPS 地址",
+      ])
     )
   })
 })
