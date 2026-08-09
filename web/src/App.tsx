@@ -282,6 +282,10 @@ export function App() {
     () => getSelectedCategoryIds(state),
     [state]
   )
+  const removableCategoryIds = React.useMemo(
+    () => new Set(state.customGroups.map((group) => group.categoryId)),
+    [state.customGroups]
+  )
 
   const resetAll = () => {
     reset()
@@ -355,36 +359,59 @@ export function App() {
     )
   }
 
-  const addCustomGroup = (entry: CatalogEntry) => {
-    if (selectedCategoryIds.has(entry.id)) {
-      toast.info(t("toast.included", { id: entry.id }))
-      return
-    }
+  const applyCustomGroupChanges = (
+    additions: CatalogEntry[],
+    removedIds: string[]
+  ) => {
+    if (additions.length === 0 && removedIds.length === 0) return
+    const removed = new Set(removedIds)
 
     setState((current) => {
+      const retainedGroups = current.customGroups.filter(
+        (group) => !removed.has(group.categoryId)
+      )
       const takenNames = [
         "Proxies",
         "Manual",
         "Final",
         ...current.regions,
         ...current.featuredGroups.map((id) => current.groupNames[id]),
-        ...current.customGroups.map((group) => group.name),
+        ...retainedGroups.map((group) => group.name),
       ]
+      const customGroups = [...retainedGroups]
+      const retainedIds = new Set(
+        retainedGroups.map((group) => group.categoryId)
+      )
+      const includedIds = getSelectedCategoryIds({
+        ...current,
+        customGroups: retainedGroups,
+      })
+
+      additions.forEach((entry) => {
+        if (retainedIds.has(entry.id) || includedIds.has(entry.id)) return
+        const name = uniqueGroupName(entry.label, takenNames)
+        takenNames.push(name)
+        retainedIds.add(entry.id)
+        customGroups.push({
+          categoryId: entry.id,
+          name,
+          path: entry.path,
+          rules: entry.rules,
+          kind: entry.kind,
+        })
+      })
+
       return {
         ...current,
-        customGroups: [
-          ...current.customGroups,
-          {
-            categoryId: entry.id,
-            name: uniqueGroupName(entry.label, takenNames),
-            path: entry.path,
-            rules: entry.rules,
-            kind: entry.kind,
-          },
-        ],
+        customGroups,
       }
     })
-    toast.success(t("toast.added", { name: entry.label }))
+    toast.success(
+      t("toast.groupsUpdated", {
+        added: additions.length,
+        removed: removedIds.length,
+      })
+    )
   }
 
   const controls = (
@@ -526,7 +553,8 @@ export function App() {
             open={searchOpen}
             onOpenChange={setSearchOpen}
             selectedIds={selectedCategoryIds}
-            onSelect={addCustomGroup}
+            removableIds={removableCategoryIds}
+            onApply={applyCustomGroupChanges}
           />
         </React.Suspense>
       ) : null}

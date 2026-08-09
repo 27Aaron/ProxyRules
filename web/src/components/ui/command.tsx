@@ -55,7 +55,7 @@ function CommandDialog({
         <DialogHeader
           className={cn(
             !showHeader && "sr-only",
-            showHeader && "px-3 pt-3 pr-10"
+            showHeader && "px-4 pt-4 pr-12"
           )}
         >
           <DialogTitle>{title}</DialogTitle>
@@ -69,10 +69,16 @@ function CommandDialog({
 
 function CommandInput({
   className,
+  wrapperClassName,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & {
+  wrapperClassName?: string
+}) {
   return (
-    <div data-slot="command-input-wrapper" className="p-1 pb-0">
+    <div
+      data-slot="command-input-wrapper"
+      className={cn("p-1 pb-0", wrapperClassName)}
+    >
       <InputGroup className="h-8! bg-input/20 dark:bg-input/30">
         <CommandPrimitive.Input
           data-slot="command-input"
