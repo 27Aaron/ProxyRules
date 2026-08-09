@@ -92,6 +92,19 @@ const CLIENT_ICON_URLS = {
   shadowrocket: assetUrl(shadowrocketIconUrl),
 } satisfies Record<ClientId, string>
 
+const FEATURED_GROUP_DISPLAY_ORDER = [
+  "ai",
+  "ip-attribution",
+  "apple",
+  "google",
+  "twitter",
+  "telegram",
+] as const satisfies readonly FeaturedGroupId[]
+
+const DISPLAYED_FEATURED_GROUPS = FEATURED_GROUP_DISPLAY_ORDER.map((id) =>
+  FEATURED_GROUPS.find((group) => group.id === id)!
+)
+
 function AppHeader({
   client,
   onClientChange,
@@ -452,7 +465,7 @@ export function App() {
                 {t("step.groups.common")}
               </FieldLegend>
               <FieldGroup className="featured-choice-grid grid gap-2">
-                {FEATURED_GROUPS.map((group) => {
+                {DISPLAYED_FEATURED_GROUPS.map((group) => {
                   const checked = state.featuredGroups.includes(group.id)
                   return (
                     <FieldLabel

@@ -51,7 +51,7 @@ export const FEATURED_GROUPS = [
   {
     id: "ai",
     name: "AI",
-    description: "Anthropic、Gemini、OpenAI 与 xAI",
+    description: "主流 AI 平台与模型服务",
     categories: ["anthropic", "google-gemini", "openai", "xai"],
   },
   {
@@ -81,7 +81,7 @@ export const FEATURED_GROUPS = [
   {
     id: "ip-attribution",
     name: "IP Attribution",
-    description: "IP 归属与分流检测",
+    description: "部分国内平台的 IP 归属地分流",
     categories: ["ip-attribution"],
   },
 ] as const
