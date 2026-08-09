@@ -297,6 +297,7 @@ def prepare(
     minimum_categories: int,
     required_categories: tuple[str, ...],
     aliases: tuple[tuple[str, str], ...] = (),
+    includes: tuple[tuple[str, tuple[str, ...]], ...] = (),
 ) -> dict[str, object]:
     for directory, label in (
         (custom_dir, "custom"),
@@ -445,6 +446,86 @@ def prepare(
             },
         }
 
+    include_map: dict[str, tuple[str, ...]] = {}
+    for target, members in includes:
+        validate_category(target)
+        if target in include_map:
+            raise PreparationError(f"duplicate include target: {target}")
+        if target in members:
+            raise PreparationError(f"include target contains itself: {target}")
+        missing_members = sorted(set(members) - set(custom_by_name))
+        if missing_members:
+            raise PreparationError(
+                f"include members are missing for {target}: "
+                + ", ".join(missing_members)
+            )
+        if (
+            target not in geosite_paths
+            and target not in geoip_paths
+            and target not in custom_by_name
+        ):
+            raise PreparationError(f"include target category is missing: {target}")
+        include_map[target] = members
+
+        target_domains = (
+            custom_domains_by_name[target]
+            if target in custom_domains_by_name
+            else parse_upstream_domains(
+                geosite_paths.get(
+                    target, geosite_classical_dir / f"{target}.list"
+                )
+            )
+        )
+        target_ips = (
+            custom_ips_by_name[target]
+            if target in custom_ips_by_name
+            else parse_upstream_cidrs(
+                geoip_paths.get(target, geoip_dir / f"{target}.list")
+            )
+        )
+        for member in members:
+            target_domains = merge_rules(
+                target_domains, custom_domains_by_name[member]
+            )
+            target_ips = merge_rules(target_ips, custom_ips_by_name[member])
+        custom_domains_by_name[target] = target_domains
+        custom_ips_by_name[target] = target_ips
+
+        behavior_domains = [
+            rule.value if rule.rule_type == "DOMAIN" else f"+.{rule.value}"
+            for rule in target_domains
+            if rule.rule_type in ("DOMAIN", "DOMAIN-SUFFIX")
+        ]
+        write_text(
+            output_dir / f"geosite/domain/{target}.list",
+            render_lines(behavior_domains),
+        )
+        write_text(
+            output_dir / f"geosite/domain/{target}.yaml",
+            render_yaml(behavior_domains),
+        )
+        domain_classical = [rule.portable() for rule in target_domains]
+        write_text(
+            output_dir / f"geosite/classical/{target}.list",
+            render_lines(domain_classical),
+        )
+        write_text(
+            output_dir / f"geosite/classical/{target}.yaml",
+            render_yaml(domain_classical),
+        )
+        bare_cidrs = [rule.value for rule in target_ips]
+        write_text(output_dir / f"geoip/{target}.list", render_lines(bare_cidrs))
+        write_text(output_dir / f"geoip/{target}.yaml", render_yaml(bare_cidrs))
+        ip_classical = [rule.portable() for rule in target_ips]
+        write_text(
+            output_dir / f"geoip/classical/{target}.list",
+            render_lines(ip_classical),
+        )
+        write_text(
+            output_dir / f"geoip/classical/{target}.yaml",
+            render_yaml(ip_classical),
+        )
+
     candidate_names = (
         set(geosite_paths)
         | set(geoip_paths)
@@ -524,6 +605,7 @@ def prepare(
         "categories": metadata_categories,
         "rulesets": metadata_rulesets,
         "aliases": dict(sorted(alias_map.items())),
+        "includes": dict(sorted(include_map.items())),
     }
     write_text(
         output_dir / "metadata.json",
@@ -570,6 +652,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         args.minimum_categories = config.minimum_custom_categories
         args.required_category = list(config.required_custom_categories)
         args.aliases = list(config.aliases)
+        args.includes = list(config.includes)
         return args
 
     if args.minimum_categories is None:
@@ -585,6 +668,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             parser.error(f"invalid --alias value: {raw_alias!r}")
         aliases.append((alias, source))
     args.aliases = aliases
+    args.includes = []
     return args
 
 
@@ -599,6 +683,7 @@ def main(argv: list[str] | None = None) -> int:
             minimum_categories=args.minimum_categories,
             required_categories=tuple(args.required_category),
             aliases=tuple(args.aliases),
+            includes=tuple(args.includes),
         )
     except PreparationError as error:
         print(f"error: {error}", file=sys.stderr)

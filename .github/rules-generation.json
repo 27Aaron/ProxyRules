@@ -3,6 +3,11 @@
   "aliases": {
     "360": "qihoo360"
   },
+  "includes": {
+    "apple": [
+      "apple-push"
+    ]
+  },
   "minimum_categories": {
     "custom": 5,
     "geosite": 1000,

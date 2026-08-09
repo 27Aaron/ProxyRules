@@ -61,7 +61,9 @@ jq -e \
   $manifest.mode == "category-first" and
   ($manifest.sources | keys == ["custom", "geoip", "geosite"]) and
   ($manifest.collections | keys == ["geoip", "geosite", "ruleset"]) and
+  ($manifest.includes == $config.includes) and
   ($prepared.aliases == $config.aliases) and
+  ($prepared.includes == $config.includes) and
   ($prepared.categories | length) >= $config.minimum_categories.custom and
   all($config.required_categories.custom[]; . as $category |
     $prepared.categories | has($category)) and

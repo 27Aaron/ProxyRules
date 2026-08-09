@@ -98,6 +98,7 @@ class BuildOptions:
     required_geoip_categories: tuple[str, ...]
     required_ruleset_categories: tuple[str, ...]
     aliases: tuple[tuple[str, str], ...]
+    includes: tuple[tuple[str, tuple[str, ...]], ...]
     max_category_drop_percent: float
     allow_large_drop: bool
 
@@ -1043,6 +1044,9 @@ def build(options: BuildOptions) -> dict[str, object]:
             "repository": options.converter_repository,
             "commit": options.converter_commit,
         },
+        "includes": {
+            target: list(members) for target, members in options.includes
+        },
         "collections": {
             "geosite": {
                 "path": "geosite",
@@ -1162,6 +1166,12 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         metavar="ALIAS=SOURCE",
         help="publish SOURCE under an additional ALIAS name",
     )
+    parser.add_argument(
+        "--include",
+        action="append",
+        metavar="TARGET=MEMBER",
+        help="include a custom MEMBER category in TARGET",
+    )
     parser.add_argument("--max-category-drop-percent", type=float)
     parser.add_argument("--allow-large-drop", action="store_true")
     args = parser.parse_args(argv)
@@ -1174,6 +1184,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         "required_geoip_category",
         "required_ruleset_category",
         "alias",
+        "include",
         "max_category_drop_percent",
     )
     if args.config is not None:
@@ -1192,6 +1203,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         args.required_geoip_category = list(config.required_geoip_categories)
         args.required_ruleset_category = list(config.required_ruleset_categories)
         aliases = list(config.aliases)
+        includes = list(config.includes)
         args.max_category_drop_percent = config.max_category_drop_percent
     else:
         if args.minimum_categories is None:
@@ -1214,6 +1226,16 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
             if not separator or not alias or not source:
                 parser.error(f"invalid --alias value: {raw_alias!r}")
             aliases.append((alias, source))
+        include_members: dict[str, list[str]] = {}
+        for raw_include in args.include or []:
+            target, separator, member = raw_include.partition("=")
+            if not separator or not target or not member:
+                parser.error(f"invalid --include value: {raw_include!r}")
+            include_members.setdefault(target, []).append(member)
+        includes = [
+            (target, tuple(members))
+            for target, members in sorted(include_members.items())
+        ]
 
     if args.minimum_categories < 1:
         parser.error("--minimum-categories must be positive")
@@ -1258,6 +1280,7 @@ def parse_args(argv: list[str] | None = None) -> BuildOptions:
         required_geoip_categories=tuple(args.required_geoip_category),
         required_ruleset_categories=tuple(args.required_ruleset_category),
         aliases=tuple(aliases),
+        includes=tuple(includes),
         max_category_drop_percent=args.max_category_drop_percent,
         allow_large_drop=args.allow_large_drop,
     )

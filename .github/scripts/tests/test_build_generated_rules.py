@@ -92,6 +92,7 @@ class GeneratedRulesTests(unittest.TestCase):
         self.assertEqual(options.minimum_ruleset_categories, 2000)
         self.assertIn("anthropic", options.required_categories)
         self.assertEqual(options.aliases, (("360", "qihoo360"),))
+        self.assertEqual(options.includes, (("apple", ("apple-push",)),))
 
     def add_category(
         self,
@@ -200,6 +201,7 @@ class GeneratedRulesTests(unittest.TestCase):
             required_geoip_categories=(),
             required_ruleset_categories=(),
             aliases=aliases,
+            includes=(),
             max_category_drop_percent=5.0,
             allow_large_drop=allow_large_drop,
         )

@@ -22,6 +22,7 @@ class RulesGenerationConfigError(ValueError):
 @dataclass(frozen=True)
 class RulesGenerationConfig:
     aliases: tuple[tuple[str, str], ...]
+    includes: tuple[tuple[str, tuple[str, ...]], ...]
     minimum_custom_categories: int
     minimum_geosite_categories: int
     minimum_geoip_categories: int
@@ -102,6 +103,7 @@ def load_rules_generation_config(path: Path) -> RulesGenerationConfig:
         {
             "schema_version",
             "aliases",
+            "includes",
             "minimum_categories",
             "required_categories",
             "max_category_drop_percent",
@@ -125,6 +127,26 @@ def load_rules_generation_config(path: Path) -> RulesGenerationConfig:
     )
     if any(alias == source for alias, source in aliases):
         raise RulesGenerationConfigError("an alias must differ from its source")
+
+    raw_includes = require_mapping(root["includes"], "includes")
+    includes = tuple(
+        sorted(
+            (
+                require_category(target, "include target"),
+                require_categories(members, f"includes.{target}"),
+            )
+            for target, members in raw_includes.items()
+        )
+    )
+    for target, members in includes:
+        if not members:
+            raise RulesGenerationConfigError(
+                f"includes.{target} must not be empty"
+            )
+        if target in members:
+            raise RulesGenerationConfigError(
+                f"includes.{target} must not include itself"
+            )
 
     minimums = require_mapping(root["minimum_categories"], "minimum_categories")
     required = require_mapping(root["required_categories"], "required_categories")
@@ -160,6 +182,7 @@ def load_rules_generation_config(path: Path) -> RulesGenerationConfig:
 
     return RulesGenerationConfig(
         aliases=aliases,
+        includes=includes,
         minimum_custom_categories=minimum_values["custom"],
         minimum_geosite_categories=minimum_values["geosite"],
         minimum_geoip_categories=minimum_values["geoip"],
