@@ -32,11 +32,31 @@ const SKIP_PROXY = [
   "fc00::/7",
   "fe80::/10",
   "ff00::/8",
-  "::ffff:0:0:0:0/96",
+  "::ffff:0:0/96",
 ]
 
-const SHADOWROCKET_SKIP_PROXY = SKIP_PROXY.slice(0, 11)
 const CGNAT_RANGE = "100.64.0.0/10"
+const SHADOWROCKET_SKIP_PROXY = [
+  "10.0.0.0/8",
+  "172.16.0.0/12",
+  "192.168.0.0/16",
+]
+const SHADOWROCKET_TUN_EXCLUDED_ROUTES = [
+  "10.0.0.0/8",
+  "127.0.0.0/8",
+  "169.254.0.0/16",
+  "172.16.0.0/12",
+  "192.0.0.0/24",
+  "192.0.2.0/24",
+  "192.88.99.0/24",
+  "192.168.0.0/16",
+  "198.51.100.0/24",
+  "203.0.113.0/24",
+  "224.0.0.0/4",
+  "255.255.255.255/32",
+  "239.255.255.250/32",
+  "ff02::fb/128",
+]
 const MIHOMO_ENCRYPTED_DNS_PROTOCOLS = ["https:", "h3:", "quic:", "tls:"]
 const SURGE_ENCRYPTED_DNS_PROTOCOLS = ["https:", "h3:", "quic:", "tls:"]
 const LOON_ENCRYPTED_DNS_PROTOCOLS = ["https:", "h3:", "quic:"]
@@ -567,12 +587,13 @@ function renderSurge(state: ConfiguratorState): RenderResult {
     lines.push("encrypted-dns-follow-outbound-mode = true")
   }
   lines.push(
-    `skip-proxy = ${[...SKIP_PROXY, "localhost", "*.local", "captive.apple.com"].join(", ")}`
+    `skip-proxy = ${[...SKIP_PROXY, "localhost", "*.local", "captive.apple.com"].join(", ")}`,
+    `tun-excluded-routes = ${SKIP_PROXY.join(", ")}`
   )
   if (settings.surge.udpPriority) lines.push("udp-priority = true")
   lines.push(
     "exclude-simple-hostnames = true",
-    "udp-policy-not-supported-behaviour = reject",
+    "udp-policy-not-supported-behaviour = REJECT",
     "",
     "[Proxy Group]",
     "# > Main",
@@ -759,27 +780,32 @@ function renderShadowrocket(state: ConfiguratorState): RenderResult {
   const candidates = policyCandidates(state)
   const dnsServers = serverList(settings.dnsServers)
   const dohServers = serverList(settings.dohServers)
-  const primaryDns = dohServers.length > 0 ? dohServers : dnsServers
+  const primaryDns = [...dohServers, ...dnsServers]
   const fallbackDns = serverList(settings.shadowrocket.fallbackDnsServers)
+  const skipProxyRoutes = settings.shadowrocket.excludeCgnat
+    ? [...SHADOWROCKET_SKIP_PROXY, CGNAT_RANGE]
+    : SHADOWROCKET_SKIP_PROXY
   const excludedRoutes = settings.shadowrocket.excludeCgnat
-    ? SHADOWROCKET_SKIP_PROXY
-    : SHADOWROCKET_SKIP_PROXY.filter((route) => route !== CGNAT_RANGE)
+    ? [...SHADOWROCKET_TUN_EXCLUDED_ROUTES, CGNAT_RANGE]
+    : SHADOWROCKET_TUN_EXCLUDED_ROUTES
   const lines: string[] = []
 
   lines.push(
     "[General]",
     `ipv6 = ${settings.ipv6}`,
-    `skip-proxy = ${[...excludedRoutes, "localhost", "*.local", "captive.apple.com"].join(", ")}`,
+    `skip-proxy = ${[...skipProxyRoutes, "localhost", "*.local", "captive.apple.com"].join(", ")}`,
     `tun-excluded-routes = ${excludedRoutes.join(", ")}`,
     `dns-server = ${primaryDns.join(", ")}`
   )
   if (fallbackDns.length > 0) {
     lines.push(`fallback-dns-server = ${fallbackDns.join(", ")}`)
   }
-  if (settings.shadowrocket.hijackDns) lines.push("hijack-dns = :53")
+  if (settings.shadowrocket.hijackDns) {
+    lines.push("hijack-dns = 8.8.8.8:53, 8.8.4.4:53")
+  }
   lines.push(
     "private-ip-answer = true",
-    "udp-policy-not-supported-behaviour = reject",
+    "udp-policy-not-supported-behaviour = REJECT",
     "",
     "[Proxy Group]",
     "# > Main",
@@ -861,6 +887,15 @@ function isIpLiteral(value: string) {
   } catch {
     return false
   }
+}
+
+function isIpCidr(value: string) {
+  const match = value.trim().match(/^(.+)\/(\d{1,3})$/)
+  if (!match || !isIpLiteral(match[1])) return false
+
+  const prefix = Number(match[2])
+  const maxPrefix = match[1].includes(":") ? 128 : 32
+  return Number.isInteger(prefix) && prefix >= 0 && prefix <= maxPrefix
 }
 
 function isPlainDnsServer(value: string, allowSystem = true) {
@@ -1034,6 +1069,14 @@ export function validateState(state: ConfiguratorState) {
         serverList(state.settings.mihomo.lanAllowedIps).length === 0
       ) {
         errors.push("Mihomo 开放局域网时至少需要一个允许网段")
+      }
+      if (
+        state.settings.mihomo.allowLan &&
+        serverList(state.settings.mihomo.lanAllowedIps).some(
+          (network) => !isIpCidr(network)
+        )
+      ) {
+        errors.push("Mihomo 局域网允许网段必须使用有效的 IPv4 或 IPv6 CIDR")
       }
       if (/[\r\n]/.test(state.settings.mihomo.lanAllowedIps)) {
         errors.push("Mihomo 局域网允许网段不能包含换行")

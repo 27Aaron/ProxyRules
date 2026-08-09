@@ -90,7 +90,10 @@ const zh = {
   "settings.ruleUrl": "规则地址",
   "settings.ruleUrlDescription": "所有远程 ruleset 的基础地址。",
   "settings.ruleInterval": "资源更新（秒）",
-  "settings.ruleIntervalDescription": "更新远程规则或代理列表的间隔。",
+  "settings.ruleIntervalDescriptionMihomo":
+    "同时用于节点提供者和远程规则提供者的更新间隔。",
+  "settings.ruleIntervalDescriptionSurge":
+    "用于 policy-path 远程代理列表的更新间隔；RULE-SET 由 Surge 自行缓存。",
   "settings.internetUrl": "联网测试地址",
   "settings.dnsServers": "DNS 服务器",
   "settings.dnsServersDescriptionMihomo":
@@ -100,7 +103,7 @@ const zh = {
   "settings.dnsServersDescriptionLoon":
     "写入 dns-server，多个地址使用英文逗号分隔。",
   "settings.dnsServersDescriptionShadowrocket":
-    "普通 DNS 服务器，与加密 DNS 分开填写。",
+    "普通 DNS 与加密 DNS 分开填写，生成时合并写入 dns-server 并行查询。",
   "settings.encryptedDns": "加密 DNS",
   "settings.encryptedDnsDescription":
     "支持 https://、h3://、quic:// 与 tls://，多个地址使用英文逗号分隔。",
@@ -168,7 +171,9 @@ const zh = {
   "settings.udpFallback": "UDP 不支持时",
   "settings.udpFallbackDescription": "选择直连或拒绝 UDP 请求。",
   "settings.hijackDns": "劫持 DNS",
-  "settings.hijackDnsDescription": "接管发往常用 DNS 端口的查询。",
+  "settings.hijackDnsDescriptionLoon": "接管所有发往 53 端口的 DNS 查询。",
+  "settings.hijackDnsDescriptionShadowrocket":
+    "接管发往 Google DNS（8.8.8.8 与 8.8.4.4）的查询。",
   "settings.disableStun": "禁用 STUN",
   "settings.disableStunDescription": "阻止 STUN 暴露直连地址。",
   "settings.excludeCgnat": "从 TUN 排除 CGNAT",
@@ -297,8 +302,10 @@ const en: Record<Key, string> = {
   "settings.ruleUrl": "Rule URL",
   "settings.ruleUrlDescription": "Base URL for all remote rulesets.",
   "settings.ruleInterval": "Resource update (seconds)",
-  "settings.ruleIntervalDescription":
-    "Update interval for remote rules or proxy lists.",
+  "settings.ruleIntervalDescriptionMihomo":
+    "Update interval for both the proxy provider and remote rule providers.",
+  "settings.ruleIntervalDescriptionSurge":
+    "Update interval for the policy-path proxy list; Surge manages RULE-SET caching itself.",
   "settings.internetUrl": "Internet test URL",
   "settings.dnsServers": "DNS servers",
   "settings.dnsServersDescriptionMihomo":
@@ -308,7 +315,7 @@ const en: Record<Key, string> = {
   "settings.dnsServersDescriptionLoon":
     "Written to dns-server; separate multiple addresses with commas.",
   "settings.dnsServersDescriptionShadowrocket":
-    "Plain DNS servers, entered separately from encrypted DNS.",
+    "Enter plain and encrypted DNS separately; they are combined in dns-server for parallel queries.",
   "settings.encryptedDns": "Encrypted DNS",
   "settings.encryptedDnsDescription":
     "Supports https://, h3://, quic://, and tls:// addresses, separated with commas.",
@@ -384,7 +391,10 @@ const en: Record<Key, string> = {
   "settings.udpFallback": "When UDP is unsupported",
   "settings.udpFallbackDescription": "Send UDP directly or reject it.",
   "settings.hijackDns": "Hijack DNS",
-  "settings.hijackDnsDescription": "Captures queries sent to common DNS ports.",
+  "settings.hijackDnsDescriptionLoon":
+    "Captures all DNS queries sent to port 53.",
+  "settings.hijackDnsDescriptionShadowrocket":
+    "Captures queries sent to Google DNS at 8.8.8.8 and 8.8.4.4.",
   "settings.disableStun": "Disable STUN",
   "settings.disableStunDescription":
     "Prevents STUN from exposing the direct address.",
@@ -511,8 +521,10 @@ const ja: Record<Key, string> = {
   "settings.ruleUrl": "ルール URL",
   "settings.ruleUrlDescription": "すべてのリモート ruleset のベース URL。",
   "settings.ruleInterval": "リソース更新（秒）",
-  "settings.ruleIntervalDescription":
-    "リモートルールまたはプロキシリストの更新間隔です。",
+  "settings.ruleIntervalDescriptionMihomo":
+    "プロキシプロバイダーとリモートルールプロバイダーの両方に使用する更新間隔です。",
+  "settings.ruleIntervalDescriptionSurge":
+    "policy-path のプロキシリスト更新間隔です。RULE-SET のキャッシュは Surge が管理します。",
   "settings.internetUrl": "接続テスト URL",
   "settings.dnsServers": "DNS サーバー",
   "settings.dnsServersDescriptionMihomo":
@@ -522,7 +534,7 @@ const ja: Record<Key, string> = {
   "settings.dnsServersDescriptionLoon":
     "dns-server に書き込みます。複数のアドレスはカンマで区切ります。",
   "settings.dnsServersDescriptionShadowrocket":
-    "通常の DNS サーバーを暗号化 DNS とは別に入力します。",
+    "通常 DNS と暗号化 DNS を別々に入力し、生成時に dns-server へまとめて並列問い合わせします。",
   "settings.encryptedDns": "暗号化 DNS",
   "settings.encryptedDnsDescription":
     "https://、h3://、quic://、tls:// に対応します。複数のアドレスはカンマで区切ります。",
@@ -600,8 +612,10 @@ const ja: Record<Key, string> = {
   "settings.udpFallback": "UDP 非対応時",
   "settings.udpFallbackDescription": "UDP を直結または拒否します。",
   "settings.hijackDns": "DNS をハイジャック",
-  "settings.hijackDnsDescription":
-    "一般的な DNS ポートへの問い合わせを取得します。",
+  "settings.hijackDnsDescriptionLoon":
+    "ポート 53 宛てのすべての DNS 問い合わせを取得します。",
+  "settings.hijackDnsDescriptionShadowrocket":
+    "Google DNS（8.8.8.8 と 8.8.4.4）宛ての問い合わせを取得します。",
   "settings.disableStun": "STUN を無効化",
   "settings.disableStunDescription":
     "STUN による直接アドレスの露出を防ぎます。",
@@ -730,8 +744,10 @@ const ru: Record<Key, string> = {
   "settings.ruleUrl": "Адрес правил",
   "settings.ruleUrlDescription": "Базовый URL для всех удалённых ruleset.",
   "settings.ruleInterval": "Обновление ресурсов (сек.)",
-  "settings.ruleIntervalDescription":
-    "Интервал обновления удалённых правил или списков прокси.",
+  "settings.ruleIntervalDescriptionMihomo":
+    "Интервал обновления провайдера прокси и удалённых провайдеров правил.",
+  "settings.ruleIntervalDescriptionSurge":
+    "Интервал обновления списка прокси policy-path; кэшем RULE-SET управляет Surge.",
   "settings.internetUrl": "URL проверки интернета",
   "settings.dnsServers": "DNS-серверы",
   "settings.dnsServersDescriptionMihomo":
@@ -741,7 +757,7 @@ const ru: Record<Key, string> = {
   "settings.dnsServersDescriptionLoon":
     "Записываются в dns-server; разделяйте адреса запятыми.",
   "settings.dnsServersDescriptionShadowrocket":
-    "Обычные DNS-серверы, отдельно от зашифрованного DNS.",
+    "Обычные и зашифрованные DNS вводятся отдельно, затем объединяются в dns-server для параллельных запросов.",
   "settings.encryptedDns": "Зашифрованный DNS",
   "settings.encryptedDnsDescription":
     "Поддерживает адреса https://, h3://, quic:// и tls://, разделённые запятыми.",
@@ -821,8 +837,10 @@ const ru: Record<Key, string> = {
   "settings.udpFallback": "Если UDP не поддерживается",
   "settings.udpFallbackDescription": "Отправить UDP напрямую или отклонить.",
   "settings.hijackDns": "Перехватывать DNS",
-  "settings.hijackDnsDescription":
-    "Перехватывает запросы на стандартные DNS-порты.",
+  "settings.hijackDnsDescriptionLoon":
+    "Перехватывает все DNS-запросы на порт 53.",
+  "settings.hijackDnsDescriptionShadowrocket":
+    "Перехватывает запросы к Google DNS 8.8.8.8 и 8.8.4.4.",
   "settings.disableStun": "Отключить STUN",
   "settings.disableStunDescription": "Не позволяет STUN раскрыть прямой адрес.",
   "settings.excludeCgnat": "Исключить CGNAT из TUN",

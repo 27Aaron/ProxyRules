@@ -251,6 +251,10 @@ describe("Surge rendering", () => {
     expect(content).not.toContain("dns-server = system")
     expect(content).toContain("encrypted-dns-follow-outbound-mode = true")
     expect(content).toContain("udp-priority = true")
+    expect(content).toContain("udp-policy-not-supported-behaviour = REJECT")
+    expect(content).toContain("tun-excluded-routes = 10.0.0.0/8")
+    expect(content).toContain("::ffff:0:0/96")
+    expect(content).not.toContain("::ffff:0:0:0:0/96")
     expect(manual).toBe(
       "Manual = select, policy-path=https://example.com/surge-proxies.conf, update-interval=86400"
     )
@@ -350,7 +354,7 @@ describe("Loon rendering", () => {
 })
 
 describe("Shadowrocket rendering", () => {
-  it("uses local node filters and keeps encrypted DNS separate from fallback DNS", () => {
+  it("uses local node filters and combines primary DNS transports", () => {
     const value = validState("shadowrocket")
     value.regions = ["HKG"]
     value.settings.dnsServers = "1.1.1.1, 8.8.8.8"
@@ -364,13 +368,20 @@ describe("Shadowrocket rendering", () => {
     const content = renderConfig(value).content
     const excludedRoutes = matchingLine(content, "tun-excluded-routes = ")
 
-    expect(content).toContain("dns-server = https://dns.example/dns-query")
+    expect(content).toContain(
+      "dns-server = https://dns.example/dns-query, 1.1.1.1, 8.8.8.8"
+    )
     expect(content).toContain("fallback-dns-server = system")
-    expect(content).toContain("hijack-dns = :53")
+    expect(content).toContain("hijack-dns = 8.8.8.8:53, 8.8.4.4:53")
+    expect(content).toContain("udp-policy-not-supported-behaviour = REJECT")
     expect(content).toContain("Manual = select, policy-regex-filter=.*")
     expect(matchingLine(content, "HKG = ")).not.toContain("use=true")
     expect(matchingLine(content, "HKG = ")).toContain("policy-regex-filter=")
     expect(excludedRoutes).not.toContain("100.64.0.0/10")
+    expect(excludedRoutes).toContain("192.88.99.0/24")
+    expect(excludedRoutes).toContain("239.255.255.250/32")
+    expect(excludedRoutes).toContain("ff02::fb/128")
+    expect(matchingLine(content, "skip-proxy = ")).not.toContain("192.0.2.0/24")
     expect(content).not.toContain("bypass-system")
     expect(content).not.toContain("include-all-proxies")
     expect(content).not.toContain("include-other-group")
@@ -385,6 +396,9 @@ describe("Shadowrocket rendering", () => {
 
     expect(
       matchingLine(renderConfig(value).content, "tun-excluded-routes = ")
+    ).toContain("100.64.0.0/10")
+    expect(
+      matchingLine(renderConfig(value).content, "skip-proxy = ")
     ).toContain("100.64.0.0/10")
   })
 })
@@ -544,6 +558,21 @@ describe("validation", () => {
 
     expect(validateState(value)).toContain(
       "Shadowrocket 备用 DNS 只能使用 system、IP 地址或支持的加密 DNS URI"
+    )
+  })
+
+  it("validates Mihomo LAN allowlists as CIDR networks", () => {
+    const value = validState("mihomo")
+    value.settings.mihomo.allowLan = true
+    value.settings.mihomo.lanAllowedIps = "192.168.1.1, 2001:db8::/129"
+
+    expect(validateState(value)).toContain(
+      "Mihomo 局域网允许网段必须使用有效的 IPv4 或 IPv6 CIDR"
+    )
+
+    value.settings.mihomo.lanAllowedIps = "192.168.0.0/16, 2001:db8::/64"
+    expect(validateState(value)).not.toContain(
+      "Mihomo 局域网允许网段必须使用有效的 IPv4 或 IPv6 CIDR"
     )
   })
 

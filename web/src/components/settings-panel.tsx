@@ -203,6 +203,10 @@ export function SettingsPanel({ state, setState, errors }: SettingsPanelProps) {
     shadowrocket: "settings.dnsServersDescriptionShadowrocket",
   } as const
   const dnsDescriptionKey = dnsDescriptionKeys[state.client]
+  const ruleIntervalDescriptionKey =
+    state.client === "mihomo"
+      ? "settings.ruleIntervalDescriptionMihomo"
+      : "settings.ruleIntervalDescriptionSurge"
 
   return (
     <Tabs defaultValue="network" className="gap-4">
@@ -269,7 +273,7 @@ export function SettingsPanel({ state, setState, errors }: SettingsPanelProps) {
                     }
                   />
                   <FieldDescription>
-                    {t("settings.ruleIntervalDescription")}
+                    {t(ruleIntervalDescriptionKey)}
                   </FieldDescription>
                 </ValidatedField>
               ) : null}
@@ -1185,7 +1189,7 @@ export function SettingsPanel({ state, setState, errors }: SettingsPanelProps) {
                   <SwitchSetting
                     id="loon-hijack-dns"
                     label={t("settings.hijackDns")}
-                    description={t("settings.hijackDnsDescription")}
+                    description={t("settings.hijackDnsDescriptionLoon")}
                     checked={state.settings.loon.hijackDns}
                     onCheckedChange={(checked) =>
                       updateSettings((settings) => ({
@@ -1214,7 +1218,7 @@ export function SettingsPanel({ state, setState, errors }: SettingsPanelProps) {
                   <SwitchSetting
                     id="shadowrocket-hijack-dns"
                     label={t("settings.hijackDns")}
-                    description={t("settings.hijackDnsDescription")}
+                    description={t("settings.hijackDnsDescriptionShadowrocket")}
                     checked={state.settings.shadowrocket.hijackDns}
                     onCheckedChange={(checked) =>
                       updateSettings((settings) => ({
