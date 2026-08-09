@@ -1,6 +1,6 @@
 import * as React from "react"
 import {
-  EarthIcon,
+  BadgeCheckIcon,
   LanguagesIcon,
   MoonIcon,
   ScanSearchIcon,
@@ -158,7 +158,7 @@ function AppHeader() {
     <header className="app-header">
       <div className="header-brand flex min-w-0 items-center gap-2.5">
         <div className="brand-mark" aria-hidden="true">
-          <EarthIcon strokeWidth={1.8} />
+          <BadgeCheckIcon strokeWidth={1.8} />
         </div>
         <div className="min-w-0">
           <span className="truncate font-heading text-sm font-semibold tracking-tight">
