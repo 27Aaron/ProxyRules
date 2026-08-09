@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { CopyIcon, DownloadIcon, ListRestartIcon } from "lucide-react"
 import { toast } from "sonner"
 
@@ -11,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Tooltip,
   TooltipContent,
@@ -32,9 +34,20 @@ async function copyText(content: string) {
 
 export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
   const { t } = useI18n()
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
   const lines = result.content.replace(/\r?\n$/, "").split("\n")
   const lineCount = lines.length
   const disabled = errors.length > 0
+
+  useEffect(() => {
+    const viewport = scrollAreaRef.current?.querySelector<HTMLElement>(
+      '[data-slot="scroll-area-viewport"]'
+    )
+    if (!viewport) return
+
+    viewport.scrollTop = 0
+    viewport.scrollLeft = 0
+  }, [result.fileName])
 
   const copy = async () => {
     try {
@@ -82,7 +95,11 @@ export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
         </CardAction>
       </CardHeader>
       <CardContent className="min-h-0 flex-1 overflow-hidden px-0">
-        <div key={result.fileName} className="config-scroll size-full">
+        <ScrollArea
+          key={result.fileName}
+          ref={scrollAreaRef}
+          className="config-scroll size-full"
+        >
           <pre className="config-code">
             <code>
               {lines.map((line, index) => (
@@ -95,7 +112,7 @@ export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
               ))}
             </code>
           </pre>
-        </div>
+        </ScrollArea>
       </CardContent>
       <CardFooter className="justify-end gap-2 border-t border-border/60">
         <Button variant="outline" onClick={copy} disabled={disabled}>

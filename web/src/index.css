@@ -247,7 +247,7 @@
   }
 
   .control-column {
-    @apply flex flex-col gap-4 p-2 sm:p-4 lg:h-full lg:overflow-y-auto lg:pt-2 lg:pr-2 lg:pb-0 lg:pl-5;
+    @apply flex flex-col gap-4 p-2 sm:p-4 lg:h-full lg:overflow-y-auto lg:pt-3 lg:pr-2 lg:pb-0 lg:pl-5;
     scrollbar-width: none;
   }
 
@@ -266,7 +266,7 @@
   }
 
   .preview-column {
-    @apply h-full min-h-0 min-w-0 pt-2 pr-5 pb-5 pl-2;
+    @apply h-full min-h-0 min-w-0 overflow-hidden pt-3 pr-5 pb-5 pl-2;
   }
 
   .route-stack {
@@ -337,11 +337,12 @@
   }
 
   .config-scroll {
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-color: color-mix(in oklch, var(--foreground), transparent 82%)
-      transparent;
-    scrollbar-width: thin;
+    overflow: hidden;
+  }
+
+  .config-scroll > [data-slot="scroll-area-viewport"] {
+    overflow-anchor: none;
+    overscroll-behavior-y: contain;
   }
 
   .config-line {

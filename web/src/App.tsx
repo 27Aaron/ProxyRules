@@ -498,7 +498,7 @@ export function App() {
   )
 
   return (
-    <div className="min-h-svh bg-background text-foreground">
+    <div className="min-h-svh bg-background text-foreground lg:h-svh lg:overflow-hidden">
       <AppHeader client={state.client} onClientChange={selectClient} />
       <main className="workspace-shell">
         {isDesktop ? (

@@ -150,7 +150,9 @@ describe("Config Studio", () => {
     const user = userEvent.setup()
     renderApp()
 
-    const mihomoScroll = document.querySelector(".config-scroll") as HTMLElement
+    const mihomoScroll = document.querySelector(
+      '.config-scroll [data-slot="scroll-area-viewport"]'
+    ) as HTMLElement
     mihomoScroll.scrollTop = 320
 
     const mihomoLineCount = document.querySelectorAll(".config-line").length
@@ -165,7 +167,9 @@ describe("Config Studio", () => {
     await user.click(screen.getByRole("radio", { name: "Surge" }))
     await screen.findByText("Surge.conf")
 
-    const surgeScroll = document.querySelector(".config-scroll") as HTMLElement
+    const surgeScroll = document.querySelector(
+      '.config-scroll [data-slot="scroll-area-viewport"]'
+    ) as HTMLElement
     expect(surgeScroll).not.toBe(mihomoScroll)
     expect(surgeScroll.scrollTop).toBe(0)
     const surgeLineCount = document.querySelectorAll(".config-line").length
