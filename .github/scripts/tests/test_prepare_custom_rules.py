@@ -42,6 +42,7 @@ class PrepareCustomRulesTests(unittest.TestCase):
         *,
         required: tuple[str, ...] = (),
         aliases: tuple[tuple[str, str], ...] = (),
+        includes: tuple[tuple[str, tuple[str, ...]], ...] = (),
     ):
         return preparer.prepare(
             custom_dir=self.custom,
@@ -51,6 +52,7 @@ class PrepareCustomRulesTests(unittest.TestCase):
             minimum_categories=1,
             required_categories=required,
             aliases=aliases,
+            includes=includes,
         )
 
     def test_cli_loads_shared_generation_config(self) -> None:
@@ -74,6 +76,42 @@ class PrepareCustomRulesTests(unittest.TestCase):
         self.assertEqual(args.minimum_categories, 5)
         self.assertIn("anthropic", args.required_category)
         self.assertEqual(args.aliases, [("360", "qihoo360")])
+        self.assertEqual(args.includes, [("apple", ("apple-push",))])
+
+    def test_includes_custom_category_in_parent_collection(self) -> None:
+        (self.geosite / "apple.list").write_text(
+            "DOMAIN-SUFFIX,apple.com\n", encoding="utf-8"
+        )
+        self.add_custom(
+            "apple-push",
+            [
+                "DOMAIN-SUFFIX,push.apple.com",
+                "IP-CIDR,17.249.0.0/16,no-resolve",
+            ],
+        )
+
+        metadata = self.prepare(
+            includes=(("apple", ("apple-push",)),),
+        )
+
+        self.assertEqual(metadata["includes"], {"apple": ("apple-push",)})
+        self.assertEqual(
+            (self.output / "geosite/classical/apple.list").read_text(
+                encoding="utf-8"
+            ),
+            "DOMAIN-SUFFIX,apple.com\nDOMAIN-SUFFIX,push.apple.com\n",
+        )
+        self.assertEqual(
+            (self.output / "geoip/apple.list").read_text(encoding="utf-8"),
+            "17.249.0.0/16\n",
+        )
+        self.assertEqual(
+            (self.output / "ruleset/apple.list").read_text(encoding="utf-8"),
+            "DOMAIN-SUFFIX,apple.com\n"
+            "DOMAIN-SUFFIX,push.apple.com\n"
+            "IP-CIDR,17.249.0.0/16,no-resolve\n",
+        )
+        self.assertTrue((self.output / "ruleset/apple-push.list").is_file())
 
     def test_prepares_complete_ruleset_union_and_aliases(self) -> None:
         (self.geosite / "site-only.list").write_text(

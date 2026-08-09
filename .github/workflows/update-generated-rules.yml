@@ -231,7 +231,10 @@ jobs:
             cp "$compiled_dir/geoip/${name}/ip.srs" \
               "${RUNNER_TEMP}/converted-geoip-sing/${name}.srs"
 
-          done < <(jq -r '.categories | keys[]' "$prepared_dir/metadata.json")
+          done < <(
+            jq -r '[.categories, .includes] | map(keys) | add | unique[]' \
+              "$prepared_dir/metadata.json"
+          )
           while IFS= read -r name; do
             cp "$compiled_dir/ruleset/${name}/classical.srs" \
               "$prepared_dir/ruleset-srs/${name}.srs"
@@ -297,7 +300,7 @@ jobs:
           while IFS= read -r name; do
             arguments+=(--custom-category "$name")
           done < <(
-            jq -r '.categories | keys[]' \
+            jq -r '[.categories, .includes] | map(keys) | add | unique[]' \
               "${RUNNER_TEMP}/prepared-custom/metadata.json"
           )
           if [[ "${{ inputs.allow_large_drop || false }}" == "true" ]]; then

@@ -24,6 +24,7 @@ class RulesGenerationConfigTests(unittest.TestCase):
         self.config = {
             "schema_version": 1,
             "aliases": {"360": "qihoo360"},
+            "includes": {"apple": ["apple-push"]},
             "minimum_categories": {
                 "custom": 1,
                 "geosite": 2,
@@ -48,6 +49,7 @@ class RulesGenerationConfigTests(unittest.TestCase):
         config = load_rules_generation_config(self.path)
 
         self.assertEqual(config.aliases, (("360", "qihoo360"),))
+        self.assertEqual(config.includes, (("apple", ("apple-push",)),))
         self.assertEqual(config.minimum_ruleset_categories, 2)
         self.assertEqual(
             config.required_geosite_categories,
