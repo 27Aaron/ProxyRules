@@ -6,6 +6,9 @@ import { defineConfig } from "vitest/config"
 const rootDirectory = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  test: {
+    setupFiles: ["./src/test/setup.ts"],
+  },
   resolve: {
     alias: {
       "@": path.resolve(rootDirectory, "./src"),
