@@ -1,5 +1,9 @@
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Copy01Icon, Download01Icon } from "@hugeicons/core-free-icons"
+import {
+  Copy01Icon,
+  Download01Icon,
+  ListRestartIcon,
+} from "@hugeicons/core-free-icons"
 import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
@@ -12,12 +16,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { useI18n } from "@/lib/i18n"
 import type { RenderResult } from "@/lib/types"
 
 type ConfigPreviewProps = {
   result: RenderResult
   errors: string[]
+  onReset: () => void
 }
 
 async function copyText(content: string) {
@@ -25,7 +35,7 @@ async function copyText(content: string) {
   await navigator.clipboard.writeText(content)
 }
 
-export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
+export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
   const { t } = useI18n()
   const lines = result.content.replace(/\r?\n$/, "").split("\n")
   const lineCount = lines.length
@@ -57,7 +67,20 @@ export function ConfigPreview({ result, errors }: ConfigPreviewProps) {
         <div className="flex min-w-0 items-center">
           <CardTitle className="truncate">{result.fileName}</CardTitle>
         </div>
-        <CardAction>
+        <CardAction className="flex items-center gap-1.5">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={onReset}
+                aria-label={t("header.reset")}
+              >
+                <HugeiconsIcon icon={ListRestartIcon} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t("header.reset")}</TooltipContent>
+          </Tooltip>
           <Badge variant="outline">
             {t("preview.lines", { count: lineCount })}
           </Badge>

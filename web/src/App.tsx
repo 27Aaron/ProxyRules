@@ -1,11 +1,10 @@
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  Github01Icon,
+  GithubIcon,
   GlobalIcon,
-  MessageTranslateIcon,
+  LanguageCircleIcon,
   Moon02Icon,
-  RefreshIcon,
   Search01Icon,
   Sun03Icon,
 } from "@hugeicons/core-free-icons"
@@ -81,7 +80,7 @@ function uniqueGroupName(base: string, taken: string[]) {
   return `${base} ${index}`
 }
 
-function AppHeader({ onReset }: { onReset: () => void }) {
+function AppHeader() {
   const { resolvedTheme, setTheme } = useTheme()
   const { locale, setLocale, t } = useI18n()
   const themeTransition = React.useRef<{
@@ -179,7 +178,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
             aria-controls="language-options"
             className="header-action h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none focus-visible:border-transparent focus-visible:ring-0"
           >
-            <HugeiconsIcon icon={MessageTranslateIcon} strokeWidth={1.7} />
+            <HugeiconsIcon icon={LanguageCircleIcon} strokeWidth={1.7} />
             <SelectValue />
           </SelectTrigger>
           <SelectContent
@@ -207,24 +206,10 @@ function AppHeader({ onReset }: { onReset: () => void }) {
               className="header-action"
               variant="ghost"
               size="icon"
-              onClick={onReset}
-            >
-              <HugeiconsIcon icon={RefreshIcon} />
-              <span className="sr-only">{t("header.reset")}</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{t("header.reset")}</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              className="header-action"
-              variant="ghost"
-              size="icon"
               asChild
             >
               <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
-                <HugeiconsIcon icon={Github01Icon} />
+                <HugeiconsIcon icon={GithubIcon} />
                 <span className="sr-only">{t("header.openGithub")}</span>
               </a>
             </Button>
@@ -507,19 +492,23 @@ export function App() {
 
   return (
     <div className="min-h-svh bg-background text-foreground">
-      <AppHeader onReset={resetAll} />
+      <AppHeader />
       <main className="workspace-shell">
         {isDesktop ? (
           <div className="workspace-panels">
             <div className="control-panel">{controls}</div>
             <div className="preview-column">
-              <ConfigPreview result={result} errors={errors} />
+              <ConfigPreview
+                result={result}
+                errors={errors}
+                onReset={resetAll}
+              />
             </div>
           </div>
         ) : (
           <div className="flex flex-col gap-6">
             {controls}
-            <ConfigPreview result={result} errors={errors} />
+            <ConfigPreview result={result} errors={errors} onReset={resetAll} />
           </div>
         )}
       </main>
