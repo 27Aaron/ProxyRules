@@ -40,6 +40,14 @@ const catalog = vi.hoisted(() => [
     kind: "mixed" as const,
     attribute: false,
   },
+  ...Array.from({ length: 81 }, (_, index) => ({
+    id: `extra-${index}`,
+    label: `Extra ${index}`,
+    path: `ruleset/extra-${index}/extra-${index}.list`,
+    rules: index + 1,
+    kind: index === 0 ? ("ip" as const) : ("domain" as const),
+    attribute: false,
+  })),
 ])
 
 vi.mock("@/lib/catalog", async (importOriginal) => {
@@ -115,5 +123,30 @@ describe("RuleSearchDialog", () => {
     ).toEqual(["netflix", "spotify"])
     expect(onApply.mock.calls[0][1]).toEqual(["existing"])
     expect(onOpenChange).toHaveBeenLastCalledWith(false)
+  })
+
+  it("shows the full catalog and filters it by rule type", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <I18nProvider>
+        <RuleSearchDialog
+          open
+          onOpenChange={vi.fn()}
+          selectedIds={new Set()}
+          removableIds={new Set()}
+          onApply={vi.fn()}
+        />
+      </I18nProvider>
+    )
+
+    expect(await screen.findByText("85 个分类")).toBeTruthy()
+    expect(screen.getByText("Extra 80")).toBeTruthy()
+
+    await user.click(screen.getByRole("radio", { name: "IP" }))
+
+    expect(screen.getByText("1 个分类")).toBeTruthy()
+    expect(screen.getByText("Extra 0")).toBeTruthy()
+    expect(screen.queryByText("Netflix")).toBeNull()
   })
 })

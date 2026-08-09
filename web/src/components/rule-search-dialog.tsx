@@ -26,9 +26,14 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Switch } from "@/components/ui/switch"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { isReservedCategory, loadCatalog } from "@/lib/catalog"
 import { useI18n, type TranslationKey } from "@/lib/i18n"
-import type { CatalogEntry } from "@/lib/types"
+import type { CatalogEntry, RuleKind } from "@/lib/types"
+
+type KindFilter = RuleKind | "all"
+
+const KIND_FILTERS: KindFilter[] = ["all", "domain", "ip", "mixed"]
 
 type RuleSearchDialogProps = {
   open: boolean
@@ -50,6 +55,7 @@ export function RuleSearchDialog({
   const [error, setError] = React.useState("")
   const [query, setQuery] = React.useState("")
   const [showAttributes, setShowAttributes] = React.useState(false)
+  const [kindFilter, setKindFilter] = React.useState<KindFilter>("all")
   const [addedIds, setAddedIds] = React.useState<Set<string>>(new Set())
   const [removedIds, setRemovedIds] = React.useState<Set<string>>(new Set())
   const [reloadKey, setReloadKey] = React.useState(0)
@@ -79,14 +85,14 @@ export function RuleSearchDialog({
     return catalog
       .filter((entry) => !isReservedCategory(entry))
       .filter((entry) => showAttributes || !entry.attribute)
+      .filter((entry) => kindFilter === "all" || entry.kind === kindFilter)
       .filter(
         (entry) =>
           normalizedQuery === "" ||
           entry.id.toLocaleLowerCase().includes(normalizedQuery) ||
           entry.label.toLocaleLowerCase().includes(normalizedQuery)
       )
-      .slice(0, normalizedQuery === "" ? 80 : 160)
-  }, [catalog, query, showAttributes])
+  }, [catalog, kindFilter, query, showAttributes])
 
   const isLocked = React.useCallback(
     (id: string) => selectedIds.has(id) && !removableIds.has(id),
@@ -177,6 +183,7 @@ export function RuleSearchDialog({
   const handleOpenChange = (nextOpen: boolean) => {
     if (!nextOpen) {
       setQuery("")
+      setKindFilter("all")
       resetChanges()
     }
     onOpenChange(nextOpen)
@@ -207,7 +214,7 @@ export function RuleSearchDialog({
           autoFocus
         />
 
-        <div className="px-4 py-3">
+        <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <Field orientation="horizontal">
             <Switch
               id="show-attributes"
@@ -223,6 +230,30 @@ export function RuleSearchDialog({
               </FieldDescription>
             </FieldContent>
           </Field>
+          <div className="flex items-center justify-between gap-2 sm:shrink-0 sm:justify-end">
+            <span className="text-xs font-medium text-muted-foreground">
+              {t("search.kindFilter")}
+            </span>
+            <ToggleGroup
+              type="single"
+              value={kindFilter}
+              variant="outline"
+              size="sm"
+              spacing={0}
+              aria-label={t("search.kindFilter")}
+              onValueChange={(value) => {
+                if (value) setKindFilter(value as KindFilter)
+              }}
+            >
+              {KIND_FILTERS.map((kind) => (
+                <ToggleGroupItem key={kind} value={kind}>
+                  {kind === "all"
+                    ? t("search.kindAll")
+                    : t(`kind.${kind}` as TranslationKey)}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
         </div>
 
         <Separator />
@@ -257,33 +288,39 @@ export function RuleSearchDialog({
             <FieldLegend className="sr-only">
               {t("search.results", { count: results.length })}
             </FieldLegend>
-            <div className="flex min-h-10 items-center justify-between gap-3 px-4 py-2">
-              <Field
-                orientation="horizontal"
-                className="w-auto"
-                data-disabled={selectableResults.length === 0 || undefined}
-              >
-                <Checkbox
-                  id="select-visible-rules"
-                  checked={
-                    allVisibleSelected
-                      ? true
-                      : someVisibleSelected
-                        ? "indeterminate"
-                        : false
-                  }
-                  disabled={selectableResults.length === 0}
-                  onCheckedChange={(value) =>
-                    setVisibleSelected(value === true)
-                  }
-                />
-                <FieldLabel htmlFor="select-visible-rules">
-                  {t("search.selectVisible")}
-                </FieldLabel>
-              </Field>
-              <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-                {t("search.ruleCount", { count: results.length })}
-              </span>
+            <div className="grid min-h-10 grid-cols-[minmax(0,1fr)_10rem] items-center gap-3 px-4 py-2">
+              <div className="flex min-w-0 items-center justify-between gap-3">
+                <Field
+                  orientation="horizontal"
+                  className="w-auto"
+                  data-disabled={selectableResults.length === 0 || undefined}
+                >
+                  <Checkbox
+                    id="select-visible-rules"
+                    checked={
+                      allVisibleSelected
+                        ? true
+                        : someVisibleSelected
+                          ? "indeterminate"
+                          : false
+                    }
+                    disabled={selectableResults.length === 0}
+                    onCheckedChange={(value) =>
+                      setVisibleSelected(value === true)
+                    }
+                  />
+                  <FieldLabel htmlFor="select-visible-rules">
+                    {t("search.selectVisible")}
+                  </FieldLabel>
+                </Field>
+                <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                  {t("search.categoryCount", { count: results.length })}
+                </span>
+              </div>
+              <div className="grid grid-cols-[5.5rem_4rem] gap-2 text-xs text-muted-foreground">
+                <span className="text-center">{t("search.kindColumn")}</span>
+                <span className="text-right">{t("search.rulesColumn")}</span>
+              </div>
             </div>
             <Separator />
             <CommandList className="max-h-[min(50svh,32rem)] min-h-64">
@@ -314,30 +351,32 @@ export function RuleSearchDialog({
                         }
                       />
                       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                        <FieldTitle className="truncate">
-                          {entry.label}
-                        </FieldTitle>
+                        <div className="flex min-w-0 items-center gap-2">
+                          <FieldTitle className="truncate">
+                            {entry.label}
+                          </FieldTitle>
+                          {locked || (added && checked) ? (
+                            <Badge variant="secondary" className="shrink-0">
+                              {locked
+                                ? t("search.included")
+                                : t("search.added")}
+                            </Badge>
+                          ) : null}
+                        </div>
                         <span className="truncate font-mono text-[0.625rem] text-muted-foreground">
                           {entry.id}
                         </span>
                       </div>
-                      <div className="flex shrink-0 items-center gap-1.5">
-                        <Badge variant="outline">
+                      <div className="grid w-40 shrink-0 grid-cols-[5.5rem_4rem] items-center gap-2">
+                        <Badge
+                          variant="outline"
+                          className="w-full justify-center"
+                        >
                           {t(`kind.${entry.kind}` as TranslationKey)}
                         </Badge>
-                        <Badge
-                          variant={
-                            locked || (added && checked)
-                              ? "secondary"
-                              : "outline"
-                          }
-                        >
-                          {locked
-                            ? t("search.included")
-                            : added && checked
-                              ? t("search.added")
-                              : t("search.ruleCount", { count: entry.rules })}
-                        </Badge>
+                        <span className="text-right text-xs text-muted-foreground tabular-nums">
+                          {t("search.ruleCount", { count: entry.rules })}
+                        </span>
                       </div>
                     </CommandItem>
                   )
