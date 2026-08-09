@@ -43,8 +43,9 @@ const zh = {
   "step.groups.nameLabel": "{id} 策略组名称",
   "step.groups.remove": "移除 {id}",
   "step.groups.removeRule": "移除规则",
-  "step.settings.title": "调整通用设置",
-  "step.settings.description": "只开放模板中已定义且适合可视化编辑的字段。",
+  "step.settings.title": "{client} 设置",
+  "step.settings.description":
+    "仅显示当前客户端支持的配置项，切换客户端后会同步更新。",
   "step.settings.footer": "Proxies、Manual 与 Final 为基础策略组，始终保留。",
   "validation.title": "配置需要修正",
   "region.HKG": "香港",
@@ -71,9 +72,21 @@ const zh = {
   "preview.lines": "{count} 行",
   "preview.copy": "复制",
   "preview.download": "下载",
-  "settings.network": "网络与测试",
-  "settings.rules": "规则行为",
-  "settings.client": "客户端",
+  "settings.network": "基础",
+  "settings.rules": "规则",
+  "settings.client": "{client} 专属",
+  "settings.resources": "资源与更新",
+  "settings.resourcesDescription": "管理远程规则、更新频率与联网测试。",
+  "settings.dns": "DNS",
+  "settings.dnsDescription": "管理 {client} 的域名解析与加密 DNS。",
+  "settings.connectivity": "连接能力",
+  "settings.connectivityDescription": "控制 {client} 的协议与网络支持。",
+  "settings.nodeSource": "节点来源",
+  "settings.nodeSourceDescription": "定义 {client} 获取代理节点的方式。",
+  "settings.healthCheck": "测速与可用性",
+  "settings.healthCheckDescription": "统一管理代理测试和地区策略组参数。",
+  "settings.clientBehavior": "客户端行为",
+  "settings.clientBehaviorDescription": "这些选项只会写入 {client} 配置。",
   "settings.ruleUrl": "规则地址",
   "settings.ruleUrlDescription": "所有远程 ruleset 的基础地址。",
   "settings.ruleInterval": "资源更新（秒）",
@@ -114,9 +127,6 @@ const zh = {
   "settings.subscriptionNameDescription": "用于 Remote Proxy 与节点筛选。",
   "settings.subscriptionUrl": "订阅 URL",
   "settings.subscriptionUrlDescription": "必填，写入 Loon Remote Proxy。",
-  "settings.subscriptionNames": "App 内订阅名称",
-  "settings.subscriptionNamesDescription":
-    "可选；多个名称使用英文逗号分隔，留空则匹配全部节点。",
   "settings.builtin": "内置规则",
   "settings.builtinDescription":
     "这些规则构成基础分流，并始终排在 FINAL 之前。",
@@ -233,9 +243,9 @@ const en: Record<Key, string> = {
   "step.groups.nameLabel": "{id} policy group name",
   "step.groups.remove": "Remove {id}",
   "step.groups.removeRule": "Remove rule",
-  "step.settings.title": "General settings",
+  "step.settings.title": "{client} settings",
   "step.settings.description":
-    "Only template fields suitable for visual editing are available.",
+    "Only settings supported by the active client are shown and update when the client changes.",
   "step.settings.footer":
     "Proxies, Manual, and Final are required base policy groups.",
   "validation.title": "Configuration needs attention",
@@ -264,9 +274,26 @@ const en: Record<Key, string> = {
   "preview.lines": "{count} lines",
   "preview.copy": "Copy",
   "preview.download": "Download",
-  "settings.network": "Network & testing",
-  "settings.rules": "Rule behavior",
-  "settings.client": "Client",
+  "settings.network": "Basics",
+  "settings.rules": "Rules",
+  "settings.client": "{client} only",
+  "settings.resources": "Resources & updates",
+  "settings.resourcesDescription":
+    "Manage remote rules, refresh intervals, and connectivity tests.",
+  "settings.dns": "DNS",
+  "settings.dnsDescription":
+    "Manage domain resolution and encrypted DNS for {client}.",
+  "settings.connectivity": "Connectivity",
+  "settings.connectivityDescription":
+    "Control protocol and network support for {client}.",
+  "settings.nodeSource": "Node source",
+  "settings.nodeSourceDescription": "Define how {client} obtains proxy nodes.",
+  "settings.healthCheck": "Testing & availability",
+  "settings.healthCheckDescription":
+    "Manage proxy tests and regional policy group parameters.",
+  "settings.clientBehavior": "Client behavior",
+  "settings.clientBehaviorDescription":
+    "These options are written only to the {client} configuration.",
   "settings.ruleUrl": "Rule URL",
   "settings.ruleUrlDescription": "Base URL for all remote rulesets.",
   "settings.ruleInterval": "Resource update (seconds)",
@@ -310,9 +337,6 @@ const en: Record<Key, string> = {
   "settings.subscriptionUrl": "Subscription URL",
   "settings.subscriptionUrlDescription":
     "Required. Written to Loon Remote Proxy.",
-  "settings.subscriptionNames": "In-app subscription names",
-  "settings.subscriptionNamesDescription":
-    "Optional. Separate names with commas; leave blank to match all nodes.",
   "settings.builtin": "Built-in rules",
   "settings.builtinDescription":
     "These rules form the base routing set and always precede FINAL.",
@@ -435,9 +459,9 @@ const ja: Record<Key, string> = {
   "step.groups.nameLabel": "{id} ポリシーグループ名",
   "step.groups.remove": "{id} を削除",
   "step.groups.removeRule": "ルールを削除",
-  "step.settings.title": "共通設定",
+  "step.settings.title": "{client} 設定",
   "step.settings.description":
-    "テンプレートで定義された編集可能な項目のみ表示します。",
+    "現在のクライアントが対応する設定だけを表示し、切り替え時に同期します。",
   "step.settings.footer": "Proxies、Manual、Final は必須の基本グループです。",
   "validation.title": "設定を修正してください",
   "region.HKG": "香港",
@@ -464,9 +488,26 @@ const ja: Record<Key, string> = {
   "preview.lines": "{count} 行",
   "preview.copy": "コピー",
   "preview.download": "ダウンロード",
-  "settings.network": "ネットワークとテスト",
-  "settings.rules": "ルール動作",
-  "settings.client": "クライアント",
+  "settings.network": "基本",
+  "settings.rules": "ルール",
+  "settings.client": "{client} 専用",
+  "settings.resources": "リソースと更新",
+  "settings.resourcesDescription":
+    "リモートルール、更新間隔、接続テストを管理します。",
+  "settings.dns": "DNS",
+  "settings.dnsDescription": "{client} の名前解決と暗号化 DNS を管理します。",
+  "settings.connectivity": "接続機能",
+  "settings.connectivityDescription":
+    "{client} のプロトコルとネットワーク対応を管理します。",
+  "settings.nodeSource": "ノード取得元",
+  "settings.nodeSourceDescription":
+    "{client} がプロキシノードを取得する方法を設定します。",
+  "settings.healthCheck": "テストと可用性",
+  "settings.healthCheckDescription":
+    "プロキシテストと地域ポリシーグループの値を管理します。",
+  "settings.clientBehavior": "クライアント動作",
+  "settings.clientBehaviorDescription":
+    "これらの項目は {client} の設定にのみ書き込まれます。",
   "settings.ruleUrl": "ルール URL",
   "settings.ruleUrlDescription": "すべてのリモート ruleset のベース URL。",
   "settings.ruleInterval": "リソース更新（秒）",
@@ -511,9 +552,6 @@ const ja: Record<Key, string> = {
   "settings.subscriptionUrl": "サブスクリプション URL",
   "settings.subscriptionUrlDescription":
     "必須。Loon の Remote Proxy に書き込みます。",
-  "settings.subscriptionNames": "App 内のサブスクリプション名",
-  "settings.subscriptionNamesDescription":
-    "任意。複数の名前はカンマで区切り、空欄の場合は全ノードに一致します。",
   "settings.builtin": "組み込みルール",
   "settings.builtinDescription":
     "基本ルーティングを構成し、常に FINAL より前に配置されます。",
@@ -638,9 +676,9 @@ const ru: Record<Key, string> = {
   "step.groups.nameLabel": "Имя группы {id}",
   "step.groups.remove": "Удалить {id}",
   "step.groups.removeRule": "Удалить правило",
-  "step.settings.title": "Общие настройки",
+  "step.settings.title": "Настройки {client}",
   "step.settings.description":
-    "Доступны только подходящие для визуального редактирования поля шаблона.",
+    "Показываются только параметры активного клиента; при переключении список обновляется.",
   "step.settings.footer":
     "Proxies, Manual и Final — обязательные базовые группы.",
   "validation.title": "Исправьте конфигурацию",
@@ -668,9 +706,27 @@ const ru: Record<Key, string> = {
   "preview.lines": "Строк: {count}",
   "preview.copy": "Копировать",
   "preview.download": "Скачать",
-  "settings.network": "Сеть и тесты",
-  "settings.rules": "Поведение правил",
-  "settings.client": "Клиент",
+  "settings.network": "Основное",
+  "settings.rules": "Правила",
+  "settings.client": "Только {client}",
+  "settings.resources": "Ресурсы и обновления",
+  "settings.resourcesDescription":
+    "Управление удалёнными правилами, интервалами и проверкой соединения.",
+  "settings.dns": "DNS",
+  "settings.dnsDescription":
+    "Управление разрешением имён и шифрованным DNS для {client}.",
+  "settings.connectivity": "Подключение",
+  "settings.connectivityDescription":
+    "Управление протоколами и сетевыми возможностями {client}.",
+  "settings.nodeSource": "Источник узлов",
+  "settings.nodeSourceDescription":
+    "Настройка способа получения прокси-узлов в {client}.",
+  "settings.healthCheck": "Проверка доступности",
+  "settings.healthCheckDescription":
+    "Управление тестами прокси и параметрами региональных групп.",
+  "settings.clientBehavior": "Поведение клиента",
+  "settings.clientBehaviorDescription":
+    "Эти параметры записываются только в конфигурацию {client}.",
   "settings.ruleUrl": "Адрес правил",
   "settings.ruleUrlDescription": "Базовый URL для всех удалённых ruleset.",
   "settings.ruleInterval": "Обновление ресурсов (сек.)",
@@ -715,9 +771,6 @@ const ru: Record<Key, string> = {
   "settings.subscriptionUrl": "URL подписки",
   "settings.subscriptionUrlDescription":
     "Обязательно. Записывается в Remote Proxy Loon.",
-  "settings.subscriptionNames": "Имена подписок в приложении",
-  "settings.subscriptionNamesDescription":
-    "Необязательно. Разделяйте имена запятыми; пустое поле выбирает все узлы.",
   "settings.builtin": "Встроенные правила",
   "settings.builtinDescription":
     "Эти правила образуют базовую маршрутизацию и всегда идут до FINAL.",

@@ -283,10 +283,6 @@
     flex: 1 0 auto;
   }
 
-  .settings-card > [data-slot="card-footer"] {
-    margin-top: auto;
-  }
-
   .featured-choice-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   }
@@ -398,6 +394,13 @@
       [data-active]
     ):hover {
     background: var(--interactive-selected-hover);
+  }
+
+  [data-slot="tabs-list"][data-variant="line"]
+    > [data-slot="tabs-trigger"]:is([data-active], [data-state="active"]) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
   }
 
   .interactive-option:is([data-state="on"], [data-state="checked"])

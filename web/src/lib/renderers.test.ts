@@ -115,7 +115,6 @@ describe("version 2 defaults", () => {
         realIp: "*.apple.com, *.icloud.com",
       },
       shadowrocket: {
-        subscriptionNames: "",
         fallbackDnsServers: "system",
         hijackDns: false,
         excludeCgnat: false,
@@ -351,14 +350,13 @@ describe("Loon rendering", () => {
 })
 
 describe("Shadowrocket rendering", () => {
-  it("uses native subscription filters and keeps encrypted DNS separate from fallback DNS", () => {
+  it("uses local node filters and keeps encrypted DNS separate from fallback DNS", () => {
     const value = validState("shadowrocket")
     value.regions = ["HKG"]
     value.settings.dnsServers = "1.1.1.1, 8.8.8.8"
     value.settings.dohServers = "https://dns.example/dns-query"
     value.settings.shadowrocket = {
       ...value.settings.shadowrocket,
-      subscriptionNames: "Primary, Backup",
       fallbackDnsServers: "system",
       hijackDns: true,
     }
@@ -369,12 +367,8 @@ describe("Shadowrocket rendering", () => {
     expect(content).toContain("dns-server = https://dns.example/dns-query")
     expect(content).toContain("fallback-dns-server = system")
     expect(content).toContain("hijack-dns = :53")
-    expect(content).toContain(
-      "Manual = select, Primary, Backup, use=true, policy-regex-filter=.*"
-    )
-    expect(matchingLine(content, "HKG = ")).toContain(
-      "Primary, Backup, use=true"
-    )
+    expect(content).toContain("Manual = select, policy-regex-filter=.*")
+    expect(matchingLine(content, "HKG = ")).not.toContain("use=true")
     expect(matchingLine(content, "HKG = ")).toContain("policy-regex-filter=")
     expect(excludedRoutes).not.toContain("100.64.0.0/10")
     expect(content).not.toContain("bypass-system")
@@ -544,16 +538,12 @@ describe("validation", () => {
     expect(validateState(value)).toContain(error)
   })
 
-  it("validates Shadowrocket subscription names and fallback DNS", () => {
+  it("validates Shadowrocket fallback DNS", () => {
     const value = validState("shadowrocket")
-    value.settings.shadowrocket.subscriptionNames = "Primary,,Backup"
     value.settings.shadowrocket.fallbackDnsServers = "dns.example.com"
 
-    expect(validateState(value)).toEqual(
-      expect.arrayContaining([
-        "Shadowrocket 订阅名称不能留空或包含配置分隔符、注释符",
-        "Shadowrocket 备用 DNS 只能使用 system、IP 地址或支持的加密 DNS URI",
-      ])
+    expect(validateState(value)).toContain(
+      "Shadowrocket 备用 DNS 只能使用 system、IP 地址或支持的加密 DNS URI"
     )
   })
 

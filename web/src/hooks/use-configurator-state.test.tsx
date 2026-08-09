@@ -65,7 +65,6 @@ describe("useConfiguratorState migration", () => {
         mihomo: { allowLan: true, mixedPort: 7891, tunStack: "mixed" },
         loon: { interfaceMode: "Auto" },
         shadowrocket: {
-          subscriptionNames: "",
           fallbackDnsServers: "system",
           hijackDns: false,
           excludeCgnat: false,
@@ -118,7 +117,7 @@ describe("useConfiguratorState migration", () => {
           surge: null,
           loon: "invalid",
           shadowrocket: {
-            subscriptionNames: "Primary, Backup",
+            subscriptionNames: "Legacy value",
             excludeCgnat: true,
           },
         },
@@ -137,8 +136,8 @@ describe("useConfiguratorState migration", () => {
     expect(settings.surge).toEqual(DEFAULT_SETTINGS.surge)
     expect(settings.loon).toEqual(DEFAULT_SETTINGS.loon)
     expect(settings.shadowrocket).toMatchObject({
-      subscriptionNames: "Primary, Backup",
       excludeCgnat: true,
     })
+    expect(settings.shadowrocket).not.toHaveProperty("subscriptionNames")
   })
 })

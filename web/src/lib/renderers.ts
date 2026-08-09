@@ -337,10 +337,6 @@ function splitEncryptedDns(servers: string[]) {
   }
 }
 
-function shadowrocketNodeSource(names: string[]) {
-  return names.length > 0 ? `${names.join(", ")}, use=true, ` : ""
-}
-
 function renderMihomo(state: ConfiguratorState): RenderResult {
   const settings = state.settings
   const groups = buildStrategyGroups(state)
@@ -765,8 +761,6 @@ function renderShadowrocket(state: ConfiguratorState): RenderResult {
   const dohServers = serverList(settings.dohServers)
   const primaryDns = dohServers.length > 0 ? dohServers : dnsServers
   const fallbackDns = serverList(settings.shadowrocket.fallbackDnsServers)
-  const subscriptionNames = serverList(settings.shadowrocket.subscriptionNames)
-  const nodeSource = shadowrocketNodeSource(subscriptionNames)
   const excludedRoutes = settings.shadowrocket.excludeCgnat
     ? SHADOWROCKET_SKIP_PROXY
     : SHADOWROCKET_SKIP_PROXY.filter((route) => route !== CGNAT_RANGE)
@@ -790,7 +784,7 @@ function renderShadowrocket(state: ConfiguratorState): RenderResult {
     "[Proxy Group]",
     "# > Main",
     `Proxies = select, ${["Manual", ...regions.map((region) => region.id)].join(", ")}`,
-    `Manual = select, ${nodeSource}policy-regex-filter=.*`
+    "Manual = select, policy-regex-filter=.*"
   )
 
   for (const group of groups) {
@@ -802,7 +796,7 @@ function renderShadowrocket(state: ConfiguratorState): RenderResult {
   for (const region of regions) {
     const filter = region.id === "Other" ? OTHER_REGION_FILTER : region.filter
     lines.push(
-      `${region.id} = url-test, ${nodeSource}url=${settings.proxyTestUrl}, interval=${settings.groupTestInterval}, tolerance=${settings.groupTolerance}, timeout=${settings.timeoutSeconds}, policy-regex-filter=${filter}`
+      `${region.id} = url-test, url=${settings.proxyTestUrl}, interval=${settings.groupTestInterval}, tolerance=${settings.groupTolerance}, timeout=${settings.timeoutSeconds}, policy-regex-filter=${filter}`
     )
   }
 
@@ -1152,16 +1146,6 @@ export function validateState(state: ConfiguratorState) {
       }
       if (dnsServers.some((server) => !isPlainDnsServer(server))) {
         errors.push("Shadowrocket 普通 DNS 只能使用 system 或 IP 地址")
-      }
-      const rawSubscriptionNames =
-        state.settings.shadowrocket.subscriptionNames.trim()
-      if (rawSubscriptionNames) {
-        const subscriptions = rawSubscriptionNames
-          .split(",")
-          .map((name) => name.trim())
-        if (subscriptions.some((name) => hasUnsafeName(name))) {
-          errors.push("Shadowrocket 订阅名称不能留空或包含配置分隔符、注释符")
-        }
       }
       const fallbackDnsServers = serverList(
         state.settings.shadowrocket.fallbackDnsServers

@@ -182,7 +182,11 @@ describe("Config Studio", () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.click(screen.getByRole("tab", { name: "客户端" }))
+    await user.click(screen.getByRole("tab", { name: "Mihomo 专属" }))
+
+    expect(screen.getByText("节点来源")).toBeTruthy()
+    expect(screen.getByText("测速与可用性")).toBeTruthy()
+    expect(screen.getByText("客户端行为")).toBeTruthy()
 
     expect(
       (screen.getByLabelText("代理提供者 URL") as HTMLInputElement).required
@@ -203,10 +207,8 @@ describe("Config Studio", () => {
     expect(screen.queryByLabelText("代理列表 URL")).toBeNull()
 
     await user.click(screen.getByRole("radio", { name: "Shadowrocket" }))
-    expect(
-      ((await screen.findByLabelText("App 内订阅名称")) as HTMLInputElement)
-        .required
-    ).toBe(false)
+    expect(screen.queryByText("节点来源")).toBeNull()
+    expect(screen.queryByLabelText("App 内订阅名称")).toBeNull()
     expect(screen.queryByLabelText("订阅 URL")).toBeNull()
   })
 
@@ -215,14 +217,14 @@ describe("Config Studio", () => {
     renderApp()
 
     await user.click(screen.getByRole("radio", { name: "Loon" }))
-    await user.click(screen.getByRole("tab", { name: "客户端" }))
+    await user.click(screen.getByRole("tab", { name: "Loon 专属" }))
 
     expect(
       (await screen.findByRole("combobox", { name: "接口模式" })).textContent
     ).toContain("Auto")
 
     await user.click(screen.getByRole("radio", { name: "Shadowrocket" }))
-    await screen.findByLabelText("App 内订阅名称")
+    await screen.findByText("Shadowrocket.conf")
 
     expect(screen.queryByRole("switch", { name: "绕过系统服务" })).toBeNull()
     expect(screen.queryByText("bypass-system")).toBeNull()

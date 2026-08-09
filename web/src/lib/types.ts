@@ -173,7 +173,6 @@ export type GeneralSettings = {
     realIp: string
   }
   shadowrocket: {
-    subscriptionNames: string
     fallbackDnsServers: string
     hijackDns: boolean
     excludeCgnat: boolean
@@ -257,7 +256,6 @@ export const DEFAULT_SETTINGS: GeneralSettings = {
     realIp: "*.apple.com, *.icloud.com",
   },
   shadowrocket: {
-    subscriptionNames: "",
     fallbackDnsServers: "system",
     hijackDns: false,
     excludeCgnat: false,

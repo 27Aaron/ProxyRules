@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardFooter,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -295,6 +295,8 @@ export function App() {
     () => getSelectedCategoryIds(state),
     [state]
   )
+  const currentClientLabel =
+    CLIENTS.find((client) => client.id === state.client)?.label ?? state.client
   const removableCategoryIds = React.useMemo(
     () => new Set(state.customGroups.map((group) => group.categoryId)),
     [state.customGroups]
@@ -507,18 +509,16 @@ export function App() {
           </CardContent>
         </Card>
 
-        <Card className="settings-card">
+        <Card>
           <CardHeader>
-            <CardTitle>{t("step.settings.title")}</CardTitle>
+            <CardTitle>
+              {t("step.settings.title", { client: currentClientLabel })}
+            </CardTitle>
+            <CardDescription>{t("step.settings.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <SettingsPanel state={state} setState={setState} errors={errors} />
           </CardContent>
-          <CardFooter>
-            <p className="text-xs text-muted-foreground">
-              {t("step.settings.footer")}
-            </p>
-          </CardFooter>
         </Card>
       </div>
 

@@ -355,11 +355,6 @@ function restoreState(value: string | null): ConfiguratorState {
           ),
         },
         shadowrocket: {
-          subscriptionNames: restoreString(
-            savedShadowrocket,
-            "subscriptionNames",
-            defaults.settings.shadowrocket.subscriptionNames
-          ),
           fallbackDnsServers: restoreString(
             savedShadowrocket,
             "fallbackDnsServers",
