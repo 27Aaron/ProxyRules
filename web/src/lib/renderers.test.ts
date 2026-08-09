@@ -53,6 +53,34 @@ function matchingLine(content: string, prefix: string) {
 }
 
 describe("version 2 defaults", () => {
+  it("defines the extended region and home-node filters", () => {
+    expect(REGIONS.map((region) => region.id)).toEqual([
+      "DEU",
+      "GBR",
+      "HKG",
+      "Home",
+      "JPN",
+      "KOR",
+      "MAC",
+      "SGP",
+      "TWN",
+      "USA",
+      "Other",
+    ])
+    expect(REGIONS.find((region) => region.id === "GBR")?.filter).toContain(
+      "United.?Kingdom"
+    )
+    expect(REGIONS.find((region) => region.id === "DEU")?.filter).toContain(
+      "Germany"
+    )
+    expect(REGIONS.find((region) => region.id === "MAC")?.filter).toContain(
+      "Macau"
+    )
+    expect(REGIONS.find((region) => region.id === "Home")?.filter).toBe(
+      "(?i)Home"
+    )
+  })
+
   it("uses the documented safe and portable defaults", () => {
     expect(DEFAULT_STATE.version).toBe(2)
     expect(DEFAULT_SETTINGS).toMatchObject({

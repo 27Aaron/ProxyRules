@@ -13,19 +13,37 @@ export type ClientId = (typeof CLIENTS)[number]["id"]
 
 export const REGIONS = [
   {
+    id: "DEU",
+    label: "德国",
+    filter:
+      "(?i)(🇩🇪|德国|德國|法兰克福|法蘭克福|Germany|Deutschland|Frankfurt|\\bDEU\\b|\\bDE\\b)",
+  },
+  {
+    id: "GBR",
+    label: "英国",
+    filter:
+      "(?i)(🇬🇧|英国|英國|伦敦|倫敦|United.?Kingdom|Britain|England|London|\\bGBR\\b|\\bUK\\b|\\bGB\\b)",
+  },
+  {
     id: "HKG",
     label: "香港",
     filter: "(?i)(🇭🇰|香港|Hong.?Kong|\\bHKG\\b|\\bHK\\b)",
   },
+  { id: "Home", label: "回家", filter: "(?i)Home" },
   {
     id: "JPN",
     label: "日本",
     filter: "(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\\bJPN\\b|\\bJP\\b)",
   },
   {
-    id: "USA",
-    label: "美国",
-    filter: "(?i)(🇺🇸|美国|美國|United.?States|America|\\bUSA\\b|\\bUS\\b)",
+    id: "KOR",
+    label: "韩国",
+    filter: "(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\\bKOR\\b|\\bKR\\b)",
+  },
+  {
+    id: "MAC",
+    label: "澳门",
+    filter: "(?i)(🇲🇴|澳门|澳門|Macau|Macao|\\bMAC\\b|\\bMO\\b)",
   },
   {
     id: "SGP",
@@ -38,9 +56,9 @@ export const REGIONS = [
     filter: "(?i)(🇹🇼|台湾|臺灣|Taiwan|\\bTWN\\b|\\bTW\\b)",
   },
   {
-    id: "KOR",
-    label: "韩国",
-    filter: "(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\\bKOR\\b|\\bKR\\b)",
+    id: "USA",
+    label: "美国",
+    filter: "(?i)(🇺🇸|美国|美國|United.?States|America|\\bUSA\\b|\\bUS\\b)",
   },
   { id: "Other", label: "其他", filter: ".*" },
 ] as const

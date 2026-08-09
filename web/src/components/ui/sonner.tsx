@@ -18,6 +18,10 @@ const REGION_LABELS = [
   ["SGP", "region.SGP"],
   ["TWN", "region.TWN"],
   ["KOR", "region.KOR"],
+  ["GBR", "region.GBR"],
+  ["DEU", "region.DEU"],
+  ["MAC", "region.MAC"],
+  ["Home", "region.Home"],
   ["Other", "region.Other"],
 ] as const satisfies readonly (readonly [string, TranslationKey])[]
 
