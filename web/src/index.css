@@ -243,11 +243,12 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
+    padding-top: 0.75rem;
     padding-bottom: 1.25rem;
   }
 
   .control-column {
-    @apply flex flex-col gap-4 p-2 sm:p-4 lg:h-full lg:overflow-y-auto lg:pt-3 lg:pr-2 lg:pb-0 lg:pl-5;
+    @apply flex flex-col gap-4 p-2 sm:p-4 lg:h-full lg:overflow-y-auto lg:pt-px lg:pr-2 lg:pb-0 lg:pl-5;
     scrollbar-width: none;
   }
 
