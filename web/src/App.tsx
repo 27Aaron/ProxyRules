@@ -158,9 +158,9 @@ function AppHeader({ onReset }: { onReset: () => void }) {
 
   return (
     <header className="app-header">
-      <div className="flex min-w-0 items-center gap-3">
+      <div className="header-brand flex min-w-0 items-center gap-2.5">
         <div className="brand-mark" aria-hidden="true">
-          <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.7} />
+          <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.8} />
         </div>
         <div className="min-w-0">
           <span className="truncate font-heading text-sm font-semibold tracking-tight">
@@ -169,7 +169,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="header-actions flex items-center gap-0.5">
         <Select
           value={locale}
           onValueChange={(value) => setLocale(value as Locale)}
@@ -177,7 +177,7 @@ function AppHeader({ onReset }: { onReset: () => void }) {
           <SelectTrigger
             aria-label={t("header.language")}
             aria-controls="language-options"
-            className="h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none hover:bg-[var(--interactive-hover)] focus-visible:border-transparent focus-visible:bg-[var(--interactive-hover)] focus-visible:ring-0"
+            className="header-action h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none focus-visible:border-transparent focus-visible:ring-0"
           >
             <HugeiconsIcon icon={MessageTranslateIcon} strokeWidth={1.7} />
             <SelectValue />
@@ -203,7 +203,12 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         </Select>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={onReset}>
+            <Button
+              className="header-action"
+              variant="ghost"
+              size="icon"
+              onClick={onReset}
+            >
               <HugeiconsIcon icon={RefreshIcon} />
               <span className="sr-only">{t("header.reset")}</span>
             </Button>
@@ -212,7 +217,12 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" asChild>
+            <Button
+              className="header-action"
+              variant="ghost"
+              size="icon"
+              asChild
+            >
               <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
                 <HugeiconsIcon icon={Github01Icon} />
                 <span className="sr-only">{t("header.openGithub")}</span>
@@ -223,7 +233,12 @@ function AppHeader({ onReset }: { onReset: () => void }) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            <Button
+              className="header-action"
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+            >
               <HugeiconsIcon
                 icon={resolvedTheme === "dark" ? Sun03Icon : Moon02Icon}
               />
