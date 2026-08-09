@@ -288,7 +288,7 @@ export function RuleSearchDialog({
             <FieldLegend className="sr-only">
               {t("search.results", { count: results.length })}
             </FieldLegend>
-            <div className="grid min-h-10 grid-cols-[minmax(0,1fr)_10rem] items-center gap-3 px-4 py-2">
+            <div className="grid min-h-10 grid-cols-[minmax(0,1fr)_10rem] items-center gap-3 px-3.5 py-2">
               <div className="flex min-w-0 items-center justify-between gap-3">
                 <Field
                   orientation="horizontal"
@@ -335,7 +335,7 @@ export function RuleSearchDialog({
                       key={entry.id}
                       value={`${entry.id} ${entry.label}`}
                       disabled={locked}
-                      className="min-h-12 items-start py-2.5"
+                      className="min-h-12 items-start py-2.5 [&>svg:last-child]:hidden"
                       onSelect={() => setEntrySelected(entry, !checked)}
                     >
                       <Checkbox
@@ -368,12 +368,9 @@ export function RuleSearchDialog({
                         </span>
                       </div>
                       <div className="grid w-40 shrink-0 grid-cols-[5.5rem_4rem] items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="w-full justify-center"
-                        >
+                        <span className="text-center text-xs text-muted-foreground">
                           {t(`kind.${entry.kind}` as TranslationKey)}
-                        </Badge>
+                        </span>
                         <span className="text-right text-xs text-muted-foreground tabular-nums">
                           {t("search.ruleCount", { count: entry.rules })}
                         </span>
