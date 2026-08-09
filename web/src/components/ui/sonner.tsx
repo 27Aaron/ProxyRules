@@ -1,14 +1,13 @@
 import * as React from "react"
+import {
+  CircleCheckIcon,
+  CircleXIcon,
+  InfoIcon,
+  LoaderCircleIcon,
+  TriangleAlertIcon,
+} from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  CheckmarkCircle02Icon,
-  InformationCircleIcon,
-  Alert02Icon,
-  MultiplicationSignCircleIcon,
-  Loading03Icon,
-} from "@hugeicons/core-free-icons"
 
 import { useI18n, type TranslationKey } from "@/lib/i18n"
 
@@ -51,9 +50,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
     const regions = REGION_LABELS.map(([id, key]) => `${id} ${t(key)}`)
     return [
       t("toast.reset"),
-      ...CLIENT_NAMES.map((client) =>
-        t("toast.clientSwitched", { client })
-      ),
+      ...CLIENT_NAMES.map((client) => t("toast.clientSwitched", { client })),
       ...regions.flatMap((region) => [
         t("toast.regionAdded", { region }),
         t("toast.regionRemoved", { region }),
@@ -71,41 +68,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       icons={{
-        success: (
-          <HugeiconsIcon
-            icon={CheckmarkCircle02Icon}
-            strokeWidth={2}
-            className="size-4"
-          />
-        ),
-        info: (
-          <HugeiconsIcon
-            icon={InformationCircleIcon}
-            strokeWidth={2}
-            className="size-4"
-          />
-        ),
-        warning: (
-          <HugeiconsIcon
-            icon={Alert02Icon}
-            strokeWidth={2}
-            className="size-4"
-          />
-        ),
-        error: (
-          <HugeiconsIcon
-            icon={MultiplicationSignCircleIcon}
-            strokeWidth={2}
-            className="size-4"
-          />
-        ),
-        loading: (
-          <HugeiconsIcon
-            icon={Loading03Icon}
-            strokeWidth={2}
-            className="size-4 animate-spin"
-          />
-        ),
+        success: <CircleCheckIcon className="size-4" />,
+        info: <InfoIcon className="size-4" />,
+        warning: <TriangleAlertIcon className="size-4" />,
+        error: <CircleXIcon className="size-4" />,
+        loading: <LoaderCircleIcon className="size-4 animate-spin" />,
       }}
       style={
         {

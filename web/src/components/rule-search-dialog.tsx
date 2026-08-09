@@ -1,9 +1,5 @@
 import * as React from "react"
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  InformationCircleIcon,
-  RefreshIcon,
-} from "@hugeicons/core-free-icons"
+import { CircleAlertIcon, RefreshCwIcon } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -137,11 +133,11 @@ export function RuleSearchDialog({
         {error ? (
           <div className="px-3 pb-3">
             <Alert variant="destructive">
-              <HugeiconsIcon icon={InformationCircleIcon} strokeWidth={1.8} />
+              <CircleAlertIcon strokeWidth={1.8} />
               <AlertTitle>{t("search.loadFailed")}</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
               <Button variant="outline" size="sm" onClick={retry}>
-                <HugeiconsIcon icon={RefreshIcon} data-icon="inline-start" />
+                <RefreshCwIcon data-icon="inline-start" />
                 {t("search.reload")}
               </Button>
             </Alert>

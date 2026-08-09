@@ -1,13 +1,11 @@
 import * as React from "react"
-import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  GithubIcon,
-  GlobalIcon,
-  LanguageCircleIcon,
-  Moon02Icon,
-  Search01Icon,
-  Sun03Icon,
-} from "@hugeicons/core-free-icons"
+  EarthIcon,
+  LanguagesIcon,
+  MoonIcon,
+  ScanSearchIcon,
+  SunIcon,
+} from "lucide-react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 
@@ -38,7 +36,6 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
@@ -64,7 +61,6 @@ import {
   type FeaturedGroupId,
 } from "@/lib/types"
 
-const REPOSITORY_URL = "https://github.com/27Aaron/ProxyRules"
 const RuleSearchDialog = React.lazy(() =>
   import("@/components/rule-search-dialog").then((module) => ({
     default: module.RuleSearchDialog,
@@ -83,6 +79,8 @@ function uniqueGroupName(base: string, taken: string[]) {
 function AppHeader() {
   const { resolvedTheme, setTheme } = useTheme()
   const { locale, setLocale, t } = useI18n()
+  const currentLanguage =
+    LOCALES.find((language) => language.value === locale) ?? LOCALES[0]
   const themeTransition = React.useRef<{
     skipTransition?: () => void
   } | null>(null)
@@ -159,7 +157,7 @@ function AppHeader() {
     <header className="app-header">
       <div className="header-brand flex min-w-0 items-center gap-2.5">
         <div className="brand-mark" aria-hidden="true">
-          <HugeiconsIcon icon={GlobalIcon} strokeWidth={1.8} />
+          <EarthIcon strokeWidth={1.8} />
         </div>
         <div className="min-w-0">
           <span className="truncate font-heading text-sm font-semibold tracking-tight">
@@ -174,12 +172,11 @@ function AppHeader() {
           onValueChange={(value) => setLocale(value as Locale)}
         >
           <SelectTrigger
-            aria-label={t("header.language")}
+            aria-label={`${t("header.language")}: ${currentLanguage.label}`}
             aria-controls="language-options"
-            className="header-action h-8 w-auto min-w-16 border-0 bg-transparent px-2 shadow-none focus-visible:border-transparent focus-visible:ring-0"
+            className="header-action size-8 min-w-0 justify-center border-0 bg-transparent px-0 shadow-none focus-visible:border-transparent focus-visible:ring-0 [&>svg:last-child]:hidden"
           >
-            <HugeiconsIcon icon={LanguageCircleIcon} strokeWidth={1.7} />
-            <SelectValue />
+            <LanguagesIcon strokeWidth={1.7} />
           </SelectTrigger>
           <SelectContent
             id="language-options"
@@ -206,27 +203,9 @@ function AppHeader() {
               className="header-action"
               variant="ghost"
               size="icon"
-              asChild
-            >
-              <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">
-                <HugeiconsIcon icon={GithubIcon} />
-                <span className="sr-only">{t("header.openGithub")}</span>
-              </a>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{t("header.github")}</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              className="header-action"
-              variant="ghost"
-              size="icon"
               onClick={toggleTheme}
             >
-              <HugeiconsIcon
-                icon={resolvedTheme === "dark" ? Sun03Icon : Moon02Icon}
-              />
+              {resolvedTheme === "dark" ? <SunIcon /> : <MoonIcon />}
               <span className="sr-only">{t("header.theme")}</span>
             </Button>
           </TooltipTrigger>
@@ -454,7 +433,7 @@ export function App() {
                 setSearchOpen(true)
               }}
             >
-              <HugeiconsIcon icon={Search01Icon} data-icon="inline-start" />
+              <ScanSearchIcon data-icon="inline-start" />
               {t("step.groups.search")}
             </Button>
           </CardContent>

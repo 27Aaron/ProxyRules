@@ -1,9 +1,4 @@
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  Copy01Icon,
-  Download01Icon,
-  ListRestartIcon,
-} from "@hugeicons/core-free-icons"
+import { CopyIcon, DownloadIcon, ListRestartIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
@@ -76,7 +71,7 @@ export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
                 onClick={onReset}
                 aria-label={t("header.reset")}
               >
-                <HugeiconsIcon icon={ListRestartIcon} />
+                <ListRestartIcon />
               </Button>
             </TooltipTrigger>
             <TooltipContent>{t("header.reset")}</TooltipContent>
@@ -104,11 +99,11 @@ export function ConfigPreview({ result, errors, onReset }: ConfigPreviewProps) {
       </CardContent>
       <CardFooter className="justify-end gap-2 border-t border-border/60">
         <Button variant="outline" onClick={copy} disabled={disabled}>
-          <HugeiconsIcon icon={Copy01Icon} data-icon="inline-start" />
+          <CopyIcon data-icon="inline-start" />
           {t("preview.copy")}
         </Button>
         <Button onClick={download} disabled={disabled}>
-          <HugeiconsIcon icon={Download01Icon} data-icon="inline-start" />
+          <DownloadIcon data-icon="inline-start" />
           {t("preview.download")}
         </Button>
       </CardFooter>
