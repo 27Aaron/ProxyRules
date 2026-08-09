@@ -90,20 +90,12 @@ export function RuleSearchDialog({
     <CommandDialog
       open={open}
       onOpenChange={onOpenChange}
-      title={t("search.title")}
-      description={t("search.description")}
+      title={t("search.heading")}
+      description={t("search.help")}
       className="sm:max-w-2xl"
       showCloseButton
+      showHeader
     >
-      <div className="px-3 pt-3">
-        <div className="flex min-w-0 flex-col gap-1">
-          <h2 className="font-heading text-lg font-semibold">
-            {t("search.heading")}
-          </h2>
-          <p className="text-xs text-muted-foreground">{t("search.help")}</p>
-        </div>
-      </div>
-
       <Command shouldFilter={false} className="rounded-none p-0">
         <CommandInput
           value={query}

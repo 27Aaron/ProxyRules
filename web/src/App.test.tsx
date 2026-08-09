@@ -74,7 +74,7 @@ describe("Config Studio", () => {
     ).toBe("off")
     expect(
       screen
-        .getByRole("checkbox", { name: "Google" })
+        .getByRole("checkbox", { name: /^Google\b/ })
         .getAttribute("data-state")
     ).toBe("unchecked")
     expect(previewContent()).not.toContain('name: "HKG"')
@@ -86,7 +86,7 @@ describe("Config Studio", () => {
     renderApp()
 
     await user.click(screen.getByRole("button", { name: "HKG香港" }))
-    await user.click(screen.getByRole("checkbox", { name: "Google" }))
+    await user.click(screen.getByRole("checkbox", { name: /^Google\b/ }))
 
     await waitFor(() => {
       expect(previewContent()).toContain('name: "HKG"')
@@ -212,7 +212,7 @@ describe("Config Studio", () => {
     expect(previewContent()).toContain('name: "Google"')
     expect(
       screen
-        .getByRole("checkbox", { name: "Google" })
+        .getByRole("checkbox", { name: /^Google\b/ })
         .getAttribute("data-state")
     ).toBe("checked")
   })

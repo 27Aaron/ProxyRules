@@ -29,6 +29,7 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
+  FieldTitle,
 } from "@/components/ui/field"
 import {
   Select,
@@ -174,7 +175,9 @@ function AppHeader() {
           <SelectTrigger
             aria-label={`${t("header.language")}: ${currentLanguage.label}`}
             aria-controls="language-options"
-            className="header-action size-8 min-w-0 justify-center border-0 bg-transparent px-0 shadow-none focus-visible:border-transparent focus-visible:ring-0 [&>svg:last-child]:hidden"
+            variant="ghost"
+            size="icon"
+            showIndicator={false}
           >
             <LanguagesIcon strokeWidth={1.7} />
           </SelectTrigger>
@@ -182,15 +185,11 @@ function AppHeader() {
             id="language-options"
             align="end"
             position="popper"
-            className="min-w-36 rounded-md"
+            className="min-w-36"
           >
             <SelectGroup>
               {LOCALES.map((language) => (
-                <SelectItem
-                  key={language.value}
-                  value={language.value}
-                  className="min-h-8 px-2.5 text-sm"
-                >
+                <SelectItem key={language.value} value={language.value}>
                   {language.label}
                 </SelectItem>
               ))}
@@ -199,12 +198,7 @@ function AppHeader() {
         </Select>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              className="header-action"
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-            >
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {resolvedTheme === "dark" ? <SunIcon /> : <MoonIcon />}
               <span className="sr-only">{t("header.theme")}</span>
             </Button>
@@ -395,32 +389,31 @@ export function App() {
               <FieldLegend className="sr-only">
                 {t("step.groups.common")}
               </FieldLegend>
-              <FieldGroup className="featured-choice-grid grid gap-1">
+              <FieldGroup className="featured-choice-grid grid gap-2">
                 {FEATURED_GROUPS.map((group) => {
                   const checked = state.featuredGroups.includes(group.id)
                   return (
-                    <Field
+                    <FieldLabel
                       key={group.id}
-                      orientation="horizontal"
-                      className="interactive-option choice-field"
-                      data-selected={checked}
+                      htmlFor={`featured-${group.id}`}
+                      className="choice-field"
                     >
-                      <Checkbox
-                        id={`featured-${group.id}`}
-                        checked={checked}
-                        onCheckedChange={(value) =>
-                          toggleFeatured(group.id, value === true)
-                        }
-                      />
-                      <FieldContent>
-                        <FieldLabel htmlFor={`featured-${group.id}`}>
-                          {group.name}
-                        </FieldLabel>
-                        <FieldDescription>
-                          {t(`group.${group.id}` as TranslationKey)}
-                        </FieldDescription>
-                      </FieldContent>
-                    </Field>
+                      <Field orientation="horizontal">
+                        <Checkbox
+                          id={`featured-${group.id}`}
+                          checked={checked}
+                          onCheckedChange={(value) =>
+                            toggleFeatured(group.id, value === true)
+                          }
+                        />
+                        <FieldContent>
+                          <FieldTitle>{group.name}</FieldTitle>
+                          <FieldDescription>
+                            {t(`group.${group.id}` as TranslationKey)}
+                          </FieldDescription>
+                        </FieldContent>
+                      </Field>
+                    </FieldLabel>
                   )
                 })}
               </FieldGroup>
@@ -444,7 +437,7 @@ export function App() {
             <CardTitle>{t("step.settings.title")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <SettingsPanel state={state} setState={setState} />
+            <SettingsPanel state={state} setState={setState} errors={errors} />
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground">
@@ -455,7 +448,7 @@ export function App() {
       </div>
 
       {errors.length > 0 ? (
-        <Alert variant="destructive">
+        <Alert id="config-validation-summary" variant="destructive">
           <AlertTitle>{t("validation.title")}</AlertTitle>
           <AlertDescription>
             <ul className="list-disc pl-4">
