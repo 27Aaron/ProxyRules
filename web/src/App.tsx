@@ -9,6 +9,10 @@ import {
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 
+import loonIconUrl from "@/assets/client-icons/loon.jpg"
+import mihomoIconUrl from "@/assets/client-icons/mihomo.png"
+import shadowrocketIconUrl from "@/assets/client-icons/shadowrocket.jpg"
+import surgeIconUrl from "@/assets/client-icons/surge.jpg"
 import { ConfigPreview } from "@/components/config-preview"
 import { SettingsPanel } from "@/components/settings-panel"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -77,7 +81,24 @@ function uniqueGroupName(base: string, taken: string[]) {
   return `${base} ${index}`
 }
 
-function AppHeader() {
+function assetUrl(asset: string | { src: string }) {
+  return typeof asset === "string" ? asset : asset.src
+}
+
+const CLIENT_ICON_URLS = {
+  mihomo: assetUrl(mihomoIconUrl),
+  surge: assetUrl(surgeIconUrl),
+  loon: assetUrl(loonIconUrl),
+  shadowrocket: assetUrl(shadowrocketIconUrl),
+} satisfies Record<ClientId, string>
+
+function AppHeader({
+  client,
+  onClientChange,
+}: {
+  client: ClientId
+  onClientChange: (client: ClientId) => void
+}) {
   const { resolvedTheme, setTheme } = useTheme()
   const { locale, setLocale, t } = useI18n()
   const currentLanguage =
@@ -166,6 +187,45 @@ function AppHeader() {
           </span>
         </div>
       </div>
+
+      <ToggleGroup
+        type="single"
+        variant="outline"
+        value={client}
+        onValueChange={(value) => {
+          if (!value) return
+          onClientChange(value as ClientId)
+        }}
+        aria-label={t("step.client.title")}
+        className="header-client-picker"
+        spacing={1}
+      >
+        {CLIENTS.map((item) => {
+          return (
+            <ToggleGroupItem
+              key={item.id}
+              value={item.id}
+              aria-label={item.label}
+              className="relative"
+            >
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src={CLIENT_ICON_URLS[item.id]}
+                      alt=""
+                      className="client-brand-icon"
+                      data-client={item.id}
+                      draggable={false}
+                    />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{item.label}</TooltipContent>
+              </Tooltip>
+            </ToggleGroupItem>
+          )
+        })}
+      </ToggleGroup>
 
       <div className="header-actions flex items-center gap-0.5">
         <Select
@@ -332,31 +392,6 @@ export function App() {
       <div className="route-stack">
         <Card>
           <CardHeader>
-            <CardTitle>{t("step.client.title")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ToggleGroup
-              type="single"
-              variant="outline"
-              value={state.client}
-              onValueChange={(value) => {
-                if (!value) return
-                selectClient(value as ClientId)
-              }}
-              className="client-choice-grid grid w-full"
-              spacing={1}
-            >
-              {CLIENTS.map((client) => (
-                <ToggleGroupItem key={client.id} value={client.id}>
-                  {client.label}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
             <CardTitle>{t("step.region.title")}</CardTitle>
           </CardHeader>
           <CardContent>
@@ -464,7 +499,7 @@ export function App() {
 
   return (
     <div className="min-h-svh bg-background text-foreground">
-      <AppHeader />
+      <AppHeader client={state.client} onClientChange={selectClient} />
       <main className="workspace-shell">
         {isDesktop ? (
           <div className="workspace-panels">

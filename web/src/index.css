@@ -100,6 +100,7 @@
   --brand-foreground: #34373b;
   --brand-border: color-mix(in oklch, var(--foreground), transparent 88%);
   --brand-highlight: color-mix(in oklch, white, transparent 76%);
+  --client-icon-canvas: #ffffff;
   --sidebar: #f1f1f2;
   --sidebar-foreground: #18191a;
   --sidebar-primary: #f05252;
@@ -182,7 +183,7 @@
 
 @layer components {
   .app-header {
-    @apply sticky top-4 mx-3 mt-4 flex h-12 items-center justify-between px-2.5 sm:mx-4 sm:px-3;
+    @apply sticky top-4 mx-3 mt-4 grid h-12 grid-cols-[1fr_auto_1fr] items-center px-2.5 sm:mx-4 sm:px-3;
     z-index: 20;
     border: 1px solid var(--chrome-border);
     border-radius: 0.875rem;
@@ -193,10 +194,28 @@
   }
 
   .header-brand {
+    justify-self: start;
     padding-right: 0.75rem;
   }
 
+  .header-client-picker {
+    justify-self: center;
+  }
+
+  .client-brand-icon {
+    display: block;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 0.25rem;
+    object-fit: contain;
+  }
+
+  .client-brand-icon[data-client="mihomo"] {
+    background: var(--client-icon-canvas);
+  }
+
   .header-actions {
+    justify-self: end;
     padding: 0;
   }
 
@@ -265,10 +284,6 @@
 
   .settings-card > [data-slot="card-footer"] {
     margin-top: auto;
-  }
-
-  .client-choice-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr));
   }
 
   .featured-choice-grid {

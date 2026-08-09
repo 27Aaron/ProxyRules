@@ -1,7 +1,13 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeAll, describe, expect, it } from "vitest"
-import { cleanup, render, screen, waitFor } from "@testing-library/react"
+import {
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
 import App from "@/App"
@@ -79,6 +85,45 @@ describe("Config Studio", () => {
     ).toBe("unchecked")
     expect(previewContent()).not.toContain('name: "HKG"')
     expect(previewContent()).not.toContain("ruleset/google/google.list")
+  })
+
+  it("keeps the client picker in the header and reveals names on hover", async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    const clientPicker = within(screen.getByRole("banner")).getByRole(
+      "radiogroup",
+      { name: "选择客户端" }
+    )
+    const shadowrocket = within(clientPicker).getByRole("radio", {
+      name: "Shadowrocket",
+    })
+    const officialIcon = shadowrocket.querySelector("img")
+
+    expect(
+      within(screen.getByRole("main")).queryByRole("radio", {
+        name: "Shadowrocket",
+      })
+    ).toBeNull()
+    expect(officialIcon?.getAttribute("src")).toContain(
+      "client-icons/shadowrocket"
+    )
+    expect(
+      within(clientPicker)
+        .getByRole("radio", { name: "Mihomo" })
+        .querySelector("img")
+        ?.getAttribute("data-client")
+    ).toBe("mihomo")
+    expect(shadowrocket.querySelector("svg")).toBeNull()
+
+    const tooltipTrigger = shadowrocket.querySelector(
+      '[data-slot="tooltip-trigger"]'
+    ) as HTMLElement
+    await user.hover(tooltipTrigger)
+
+    expect((await screen.findByRole("tooltip")).textContent).toContain(
+      "Shadowrocket"
+    )
   })
 
   it("updates the preview from region, policy, and client selections", async () => {
