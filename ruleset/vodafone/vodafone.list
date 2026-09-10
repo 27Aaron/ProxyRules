@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: vodafone
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/vodafone/vodafone.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,myvodafone.com.au
+DOMAIN-SUFFIX,myvodafone.com.ws
+DOMAIN-SUFFIX,vodafone.co.uk
+DOMAIN-SUFFIX,vodafone.com
+DOMAIN-SUFFIX,vodafone.com.au
+DOMAIN-SUFFIX,vodafone.com.tr
+DOMAIN-SUFFIX,vodafone.de
+DOMAIN-SUFFIX,vodafone.it
+DOMAIN-SUFFIX,vodafone.nl

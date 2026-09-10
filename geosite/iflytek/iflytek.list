@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: iflytek
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/iflytek/iflytek.list
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,changyan.com
+DOMAIN-SUFFIX,ets100.com
+DOMAIN-SUFFIX,iflyink.com
+DOMAIN-SUFFIX,iflyrec.com
+DOMAIN-SUFFIX,iflysec.com
+DOMAIN-SUFFIX,iflytek.com
+DOMAIN-SUFFIX,voicecloud.cn
+DOMAIN-SUFFIX,xfyun.cn
+DOMAIN-SUFFIX,xunfei.cn
+DOMAIN-SUFFIX,xunfeixxj.com
+DOMAIN-SUFFIX,zhixue.com

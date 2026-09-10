@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: bongacams
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/bongacams/bongacams.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bcicdn.com
+DOMAIN-SUFFIX,bcrncdn.com
+DOMAIN-SUFFIX,bcvcdn.com
+DOMAIN-SUFFIX,bgicdn.com
+DOMAIN-SUFFIX,bongacams.com

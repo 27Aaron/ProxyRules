@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: category-betting-ru
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-betting-ru/category-betting-ru.yaml
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,betboom.ru'
+  - 'DOMAIN-SUFFIX,bk6bba-resources.com'
+  - 'DOMAIN-SUFFIX,bk6bba-resources.ru'
+  - 'DOMAIN-SUFFIX,fon.bet'
+  - 'DOMAIN-SUFFIX,fon.promo'
+  - 'DOMAIN-SUFFIX,ligadobra.ru'
+  - 'DOMAIN-SUFFIX,ligastavok-csr.ru'
+  - 'DOMAIN-SUFFIX,ligastavok.ru'
+  - 'DOMAIN-SUFFIX,mobile-bb.com'
+  - 'DOMAIN-SUFFIX,sozvezdie-dobra.ru'
+  - 'DOMAIN-SUFFIX,win-line.ru'
+  - 'DOMAIN-SUFFIX,winline.ru'
+  - 'DOMAIN-SUFFIX,winlinebet.ru'

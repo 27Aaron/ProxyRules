@@ -1,0 +1,27 @@
+# -----------------------------------------------------
+# NAME: haitang
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/haitang/haitang.list
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,haitangbook.com
+DOMAIN-SUFFIX,haitbook.com
+DOMAIN-SUFFIX,htlvbooks.com
+DOMAIN-SUFFIX,htnewbooks.com
+DOMAIN-SUFFIX,htwhbook.com
+DOMAIN-SUFFIX,lmbooks.com
+DOMAIN-SUFFIX,lmebooks.com
+DOMAIN-SUFFIX,longmabook.com
+DOMAIN-SUFFIX,longmabookcn.com
+DOMAIN-SUFFIX,lovehtbooks.com
+DOMAIN-SUFFIX,lvhtebook.com
+DOMAIN-SUFFIX,mybookinlm.com
+DOMAIN-SUFFIX,myhtebook.com
+DOMAIN-SUFFIX,myhtebooks.com
+DOMAIN-SUFFIX,myhtlmebook.com
+DOMAIN-SUFFIX,newhtbook.com
+DOMAIN-SUFFIX,urhtbooks.com

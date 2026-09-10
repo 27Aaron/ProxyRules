@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: ifanr
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ifanr/ifanr.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,coolbuy.com'
+  - 'DOMAIN-SUFFIX,ifanr.cn'
+  - 'DOMAIN-SUFFIX,ifanr.com'
+  - 'DOMAIN-SUFFIX,ifanr.in'
+  - 'DOMAIN-SUFFIX,ifanrusercontent.com'
+  - 'DOMAIN-SUFFIX,ifanrx.com'
+  - 'DOMAIN-SUFFIX,minapp.com'

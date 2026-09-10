@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: zoho
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/zoho/zoho.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,zoho.com
+DOMAIN-SUFFIX,zoho.com.au
+DOMAIN-SUFFIX,zoho.eu
+DOMAIN-SUFFIX,zoho.in
+DOMAIN-SUFFIX,zohocdn.com
+DOMAIN-SUFFIX,zohomeetups.com
+DOMAIN-SUFFIX,zohomerchandise.com
+DOMAIN-SUFFIX,zohopublic.com
+DOMAIN-SUFFIX,zohoschools.com
+DOMAIN-SUFFIX,zohostatic.com
+DOMAIN-SUFFIX,zohostatic.in
+DOMAIN-SUFFIX,zohouniversity.com
+DOMAIN-SUFFIX,zohowebstatic.com

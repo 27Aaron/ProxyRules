@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: cygames
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/cygames/cygames.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,cygames.co.jp
+DOMAIN-SUFFIX,cygames.jp
+DOMAIN-SUFFIX,umamusume.akamaized.net
+DOMAIN-SUFFIX,worldflipper.akamaized.net
+DOMAIN-SUFFIX,worldflipper.jp

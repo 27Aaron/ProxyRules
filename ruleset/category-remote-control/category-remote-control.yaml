@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: category-remote-control
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-remote-control/category-remote-control.yaml
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 6
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,anydesk.com'
+  - 'DOMAIN-SUFFIX,nomachine.com'
+  - 'DOMAIN-SUFFIX,rustdesk.com'
+  - 'DOMAIN-SUFFIX,teamviewer.cn'
+  - 'DOMAIN-SUFFIX,teamviewer.com'
+  - 'DOMAIN-SUFFIX,teamviewer.us'
+  - 'DOMAIN,client-teamviewer-com.trafficmanager.net'
+  - 'DOMAIN,teamviewer.com.cdn.cloudflare.net'

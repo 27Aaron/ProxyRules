@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: openai
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 17:20:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geoip/openai/openai.yaml
+# IP-CIDR: 1
+# IP-CIDR6: 1
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'IP-CIDR,199.47.142.0/23,no-resolve'
+  - 'IP-CIDR6,2604:f20::/32,no-resolve'

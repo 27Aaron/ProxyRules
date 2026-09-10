@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: monotype
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/monotype/monotype.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 13
+# TOTAL: 14
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bitstream.com
+DOMAIN-SUFFIX,fontbook.com
+DOMAIN-SUFFIX,fontexplorerx.com
+DOMAIN-SUFFIX,fonts.com
+DOMAIN-SUFFIX,fonts.net
+DOMAIN-SUFFIX,fontshop.com
+DOMAIN-SUFFIX,fstopimages.com
+DOMAIN-SUFFIX,itcfonts.com
+DOMAIN-SUFFIX,linotype.com
+DOMAIN-SUFFIX,monotype.com
+DOMAIN-SUFFIX,monotypeimaging.com
+DOMAIN-SUFFIX,myfonts.com
+DOMAIN-SUFFIX,myfonts.net
+DOMAIN,fontshop-prod-responsive-images.s3.amazonaws.com

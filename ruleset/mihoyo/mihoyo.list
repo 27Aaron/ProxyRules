@@ -1,0 +1,36 @@
+# -----------------------------------------------------
+# NAME: mihoyo
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/mihoyo/mihoyo.list
+# DOMAIN-SUFFIX: 25
+# OMITTED-DOMAIN-REGEX: 1
+# TOTAL: 25
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,benghuai.com
+DOMAIN-SUFFIX,bh3.com
+DOMAIN-SUFFIX,bhsr.com
+DOMAIN-SUFFIX,genshinimpact.com
+DOMAIN-SUFFIX,honkaiimpact3.com
+DOMAIN-SUFFIX,honkaistarrail.com
+DOMAIN-SUFFIX,hoyo.link
+DOMAIN-SUFFIX,hoyolab.com
+DOMAIN-SUFFIX,hoyoverse.com
+DOMAIN-SUFFIX,juequling.com
+DOMAIN-SUFFIX,log-upload-os.hoyoverse.com
+DOMAIN-SUFFIX,log-upload.mihoyo.com
+DOMAIN-SUFFIX,mhystatic.com
+DOMAIN-SUFFIX,mhyurl.cn
+DOMAIN-SUFFIX,mihayo.com
+DOMAIN-SUFFIX,mihayou.com
+DOMAIN-SUFFIX,mihoyo.com
+DOMAIN-SUFFIX,mihoyocg.com
+DOMAIN-SUFFIX,mihoyogift.com
+DOMAIN-SUFFIX,mihoyomall.com
+DOMAIN-SUFFIX,miyoushe.com
+DOMAIN-SUFFIX,n0vadesktop.com
+DOMAIN-SUFFIX,themisweeps.com
+DOMAIN-SUFFIX,yuanshen.com
+DOMAIN-SUFFIX,zenlesszonezero.com

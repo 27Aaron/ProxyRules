@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: google-registry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/google-registry/google-registry.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,charlestonroadregistry.com
+DOMAIN-SUFFIX,crr.com
+DOMAIN-SUFFIX,get.app
+DOMAIN-SUFFIX,get.dev
+DOMAIN-SUFFIX,get.how
+DOMAIN-SUFFIX,get.new
+DOMAIN-SUFFIX,get.page
+DOMAIN-SUFFIX,get.rsvp
+DOMAIN-SUFFIX,hey.boo
+DOMAIN-SUFFIX,iam.soy
+DOMAIN-SUFFIX,new.day
+DOMAIN-SUFFIX,registry.google
+DOMAIN-SUFFIX,xn--p8j9a0d9c9a.xn--q9jyb4c

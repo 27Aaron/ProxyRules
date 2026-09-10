@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: apple-push
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 17:20:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/apple-push/apple-push.yaml
+# DOMAIN-SUFFIX: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,push.apple.com'

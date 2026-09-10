@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: deepseek
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-31 22:17:42 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/deepseek/deepseek.yaml
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,deepseek.com'
+  - 'DOMAIN-SUFFIX,deepseeksvc.com'

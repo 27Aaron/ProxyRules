@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: google-play
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/google-play/google-play.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 7
+# OMITTED-DOMAIN-REGEX: 2
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,googleplay.com'
+  - 'DOMAIN-SUFFIX,play-fe.googleapis.com'
+  - 'DOMAIN-SUFFIX,play-games.googleusercontent.com'
+  - 'DOMAIN-SUFFIX,play-lh.googleusercontent.com'
+  - 'DOMAIN-SUFFIX,play.google.com'
+  - 'DOMAIN-SUFFIX,play.googleapis.com'
+  - 'DOMAIN-SUFFIX,xn--ngstr-lra8j.com'
+  - 'DOMAIN,redirector.c.play.google.com'

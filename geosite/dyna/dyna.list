@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: dyna
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/dyna/dyna.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,dynacw.co.jp
+DOMAIN-SUFFIX,dynacw.com
+DOMAIN-SUFFIX,dynacw.com.cn
+DOMAIN-SUFFIX,dynacw.com.hk
+DOMAIN-SUFFIX,dynacw.com.tw

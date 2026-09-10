@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: eleme
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/eleme/eleme.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,adashx.ut.ele.me
+DOMAIN-SUFFIX,doservice.com
+DOMAIN-SUFFIX,ele.me
+DOMAIN-SUFFIX,ele.to
+DOMAIN-SUFFIX,eleme.cn
+DOMAIN-SUFFIX,eleme.io
+DOMAIN-SUFFIX,elemecdn.cn
+DOMAIN-SUFFIX,elemecdn.com
+DOMAIN-SUFFIX,elenet.me
+DOMAIN-SUFFIX,fengniaojipei.net
+DOMAIN-SUFFIX,h-adashx.ut.ele.me
+DOMAIN-SUFFIX,v6-adashx.ut.ele.me

@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: farfetch
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/farfetch/farfetch.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,farfetch-apps.com'
+  - 'DOMAIN-SUFFIX,farfetch-contents.com'
+  - 'DOMAIN-SUFFIX,farfetch.cn'
+  - 'DOMAIN-SUFFIX,farfetch.com'
+  - 'DOMAIN-SUFFIX,farfetch.com.cn'
+  - 'DOMAIN-SUFFIX,farfetch.net'
+  - 'DOMAIN-SUFFIX,farfetch.net.cn'
+  - 'DOMAIN-SUFFIX,fflnk.net'

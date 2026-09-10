@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: escapefromtarkov
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/escapefromtarkov/escapefromtarkov.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,eft-store.com'
+  - 'DOMAIN-SUFFIX,escapefromtarkov.com'
+  - 'DOMAIN-SUFFIX,tarkov.com'

@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: wantmedia
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/wantmedia/wantmedia.yaml
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,benliton.com'
+  - 'DOMAIN-SUFFIX,chinatimes.com'
+  - 'DOMAIN-SUFFIX,chinatimes.com.tw'
+  - 'DOMAIN-SUFFIX,ctee.com.tw'
+  - 'DOMAIN-SUFFIX,ctitv.com.tw'
+  - 'DOMAIN-SUFFIX,ctv.com.tw'
+  - 'DOMAIN-SUFFIX,ctwant.com'
+  - 'DOMAIN-SUFFIX,infotimes.com.tw'
+  - 'DOMAIN-SUFFIX,lecoin.cc'
+  - 'DOMAIN-SUFFIX,loveparents.org'
+  - 'DOMAIN-SUFFIX,superstation.com.tw'
+  - 'DOMAIN-SUFFIX,want-media.com'
+  - 'DOMAIN-SUFFIX,wantblogger.com'
+  - 'DOMAIN-SUFFIX,zwtvusa.com'

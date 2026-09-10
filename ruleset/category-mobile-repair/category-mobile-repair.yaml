@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: category-mobile-repair
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-mobile-repair/category-mobile-repair.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,androidfilehost.com'
+  - 'DOMAIN-SUFFIX,borneo.world'
+  - 'DOMAIN-SUFFIX,borneoasia.com'
+  - 'DOMAIN-SUFFIX,borneoschematic.com'
+  - 'DOMAIN-SUFFIX,bosharso.net'
+  - 'DOMAIN-SUFFIX,easy-jtag.com'
+  - 'DOMAIN-SUFFIX,hostborneo.org'
+  - 'DOMAIN-SUFFIX,unlocktool.net'
+  - 'DOMAIN-SUFFIX,z3x-team.com'

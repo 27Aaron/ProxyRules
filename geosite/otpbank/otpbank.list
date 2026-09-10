@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: otpbank
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/otpbank/otpbank.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ckb.me
+DOMAIN-SUFFIX,dskbank.bg
+DOMAIN-SUFFIX,ipotekabank.uz
+DOMAIN-SUFFIX,mobiasbanca.md
+DOMAIN-SUFFIX,otpbank.al
+DOMAIN-SUFFIX,otpbank.com.ua
+DOMAIN-SUFFIX,otpbank.hu
+DOMAIN-SUFFIX,otpbank.ru
+DOMAIN-SUFFIX,otpbanka.hr
+DOMAIN-SUFFIX,otpbanka.rs
+DOMAIN-SUFFIX,otpbanka.si
+DOMAIN-SUFFIX,otpgroup.info

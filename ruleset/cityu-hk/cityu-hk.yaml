@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: cityu-hk
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/cityu-hk/cityu-hk.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cityu.edu.hk'
+  - 'DOMAIN-SUFFIX,cityu.hk'
+  - 'DOMAIN-SUFFIX,xn----fr0b94b15d2ue8q7a1o3e.xn--wcvs22d.xn--j6w193g'
+  - 'DOMAIN-SUFFIX,xn--uis44a.xn--j6w193g'

@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: category-forums-ru
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-forums-ru/category-forums-ru.yaml
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dtf.ru'
+  - 'DOMAIN-SUFFIX,opennet.dev'
+  - 'DOMAIN-SUFFIX,opennet.ru'
+  - 'DOMAIN-SUFFIX,pikabu.ru'
+  - 'DOMAIN-SUFFIX,prodota.ru'
+  - 'DOMAIN-SUFFIX,tischenko.su'
+  - 'DOMAIN-SUFFIX,vc.ru'
+  - 'DOMAIN-SUFFIX,yap.ru'
+  - 'DOMAIN-SUFFIX,yapfiles.ru'
+  - 'DOMAIN-SUFFIX,yaplakal.com'

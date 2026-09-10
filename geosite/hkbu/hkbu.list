@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: hkbu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hkbu/hkbu.list
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,hkbu.edu.hk
+DOMAIN-SUFFIX,hkbu.hk
+DOMAIN-SUFFIX,xn--fiqs8s1bxp3anr7a.hk
+DOMAIN-SUFFIX,xn--fiqs8s1bxp3anr7a.xn--j6w193g
+DOMAIN-SUFFIX,xn--gdt08a.hk
+DOMAIN-SUFFIX,xn--gdt08a.xn--j6w193g
+DOMAIN-SUFFIX,xn--pssu7cv61ahw8aq79bztd.hk
+DOMAIN-SUFFIX,xn--pssu7cv61ahw8aq79bztd.xn--j6w193g

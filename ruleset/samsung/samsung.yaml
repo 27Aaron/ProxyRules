@@ -1,0 +1,38 @@
+# -----------------------------------------------------
+# NAME: samsung
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/samsung/samsung.yaml
+# DOMAIN-SUFFIX: 27
+# TOTAL: 27
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,galaxyappstore.com'
+  - 'DOMAIN-SUFFIX,galaxymobile.jp'
+  - 'DOMAIN-SUFFIX,game-platform.net'
+  - 'DOMAIN-SUFFIX,knoxemm.com'
+  - 'DOMAIN-SUFFIX,ospserver.net'
+  - 'DOMAIN-SUFFIX,samsung'
+  - 'DOMAIN-SUFFIX,samsung.com'
+  - 'DOMAIN-SUFFIX,samsung.com.cn'
+  - 'DOMAIN-SUFFIX,samsungadhub.com'
+  - 'DOMAIN-SUFFIX,samsungads.com'
+  - 'DOMAIN-SUFFIX,samsungapps.com'
+  - 'DOMAIN-SUFFIX,samsungcloud.com'
+  - 'DOMAIN-SUFFIX,samsungcloudcn.com'
+  - 'DOMAIN-SUFFIX,samsungconsent.com'
+  - 'DOMAIN-SUFFIX,samsungdm.com'
+  - 'DOMAIN-SUFFIX,samsungeshop.com.cn'
+  - 'DOMAIN-SUFFIX,samsunggalaxyfriends.com'
+  - 'DOMAIN-SUFFIX,samsunghealth.com'
+  - 'DOMAIN-SUFFIX,samsunghealthcn.com'
+  - 'DOMAIN-SUFFIX,samsungiotcloud.com'
+  - 'DOMAIN-SUFFIX,samsungiots.com'
+  - 'DOMAIN-SUFFIX,samsungknox.com'
+  - 'DOMAIN-SUFFIX,samsungosp.com'
+  - 'DOMAIN-SUFFIX,samsungqbe.com'
+  - 'DOMAIN-SUFFIX,samsungrs.com'
+  - 'DOMAIN-SUFFIX,smartthings.com'
+  - 'DOMAIN-SUFFIX,xn--cg4bki'

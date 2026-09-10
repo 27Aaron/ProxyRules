@@ -1,0 +1,49 @@
+# -----------------------------------------------------
+# NAME: category-scholar-uk
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-scholar-uk/category-scholar-uk.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 37
+# TOTAL: 38
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ac.uk
+DOMAIN-SUFFIX,amamanualofstyle.com
+DOMAIN-SUFFIX,anb.org
+DOMAIN-SUFFIX,blackstonespoliceservice.com
+DOMAIN-SUFFIX,cambridge.org
+DOMAIN-SUFFIX,cambridgedigital.net
+DOMAIN-SUFFIX,cambridgemaths.org
+DOMAIN-SUFFIX,cambridgeschoolshakespeare.com
+DOMAIN-SUFFIX,dlib.eastview.com
+DOMAIN-SUFFIX,epigeum.com
+DOMAIN-SUFFIX,imperialbusiness.school
+DOMAIN-SUFFIX,livinno.org
+DOMAIN-SUFFIX,oed.com
+DOMAIN-SUFFIX,omscr.com
+DOMAIN-SUFFIX,opac-project.eu
+DOMAIN-SUFFIX,oup.com
+DOMAIN-SUFFIX,ouplaw.com
+DOMAIN-SUFFIX,oxfordaasc.com
+DOMAIN-SUFFIX,oxfordartonline.com
+DOMAIN-SUFFIX,oxfordbibliographies.com
+DOMAIN-SUFFIX,oxfordclinicalpsych.com
+DOMAIN-SUFFIX,oxforddnb.com
+DOMAIN-SUFFIX,oxfordfirstsource.com
+DOMAIN-SUFFIX,oxfordhandbooks.com
+DOMAIN-SUFFIX,oxfordlawtrove.com
+DOMAIN-SUFFIX,oxfordmedicine.com
+DOMAIN-SUFFIX,oxfordmusiconline.com
+DOMAIN-SUFFIX,oxfordpoliticstrove.com
+DOMAIN-SUFFIX,oxfordre.com
+DOMAIN-SUFFIX,oxfordreference.com
+DOMAIN-SUFFIX,oxfordscholarlyeditions.com
+DOMAIN-SUFFIX,oxfordscholarship.com
+DOMAIN-SUFFIX,oxfordwesternmusic.com
+DOMAIN-SUFFIX,sipriyearbook.org
+DOMAIN-SUFFIX,ukwhoswho.com
+DOMAIN-SUFFIX,universitypressscholarship.com
+DOMAIN-SUFFIX,veryshortintroductions.com
+DOMAIN,imperial.insendi.com

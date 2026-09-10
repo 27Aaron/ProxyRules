@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: remnawave
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-27 23:21:07 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/remnawave/remnawave.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,docs.rw
+DOMAIN-SUFFIX,log.rw
+DOMAIN-SUFFIX,remna.st
+DOMAIN-SUFFIX,try.rw

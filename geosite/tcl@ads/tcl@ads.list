@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: tcl@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/tcl@ads/tcl@ads.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ads-uo.api.leiniao.com
+DOMAIN-SUFFIX,ads-ut.api.leiniao.com
+DOMAIN-SUFFIX,ads.api.my7v.com
+DOMAIN-SUFFIX,euads-o.api.leiniao.com
+DOMAIN-SUFFIX,hwads-t.api.my7v.com
+DOMAIN-SUFFIX,testads.api.my7v.com

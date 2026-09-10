@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: starplus
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/starplus/starplus.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,star.api.edge.bamgrid.com
+DOMAIN-SUFFIX,star.connections.edge.bamgrid.com
+DOMAIN-SUFFIX,star.content.edge.bamgrid.com
+DOMAIN-SUFFIX,star.playback.edge.bamgrid.com
+DOMAIN-SUFFIX,starott.com
+DOMAIN-SUFFIX,starplus.com

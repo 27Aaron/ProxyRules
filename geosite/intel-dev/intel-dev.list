@@ -1,0 +1,27 @@
+# -----------------------------------------------------
+# NAME: intel-dev
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/intel-dev/intel-dev.list
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,01.org
+DOMAIN-SUFFIX,acpica.com
+DOMAIN-SUFFIX,clearlinux.org
+DOMAIN-SUFFIX,hyperscan.io
+DOMAIN-SUFFIX,intellinuxgraphics.com
+DOMAIN-SUFFIX,intellinuxgraphics.net
+DOMAIN-SUFFIX,oneapi.com
+DOMAIN-SUFFIX,oneapi.io
+DOMAIN-SUFFIX,opencas.io
+DOMAIN-SUFFIX,opendroneid.org
+DOMAIN-SUFFIX,openvino.ai
+DOMAIN-SUFFIX,openvinotoolkit.org
+DOMAIN-SUFFIX,ospray.net
+DOMAIN-SUFFIX,ospray.org
+DOMAIN-SUFFIX,renderingtoolkit.org
+DOMAIN-SUFFIX,snap-telemetry.io
+DOMAIN-SUFFIX,universalscalablefirmware.org

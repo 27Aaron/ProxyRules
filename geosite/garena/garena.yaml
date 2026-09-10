@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: garena
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/garena/garena.yaml
+# DOMAIN: 4
+# DOMAIN-SUFFIX: 12
+# TOTAL: 16
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,garena.co.id'
+  - 'DOMAIN-SUFFIX,garena.co.th'
+  - 'DOMAIN-SUFFIX,garena.com'
+  - 'DOMAIN-SUFFIX,garena.live'
+  - 'DOMAIN-SUFFIX,garena.my'
+  - 'DOMAIN-SUFFIX,garena.ph'
+  - 'DOMAIN-SUFFIX,garena.sg'
+  - 'DOMAIN-SUFFIX,garena.tv'
+  - 'DOMAIN-SUFFIX,garena.tw'
+  - 'DOMAIN-SUFFIX,garena.vn'
+  - 'DOMAIN-SUFFIX,garenanow.com'
+  - 'DOMAIN-SUFFIX,seagroup.com'
+  - 'DOMAIN,avatargarenanow-a.akamaihd.net'
+  - 'DOMAIN,cdngarenanow-a.akamaihd.net'
+  - 'DOMAIN,dlgarenanow-a.akamaihd.net'
+  - 'DOMAIN,dlmobilegarena-a.akamaihd.net'

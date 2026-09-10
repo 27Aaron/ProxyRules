@@ -1,0 +1,26 @@
+# -----------------------------------------------------
+# NAME: tencent-dev
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/tencent-dev/tencent-dev.yaml
+# DOMAIN-SUFFIX: 15
+# TOTAL: 15
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,badjs.weixinbridge.com'
+  - 'DOMAIN-SUFFIX,cnb.cool'
+  - 'DOMAIN-SUFFIX,coding.me'
+  - 'DOMAIN-SUFFIX,coding.net'
+  - 'DOMAIN-SUFFIX,openmidas.com'
+  - 'DOMAIN-SUFFIX,qq.design'
+  - 'DOMAIN-SUFFIX,qqgamedesign.com'
+  - 'DOMAIN-SUFFIX,tencent-cloud.cn'
+  - 'DOMAIN-SUFFIX,tencent-cloud.com'
+  - 'DOMAIN-SUFFIX,tencent.design'
+  - 'DOMAIN-SUFFIX,tencentcloud.com'
+  - 'DOMAIN-SUFFIX,tjstats.com'
+  - 'DOMAIN-SUFFIX,wegamedeveloper.com'
+  - 'DOMAIN-SUFFIX,weixinbridge.com'
+  - 'DOMAIN-SUFFIX,weui.io'

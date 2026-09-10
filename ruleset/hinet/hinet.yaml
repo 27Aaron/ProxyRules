@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: hinet
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/hinet/hinet.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cht.com.tw'
+  - 'DOMAIN-SUFFIX,chtf.org.tw'
+  - 'DOMAIN-SUFFIX,emome.net'
+  - 'DOMAIN-SUFFIX,gtlsca.nat.gov.tw'
+  - 'DOMAIN-SUFFIX,hinet.net'
+  - 'DOMAIN-SUFFIX,xuite.net'

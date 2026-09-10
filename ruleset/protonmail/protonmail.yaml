@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: protonmail
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/protonmail/protonmail.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,pm.me'
+  - 'DOMAIN-SUFFIX,proton.me'
+  - 'DOMAIN-SUFFIX,protonmail.ch'
+  - 'DOMAIN-SUFFIX,protonmail.com'
+  - 'DOMAIN-SUFFIX,protonstatus.com'
+  - 'DOMAIN-SUFFIX,protontech.ch'
+  - 'DOMAIN-SUFFIX,protonvpn.ch'
+  - 'DOMAIN-SUFFIX,protonvpn.com'
+  - 'DOMAIN-SUFFIX,protonweb.com'

@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: qnap
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/qnap/qnap.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,mycloudnas.com'
+  - 'DOMAIN-SUFFIX,myqnapcloud.cn'
+  - 'DOMAIN-SUFFIX,myqnapcloud.com'
+  - 'DOMAIN-SUFFIX,qlink.to'
+  - 'DOMAIN-SUFFIX,qlinkto.cn'
+  - 'DOMAIN-SUFFIX,qnap.com'
+  - 'DOMAIN-SUFFIX,qnap.com.cn'
+  - 'DOMAIN-SUFFIX,qnapsupport.net'

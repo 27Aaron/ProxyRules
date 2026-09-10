@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: hkt
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hkt/hkt.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,1010.com.hk
+DOMAIN-SUFFIX,esmarthealth.com
+DOMAIN-SUFFIX,hkcsl.com
+DOMAIN-SUFFIX,hkt-enterprise.com
+DOMAIN-SUFFIX,hkt-eye.com
+DOMAIN-SUFFIX,hkt.com
+DOMAIN-SUFFIX,hkteducation.com
+DOMAIN-SUFFIX,hktpremier.com
+DOMAIN-SUFFIX,hktshop.com
+DOMAIN-SUFFIX,netvigator.com
+DOMAIN-SUFFIX,theclub.com.hk
+DOMAIN-SUFFIX,uhub.com

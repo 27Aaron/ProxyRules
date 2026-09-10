@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: rutracker
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-15 10:40:26 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/rutracker/rutracker.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,maintracker.org'
+  - 'DOMAIN-SUFFIX,rutracker.cc'
+  - 'DOMAIN-SUFFIX,rutracker.cr'
+  - 'DOMAIN-SUFFIX,rutracker.me'
+  - 'DOMAIN-SUFFIX,rutracker.net'
+  - 'DOMAIN-SUFFIX,rutracker.nl'
+  - 'DOMAIN-SUFFIX,rutracker.org'
+  - 'DOMAIN-SUFFIX,rutracker.wiki'
+  - 'DOMAIN-SUFFIX,rutrk.org'

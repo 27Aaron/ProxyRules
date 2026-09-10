@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: aliyun-drive
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/aliyun-drive/aliyun-drive.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,alicloudccp.com'
+  - 'DOMAIN-SUFFIX,alipan.com'
+  - 'DOMAIN-SUFFIX,aliyundrive.cloud'
+  - 'DOMAIN-SUFFIX,aliyundrive.com'
+  - 'DOMAIN-SUFFIX,aliyundrive.net'
+  - 'DOMAIN-SUFFIX,yunpan.aliyun.com'

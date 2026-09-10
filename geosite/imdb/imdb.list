@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: imdb
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/imdb/imdb.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,boxofficemojo.com
+DOMAIN-SUFFIX,imdb
+DOMAIN-SUFFIX,imdb.com
+DOMAIN-SUFFIX,imdb.to
+DOMAIN-SUFFIX,media-imdb.com

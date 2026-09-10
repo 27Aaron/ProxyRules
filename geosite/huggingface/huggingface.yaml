@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: huggingface
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/huggingface/huggingface.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,hf.co'
+  - 'DOMAIN-SUFFIX,hf.space'
+  - 'DOMAIN-SUFFIX,huggingface.co'

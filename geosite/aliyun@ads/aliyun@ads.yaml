@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: aliyun@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/aliyun@ads/aliyun@ads.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,acjs.aliyun.com'
+  - 'DOMAIN-SUFFIX,adash-emas.cn-hangzhou.aliyuncs.com'
+  - 'DOMAIN-SUFFIX,adash.man.aliyuncs.com'
+  - 'DOMAIN-SUFFIX,alimama.alicdn.com'
+  - 'DOMAIN-SUFFIX,atanx.alicdn.com'
+  - 'DOMAIN-SUFFIX,atanx2.alicdn.com'
+  - 'DOMAIN-SUFFIX,baichuan-sdk.alicdn.com'
+  - 'DOMAIN-SUFFIX,nbsdk-baichuan.alicdn.com'
+  - 'DOMAIN-SUFFIX,tce.alicdn.com'

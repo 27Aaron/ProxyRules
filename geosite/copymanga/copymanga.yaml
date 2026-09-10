@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: copymanga
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/copymanga/copymanga.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,2025copy.com'
+  - 'DOMAIN-SUFFIX,copy-manga.com'
+  - 'DOMAIN-SUFFIX,copy20.com'
+  - 'DOMAIN-SUFFIX,copy2000.online'
+  - 'DOMAIN-SUFFIX,mangacopy.com'
+  - 'DOMAIN-SUFFIX,mangafuna.xyz'
+  - 'DOMAIN-SUFFIX,mangafunb.fun'
