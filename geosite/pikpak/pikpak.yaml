@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: pikpak
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/pikpak/pikpak.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 6
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,mypikpak.com'
+  - 'DOMAIN-SUFFIX,mypikpak.net'
+  - 'DOMAIN-SUFFIX,pickpackapp.com'
+  - 'DOMAIN-SUFFIX,pikpak.io'
+  - 'DOMAIN-SUFFIX,pikpak.me'
+  - 'DOMAIN-SUFFIX,pikpakdrive.com'
+  - 'DOMAIN,o4504926511693824.ingest.sentry.io'

@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: category-hospital-cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-30 22:34:29 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-hospital-cn/category-hospital-cn.yaml
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 9
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ba-hospital.com'
+  - 'DOMAIN-SUFFIX,cd120.com'
+  - 'DOMAIN-SUFFIX,cd120.info'
+  - 'DOMAIN-SUFFIX,fuwai.com'
+  - 'DOMAIN-SUFFIX,hnxzctec.com'
+  - 'DOMAIN-SUFFIX,pkuh6.cn'
+  - 'DOMAIN-SUFFIX,puh3.net.cn'
+  - 'DOMAIN-SUFFIX,smuszh.com'
+  - 'DOMAIN-SUFFIX,yctdyy.com'
+  - 'DOMAIN,hospital.pku.edu.cn'
+  - 'DOMAIN,ss.bjmu.edu.cn'

@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: brightcove
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/brightcove/brightcove.list
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 11
+# TOTAL: 14
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bcove.video
+DOMAIN-SUFFIX,bcovlive.io
+DOMAIN-SUFFIX,bcvp0rtal.com
+DOMAIN-SUFFIX,boltdns.net
+DOMAIN-SUFFIX,brightcove.com
+DOMAIN-SUFFIX,brightcove.net
+DOMAIN-SUFFIX,brightcove.services
+DOMAIN-SUFFIX,brightcovecdn.com
+DOMAIN-SUFFIX,videojs.com
+DOMAIN-SUFFIX,zencdn.net
+DOMAIN-SUFFIX,zencoder.com
+DOMAIN,bcovlive-a.akamaihd.net
+DOMAIN,bcsecure01-a.akamaihd.net
+DOMAIN,brightcove.imgix.net

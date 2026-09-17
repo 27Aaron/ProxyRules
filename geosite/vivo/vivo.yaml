@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: vivo
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-12 14:00:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/vivo/vivo.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,blueos.com.cn'
+  - 'DOMAIN-SUFFIX,budingscan.com'
+  - 'DOMAIN-SUFFIX,iqoo.com'
+  - 'DOMAIN-SUFFIX,vivo.cn'
+  - 'DOMAIN-SUFFIX,vivo.com'
+  - 'DOMAIN-SUFFIX,vivo.com.cn'
+  - 'DOMAIN-SUFFIX,vivoglobal.com'
+  - 'DOMAIN-SUFFIX,vvstc.com'

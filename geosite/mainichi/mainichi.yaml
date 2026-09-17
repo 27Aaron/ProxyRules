@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: mainichi
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/mainichi/mainichi.yaml
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,machigoto.jp'
+  - 'DOMAIN-SUFFIX,mainichi-athletepartners.jp'
+  - 'DOMAIN-SUFFIX,mainichi.jp'
+  - 'DOMAIN-SUFFIX,mainichibooks.com'
+  - 'DOMAIN-SUFFIX,meijinsen.jp'
+  - 'DOMAIN-SUFFIX,mirailab.tech'
+  - 'DOMAIN-SUFFIX,mottainai.info'
+  - 'DOMAIN-SUFFIX,newsgawakaru.com'
+  - 'DOMAIN-SUFFIX,sponichi.co.jp'
+  - 'DOMAIN-SUFFIX,weekly-economist.com'

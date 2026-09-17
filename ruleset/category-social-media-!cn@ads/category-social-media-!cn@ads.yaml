@@ -1,0 +1,33 @@
+# -----------------------------------------------------
+# NAME: category-social-media-!cn@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-social-media-!cn@ads/category-social-media-!cn@ads.yaml
+# DOMAIN: 9
+# DOMAIN-SUFFIX: 12
+# TOTAL: 21
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ads-twitter.com'
+  - 'DOMAIN-SUFFIX,adv.vk.com'
+  - 'DOMAIN-SUFFIX,analytics.facebook.com'
+  - 'DOMAIN-SUFFIX,analytics.vk.com'
+  - 'DOMAIN-SUFFIX,facebookads.com'
+  - 'DOMAIN-SUFFIX,graph-fallback.instagram.com'
+  - 'DOMAIN-SUFFIX,graph.instagram.com'
+  - 'DOMAIN-SUFFIX,ms.vk.com'
+  - 'DOMAIN-SUFFIX,ms.vk.ru'
+  - 'DOMAIN-SUFFIX,pixel.facebook.com'
+  - 'DOMAIN-SUFFIX,target.vk.ru'
+  - 'DOMAIN-SUFFIX,vk-analytics.ru'
+  - 'DOMAIN,adblogger.vk.com'
+  - 'DOMAIN,adblogger.vk.ru'
+  - 'DOMAIN,ads.vk.com'
+  - 'DOMAIN,ads.vk.ru'
+  - 'DOMAIN,adv.vk.ru'
+  - 'DOMAIN,advk.vk.ru'
+  - 'DOMAIN,analytics.vk.ru'
+  - 'DOMAIN,stats.vk-portal.net'
+  - 'DOMAIN,target.vk.com'

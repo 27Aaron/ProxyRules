@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: category-android-app-download
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-android-app-download/category-android-app-download.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 10
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,apkcombo.com'
+  - 'DOMAIN-SUFFIX,apkmirror.com'
+  - 'DOMAIN-SUFFIX,apkpure.com'
+  - 'DOMAIN-SUFFIX,apkpure.net'
+  - 'DOMAIN-SUFFIX,apkpures.xyz'
+  - 'DOMAIN-SUFFIX,cdnpure.com'
+  - 'DOMAIN-SUFFIX,pureapk.com'
+  - 'DOMAIN-SUFFIX,uptodown.com'
+  - 'DOMAIN-SUFFIX,utdstc.com'
+  - 'DOMAIN-SUFFIX,winudf.com'
+  - 'DOMAIN,apkmirror.disqus.com'

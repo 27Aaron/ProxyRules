@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: cursor
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/cursor/cursor.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cursor-cdn.com'
+  - 'DOMAIN-SUFFIX,cursor.com'
+  - 'DOMAIN-SUFFIX,cursor.sh'
+  - 'DOMAIN-SUFFIX,cursorapi.com'

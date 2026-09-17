@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: wistia
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/wistia/wistia.list
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,embedwistia-a.akamaihd.net
+DOMAIN-SUFFIX,wistia.com
+DOMAIN-SUFFIX,wistia.net

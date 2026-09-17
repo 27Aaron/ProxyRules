@@ -1,0 +1,27 @@
+# -----------------------------------------------------
+# NAME: category-payment-ir
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-payment-ir/category-payment-ir.list
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,asanpardakht.com
+DOMAIN-SUFFIX,asanpardakht.net
+DOMAIN-SUFFIX,behpardakht.com
+DOMAIN-SUFFIX,bitbarg.me
+DOMAIN-SUFFIX,iranicard.ir
+DOMAIN-SUFFIX,mydigipay.com
+DOMAIN-SUFFIX,pay.ir
+DOMAIN-SUFFIX,payping.ir
+DOMAIN-SUFFIX,pec.ir
+DOMAIN-SUFFIX,pep.co.ir
+DOMAIN-SUFFIX,sadadpsp.ir
+DOMAIN-SUFFIX,sep.ir
+DOMAIN-SUFFIX,shaparak.ir
+DOMAIN-SUFFIX,vandar.app
+DOMAIN-SUFFIX,vandar.io
+DOMAIN-SUFFIX,weswap.digital
+DOMAIN-SUFFIX,zarinpal.com

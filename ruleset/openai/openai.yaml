@@ -1,0 +1,49 @@
+# -----------------------------------------------------
+# NAME: openai
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 17:20:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/openai/openai.yaml
+# DOMAIN: 15
+# DOMAIN-SUFFIX: 14
+# DOMAIN-KEYWORD: 2
+# OMITTED-DOMAIN-REGEX: 1
+# IP-CIDR: 1
+# IP-CIDR6: 1
+# TOTAL: 33
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,chat.com'
+  - 'DOMAIN-SUFFIX,chatgpt.com'
+  - 'DOMAIN-SUFFIX,chatgpt.livekit.cloud'
+  - 'DOMAIN-SUFFIX,chatgpt.site'
+  - 'DOMAIN-SUFFIX,crixet.com'
+  - 'DOMAIN-SUFFIX,host.livekit.cloud'
+  - 'DOMAIN-SUFFIX,oaistatic.com'
+  - 'DOMAIN-SUFFIX,oaistatsig.com'
+  - 'DOMAIN-SUFFIX,oaiusercontent.com'
+  - 'DOMAIN-SUFFIX,openai.com'
+  - 'DOMAIN-SUFFIX,openai.com.cdn.cloudflare.net'
+  - 'DOMAIN-SUFFIX,sora.com'
+  - 'DOMAIN-SUFFIX,turn.livekit.cloud'
+  - 'DOMAIN,browser-intake-datadoghq.com'
+  - 'DOMAIN,o33249.ingest.sentry.io'
+  - 'DOMAIN,openai.qualtrics.com'
+  - 'DOMAIN,openaiapi-site.azureedge.net'
+  - 'DOMAIN,openaiassets.blob.core.windows.net'
+  - 'DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net'
+  - 'DOMAIN,openaicom.imgix.net'
+  - 'DOMAIN,openaicomproductionae4b.blob.core.windows.net'
+  - 'DOMAIN,production-openaicom-storage.azureedge.net'
+  - 'DOMAIN,chat.openai.com.cdn.cloudflare.net'
+  - 'DOMAIN,chatgpt.livekit.cloud'
+  - 'DOMAIN,client-api.arkoselabs.com'
+  - 'DOMAIN,host.livekit.cloud'
+  - 'DOMAIN,openai-api.arkoselabs.com'
+  - 'DOMAIN,openai.com.cdn.cloudflare.net'
+  - 'DOMAIN-SUFFIX,ai.com'
+  - 'DOMAIN-KEYWORD,chatgpt-async-webps-prod-'
+  - 'DOMAIN-KEYWORD,openai'
+  - 'IP-CIDR,199.47.142.0/23,no-resolve'
+  - 'IP-CIDR6,2604:f20::/32,no-resolve'
