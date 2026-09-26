@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: kontur
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/kontur/kontur.list
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 3
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,kontur-inc.com
+DOMAIN-SUFFIX,kontur.host
+DOMAIN-SUFFIX,kontur.ru
+DOMAIN,metrika.kontur.ru
+DOMAIN,sentry.kontur.host

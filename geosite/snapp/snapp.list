@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: snapp
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/snapp/snapp.list
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,cdnsnapptrip.com
+DOMAIN-SUFFIX,snapp-box.com
+DOMAIN-SUFFIX,snapp.cab
+DOMAIN-SUFFIX,snapp.doctor
+DOMAIN-SUFFIX,snapp.express
+DOMAIN-SUFFIX,snapp.ir
+DOMAIN-SUFFIX,snapp.ninja
+DOMAIN-SUFFIX,snapp.site
+DOMAIN-SUFFIX,snapp.supply
+DOMAIN-SUFFIX,snapp.taxi
+DOMAIN-SUFFIX,snapp.tech
+DOMAIN-SUFFIX,snappcloud.io
+DOMAIN-SUFFIX,snappfood.dev
+DOMAIN-SUFFIX,snappfood.ir
+DOMAIN-SUFFIX,snappmaps.ir
+DOMAIN-SUFFIX,snapproom.com
+DOMAIN-SUFFIX,snappshop.ir
+DOMAIN-SUFFIX,snapptrip.com

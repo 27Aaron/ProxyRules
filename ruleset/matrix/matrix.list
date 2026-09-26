@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: matrix
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/matrix/matrix.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,arewereadyyet.com
+DOMAIN-SUFFIX,cinny.in
+DOMAIN-SUFFIX,element.io
+DOMAIN-SUFFIX,fluffychat.im
+DOMAIN-SUFFIX,matrix.org
+DOMAIN-SUFFIX,matrix.to
+DOMAIN-SUFFIX,modular.im
+DOMAIN-SUFFIX,riot.im
+DOMAIN-SUFFIX,vector.im

@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: 9to5
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/9to5/9to5.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,9to5google.com'
+  - 'DOMAIN-SUFFIX,9to5mac.com'
+  - 'DOMAIN-SUFFIX,9to5terminal.com'
+  - 'DOMAIN-SUFFIX,9to5toys.com'
+  - 'DOMAIN-SUFFIX,dronedj.com'
+  - 'DOMAIN-SUFFIX,electrek.co'
+  - 'DOMAIN-SUFFIX,spaceexplored.com'

@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: straitsx
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/straitsx/straitsx.list
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 1
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,straitsx.com
+DOMAIN,d3r7nsslvs6aaf.cloudfront.net
+DOMAIN,straitsx-826709081262441084-b790f87a2ae6fd417434295.freshchat.com

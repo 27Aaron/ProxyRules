@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: cambridge
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/cambridge/cambridge.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cam.ac.uk'
+  - 'DOMAIN-SUFFIX,cambridge.org'
+  - 'DOMAIN-SUFFIX,cambridgedigital.net'
+  - 'DOMAIN-SUFFIX,cambridgemaths.org'
+  - 'DOMAIN-SUFFIX,cambridgeschoolshakespeare.com'
+  - 'DOMAIN-SUFFIX,dlib.eastview.com'

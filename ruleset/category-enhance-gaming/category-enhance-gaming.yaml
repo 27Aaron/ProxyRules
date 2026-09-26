@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: category-enhance-gaming
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-enhance-gaming/category-enhance-gaming.yaml
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,battleye.com'
+  - 'DOMAIN-SUFFIX,bluestacks.com'
+  - 'DOMAIN-SUFFIX,fflogs.com'
+  - 'DOMAIN-SUFFIX,heavenlywind.cc'
+  - 'DOMAIN-SUFFIX,ldmnq.com'
+  - 'DOMAIN-SUFFIX,lsplayer.com'
+  - 'DOMAIN-SUFFIX,maa.plus'
+  - 'DOMAIN-SUFFIX,playcover.io'
+  - 'DOMAIN-SUFFIX,playcover.workers.dev'
+  - 'DOMAIN-SUFFIX,poi.moe'
+  - 'DOMAIN-SUFFIX,prts.plus'
+  - 'DOMAIN-SUFFIX,rpglogs.cn'
+  - 'DOMAIN-SUFFIX,rpglogs.com'
+  - 'DOMAIN-SUFFIX,steampp.net'
+  - 'DOMAIN-SUFFIX,thetrackernetwork.com'
+  - 'DOMAIN-SUFFIX,tracker.gg'
+  - 'DOMAIN-SUFFIX,tracker.network'
+  - 'DOMAIN-SUFFIX,yeshen.com'

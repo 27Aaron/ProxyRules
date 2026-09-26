@@ -1,0 +1,31 @@
+# -----------------------------------------------------
+# NAME: ok
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ok/ok.yaml
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 17
+# TOTAL: 19
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,apiok.ru'
+  - 'DOMAIN-SUFFIX,insideok.ru'
+  - 'DOMAIN-SUFFIX,odkl.ru'
+  - 'DOMAIN-SUFFIX,odnoklasniki.by'
+  - 'DOMAIN-SUFFIX,odnoklasniki.ua'
+  - 'DOMAIN-SUFFIX,odnoklassniki.am'
+  - 'DOMAIN-SUFFIX,odnoklassniki.by'
+  - 'DOMAIN-SUFFIX,odnoklassniki.co.ee'
+  - 'DOMAIN-SUFFIX,odnoklassniki.eu'
+  - 'DOMAIN-SUFFIX,odnoklassniki.lv'
+  - 'DOMAIN-SUFFIX,odnoklassniki.ru'
+  - 'DOMAIN-SUFFIX,odnoklassniki.tj'
+  - 'DOMAIN-SUFFIX,ok.me'
+  - 'DOMAIN-SUFFIX,ok.ru'
+  - 'DOMAIN-SUFFIX,okcdn.ru'
+  - 'DOMAIN-SUFFIX,okl.lt'
+  - 'DOMAIN-SUFFIX,oktech.ru'
+  - 'DOMAIN,st-ok-pts.cdn-vk.ru'
+  - 'DOMAIN,st-ok.cdn-vk.ru'

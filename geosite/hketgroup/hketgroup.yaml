@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: hketgroup
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hketgroup/hketgroup.yaml
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,apexprint.com.hk'
+  - 'DOMAIN-SUFFIX,eprc.com.hk'
+  - 'DOMAIN-SUFFIX,etbc.com.hk'
+  - 'DOMAIN-SUFFIX,etnet.com.cn'
+  - 'DOMAIN-SUFFIX,etnet.com.hk'
+  - 'DOMAIN-SUFFIX,etnetchina.com.cn'
+  - 'DOMAIN-SUFFIX,etpress.com.hk'
+  - 'DOMAIN-SUFFIX,ettrade.com.hk'
+  - 'DOMAIN-SUFFIX,etwealth.com'
+  - 'DOMAIN-SUFFIX,hket.com'
+  - 'DOMAIN-SUFFIX,hketgroup.com'
+  - 'DOMAIN-SUFFIX,ulifestyle.com.hk'
+  - 'DOMAIN-SUFFIX,umagazine.com.hk'

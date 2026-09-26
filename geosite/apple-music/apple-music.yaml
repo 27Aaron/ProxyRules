@@ -1,0 +1,30 @@
+# -----------------------------------------------------
+# NAME: apple-music
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/apple-music/apple-music.yaml
+# DOMAIN: 7
+# DOMAIN-SUFFIX: 11
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,applemusic.berlin'
+  - 'DOMAIN-SUFFIX,applemusic.co'
+  - 'DOMAIN-SUFFIX,applemusic.com'
+  - 'DOMAIN-SUFFIX,applemusic.com.au'
+  - 'DOMAIN-SUFFIX,applemusic.hamburg'
+  - 'DOMAIN-SUFFIX,applemusic.wang'
+  - 'DOMAIN-SUFFIX,applemusicconnect.com'
+  - 'DOMAIN-SUFFIX,applemusicfestival.com'
+  - 'DOMAIN-SUFFIX,music.apple.com'
+  - 'DOMAIN-SUFFIX,musickit.net'
+  - 'DOMAIN-SUFFIX,wwwapplemusic.com'
+  - 'DOMAIN,amp-api-edge.music.apple.com'
+  - 'DOMAIN,amp-api.music.apple.com'
+  - 'DOMAIN,js-cdn.music.apple.com'
+  - 'DOMAIN,music.apple.com'
+  - 'DOMAIN,musicstatus.music.apple.com'
+  - 'DOMAIN,play.music.apple.com'
+  - 'DOMAIN,speedysub.music.apple.com'

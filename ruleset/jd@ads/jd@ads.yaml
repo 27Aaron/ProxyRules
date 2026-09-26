@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: jd@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/jd@ads/jd@ads.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ads-union.jd.com'
+  - 'DOMAIN-SUFFIX,ads.union.jd.com'
+  - 'DOMAIN-SUFFIX,c-nfa.jd.com'
+  - 'DOMAIN-SUFFIX,cps.360buy.com'
+  - 'DOMAIN-SUFFIX,gia.jd.com'
+  - 'DOMAIN-SUFFIX,img-x.jd.com'
+  - 'DOMAIN-SUFFIX,jzt.jd.com'
+  - 'DOMAIN-SUFFIX,stat.m.jd.com'

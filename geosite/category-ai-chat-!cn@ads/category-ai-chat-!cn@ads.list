@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: category-ai-chat-!cn@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-ai-chat-!cn@ads/category-ai-chat-!cn@ads.list
+# DOMAIN: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN,browser-intake-datadoghq.com
+DOMAIN,copilot-telemetry-service.githubusercontent.com
+DOMAIN,copilot-telemetry.githubusercontent.com
+DOMAIN,o33249.ingest.sentry.io
+DOMAIN,openai.qualtrics.com

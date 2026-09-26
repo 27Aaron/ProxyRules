@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: nexusmods
+# AUTHOR: 27Aaron
+# UPDATED: 2026-09-25 09:39:41 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/nexusmods/nexusmods.yaml
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,nexus-cdn.com'
+  - 'DOMAIN-SUFFIX,nexusmods.com'

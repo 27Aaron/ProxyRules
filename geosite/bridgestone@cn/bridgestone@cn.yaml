@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: bridgestone@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/bridgestone@cn/bridgestone@cn.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bridgestone.cn'
+  - 'DOMAIN-SUFFIX,bridgestone.com.cn'
+  - 'DOMAIN-SUFFIX,nokiantyres.cn'

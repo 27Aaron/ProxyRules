@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: category-ai-ru
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-ai-ru/category-ai-ru.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,aiesa.ru
+DOMAIN-SUFFIX,alice.yandex.net
+DOMAIN-SUFFIX,alice.yandex.ru
+DOMAIN-SUFFIX,alicepro.yandex.ru
+DOMAIN-SUFFIX,copymonkey.app
+DOMAIN-SUFFIX,gerwin.io
+DOMAIN-SUFFIX,giga.chat
+DOMAIN-SUFFIX,gptunnel.ru
+DOMAIN-SUFFIX,polza.ai
+DOMAIN-SUFFIX,robotext.io
+DOMAIN-SUFFIX,rugpt.io
+DOMAIN-SUFFIX,tokenator.top

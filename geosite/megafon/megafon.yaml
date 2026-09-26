@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: megafon
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/megafon/megafon.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,inplat.ru'
+  - 'DOMAIN-SUFFIX,megafon.com'
+  - 'DOMAIN-SUFFIX,megafon.ru'
+  - 'DOMAIN-SUFFIX,megafonpro.ru'
+  - 'DOMAIN-SUFFIX,mgfn.ru'
+  - 'DOMAIN-SUFFIX,report-megafon.ru'
+  - 'DOMAIN-SUFFIX,scartel.ru'
+  - 'DOMAIN-SUFFIX,xn--80a9a4b.xn--p1ai'
+  - 'DOMAIN-SUFFIX,xn--80aj3b.xn--p1ai'
+  - 'DOMAIN-SUFFIX,xn--80arpq.xn--p1ai'
+  - 'DOMAIN-SUFFIX,yota.ru'
+  - 'DOMAIN-SUFFIX,yotagamer.ru'

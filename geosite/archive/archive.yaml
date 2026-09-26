@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: archive
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/archive/archive.yaml
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,4pcdn.org'
+  - 'DOMAIN-SUFFIX,4plebs.org'
+  - 'DOMAIN-SUFFIX,archive-it.org'
+  - 'DOMAIN-SUFFIX,archive.fo'
+  - 'DOMAIN-SUFFIX,archive.is'
+  - 'DOMAIN-SUFFIX,archive.li'
+  - 'DOMAIN-SUFFIX,archive.md'
+  - 'DOMAIN-SUFFIX,archive.org'
+  - 'DOMAIN-SUFFIX,archive.ph'
+  - 'DOMAIN-SUFFIX,archive.today'
+  - 'DOMAIN-SUFFIX,archive.vn'
+  - 'DOMAIN-SUFFIX,eotarchive.org'
+  - 'DOMAIN-SUFFIX,ghostarchive.org'
+  - 'DOMAIN-SUFFIX,megalodon.jp'
+  - 'DOMAIN-SUFFIX,mementoweb.org'
+  - 'DOMAIN-SUFFIX,openlibrary.org'
+  - 'DOMAIN-SUFFIX,perma.cc'
+  - 'DOMAIN-SUFFIX,webcitation.org'

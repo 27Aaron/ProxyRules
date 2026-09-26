@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: xueersi
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/xueersi/xueersi.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,100tal.com'
+  - 'DOMAIN-SUFFIX,aoshu.com'
+  - 'DOMAIN-SUFFIX,eduu.com'
+  - 'DOMAIN-SUFFIX,eduuu.com'
+  - 'DOMAIN-SUFFIX,gaokao.com'
+  - 'DOMAIN-SUFFIX,speiyou.com'
+  - 'DOMAIN-SUFFIX,tal.com'
+  - 'DOMAIN-SUFFIX,xesimg.com'
+  - 'DOMAIN-SUFFIX,xueersi.com'
+  - 'DOMAIN-SUFFIX,youjiao.com'
+  - 'DOMAIN-SUFFIX,zhongkao.com'
+  - 'DOMAIN-SUFFIX,zuowen.com'
