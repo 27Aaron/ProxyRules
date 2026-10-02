@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: ubiquiti
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ubiquiti/ubiquiti.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,amplifi.com
+DOMAIN-SUFFIX,amplifi.com.cn
+DOMAIN-SUFFIX,frontrow.com
+DOMAIN-SUFFIX,frontrow.com.cn
+DOMAIN-SUFFIX,ubncloud.com
+DOMAIN-SUFFIX,ubnt.com.cn
+DOMAIN-SUFFIX,ubnt.com
+DOMAIN-SUFFIX,ui.com
+DOMAIN-SUFFIX,ui.com.cn
+DOMAIN-SUFFIX,uisp.com
+DOMAIN-SUFFIX,uum.com.cn
+DOMAIN-SUFFIX,uwn.com
+DOMAIN-SUFFIX,wifiman.com

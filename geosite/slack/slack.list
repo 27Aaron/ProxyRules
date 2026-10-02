@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: slack
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/slack/slack.list
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,slack-core.com
+DOMAIN-SUFFIX,slack-edge.com
+DOMAIN-SUFFIX,slack-files.com
+DOMAIN-SUFFIX,slack-imgs.com
+DOMAIN-SUFFIX,slack-msgs.com
+DOMAIN-SUFFIX,slack-redir.net
+DOMAIN-SUFFIX,slack.com
+DOMAIN-SUFFIX,slackb.com
+DOMAIN-SUFFIX,slackcertified.com
+DOMAIN-SUFFIX,slackdemo.com
+DOMAIN-SUFFIX,slackhq.com

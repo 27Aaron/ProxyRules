@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: hooligapps
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hooligapps/hooligapps.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cuntempire.com'
+  - 'DOMAIN-SUFFIX,cuntwars.com'
+  - 'DOMAIN-SUFFIX,dirtyleague.com'
+  - 'DOMAIN-SUFFIX,faptitans.com'
+  - 'DOMAIN-SUFFIX,hooligapps.com'
+  - 'DOMAIN-SUFFIX,slotbitches.com'
+  - 'DOMAIN-SUFFIX,smutstone.com'
+  - 'DOMAIN-SUFFIX,townofsins.com'

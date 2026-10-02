@@ -1,0 +1,30 @@
+# -----------------------------------------------------
+# NAME: chinapost
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/chinapost/chinapost.yaml
+# DOMAIN-SUFFIX: 19
+# TOTAL: 19
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,11183.com.cn'
+  - 'DOMAIN-SUFFIX,11185.cn'
+  - 'DOMAIN-SUFFIX,chinapost-life.com'
+  - 'DOMAIN-SUFFIX,chinapost.cn'
+  - 'DOMAIN-SUFFIX,chinapost.com.cn'
+  - 'DOMAIN-SUFFIX,chinapostdaily.com.cn'
+  - 'DOMAIN-SUFFIX,chinapostnews.cn'
+  - 'DOMAIN-SUFFIX,chinapostnews.com.cn'
+  - 'DOMAIN-SUFFIX,chnppmuseum.com'
+  - 'DOMAIN-SUFFIX,cnpsec.com'
+  - 'DOMAIN-SUFFIX,cptu.cn'
+  - 'DOMAIN-SUFFIX,cptu.org.cn'
+  - 'DOMAIN-SUFFIX,ctvpost.com'
+  - 'DOMAIN-SUFFIX,ems.com.cn'
+  - 'DOMAIN-SUFFIX,postmail.cn'
+  - 'DOMAIN-SUFFIX,postoa.com.cn'
+  - 'DOMAIN-SUFFIX,psbc.com'
+  - 'DOMAIN-SUFFIX,ule.com'
+  - 'DOMAIN-SUFFIX,ulecdn.com'

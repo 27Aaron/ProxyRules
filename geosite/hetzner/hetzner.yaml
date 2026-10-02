@@ -1,0 +1,27 @@
+# -----------------------------------------------------
+# NAME: hetzner
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hetzner/hetzner.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 14
+# TOTAL: 15
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,first-ns.de'
+  - 'DOMAIN-SUFFIX,hetzner-cloud.de'
+  - 'DOMAIN-SUFFIX,hetzner.cloud'
+  - 'DOMAIN-SUFFIX,hetzner.com'
+  - 'DOMAIN-SUFFIX,hetzner.company'
+  - 'DOMAIN-SUFFIX,hetzner.de'
+  - 'DOMAIN-SUFFIX,hetzner.social'
+  - 'DOMAIN-SUFFIX,htznr.li'
+  - 'DOMAIN-SUFFIX,second-ns.com'
+  - 'DOMAIN-SUFFIX,second-ns.de'
+  - 'DOMAIN-SUFFIX,your-objectstorage.com'
+  - 'DOMAIN-SUFFIX,your-server.de'
+  - 'DOMAIN-SUFFIX,your-storagebox.de'
+  - 'DOMAIN-SUFFIX,your-storageshare.de'
+  - 'DOMAIN,sentry.hetzner.company'

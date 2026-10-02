@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: ixbt
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ixbt/ixbt.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ixbt.com
+DOMAIN-SUFFIX,ixbt.games
+DOMAIN-SUFFIX,ixbt.market
+DOMAIN-SUFFIX,ixbt.media
+DOMAIN-SUFFIX,ixbt.pro
+DOMAIN-SUFFIX,ixbt.ru
+DOMAIN-SUFFIX,ixbt.shop
+DOMAIN-SUFFIX,ixbt.site
+DOMAIN-SUFFIX,ixbt.video

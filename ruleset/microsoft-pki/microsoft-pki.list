@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: microsoft-pki
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/microsoft-pki/microsoft-pki.list
+# DOMAIN: 5
+# DOMAIN-SUFFIX: 1
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,msocsp.com
+DOMAIN,crl.microsoft.com
+DOMAIN,mscrl.microsoft.com
+DOMAIN,ocsp.microsoft.com
+DOMAIN,oneocsp.microsoft.com
+DOMAIN,www.microsoft.com

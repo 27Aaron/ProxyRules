@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: openjsfoundation
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/openjsfoundation/openjsfoundation.list
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 11
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,amp.dev
+DOMAIN-SUFFIX,ampproject.com
+DOMAIN-SUFFIX,ampproject.net
+DOMAIN-SUFFIX,ampproject.org
+DOMAIN-SUFFIX,electronjs.org
+DOMAIN-SUFFIX,jquery.com
+DOMAIN-SUFFIX,jquerymobile.com
+DOMAIN-SUFFIX,jqueryui.com
+DOMAIN-SUFFIX,mochajs.org
+DOMAIN-SUFFIX,nodejs.org
+DOMAIN-SUFFIX,openjsf.org
+DOMAIN,amp.akamaized.net
+DOMAIN,cdn.ampproject.org

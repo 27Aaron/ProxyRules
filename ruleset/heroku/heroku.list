@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: heroku
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/heroku/heroku.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,codei.sh
+DOMAIN-SUFFIX,codeish.co
+DOMAIN-SUFFIX,codeish.io
+DOMAIN-SUFFIX,heroku-app.com
+DOMAIN-SUFFIX,heroku-charge.com
+DOMAIN-SUFFIX,heroku.co
+DOMAIN-SUFFIX,heroku.com
+DOMAIN-SUFFIX,heroku.me
+DOMAIN-SUFFIX,herokuapp.com
+DOMAIN-SUFFIX,herokucdn.com
+DOMAIN-SUFFIX,herokucharge.com
+DOMAIN-SUFFIX,herokussl.com

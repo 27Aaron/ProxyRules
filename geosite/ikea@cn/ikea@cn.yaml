@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: ikea@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ikea@cn/ikea@cn.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ikea.cn'
+  - 'DOMAIN-SUFFIX,ingka-dt.cn'
+  - 'DOMAIN-SUFFIX,ingka-internal.cn'
+  - 'DOMAIN-SUFFIX,ingka-system.cn'

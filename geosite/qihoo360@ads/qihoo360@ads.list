@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: qihoo360@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/qihoo360@ads/qihoo360@ads.list
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,c.sayhi.360.cn
+DOMAIN-SUFFIX,fenxi.360.cn
+DOMAIN-SUFFIX,fenxi.com
+DOMAIN-SUFFIX,lianmeng.360.cn
+DOMAIN-SUFFIX,mediav.com
+DOMAIN-SUFFIX,mvad.com
+DOMAIN-SUFFIX,qhupdate.com
+DOMAIN-SUFFIX,s.360.cn
+DOMAIN-SUFFIX,s.so.360.cn
+DOMAIN-SUFFIX,s.union.360.cn

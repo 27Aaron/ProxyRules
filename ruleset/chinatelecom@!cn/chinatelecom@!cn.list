@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: chinatelecom@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/chinatelecom@!cn/chinatelecom@!cn.list
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,chinatelecomglobal.com
+DOMAIN-SUFFIX,chinatelecomhk.com
+DOMAIN-SUFFIX,ctexcel.ca
+DOMAIN-SUFFIX,ctexcel.com.hk
+DOMAIN-SUFFIX,ctexcel.com
+DOMAIN-SUFFIX,ctexcel.fr
+DOMAIN-SUFFIX,ctexcel.us

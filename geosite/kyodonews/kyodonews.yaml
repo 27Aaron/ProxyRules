@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: kyodonews
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/kyodonews/kyodonews.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,47gyosei.jp'
+  - 'DOMAIN-SUFFIX,47news.jp'
+  - 'DOMAIN-SUFFIX,kyodo-d.info'
+  - 'DOMAIN-SUFFIX,kyodo-d.jp'
+  - 'DOMAIN-SUFFIX,kyodoimages.jp'
+  - 'DOMAIN-SUFFIX,kyodonews.jp'
+  - 'DOMAIN-SUFFIX,kyodonews.net'
+  - 'DOMAIN-SUFFIX,newsmart.jp'
+  - 'DOMAIN-SUFFIX,nna.jp'

@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: eastmoney
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/eastmoney/eastmoney.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,1234567.com.cn'
+  - 'DOMAIN-SUFFIX,18.cn'
+  - 'DOMAIN-SUFFIX,18.com.cn'
+  - 'DOMAIN-SUFFIX,dfcfw.com'
+  - 'DOMAIN-SUFFIX,eastmoney.com'
+  - 'DOMAIN-SUFFIX,eastmoneyfutures.com'
+  - 'DOMAIN-SUFFIX,emsec.hk'
+  - 'DOMAIN-SUFFIX,guba.com.cn'

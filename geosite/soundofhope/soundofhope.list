@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: soundofhope
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/soundofhope/soundofhope.list
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bayvoice.net
+DOMAIN-SUFFIX,ozvoice.org
+DOMAIN-SUFFIX,sohcradio.com
+DOMAIN-SUFFIX,sohfrance.org
+DOMAIN-SUFFIX,soundofhope.eu
+DOMAIN-SUFFIX,soundofhope.kr
+DOMAIN-SUFFIX,soundofhope.org
+DOMAIN-SUFFIX,wanokokorosoh.com

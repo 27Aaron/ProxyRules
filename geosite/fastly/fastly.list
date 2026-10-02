@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: fastly
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/fastly/fastly.list
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,fastly-edge.com
+DOMAIN-SUFFIX,fastly-terrarium.com
+DOMAIN-SUFFIX,fastly.com
+DOMAIN-SUFFIX,fastly.io
+DOMAIN-SUFFIX,fastly.net
+DOMAIN-SUFFIX,fastlylabs.com
+DOMAIN-SUFFIX,fastlylb.net
