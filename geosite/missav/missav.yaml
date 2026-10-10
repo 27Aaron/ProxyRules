@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: missav
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/missav/missav.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,missav.ai'
+  - 'DOMAIN-SUFFIX,missav.com'
+  - 'DOMAIN-SUFFIX,missav.live'
+  - 'DOMAIN-SUFFIX,missav.uno'
+  - 'DOMAIN-SUFFIX,missav.vip'
+  - 'DOMAIN-SUFFIX,missav.ws'
+  - 'DOMAIN-SUFFIX,missav123.com'

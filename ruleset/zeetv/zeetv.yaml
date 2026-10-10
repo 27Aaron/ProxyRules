@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: zeetv
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/zeetv/zeetv.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,z5.app'
+  - 'DOMAIN-SUFFIX,z5.com'
+  - 'DOMAIN-SUFFIX,zee5.com'
+  - 'DOMAIN-SUFFIX,zee5.in'
+  - 'DOMAIN-SUFFIX,zee5.tv'
+  - 'DOMAIN-SUFFIX,zeebioskop.com'
+  - 'DOMAIN-SUFFIX,zeetv.co.uk'
+  - 'DOMAIN-SUFFIX,zeetv.com'
+  - 'DOMAIN-SUFFIX,zeeuk.com'

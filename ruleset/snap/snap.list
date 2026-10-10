@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: snap
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-13 19:59:03 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/snap/snap.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 8
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,sc-cdn.net
+DOMAIN-SUFFIX,sc-gw.com
+DOMAIN-SUFFIX,sc-static.net
+DOMAIN-SUFFIX,snap-dev.net
+DOMAIN-SUFFIX,snap.com
+DOMAIN-SUFFIX,snapads.com
+DOMAIN-SUFFIX,snapchat.com
+DOMAIN-SUFFIX,snapkit.co
+DOMAIN,impala-media-production.s3.amazonaws.com

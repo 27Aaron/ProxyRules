@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: trae
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/trae/trae.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,doudou.com'
+  - 'DOMAIN-SUFFIX,marscode.cn'
+  - 'DOMAIN-SUFFIX,marscode.com.cn'
+  - 'DOMAIN-SUFFIX,mcbaas.work'
+  - 'DOMAIN-SUFFIX,mcdemo.show'
+  - 'DOMAIN-SUFFIX,mchost.guru'
+  - 'DOMAIN-SUFFIX,mcprev.cn'
+  - 'DOMAIN-SUFFIX,tcwqqdy.guru'
+  - 'DOMAIN-SUFFIX,trae.cn'
+  - 'DOMAIN-SUFFIX,trae.com.cn'
+  - 'DOMAIN-SUFFIX,trae.guru'
+  - 'DOMAIN-SUFFIX,yoma.cn'

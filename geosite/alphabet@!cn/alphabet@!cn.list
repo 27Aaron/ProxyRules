@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: alphabet@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/alphabet@!cn/alphabet@!cn.list
+# DOMAIN: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN,alt1-mtalk.google.com
+DOMAIN,alt2-mtalk.google.com
+DOMAIN,alt3-mtalk.google.com
+DOMAIN,alt4-mtalk.google.com
+DOMAIN,alt5-mtalk.google.com
+DOMAIN,alt6-mtalk.google.com
+DOMAIN,mtalk.google.com

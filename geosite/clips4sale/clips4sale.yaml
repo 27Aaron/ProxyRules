@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: clips4sale
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/clips4sale/clips4sale.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,c4slive.com'
+  - 'DOMAIN-SUFFIX,clips4sale.com'
+  - 'DOMAIN-SUFFIX,videos4sale.com'

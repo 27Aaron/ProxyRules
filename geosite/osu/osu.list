@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: osu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/osu/osu.list
+# DOMAIN: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN,a.ppy.sh
+DOMAIN,assets.ppy.sh
+DOMAIN,c.ppy.sh
+DOMAIN,lazer.ppy.sh
+DOMAIN,m1.ppy.sh
+DOMAIN,notify.ppy.sh
+DOMAIN,osu.ppy.sh
+DOMAIN,sentry.ppy.sh
+DOMAIN,spectator.ppy.sh

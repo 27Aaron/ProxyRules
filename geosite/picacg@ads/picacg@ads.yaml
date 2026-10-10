@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: picacg@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/picacg@ads/picacg@ads.yaml
+# DOMAIN: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,ad-channel.diwodiwo.xyz'
+  - 'DOMAIN,ad-display.diwodiwo.xyz'

@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: ifast
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ifast/ifast.list
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,fsmone.com
+DOMAIN-SUFFIX,fsmone.com.hk
+DOMAIN-SUFFIX,fsmone.com.my
+DOMAIN-SUFFIX,fundsupermart.com
+DOMAIN-SUFFIX,ifastcapital.com.my
+DOMAIN-SUFFIX,ifastcorp.com
+DOMAIN-SUFFIX,ifastfinancial.co.in
+DOMAIN-SUFFIX,ifastfinancial.com.hk
+DOMAIN-SUFFIX,ifastgb.com
+DOMAIN-SUFFIX,ifastgp.com
+DOMAIN-SUFFIX,ifastgp.com.hk
+DOMAIN-SUFFIX,ifastnetwork.com
+DOMAIN-SUFFIX,ifastps.com.cn
+DOMAIN-SUFFIX,ifasttv.com

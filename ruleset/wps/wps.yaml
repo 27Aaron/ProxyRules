@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: wps
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/wps/wps.yaml
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,51dzt.com'
+  - 'DOMAIN-SUFFIX,docer.com'
+  - 'DOMAIN-SUFFIX,iciba.com'
+  - 'DOMAIN-SUFFIX,kdocs.cn'
+  - 'DOMAIN-SUFFIX,kimxz.com'
+  - 'DOMAIN-SUFFIX,papocket.com'
+  - 'DOMAIN-SUFFIX,qwps.cn'
+  - 'DOMAIN-SUFFIX,wps.cn'
+  - 'DOMAIN-SUFFIX,wps.com'
+  - 'DOMAIN-SUFFIX,wpscdn.cn'
+  - 'DOMAIN-SUFFIX,wpscdn.com'
+  - 'DOMAIN-SUFFIX,wpsmail.net'
+  - 'DOMAIN-SUFFIX,wpspdf.cn'

@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: category-pt@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-pt@!cn/category-pt@!cn.yaml
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dmhy.best'
+  - 'DOMAIN-SUFFIX,dmhy.org'
+  - 'DOMAIN-SUFFIX,m-team.cc'
+  - 'DOMAIN-SUFFIX,m-team.io'
+  - 'DOMAIN-SUFFIX,mt.cc'
+  - 'DOMAIN-SUFFIX,myanonamouse.net'
+  - 'DOMAIN-SUFFIX,nebulance.io'
+  - 'DOMAIN-SUFFIX,skyey2.com'
+  - 'DOMAIN-SUFFIX,skyeysnow.com'
+  - 'DOMAIN-SUFFIX,torrentleech.cc'
+  - 'DOMAIN-SUFFIX,torrentleech.org'

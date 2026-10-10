@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: mozilla@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-08 17:31:04 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/mozilla@telemetry/mozilla@telemetry.yaml
+# DOMAIN: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,incoming-telemetry.thunderbird.net'
+  - 'DOMAIN,incoming.telemetry.mozilla.org'

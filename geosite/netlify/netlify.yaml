@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: netlify
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/netlify/netlify.yaml
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 7
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bitballoon.com'
+  - 'DOMAIN-SUFFIX,netlify.app'
+  - 'DOMAIN-SUFFIX,netlify.com'
+  - 'DOMAIN-SUFFIX,netlifydns.com'
+  - 'DOMAIN-SUFFIX,netlifystatus.com'
+  - 'DOMAIN-SUFFIX,netlifyusercontent.com'
+  - 'DOMAIN-SUFFIX,ntl.fyi'
+  - 'DOMAIN,acd89244c803f7181.awsglobalaccelerator.com'
+  - 'DOMAIN,afa7f374f51cc8991.awsglobalaccelerator.com'
+  - 'DOMAIN,d33wubrfki0l68.cloudfront.net'

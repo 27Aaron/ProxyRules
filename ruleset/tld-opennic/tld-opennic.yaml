@@ -1,0 +1,39 @@
+# -----------------------------------------------------
+# NAME: tld-opennic
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/tld-opennic/tld-opennic.yaml
+# DOMAIN-SUFFIX: 28
+# TOTAL: 28
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bazar'
+  - 'DOMAIN-SUFFIX,bbs'
+  - 'DOMAIN-SUFFIX,chan'
+  - 'DOMAIN-SUFFIX,coin'
+  - 'DOMAIN-SUFFIX,cyb'
+  - 'DOMAIN-SUFFIX,dyn'
+  - 'DOMAIN-SUFFIX,emc'
+  - 'DOMAIN-SUFFIX,epic'
+  - 'DOMAIN-SUFFIX,free'
+  - 'DOMAIN-SUFFIX,fur'
+  - 'DOMAIN-SUFFIX,geek'
+  - 'DOMAIN-SUFFIX,gopher'
+  - 'DOMAIN-SUFFIX,indy'
+  - 'DOMAIN-SUFFIX,ko'
+  - 'DOMAIN-SUFFIX,ku'
+  - 'DOMAIN-SUFFIX,lib'
+  - 'DOMAIN-SUFFIX,libre'
+  - 'DOMAIN-SUFFIX,neo'
+  - 'DOMAIN-SUFFIX,null'
+  - 'DOMAIN-SUFFIX,o'
+  - 'DOMAIN-SUFFIX,oss'
+  - 'DOMAIN-SUFFIX,oz'
+  - 'DOMAIN-SUFFIX,parody'
+  - 'DOMAIN-SUFFIX,pirate'
+  - 'DOMAIN-SUFFIX,rm'
+  - 'DOMAIN-SUFFIX,te'
+  - 'DOMAIN-SUFFIX,ti'
+  - 'DOMAIN-SUFFIX,uu'

@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: metart
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/metart/metart.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,metart.com
+DOMAIN-SUFFIX,metartnetwork.com
+DOMAIN-SUFFIX,metcams.com
+DOMAIN-SUFFIX,naiadsystems.com
+DOMAIN-SUFFIX,nsimg.net

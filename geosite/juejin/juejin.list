@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: juejin
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/juejin/juejin.list
+# DOMAIN: 9
+# DOMAIN-SUFFIX: 3
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,juejin.cn
+DOMAIN-SUFFIX,juejin.im
+DOMAIN-SUFFIX,xitu.io
+DOMAIN,p1-juejin.byteimg.com
+DOMAIN,p2-juejin.byteimg.com
+DOMAIN,p3-juejin.byteimg.com
+DOMAIN,p4-juejin.byteimg.com
+DOMAIN,p5-juejin.byteimg.com
+DOMAIN,p6-juejin.byteimg.com
+DOMAIN,p7-juejin.byteimg.com
+DOMAIN,p8-juejin.byteimg.com
+DOMAIN,p9-juejin.byteimg.com

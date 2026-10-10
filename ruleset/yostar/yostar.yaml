@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: yostar
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/yostar/yostar.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,stargazer-games.com'
+  - 'DOMAIN-SUFFIX,stellasora.global'
+  - 'DOMAIN-SUFFIX,stellasora.jp'
+  - 'DOMAIN-SUFFIX,yo-star.com'
+  - 'DOMAIN-SUFFIX,yostar-pictures.co.jp'
+  - 'DOMAIN-SUFFIX,yostar.cn'
+  - 'DOMAIN-SUFFIX,yostar.co.jp'
+  - 'DOMAIN-SUFFIX,yostar.net'
+  - 'DOMAIN-SUFFIX,yostarplat.com'
