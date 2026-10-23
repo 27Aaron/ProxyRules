@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: apple-intelligence
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/apple-intelligence/apple-intelligence.list
+# DOMAIN: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN,apple-relay.apple.com
+DOMAIN,apple-relay.cloudflare.com
+DOMAIN,apple-relay.fastly-edge.com
+DOMAIN,apple-relay.mask.apple-dns.net
+DOMAIN,gspe1-ssl.ls.apple.com

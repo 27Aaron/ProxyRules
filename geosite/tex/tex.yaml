@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: tex
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/tex/tex.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ctan.org'
+  - 'DOMAIN-SUFFIX,latex-project.org'
+  - 'DOMAIN-SUFFIX,miktex.org'
+  - 'DOMAIN-SUFFIX,tug.org'

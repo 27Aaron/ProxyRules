@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: ficbook
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ficbook/ficbook.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,fanfictionero.com
+DOMAIN-SUFFIX,fic.fan
+DOMAIN-SUFFIX,ficador.com
+DOMAIN-SUFFIX,ficbook.net
+DOMAIN-SUFFIX,ficmania.com
+DOMAIN-SUFFIX,teinon.net

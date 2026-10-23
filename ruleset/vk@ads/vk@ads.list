@@ -1,0 +1,26 @@
+# -----------------------------------------------------
+# NAME: vk@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/vk@ads/vk@ads.list
+# DOMAIN: 9
+# DOMAIN-SUFFIX: 6
+# TOTAL: 15
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,adv.vk.com
+DOMAIN-SUFFIX,analytics.vk.com
+DOMAIN-SUFFIX,ms.vk.com
+DOMAIN-SUFFIX,ms.vk.ru
+DOMAIN-SUFFIX,target.vk.ru
+DOMAIN-SUFFIX,vk-analytics.ru
+DOMAIN,adblogger.vk.com
+DOMAIN,adblogger.vk.ru
+DOMAIN,ads.vk.com
+DOMAIN,ads.vk.ru
+DOMAIN,adv.vk.ru
+DOMAIN,advk.vk.ru
+DOMAIN,analytics.vk.ru
+DOMAIN,stats.vk-portal.net
+DOMAIN,target.vk.com

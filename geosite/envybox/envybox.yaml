@@ -1,0 +1,32 @@
+# -----------------------------------------------------
+# NAME: envybox
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/envybox/envybox.yaml
+# DOMAIN-SUFFIX: 21
+# TOTAL: 21
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bananacall.ru'
+  - 'DOMAIN-SUFFIX,beesbfl.ru'
+  - 'DOMAIN-SUFFIX,beescrm.ru'
+  - 'DOMAIN-SUFFIX,bimsaas.ru'
+  - 'DOMAIN-SUFFIX,callbackkiller.com'
+  - 'DOMAIN-SUFFIX,cbkiller.com'
+  - 'DOMAIN-SUFFIX,envybox.company'
+  - 'DOMAIN-SUFFIX,envybox.family'
+  - 'DOMAIN-SUFFIX,envybox.io'
+  - 'DOMAIN-SUFFIX,envybox.kg'
+  - 'DOMAIN-SUFFIX,envybox.su'
+  - 'DOMAIN-SUFFIX,envycdp.com'
+  - 'DOMAIN-SUFFIX,envycdp.ru'
+  - 'DOMAIN-SUFFIX,envycrm.com'
+  - 'DOMAIN-SUFFIX,envyday.ru'
+  - 'DOMAIN-SUFFIX,killercb.ru'
+  - 'DOMAIN-SUFFIX,myenvy.ru'
+  - 'DOMAIN-SUFFIX,quizlink.ru'
+  - 'DOMAIN-SUFFIX,saas-support.com'
+  - 'DOMAIN-SUFFIX,whitesaas.com'
+  - 'DOMAIN-SUFFIX,xn--90absjljw3g.xn--p1ai'

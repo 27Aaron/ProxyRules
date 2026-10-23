@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: dwion
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/dwion/dwion.yaml
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,acadn.cn'
+  - 'DOMAIN-SUFFIX,acadn.com'
+  - 'DOMAIN-SUFFIX,bbbcdns.com'
+  - 'DOMAIN-SUFFIX,dlgslb.cn'
+  - 'DOMAIN-SUFFIX,dlgslb.net'
+  - 'DOMAIN-SUFFIX,dwion.com'
+  - 'DOMAIN-SUFFIX,fastcdn.com'
+  - 'DOMAIN-SUFFIX,fastcdn.com.cn'
+  - 'DOMAIN-SUFFIX,flxdns.cn'
+  - 'DOMAIN-SUFFIX,flxdns.com'
+  - 'DOMAIN-SUFFIX,globalcdn.cn'
+  - 'DOMAIN-SUFFIX,mcadn.cn'
+  - 'DOMAIN-SUFFIX,tlgslb.cn'
+  - 'DOMAIN-SUFFIX,tlgslb.com'

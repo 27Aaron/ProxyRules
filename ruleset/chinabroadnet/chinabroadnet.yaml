@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: chinabroadnet
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/chinabroadnet/chinabroadnet.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,10099.com.cn'
+  - 'DOMAIN-SUFFIX,ahitv.com'
+  - 'DOMAIN-SUFFIX,cbn.cn'
+  - 'DOMAIN-SUFFIX,cqccn.com'
+  - 'DOMAIN-SUFFIX,gcable.com.cn'
+  - 'DOMAIN-SUFFIX,isxtv.com'
+  - 'DOMAIN-SUFFIX,sc96655.com'
+  - 'DOMAIN-SUFFIX,sdgdwljt.com'

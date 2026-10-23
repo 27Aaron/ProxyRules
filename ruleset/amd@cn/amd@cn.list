@@ -1,0 +1,11 @@
+# -----------------------------------------------------
+# NAME: amd@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-09-22 19:30:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/amd@cn/amd@cn.list
+# DOMAIN: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+DOMAIN,drivers.amd.com

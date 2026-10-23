@@ -1,0 +1,27 @@
+# -----------------------------------------------------
+# NAME: ctrip@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ctrip@!cn/ctrip@!cn.yaml
+# DOMAIN-SUFFIX: 16
+# TOTAL: 16
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ak-p.tripcdn.com'
+  - 'DOMAIN-SUFFIX,ak-s-cw.tripcdn.com'
+  - 'DOMAIN-SUFFIX,ak-s.tripcdn.com'
+  - 'DOMAIN-SUFFIX,akatest.tripcdn.com'
+  - 'DOMAIN-SUFFIX,aw-d.tripcdn.com'
+  - 'DOMAIN-SUFFIX,aw-p.tripcdn.com'
+  - 'DOMAIN-SUFFIX,aw-s.tripcdn.com'
+  - 'DOMAIN-SUFFIX,ctrip.co.id'
+  - 'DOMAIN-SUFFIX,ctrip.co.kr'
+  - 'DOMAIN-SUFFIX,ctrip.co.th'
+  - 'DOMAIN-SUFFIX,ctrip.com.hk'
+  - 'DOMAIN-SUFFIX,ctrip.my'
+  - 'DOMAIN-SUFFIX,ctrip.sg'
+  - 'DOMAIN-SUFFIX,ctripbuy.hk'
+  - 'DOMAIN-SUFFIX,hhtravel.com.tw'
+  - 'DOMAIN-SUFFIX,trip.com'

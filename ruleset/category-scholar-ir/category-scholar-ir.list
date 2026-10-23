@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: category-scholar-ir
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-scholar-ir/category-scholar-ir.list
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ac.ir
+DOMAIN-SUFFIX,edu.ir
+DOMAIN-SUFFIX,iranlms.ir
+DOMAIN-SUFFIX,jtt.ir
+DOMAIN-SUFFIX,sanjesh.org
+DOMAIN-SUFFIX,sharif.edu
+DOMAIN-SUFFIX,sharif.ir
+DOMAIN-SUFFIX,srttu.edu

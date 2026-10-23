@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: fedora
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/fedora/fedora.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,fedoraforum.org
+DOMAIN-SUFFIX,fedorainfracloud.org
+DOMAIN-SUFFIX,fedoramagazine.org
+DOMAIN-SUFFIX,fedorapeople.org
+DOMAIN-SUFFIX,fedoraproject.org
+DOMAIN-SUFFIX,getfedora.org

@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: landian
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/landian/landian.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,lancdn.com'
+  - 'DOMAIN-SUFFIX,landian.news'
+  - 'DOMAIN-SUFFIX,landian.vip'
+  - 'DOMAIN-SUFFIX,landian.xyz'
+  - 'DOMAIN-SUFFIX,landiannews.com'
+  - 'DOMAIN-SUFFIX,ourl.co'
+  - 'DOMAIN-SUFFIX,wsoso.com'

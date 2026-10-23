@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: zendesk
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/zendesk/zendesk.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,outbound.io
+DOMAIN-SUFFIX,zdassets.com
+DOMAIN-SUFFIX,zdusercontent.com
+DOMAIN-SUFFIX,zendesk.com
+DOMAIN-SUFFIX,zndsk.com
+DOMAIN-SUFFIX,zopim.com

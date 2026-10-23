@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: asahi
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/asahi/asahi.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 6
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,aiasahi.jp'
+  - 'DOMAIN-SUFFIX,asagaku.com'
+  - 'DOMAIN-SUFFIX,asahi.com'
+  - 'DOMAIN-SUFFIX,asahicom.jp'
+  - 'DOMAIN-SUFFIX,asakonet.co.jp'
+  - 'DOMAIN-SUFFIX,nikkansports.com'
+  - 'DOMAIN,asahishimbun.sc.omtrdc.net'

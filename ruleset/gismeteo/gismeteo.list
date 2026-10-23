@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: gismeteo
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/gismeteo/gismeteo.list
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,gismeteo.by
+DOMAIN-SUFFIX,gismeteo.com
+DOMAIN-SUFFIX,gismeteo.net
+DOMAIN-SUFFIX,gismeteo.ru
+DOMAIN-SUFFIX,gismeteo.st
+DOMAIN-SUFFIX,meteofor.com
+DOMAIN-SUFFIX,meteofor.st

@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: category-ads-ir
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-ads-ir/category-ads-ir.list
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,adivery.com
+DOMAIN-SUFFIX,adivery.ir
+DOMAIN-SUFFIX,kaprila.com
+DOMAIN-SUFFIX,najva.com
+DOMAIN-SUFFIX,sabavision.com
+DOMAIN-SUFFIX,tapsell.ir
+DOMAIN-SUFFIX,yektanet.com

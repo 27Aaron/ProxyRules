@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: anthropic
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 17:20:05 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geoip/anthropic/anthropic.list
+# IP-CIDR: 1
+# IP-CIDR6: 1
+# TOTAL: 2
+# -----------------------------------------------------
+
+IP-CIDR,160.79.104.0/21,no-resolve
+IP-CIDR6,2607:6bc0::/32,no-resolve

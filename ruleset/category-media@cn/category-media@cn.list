@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: category-media@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-media@cn/category-media@cn.list
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,cn-cdn1.skymansion.net
+DOMAIN-SUFFIX,etnet.com.cn
+DOMAIN-SUFFIX,etnetchina.com.cn
+DOMAIN-SUFFIX,thetype.cloud
+DOMAIN-SUFFIX,tvbc.com.cn

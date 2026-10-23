@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: google-trust-services
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/google-trust-services/google-trust-services.yaml
+# DOMAIN: 11
+# DOMAIN-SUFFIX: 1
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,pki.goog'
+  - 'DOMAIN,c.pki.goog'
+  - 'DOMAIN,clients1.google.com'
+  - 'DOMAIN,crl.pki.goog'
+  - 'DOMAIN,crls.pki.goog'
+  - 'DOMAIN,i.pki.goog'
+  - 'DOMAIN,o.pki.goog'
+  - 'DOMAIN,ocsp.pki.goog'
+  - 'DOMAIN,pki-goog.l.google.com'
+  - 'DOMAIN,pki.google.com'
+  - 'DOMAIN,preprod-publicca.googleapis.com'
+  - 'DOMAIN,publicca.googleapis.com'

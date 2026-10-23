@@ -1,0 +1,39 @@
+# -----------------------------------------------------
+# NAME: category-media-ir
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-media-ir/category-media-ir.yaml
+# DOMAIN-SUFFIX: 28
+# TOTAL: 28
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,aparat.com'
+  - 'DOMAIN-SUFFIX,aparatkids.com'
+  - 'DOMAIN-SUFFIX,aparatsport.com'
+  - 'DOMAIN-SUFFIX,cinematicket.org'
+  - 'DOMAIN-SUFFIX,filimo.com'
+  - 'DOMAIN-SUFFIX,filimo.school'
+  - 'DOMAIN-SUFFIX,filmnet.ir'
+  - 'DOMAIN-SUFFIX,irib.ir'
+  - 'DOMAIN-SUFFIX,iribtv.ir'
+  - 'DOMAIN-SUFFIX,irinn.ir'
+  - 'DOMAIN-SUFFIX,jjtvn.ir'
+  - 'DOMAIN-SUFFIX,melodify.app'
+  - 'DOMAIN-SUFFIX,melodify.pw'
+  - 'DOMAIN-SUFFIX,namava.ir'
+  - 'DOMAIN-SUFFIX,qurantv.ir'
+  - 'DOMAIN-SUFFIX,radio.ir'
+  - 'DOMAIN-SUFFIX,radioiran.ir'
+  - 'DOMAIN-SUFFIX,radiojavan.ir'
+  - 'DOMAIN-SUFFIX,radiomaaref.ir'
+  - 'DOMAIN-SUFFIX,radiopayam.ir'
+  - 'DOMAIN-SUFFIX,radioquran.ir'
+  - 'DOMAIN-SUFFIX,radiotehran.ir'
+  - 'DOMAIN-SUFFIX,radiovarzesh.ir'
+  - 'DOMAIN-SUFFIX,telewebion.com'
+  - 'DOMAIN-SUFFIX,tmk.ir'
+  - 'DOMAIN-SUFFIX,tv3.ir'
+  - 'DOMAIN-SUFFIX,tv5.ir'
+  - 'DOMAIN-SUFFIX,tv7.ir'

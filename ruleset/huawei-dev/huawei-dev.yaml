@@ -1,0 +1,34 @@
+# -----------------------------------------------------
+# NAME: huawei-dev
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/huawei-dev/huawei-dev.yaml
+# DOMAIN-SUFFIX: 23
+# TOTAL: 23
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,bisheng.cn'
+  - 'DOMAIN-SUFFIX,bishengcompiler.cn'
+  - 'DOMAIN-SUFFIX,devui.design'
+  - 'DOMAIN-SUFFIX,gneec.com'
+  - 'DOMAIN-SUFFIX,gneec.com.cn'
+  - 'DOMAIN-SUFFIX,gneec3.com'
+  - 'DOMAIN-SUFFIX,gneec4.com'
+  - 'DOMAIN-SUFFIX,gneec7.com'
+  - 'DOMAIN-SUFFIX,harmonyos.com'
+  - 'DOMAIN-SUFFIX,hiascend.cn'
+  - 'DOMAIN-SUFFIX,hiascend.com'
+  - 'DOMAIN-SUFFIX,hiclc.com'
+  - 'DOMAIN-SUFFIX,hikunpeng.cn'
+  - 'DOMAIN-SUFFIX,hikunpeng.com'
+  - 'DOMAIN-SUFFIX,hikunpeng.com.cn'
+  - 'DOMAIN-SUFFIX,hikunpeng.net'
+  - 'DOMAIN-SUFFIX,hisilicon.com'
+  - 'DOMAIN-SUFFIX,hisilicon.com.cn'
+  - 'DOMAIN-SUFFIX,huaweiapaas.com'
+  - 'DOMAIN-SUFFIX,mindspore.cn'
+  - 'DOMAIN-SUFFIX,owsgo.com'
+  - 'DOMAIN-SUFFIX,saasops.tech'
+  - 'DOMAIN-SUFFIX,teleows.com'

@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: idg
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/idg/idg.yaml
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,idg.com'
+  - 'DOMAIN-SUFFIX,idgcommunications.net'
+  - 'DOMAIN-SUFFIX,idgconnect-direct.com'
+  - 'DOMAIN-SUFFIX,idgconnect-resources.com'
+  - 'DOMAIN-SUFFIX,idgconnect.com'
+  - 'DOMAIN-SUFFIX,idgesg.net'
+  - 'DOMAIN-SUFFIX,idginc.com'
+  - 'DOMAIN-SUFFIX,idginsiderpro.com'

@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: midea
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/midea/midea.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,irsnp.com'
+  - 'DOMAIN-SUFFIX,mdcdn.cn'
+  - 'DOMAIN-SUFFIX,midea.cn'
+  - 'DOMAIN-SUFFIX,midea.com'
+  - 'DOMAIN-SUFFIX,midea.com.cn'
+  - 'DOMAIN-SUFFIX,mideaepayuat.com'
+  - 'DOMAIN-SUFFIX,msmartlife.cn'
+  - 'DOMAIN-SUFFIX,msmartlife.com'
+  - 'DOMAIN-SUFFIX,smartmidea.net'

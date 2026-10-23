@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: netease@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/netease@ads/netease@ads.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,a.youdao.com
+DOMAIN-SUFFIX,admusicpic.music.126.net
+DOMAIN-SUFFIX,ads.music.126.net
+DOMAIN-SUFFIX,analytics.163.com
+DOMAIN-SUFFIX,crash.163.com
+DOMAIN-SUFFIX,crashlytics.163.com
+DOMAIN-SUFFIX,g.163.com
+DOMAIN-SUFFIX,iadmat.nosdn.127.net
+DOMAIN-SUFFIX,iadmatapk.nosdn.127.net
+DOMAIN-SUFFIX,iadmusicmat.music.126.net
+DOMAIN-SUFFIX,iadmusicmatvideo.music.126.net
+DOMAIN-SUFFIX,sentry.music.163.com
+DOMAIN-SUFFIX,youdaoads.com

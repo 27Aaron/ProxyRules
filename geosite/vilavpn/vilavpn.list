@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: vilavpn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/vilavpn/vilavpn.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,vilavpn.com
+DOMAIN-SUFFIX,vilavpn.xyz
+DOMAIN-SUFFIX,vilavpn1.xyz
+DOMAIN-SUFFIX,vilavpn2.xyz
+DOMAIN-SUFFIX,vilavpn3.xyz
+DOMAIN-SUFFIX,vilavpn4.xyz
+DOMAIN-SUFFIX,vilavpn5.xyz
+DOMAIN-SUFFIX,vilavpn6.xyz
+DOMAIN-SUFFIX,vilavpn7.xyz

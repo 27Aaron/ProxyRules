@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: xiaohongshu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-09-20 21:37:23 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/xiaohongshu/xiaohongshu.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,askdiandian.com'
+  - 'DOMAIN-SUFFIX,diandianlife.top'
+  - 'DOMAIN-SUFFIX,redelight.cn'
+  - 'DOMAIN-SUFFIX,rednote.com.my'
+  - 'DOMAIN-SUFFIX,rednote.com'
+  - 'DOMAIN-SUFFIX,rednotecdn.com'
+  - 'DOMAIN-SUFFIX,rnote.com'
+  - 'DOMAIN-SUFFIX,xhscdn.com'
+  - 'DOMAIN-SUFFIX,xhscdn.net'
+  - 'DOMAIN-SUFFIX,xhslink.com'
+  - 'DOMAIN-SUFFIX,xhsrcdn.com'
+  - 'DOMAIN-SUFFIX,xiaohongshu.com'

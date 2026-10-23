@@ -1,0 +1,26 @@
+# -----------------------------------------------------
+# NAME: category-proxy-tunnels
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-proxy-tunnels/category-proxy-tunnels.list
+# DOMAIN-SUFFIX: 16
+# TOTAL: 16
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,equinox.io
+DOMAIN-SUFFIX,ngrok-agent.com
+DOMAIN-SUFFIX,ngrok-free.app
+DOMAIN-SUFFIX,ngrok-free.dev
+DOMAIN-SUFFIX,ngrok-free.pizza
+DOMAIN-SUFFIX,ngrok.app
+DOMAIN-SUFFIX,ngrok.com
+DOMAIN-SUFFIX,ngrok.dev
+DOMAIN-SUFFIX,ngrok.io
+DOMAIN-SUFFIX,ngrok.pizza
+DOMAIN-SUFFIX,ngrok.pro
+DOMAIN-SUFFIX,pinggy.io
+DOMAIN-SUFFIX,pinggy.link
+DOMAIN-SUFFIX,tailscale.com
+DOMAIN-SUFFIX,tailscale.io
+DOMAIN-SUFFIX,ts.net

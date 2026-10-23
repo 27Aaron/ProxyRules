@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: familymart
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/familymart/familymart.list
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,famifun.com.tw
+DOMAIN-SUFFIX,family.co.jp
+DOMAIN-SUFFIX,family.com.tw
+DOMAIN-SUFFIX,familymart.com.cn
+DOMAIN-SUFFIX,familymart.com.my
+DOMAIN-SUFFIX,familymart.com.ph
+DOMAIN-SUFFIX,famima.vn
