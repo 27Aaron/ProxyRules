@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: amap@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/amap@telemetry/amap@telemetry.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,adashx.ut.amap.com'
+  - 'DOMAIN-SUFFIX,dualstack-logs.amap.com'
+  - 'DOMAIN-SUFFIX,logs.amap.com'
+  - 'DOMAIN-SUFFIX,v6-adashx.ut.amap.com'

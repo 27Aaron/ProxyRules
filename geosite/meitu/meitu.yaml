@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: meitu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/meitu/meitu.yaml
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,designkit.cn'
+  - 'DOMAIN-SUFFIX,kaipai.com'
+  - 'DOMAIN-SUFFIX,meipai.com'
+  - 'DOMAIN-SUFFIX,meitu.com'
+  - 'DOMAIN-SUFFIX,meitudata.com'
+  - 'DOMAIN-SUFFIX,meitustat.com'
+  - 'DOMAIN-SUFFIX,meituxiuxiu.com'
+  - 'DOMAIN-SUFFIX,meiyan.com'
+  - 'DOMAIN-SUFFIX,miraclevision.com'
+  - 'DOMAIN-SUFFIX,roboneo.com'
+  - 'DOMAIN-SUFFIX,whee.com'
+  - 'DOMAIN-SUFFIX,wink.cn'
+  - 'DOMAIN-SUFFIX,zcool.com.cn'

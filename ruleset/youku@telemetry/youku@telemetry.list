@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: youku@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/youku@telemetry/youku@telemetry.list
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,adashx.ut.youku.com
+DOMAIN-SUFFIX,e.stat.ykimg.com
+DOMAIN-SUFFIX,h-adashx.ut.youku.com
+DOMAIN-SUFFIX,lstat.youku.com
+DOMAIN-SUFFIX,p-log.ykimg.com
+DOMAIN-SUFFIX,passport-log.youku.com
+DOMAIN-SUFFIX,s-adashx.ut.youku.com
+DOMAIN-SUFFIX,stat.youku.com
+DOMAIN-SUFFIX,statis.api.3g.youku.com
+DOMAIN-SUFFIX,v6-adashx.ut.youku.com

@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: category-games@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-games@telemetry/category-games@telemetry.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 3
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,insights-collector.gog.com
+DOMAIN-SUFFIX,log-upload-os.hoyoverse.com
+DOMAIN-SUFFIX,log-upload.mihoyo.com
+DOMAIN,sentry.ppy.sh

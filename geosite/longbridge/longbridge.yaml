@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: longbridge
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/longbridge/longbridge.yaml
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,lbctrl.com'
+  - 'DOMAIN-SUFFIX,lbkrs.com'
+  - 'DOMAIN-SUFFIX,longbridge.cloud'
+  - 'DOMAIN-SUFFIX,longbridge.cn'
+  - 'DOMAIN-SUFFIX,longbridge.com'
+  - 'DOMAIN-SUFFIX,longbridge.global'
+  - 'DOMAIN-SUFFIX,longbridge.hk'
+  - 'DOMAIN-SUFFIX,longbridge.sg'
+  - 'DOMAIN-SUFFIX,longbridgeapp.com'
+  - 'DOMAIN-SUFFIX,longbridgehk.com'
+  - 'DOMAIN-SUFFIX,longportapp.com'
+  - 'DOMAIN-SUFFIX,wbrks.com'

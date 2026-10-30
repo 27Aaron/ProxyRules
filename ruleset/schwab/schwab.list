@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: schwab
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-27 15:06:40 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/schwab/schwab.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,aboutschwab.com
+DOMAIN-SUFFIX,schwab.co.uk
+DOMAIN-SUFFIX,schwab.com
+DOMAIN-SUFFIX,schwab.com.hk
+DOMAIN-SUFFIX,schwab.com.sg
+DOMAIN-SUFFIX,schwabassetmanagement.com
+DOMAIN-SUFFIX,schwabcdn.com
+DOMAIN-SUFFIX,schwabplan.com
+DOMAIN-SUFFIX,thinkorswim.com

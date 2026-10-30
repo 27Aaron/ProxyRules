@@ -1,0 +1,31 @@
+# -----------------------------------------------------
+# NAME: nike@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/nike@cn/nike@cn.yaml
+# DOMAIN-SUFFIX: 20
+# TOTAL: 20
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,just-do-it.cn'
+  - 'DOMAIN-SUFFIX,nike-shox.cn'
+  - 'DOMAIN-SUFFIX,nike.cn'
+  - 'DOMAIN-SUFFIX,nikebetterworld.cn'
+  - 'DOMAIN-SUFFIX,nikebetterworld.com.cn'
+  - 'DOMAIN-SUFFIX,nikechina.cn'
+  - 'DOMAIN-SUFFIX,nikegolf.cn'
+  - 'DOMAIN-SUFFIX,nikeid.cn'
+  - 'DOMAIN-SUFFIX,nikeid.com.cn'
+  - 'DOMAIN-SUFFIX,nikeinc.com.cn'
+  - 'DOMAIN-SUFFIX,nikelab.cn'
+  - 'DOMAIN-SUFFIX,nikelab.com.cn'
+  - 'DOMAIN-SUFFIX,nikeliuxiang.cn'
+  - 'DOMAIN-SUFFIX,nikeliuxiang.com.cn'
+  - 'DOMAIN-SUFFIX,nikemall.cn'
+  - 'DOMAIN-SUFFIX,nikemall.com.cn'
+  - 'DOMAIN-SUFFIX,nikerunclub.cn'
+  - 'DOMAIN-SUFFIX,nikerunclub.com.cn'
+  - 'DOMAIN-SUFFIX,nikerunning.com.cn'
+  - 'DOMAIN-SUFFIX,nikestore.cn'

@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: bytedance@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/bytedance@telemetry/bytedance@telemetry.list
+# DOMAIN: 8
+# DOMAIN-SUFFIX: 4
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,applogcdn.com
+DOMAIN-SUFFIX,extlog.snssdk.com
+DOMAIN-SUFFIX,log.zijieapi.com
+DOMAIN-SUFFIX,volceapplog.com
+DOMAIN,log3-applog-hl.fqnovel.com
+DOMAIN,log3-applog.fqnovel.com
+DOMAIN,log5-applog-hl.fqnovel.com
+DOMAIN,log5-applog.fqnovel.com
+DOMAIN,rtlog3-applog-hl.fqnovel.com
+DOMAIN,rtlog3-applog.fqnovel.com
+DOMAIN,rtlog5-applog-hl.fqnovel.com
+DOMAIN,rtlog5-applog.fqnovel.com

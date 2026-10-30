@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: onedrive
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/onedrive/onedrive.yaml
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,1drv.com'
+  - 'DOMAIN-SUFFIX,1drv.ms'
+  - 'DOMAIN-SUFFIX,livefilestore.com'
+  - 'DOMAIN-SUFFIX,onedrive.co'
+  - 'DOMAIN-SUFFIX,onedrive.co.uk'
+  - 'DOMAIN-SUFFIX,onedrive.com'
+  - 'DOMAIN-SUFFIX,onedrive.eu'
+  - 'DOMAIN-SUFFIX,onedrive.live.com'
+  - 'DOMAIN-SUFFIX,onedrive.net'
+  - 'DOMAIN-SUFFIX,onedrive.org'
+  - 'DOMAIN-SUFFIX,storage.live.com'

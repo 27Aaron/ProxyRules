@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: connectivity-check@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/connectivity-check@cn/connectivity-check@cn.list
+# DOMAIN: 9
+# DOMAIN-SUFFIX: 1
+# TOTAL: 10
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,captive.apple.com
+DOMAIN,conn1.oppomobile.com
+DOMAIN,conn2.oppomobile.com
+DOMAIN,connect.rom.miui.com
+DOMAIN,connectivity.samsung.com.cn
+DOMAIN,connectivitycheck.platform.hicloud.com
+DOMAIN,connectivitycheck.platform.hihonorcloud.com
+DOMAIN,wifi.vivo.com.cn
+DOMAIN,www.gstatic.com
+DOMAIN,www.qualcomm.cn

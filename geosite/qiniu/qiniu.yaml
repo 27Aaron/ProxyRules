@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: qiniu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/qiniu/qiniu.yaml
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,qbox.me'
+  - 'DOMAIN-SUFFIX,qiniu.com'
+  - 'DOMAIN-SUFFIX,qiniucdn.com'
+  - 'DOMAIN-SUFFIX,qiniudn.com'
+  - 'DOMAIN-SUFFIX,qiniudns.com'
+  - 'DOMAIN-SUFFIX,qiniup.com'
+  - 'DOMAIN-SUFFIX,qnsdk.com'
+  - 'DOMAIN-SUFFIX,qnssl.com'
+  - 'DOMAIN-SUFFIX,staticfile.net'
+  - 'DOMAIN-SUFFIX,staticfile.org'

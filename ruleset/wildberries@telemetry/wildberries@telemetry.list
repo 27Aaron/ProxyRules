@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: wildberries@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/wildberries@telemetry/wildberries@telemetry.list
+# DOMAIN: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN,analytics-stage.wildberries.ru
+DOMAIN,analytics.wildberries.ru
+DOMAIN,marketplace-sentry.wb.ru
+DOMAIN,sentry.wb.ru
+DOMAIN,web-analytics.wildberries.ru

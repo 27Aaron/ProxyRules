@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: vk@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/vk@telemetry/vk@telemetry.yaml
+# DOMAIN: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,stats.vk-portal.net'

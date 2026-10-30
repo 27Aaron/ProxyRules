@@ -1,0 +1,30 @@
+# -----------------------------------------------------
+# NAME: harpercollins
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/harpercollins/harpercollins.list
+# DOMAIN-SUFFIX: 20
+# TOTAL: 20
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bookclubgirl.com
+DOMAIN-SUFFIX,collins.co.uk
+DOMAIN-SUFFIX,collins.in
+DOMAIN-SUFFIX,egmontbooks.co.uk
+DOMAIN-SUFFIX,epicreads.com
+DOMAIN-SUFFIX,harperacademic.com
+DOMAIN-SUFFIX,harperapps.com
+DOMAIN-SUFFIX,harpercollins.ca
+DOMAIN-SUFFIX,harpercollins.co.in
+DOMAIN-SUFFIX,harpercollins.co.uk
+DOMAIN-SUFFIX,harpercollins.com
+DOMAIN-SUFFIX,harpercollins.com.au
+DOMAIN-SUFFIX,harpercollinsadvantage.com
+DOMAIN-SUFFIX,harpercollinschildrensbooks.co.uk
+DOMAIN-SUFFIX,harpercollinschristian.com
+DOMAIN-SUFFIX,harpercollinsspeakersbureau.com
+DOMAIN-SUFFIX,hcpdts.com
+DOMAIN-SUFFIX,librarylovefest.com
+DOMAIN-SUFFIX,natgeokidsbooks.co.uk
+DOMAIN-SUFFIX,shelfstuff.com

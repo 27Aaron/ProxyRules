@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: dnspod
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/dnspod/dnspod.yaml
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dns.pub'
+  - 'DOMAIN-SUFFIX,dnsapi.cn'
+  - 'DOMAIN-SUFFIX,dnspod.cn'
+  - 'DOMAIN-SUFFIX,dnspod.com'
+  - 'DOMAIN-SUFFIX,dnspod.com.cn'
+  - 'DOMAIN-SUFFIX,dnspod.mobi'
+  - 'DOMAIN-SUFFIX,dnspod.net'
+  - 'DOMAIN-SUFFIX,dnspod.org'
+  - 'DOMAIN-SUFFIX,dnsv2.com'
+  - 'DOMAIN-SUFFIX,dnsv3.com'
+  - 'DOMAIN-SUFFIX,dnsv4.com'
+  - 'DOMAIN-SUFFIX,dnsv5.com'
+  - 'DOMAIN-SUFFIX,doh.pub'
+  - 'DOMAIN-SUFFIX,dot.pub'

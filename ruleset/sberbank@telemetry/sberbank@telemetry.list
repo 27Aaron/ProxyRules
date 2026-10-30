@@ -1,0 +1,11 @@
+# -----------------------------------------------------
+# NAME: sberbank@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/sberbank@telemetry/sberbank@telemetry.list
+# DOMAIN-SUFFIX: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,clickstream.sberbank.ru

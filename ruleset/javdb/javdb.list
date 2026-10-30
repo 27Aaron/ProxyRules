@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: javdb
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/javdb/javdb.list
+# DOMAIN-SUFFIX: 4
+# OMITTED-DOMAIN-REGEX: 1
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,jav.app
+DOMAIN-SUFFIX,javdb.com
+DOMAIN-SUFFIX,jdbimgs.com
+DOMAIN-SUFFIX,jdbstatic.com

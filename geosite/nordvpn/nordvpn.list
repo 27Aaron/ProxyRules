@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: nordvpn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-18 11:05:49 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/nordvpn/nordvpn.list
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,nordcdn.com
+DOMAIN-SUFFIX,nordvpn.com

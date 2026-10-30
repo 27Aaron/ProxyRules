@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: gamersky
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/gamersky/gamersky.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,click.gamersky.com'
+  - 'DOMAIN-SUFFIX,gamersky.com'
+  - 'DOMAIN-SUFFIX,ja.gamersky.com'
+  - 'DOMAIN-SUFFIX,ja1.gamersky.com'
+  - 'DOMAIN-SUFFIX,ja2.gamersky.com'
+  - 'DOMAIN-SUFFIX,wmbd.gamersky.com'

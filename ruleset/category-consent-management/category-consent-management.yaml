@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: category-consent-management
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-consent-management/category-consent-management.yaml
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,appconsent.io'
+  - 'DOMAIN-SUFFIX,axept.io'
+  - 'DOMAIN-SUFFIX,cdn-cookieyes.com'
+  - 'DOMAIN-SUFFIX,consentmanager.net'
+  - 'DOMAIN-SUFFIX,consentpro.com'
+  - 'DOMAIN-SUFFIX,cookiebot.com'
+  - 'DOMAIN-SUFFIX,cookielaw.org'
+  - 'DOMAIN-SUFFIX,cookiepro.com'
+  - 'DOMAIN-SUFFIX,cookieyes.com'
+  - 'DOMAIN-SUFFIX,onetrust.com'
+  - 'DOMAIN-SUFFIX,osano.com'
+  - 'DOMAIN-SUFFIX,termly.io'
+  - 'DOMAIN-SUFFIX,trustarc.com'
+  - 'DOMAIN-SUFFIX,usercentrics.eu'

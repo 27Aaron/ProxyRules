@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: tencent@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/tencent@telemetry/tencent@telemetry.yaml
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,badjs.weixinbridge.com'
+  - 'DOMAIN-SUFFIX,beacon.cdn.qq.com'
+  - 'DOMAIN-SUFFIX,beacon.qq.com'
+  - 'DOMAIN-SUFFIX,beaconcdn.qq.com'
+  - 'DOMAIN-SUFFIX,btrace.qq.com'
+  - 'DOMAIN-SUFFIX,bugly.qq.com'
+  - 'DOMAIN-SUFFIX,htrace.wetvinfo.com'
+  - 'DOMAIN-SUFFIX,log.tbs.qq.com'
+  - 'DOMAIN-SUFFIX,monitor.music.qq.com'
+  - 'DOMAIN-SUFFIX,monitor.uu.qq.com'
+  - 'DOMAIN-SUFFIX,mtrace.qq.com'
+  - 'DOMAIN-SUFFIX,report.qqweb.qq.com'
+  - 'DOMAIN-SUFFIX,report.tencentmusic.com'
+  - 'DOMAIN-SUFFIX,rmonitor.qq.com'
+  - 'DOMAIN-SUFFIX,sngmta.qq.com'
+  - 'DOMAIN-SUFFIX,stat.y.qq.com'
+  - 'DOMAIN-SUFFIX,tpstelemetry.tencent.com'
+  - 'DOMAIN-SUFFIX,trace.qq.com'

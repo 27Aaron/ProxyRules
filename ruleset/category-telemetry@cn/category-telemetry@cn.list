@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: category-telemetry@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-telemetry@cn/category-telemetry@cn.list
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 1
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,cloudflareinsights-cn.com
+DOMAIN,crashlyticsreports-pa.googleapis.com
+DOMAIN,firebase-settings.crashlytics.com
+DOMAIN,update.crashlytics.com

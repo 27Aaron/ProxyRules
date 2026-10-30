@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: blender
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/blender/blender.list
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,bigbuckbunny.org
+DOMAIN-SUFFIX,blender.org
+DOMAIN-SUFFIX,elephantsdream.org

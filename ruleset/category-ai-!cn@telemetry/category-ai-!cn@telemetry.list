@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: category-ai-!cn@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-ai-!cn@telemetry/category-ai-!cn@telemetry.list
+# DOMAIN: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN,browser-intake-datadoghq.com
+DOMAIN,copilot-telemetry-service.githubusercontent.com
+DOMAIN,copilot-telemetry.githubusercontent.com
+DOMAIN,o33249.ingest.sentry.io
+DOMAIN,o33249.ingest.us.sentry.io
