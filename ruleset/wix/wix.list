@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: wix
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/wix/wix.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,editorx.com
+DOMAIN-SUFFIX,parastorage.com
+DOMAIN-SUFFIX,wix-code.com
+DOMAIN-SUFFIX,wix.com
+DOMAIN-SUFFIX,wixanswers.com
+DOMAIN-SUFFIX,wixapps.net
+DOMAIN-SUFFIX,wixmp.com
+DOMAIN-SUFFIX,wixsite.com
+DOMAIN-SUFFIX,wixstatic.com

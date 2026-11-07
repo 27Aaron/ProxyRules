@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: webflow
+# AUTHOR: 27Aaron
+# UPDATED: 2026-11-01 15:46:32 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/webflow/webflow.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,webflow-ext.com'
+  - 'DOMAIN-SUFFIX,webflow.com'
+  - 'DOMAIN-SUFFIX,webflow.io'
+  - 'DOMAIN-SUFFIX,website-files.com'

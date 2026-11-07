@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: eleme@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/eleme@telemetry/eleme@telemetry.list
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,adashx.ut.ele.me
+DOMAIN-SUFFIX,h-adashx.ut.ele.me
+DOMAIN-SUFFIX,v6-adashx.ut.ele.me

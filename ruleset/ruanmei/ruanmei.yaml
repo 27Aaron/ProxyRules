@@ -1,0 +1,20 @@
+# -----------------------------------------------------
+# NAME: ruanmei
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ruanmei/ruanmei.yaml
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,6655.com'
+  - 'DOMAIN-SUFFIX,cooldock.com'
+  - 'DOMAIN-SUFFIX,ithome.com'
+  - 'DOMAIN-SUFFIX,lapin365.com'
+  - 'DOMAIN-SUFFIX,ruanmei.com'
+  - 'DOMAIN-SUFFIX,saayaa.com'
+  - 'DOMAIN-SUFFIX,win7china.com'
+  - 'DOMAIN-SUFFIX,win8china.com'
+  - 'DOMAIN-SUFFIX,zuihuimai.com'

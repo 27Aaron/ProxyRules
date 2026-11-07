@@ -1,0 +1,11 @@
+# -----------------------------------------------------
+# NAME: fanfiction
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-22 12:26:31 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/fanfiction/fanfiction.list
+# DOMAIN-SUFFIX: 1
+# TOTAL: 1
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,fanfiction.net

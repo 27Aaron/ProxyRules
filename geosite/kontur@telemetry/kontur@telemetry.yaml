@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: kontur@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/kontur@telemetry/kontur@telemetry.yaml
+# DOMAIN: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,metrika.kontur.ru'
+  - 'DOMAIN,sentry.kontur.host'

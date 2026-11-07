@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: kuaishou@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/kuaishou@telemetry/kuaishou@telemetry.yaml
+# DOMAIN: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,apilog-web.acfun.cn'
+  - 'DOMAIN,log-sdk.gifshow.com'
+  - 'DOMAIN,wlog.kuaishou.com'

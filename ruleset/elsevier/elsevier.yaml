@@ -1,0 +1,25 @@
+# -----------------------------------------------------
+# NAME: elsevier
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/elsevier/elsevier.yaml
+# DOMAIN-SUFFIX: 14
+# TOTAL: 14
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cell.com'
+  - 'DOMAIN-SUFFIX,clinicalkey.com'
+  - 'DOMAIN-SUFFIX,els-cdn.com'
+  - 'DOMAIN-SUFFIX,elsevier-ae.com'
+  - 'DOMAIN-SUFFIX,elsevier.com'
+  - 'DOMAIN-SUFFIX,elsevier.io'
+  - 'DOMAIN-SUFFIX,engineeringvillage.com'
+  - 'DOMAIN-SUFFIX,evise.com'
+  - 'DOMAIN-SUFFIX,fundinginstitutional.com'
+  - 'DOMAIN-SUFFIX,knovel.com'
+  - 'DOMAIN-SUFFIX,mendeley.com'
+  - 'DOMAIN-SUFFIX,reaxys.com'
+  - 'DOMAIN-SUFFIX,scival.com'
+  - 'DOMAIN-SUFFIX,scopus.com'

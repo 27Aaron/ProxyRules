@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: z3x-team
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/z3x-team/z3x-team.list
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,easy-jtag.com
+DOMAIN-SUFFIX,z3x-team.com

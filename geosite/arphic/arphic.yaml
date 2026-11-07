@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: arphic
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/arphic/arphic.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,arphic.com'
+  - 'DOMAIN-SUFFIX,arphic.com.cn'
+  - 'DOMAIN-SUFFIX,arphic.com.tw'
+  - 'DOMAIN-SUFFIX,ifontcloud.com'

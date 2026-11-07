@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: category-enterprise-query-platform-cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/category-enterprise-query-platform-cn/category-enterprise-query-platform-cn.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,aiqicha.baidu.com
+DOMAIN-SUFFIX,aiqicha.cn
+DOMAIN-SUFFIX,aiqicha.com
+DOMAIN-SUFFIX,jindidata.com
+DOMAIN-SUFFIX,qcc.com
+DOMAIN-SUFFIX,qichacha.com
+DOMAIN-SUFFIX,qichamao.com
+DOMAIN-SUFFIX,qixin.com
+DOMAIN-SUFFIX,qyyjt.cn
+DOMAIN-SUFFIX,tianyancha.com
+DOMAIN-SUFFIX,x315.com
+DOMAIN-SUFFIX,xcc.cn
+DOMAIN-SUFFIX,xinchacha.com

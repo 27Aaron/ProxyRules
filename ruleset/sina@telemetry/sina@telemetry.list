@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: sina@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/sina@telemetry/sina@telemetry.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,beacon.sina.com.cn
+DOMAIN-SUFFIX,log.sina.cn
+DOMAIN-SUFFIX,log2.sina.cn
+DOMAIN-SUFFIX,sbeacon.sina.com.cn
+DOMAIN-SUFFIX,slog.sina.cn
+DOMAIN-SUFFIX,slog.sina.com.cn

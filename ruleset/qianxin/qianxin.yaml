@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: qianxin
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/qianxin/qianxin.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,95015.com'
+  - 'DOMAIN-SUFFIX,ceati.org.cn'
+  - 'DOMAIN-SUFFIX,datacon.org.cn'
+  - 'DOMAIN-SUFFIX,qianxin.com'
+  - 'DOMAIN-SUFFIX,qianxincdn.com'
+  - 'DOMAIN-SUFFIX,seclab.online'
+  - 'DOMAIN-SUFFIX,tianshucup.com'

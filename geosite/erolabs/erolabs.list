@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: erolabs
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/erolabs/erolabs.list
+# DOMAIN-SUFFIX: 13
+# TOTAL: 13
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ero-labs.cloud
+DOMAIN-SUFFIX,ero-labs.com
+DOMAIN-SUFFIX,ero-labs.fun
+DOMAIN-SUFFIX,ero-labs.io
+DOMAIN-SUFFIX,ero-labs.net
+DOMAIN-SUFFIX,ero-labs.one
+DOMAIN-SUFFIX,ero-labs.online
+DOMAIN-SUFFIX,ero-labs.site
+DOMAIN-SUFFIX,erolabs.cloud
+DOMAIN-SUFFIX,erolabs.com
+DOMAIN-SUFFIX,erolabs.net
+DOMAIN-SUFFIX,erolabs.online
+DOMAIN-SUFFIX,erolabsshare.xyz

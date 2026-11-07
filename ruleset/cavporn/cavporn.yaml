@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: cavporn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/cavporn/cavporn.yaml
+# DOMAIN-SUFFIX: 2
+# OMITTED-DOMAIN-REGEX: 1
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,cavporn.com'
+  - 'DOMAIN-SUFFIX,cavporn.github.io'

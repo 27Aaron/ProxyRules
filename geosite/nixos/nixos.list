@@ -1,0 +1,23 @@
+# -----------------------------------------------------
+# NAME: nixos
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-12 14:00:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/nixos/nixos.list
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 11
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,builtwithnix.org
+DOMAIN-SUFFIX,mynixos.com
+DOMAIN-SUFFIX,nix-community.org
+DOMAIN-SUFFIX,nix.dev
+DOMAIN-SUFFIX,nix.store
+DOMAIN-SUFFIX,nixcon.org
+DOMAIN-SUFFIX,nixcon2017.org
+DOMAIN-SUFFIX,nixlang.com
+DOMAIN-SUFFIX,nixos.org
+DOMAIN-SUFFIX,nixos.wiki
+DOMAIN-SUFFIX,nixpkgs.org
+DOMAIN,nix-community.github.io

@@ -1,0 +1,32 @@
+# -----------------------------------------------------
+# NAME: ibkr
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ibkr/ibkr.yaml
+# DOMAIN-SUFFIX: 21
+# TOTAL: 21
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ibkr.ca'
+  - 'DOMAIN-SUFFIX,ibkr.co.in'
+  - 'DOMAIN-SUFFIX,ibkr.co.uk'
+  - 'DOMAIN-SUFFIX,ibkr.com'
+  - 'DOMAIN-SUFFIX,ibkr.com.au'
+  - 'DOMAIN-SUFFIX,ibkr.com.hk'
+  - 'DOMAIN-SUFFIX,ibkr.com.sg'
+  - 'DOMAIN-SUFFIX,ibkr.eu'
+  - 'DOMAIN-SUFFIX,ibkr.ie'
+  - 'DOMAIN-SUFFIX,ibkrguides.com'
+  - 'DOMAIN-SUFFIX,ibllc.com'
+  - 'DOMAIN-SUFFIX,interactivebrokers.ca'
+  - 'DOMAIN-SUFFIX,interactivebrokers.co.in'
+  - 'DOMAIN-SUFFIX,interactivebrokers.co.jp'
+  - 'DOMAIN-SUFFIX,interactivebrokers.co.uk'
+  - 'DOMAIN-SUFFIX,interactivebrokers.com'
+  - 'DOMAIN-SUFFIX,interactivebrokers.com.au'
+  - 'DOMAIN-SUFFIX,interactivebrokers.com.hk'
+  - 'DOMAIN-SUFFIX,interactivebrokers.com.sg'
+  - 'DOMAIN-SUFFIX,interactivebrokers.eu'
+  - 'DOMAIN-SUFFIX,interactivebrokers.ie'

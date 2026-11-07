@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: sberbank@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-09 18:12:15 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/sberbank@ads/sberbank@ads.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 2
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ads.sber.ru'
+  - 'DOMAIN-SUFFIX,clickstream.sberbank.ru'
+  - 'DOMAIN,visor.sberbank.ru'

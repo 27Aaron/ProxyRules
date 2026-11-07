@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: zhihu
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/zhihu/zhihu.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,crash2.zhihu.com
+DOMAIN-SUFFIX,laiyagushi.com
+DOMAIN-SUFFIX,vzuu.com
+DOMAIN-SUFFIX,zhihu-web-analytics.zhihu.com
+DOMAIN-SUFFIX,zhihu.com
+DOMAIN-SUFFIX,zhimg.com

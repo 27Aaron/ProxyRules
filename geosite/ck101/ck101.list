@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: ck101
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/ck101/ck101.list
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,ck101.com
+DOMAIN-SUFFIX,ckcdn.com
+DOMAIN-SUFFIX,ckck.fun
