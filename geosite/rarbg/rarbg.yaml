@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: rarbg
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/rarbg/rarbg.yaml
+# DOMAIN-SUFFIX: 18
+# TOTAL: 18
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,dyncdn.me'
+  - 'DOMAIN-SUFFIX,proxyrarbg.org'
+  - 'DOMAIN-SUFFIX,rarbg.is'
+  - 'DOMAIN-SUFFIX,rarbg.me'
+  - 'DOMAIN-SUFFIX,rarbg.to'
+  - 'DOMAIN-SUFFIX,rarbgaccess.org'
+  - 'DOMAIN-SUFFIX,rarbgaccessed.org'
+  - 'DOMAIN-SUFFIX,rarbgget.org'
+  - 'DOMAIN-SUFFIX,rarbggo.org'
+  - 'DOMAIN-SUFFIX,rarbgmirror.com'
+  - 'DOMAIN-SUFFIX,rarbgmirror.org'
+  - 'DOMAIN-SUFFIX,rarbgproxy.org'
+  - 'DOMAIN-SUFFIX,rarbgprx.org'
+  - 'DOMAIN-SUFFIX,rarbgto.org'
+  - 'DOMAIN-SUFFIX,rarbgunblock.com'
+  - 'DOMAIN-SUFFIX,rarbgunblock.org'
+  - 'DOMAIN-SUFFIX,rarbgunblocked.org'
+  - 'DOMAIN-SUFFIX,rarbgway.org'

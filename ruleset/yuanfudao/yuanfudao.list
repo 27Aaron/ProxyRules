@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: yuanfudao
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/yuanfudao/yuanfudao.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,banmaaike.com
+DOMAIN-SUFFIX,fbstatic.cn
+DOMAIN-SUFFIX,fenbi.com
+DOMAIN-SUFFIX,fenbike.cn
+DOMAIN-SUFFIX,fenbike.com
+DOMAIN-SUFFIX,fenbilantian.cn
+DOMAIN-SUFFIX,fenbilantian.com
+DOMAIN-SUFFIX,xiaoyuankousuan.com
+DOMAIN-SUFFIX,ybccode.com
+DOMAIN-SUFFIX,yuanfudao.com
+DOMAIN-SUFFIX,yuansouti.com
+DOMAIN-SUFFIX,yuantiku.com

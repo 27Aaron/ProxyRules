@@ -1,0 +1,24 @@
+# -----------------------------------------------------
+# NAME: pchome
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/pchome/pchome.yaml
+# DOMAIN: 1
+# DOMAIN-SUFFIX: 11
+# TOTAL: 12
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,ecimg.tw'
+  - 'DOMAIN-SUFFIX,pchome.com.tw'
+  - 'DOMAIN-SUFFIX,pchomeec.tw'
+  - 'DOMAIN-SUFFIX,pchomeonline.com.tw'
+  - 'DOMAIN-SUFFIX,pchomepay.com.tw'
+  - 'DOMAIN-SUFFIX,pcloud.tw'
+  - 'DOMAIN-SUFFIX,pcstore.com.tw'
+  - 'DOMAIN-SUFFIX,piapp.com.tw'
+  - 'DOMAIN-SUFFIX,rakuya.com.tw'
+  - 'DOMAIN-SUFFIX,tagapie.com.tw'
+  - 'DOMAIN-SUFFIX,toget.com.tw'
+  - 'DOMAIN,ecapi-pchome.cdn.hinet.net'

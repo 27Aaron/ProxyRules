@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: envato
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/envato/envato.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,envato-static.com
+DOMAIN-SUFFIX,envato.com
+DOMAIN-SUFFIX,envatousercontent.com
+DOMAIN-SUFFIX,themeforest.net

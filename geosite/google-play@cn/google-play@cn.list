@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: google-play@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/google-play@cn/google-play@cn.list
+# DOMAIN: 1
+# OMITTED-DOMAIN-REGEX: 2
+# TOTAL: 1
+# -----------------------------------------------------
+
+DOMAIN,redirector.c.play.google.com

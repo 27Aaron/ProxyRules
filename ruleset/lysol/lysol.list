@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: lysol
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/lysol/lysol.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,lizol.co.in
+DOMAIN-SUFFIX,lysol.ca
+DOMAIN-SUFFIX,lysol.cl
+DOMAIN-SUFFIX,lysol.cn
+DOMAIN-SUFFIX,lysol.co.cr
+DOMAIN-SUFFIX,lysol.com
+DOMAIN-SUFFIX,lysol.com.cn
+DOMAIN-SUFFIX,lysol.com.mx
+DOMAIN-SUFFIX,lysol.net

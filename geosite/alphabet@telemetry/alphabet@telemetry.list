@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: alphabet@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/alphabet@telemetry/alphabet@telemetry.list
+# DOMAIN: 5
+# TOTAL: 5
+# -----------------------------------------------------
+
+DOMAIN,crashlyticsreports-pa.googleapis.com
+DOMAIN,firebase-settings.crashlytics.com
+DOMAIN,firebaselogging-pa.googleapis.com
+DOMAIN,firebaselogging.googleapis.com
+DOMAIN,update.crashlytics.com

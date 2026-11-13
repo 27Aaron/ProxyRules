@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: 2ch
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/2ch/2ch.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,2ch.hk
+DOMAIN-SUFFIX,2ch.life
+DOMAIN-SUFFIX,2ch.org
+DOMAIN-SUFFIX,2ch.su

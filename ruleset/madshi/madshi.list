@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: madshi
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/madshi/madshi.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,madshi.net
+DOMAIN-SUFFIX,madvr.com
+DOMAIN-SUFFIX,madvr.net
+DOMAIN-SUFFIX,madvrlabs.llc

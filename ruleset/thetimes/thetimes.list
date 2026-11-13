@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: thetimes
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/thetimes/thetimes.list
+# DOMAIN-SUFFIX: 9
+# TOTAL: 9
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,driving.co.uk
+DOMAIN-SUFFIX,mytimesplus.co.uk
+DOMAIN-SUFFIX,sportswomanoftheyear.co.uk
+DOMAIN-SUFFIX,sportswomenoftheyear.co.uk
+DOMAIN-SUFFIX,the-tls.co.uk
+DOMAIN-SUFFIX,thesundaytimes.co.uk
+DOMAIN-SUFFIX,thetimes.co.uk
+DOMAIN-SUFFIX,thetimes.ie
+DOMAIN-SUFFIX,timesmembership.com

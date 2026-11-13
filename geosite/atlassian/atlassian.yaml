@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: atlassian
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/atlassian/atlassian.yaml
+# DOMAIN-SUFFIX: 11
+# TOTAL: 11
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,atl-paas.net'
+  - 'DOMAIN-SUFFIX,atlassian-dev.net'
+  - 'DOMAIN-SUFFIX,atlassian.com'
+  - 'DOMAIN-SUFFIX,atlassian.net'
+  - 'DOMAIN-SUFFIX,bitbucket.io'
+  - 'DOMAIN-SUFFIX,bitbucket.org'
+  - 'DOMAIN-SUFFIX,jira.com'
+  - 'DOMAIN-SUFFIX,ss-inf.net'
+  - 'DOMAIN-SUFFIX,statuspage.io'
+  - 'DOMAIN-SUFFIX,trello.com'
+  - 'DOMAIN-SUFFIX,trellocdn.com'

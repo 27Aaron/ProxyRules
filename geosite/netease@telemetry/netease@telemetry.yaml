@@ -1,0 +1,15 @@
+# -----------------------------------------------------
+# NAME: netease@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/netease@telemetry/netease@telemetry.yaml
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,analytics.163.com'
+  - 'DOMAIN-SUFFIX,crash.163.com'
+  - 'DOMAIN-SUFFIX,crashlytics.163.com'
+  - 'DOMAIN-SUFFIX,sentry.music.163.com'

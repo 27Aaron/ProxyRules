@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: ubiquiti@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/ubiquiti@cn/ubiquiti@cn.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,amplifi.com.cn'
+  - 'DOMAIN-SUFFIX,frontrow.com.cn'
+  - 'DOMAIN-SUFFIX,ubnt.com.cn'
+  - 'DOMAIN-SUFFIX,ubnt.com'
+  - 'DOMAIN-SUFFIX,ui.com.cn'
+  - 'DOMAIN-SUFFIX,uum.com.cn'
+  - 'DOMAIN-SUFFIX,uwn.com'

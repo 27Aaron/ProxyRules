@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: hikvision
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/hikvision/hikvision.list
+# DOMAIN-SUFFIX: 8
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,eziot.com
+DOMAIN-SUFFIX,ezviz.com
+DOMAIN-SUFFIX,hik-cloud.com
+DOMAIN-SUFFIX,hik-express.com
+DOMAIN-SUFFIX,hikiot.com
+DOMAIN-SUFFIX,hikmall.com
+DOMAIN-SUFFIX,hikvision.com
+DOMAIN-SUFFIX,ys7.com

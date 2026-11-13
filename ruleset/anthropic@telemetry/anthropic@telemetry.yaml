@@ -1,0 +1,13 @@
+# -----------------------------------------------------
+# NAME: anthropic@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-11-08 03:34:19 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/anthropic@telemetry/anthropic@telemetry.yaml
+# DOMAIN: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN,http-intake.logs.us5.datadoghq.com'
+  - 'DOMAIN,o1158394.ingest.us.sentry.io'

@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: louisvuitton@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-19 22:48:25 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/louisvuitton@cn/louisvuitton@cn.list
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,louisvuitton.cn
+DOMAIN-SUFFIX,lvcampaign.com

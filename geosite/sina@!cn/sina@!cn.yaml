@@ -1,0 +1,18 @@
+# -----------------------------------------------------
+# NAME: sina@!cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/sina@!cn/sina@!cn.yaml
+# DOMAIN-SUFFIX: 7
+# TOTAL: 7
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,hk.weibo.com'
+  - 'DOMAIN-SUFFIX,my.weibo.com'
+  - 'DOMAIN-SUFFIX,overseas.weibo.com'
+  - 'DOMAIN-SUFFIX,sg.weibo.com'
+  - 'DOMAIN-SUFFIX,th.weibo.com'
+  - 'DOMAIN-SUFFIX,tw.weibo.com'
+  - 'DOMAIN-SUFFIX,us.weibo.com'

@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: taikang
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/taikang/taikang.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,taikang.com
+DOMAIN-SUFFIX,taikanglife.com
+DOMAIN-SUFFIX,taikangzhijia.com
+DOMAIN-SUFFIX,tkhealthcare.com

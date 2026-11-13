@@ -1,0 +1,16 @@
+# -----------------------------------------------------
+# NAME: meadjohnson
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/meadjohnson/meadjohnson.list
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,enfinitas.com.cn
+DOMAIN-SUFFIX,meadjohnson.com
+DOMAIN-SUFFIX,meadjohnson.com.cn
+DOMAIN-SUFFIX,meadjohnson.com.hk
+DOMAIN-SUFFIX,meadjohnson.com.tw
+DOMAIN-SUFFIX,meadjohnson.net

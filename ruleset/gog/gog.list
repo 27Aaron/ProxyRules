@@ -1,0 +1,19 @@
+# -----------------------------------------------------
+# NAME: gog
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/gog/gog.list
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 5
+# TOTAL: 8
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,gog-services.com
+DOMAIN-SUFFIX,gog-statics.com
+DOMAIN-SUFFIX,gog.com
+DOMAIN-SUFFIX,gogalaxy.com
+DOMAIN-SUFFIX,insights-collector.gog.com
+DOMAIN,gog-cdn-lumen.secure2.footprint.net
+DOMAIN,gog-cdn.akamaized.net
+DOMAIN,gog.qtlglb.com

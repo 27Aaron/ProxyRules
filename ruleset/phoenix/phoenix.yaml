@@ -1,0 +1,17 @@
+# -----------------------------------------------------
+# NAME: phoenix
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/phoenix/phoenix.yaml
+# DOMAIN-SUFFIX: 6
+# TOTAL: 6
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,fengcx.com'
+  - 'DOMAIN-SUFFIX,fengedu.com'
+  - 'DOMAIN-SUFFIX,ifeng.com'
+  - 'DOMAIN-SUFFIX,ifengimg.com'
+  - 'DOMAIN-SUFFIX,ifengweekly.com'
+  - 'DOMAIN-SUFFIX,phoenixcenter.cn'

@@ -1,0 +1,29 @@
+# -----------------------------------------------------
+# NAME: steam@cn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/steam@cn/steam@cn.yaml
+# DOMAIN: 3
+# DOMAIN-SUFFIX: 14
+# TOTAL: 17
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,client-update.queniuqe.com'
+  - 'DOMAIN-SUFFIX,csgo.com.cn'
+  - 'DOMAIN-SUFFIX,csgo.wmsj.cn'
+  - 'DOMAIN-SUFFIX,dl.steam.clngaa.com'
+  - 'DOMAIN-SUFFIX,dota2.com.cn'
+  - 'DOMAIN-SUFFIX,dota2.wmsj.cn'
+  - 'DOMAIN-SUFFIX,gstore.val.manlaxy.com'
+  - 'DOMAIN-SUFFIX,st.dl.bscstorage.net'
+  - 'DOMAIN-SUFFIX,st.dl.eccdnx.com'
+  - 'DOMAIN-SUFFIX,st.dl.pinyuncloud.com'
+  - 'DOMAIN-SUFFIX,steamchina.com'
+  - 'DOMAIN-SUFFIX,steampowered.com.8686c.com'
+  - 'DOMAIN-SUFFIX,steamstatic.com.8686c.com'
+  - 'DOMAIN-SUFFIX,wmsjsteam.com'
+  - 'DOMAIN,alibaba.cdn.steampipe.steamcontent.com'
+  - 'DOMAIN,lv.queniujq.cn'
+  - 'DOMAIN,xz.pphimalayanrt.com'

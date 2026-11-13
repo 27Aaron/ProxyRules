@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: dailymail
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/dailymail/dailymail.yaml
+# DOMAIN-SUFFIX: 17
+# TOTAL: 17
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,anm.co.uk'
+  - 'DOMAIN-SUFFIX,dailym.ai'
+  - 'DOMAIN-SUFFIX,dailymail.co.uk'
+  - 'DOMAIN-SUFFIX,dailymail.com'
+  - 'DOMAIN-SUFFIX,dailymail.com.au'
+  - 'DOMAIN-SUFFIX,dailymail.dk'
+  - 'DOMAIN-SUFFIX,dailymailonline.com'
+  - 'DOMAIN-SUFFIX,dmgmediaprivacy.co.uk'
+  - 'DOMAIN-SUFFIX,mailhealth.com'
+  - 'DOMAIN-SUFFIX,mailonline.co.uk'
+  - 'DOMAIN-SUFFIX,mailonline.com'
+  - 'DOMAIN-SUFFIX,mailonsunday.co.uk'
+  - 'DOMAIN-SUFFIX,mailonsunday.ie'
+  - 'DOMAIN-SUFFIX,metro.co.uk'
+  - 'DOMAIN-SUFFIX,mol.im'
+  - 'DOMAIN-SUFFIX,thisismoney.co.uk'
+  - 'DOMAIN-SUFFIX,thismon.ee'

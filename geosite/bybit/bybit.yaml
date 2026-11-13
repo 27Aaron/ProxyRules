@@ -1,0 +1,28 @@
+# -----------------------------------------------------
+# NAME: bybit
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/bybit/bybit.yaml
+# DOMAIN: 2
+# DOMAIN-SUFFIX: 14
+# TOTAL: 16
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,byabcde.com'
+  - 'DOMAIN-SUFFIX,byapis.com'
+  - 'DOMAIN-SUFFIX,byapps.net'
+  - 'DOMAIN-SUFFIX,bybdc6.com'
+  - 'DOMAIN-SUFFIX,bybit-global.com'
+  - 'DOMAIN-SUFFIX,bybit.biz'
+  - 'DOMAIN-SUFFIX,bybit.cloud'
+  - 'DOMAIN-SUFFIX,bybit.com'
+  - 'DOMAIN-SUFFIX,bybitglobal.com'
+  - 'DOMAIN-SUFFIX,bycbe.com'
+  - 'DOMAIN-SUFFIX,bycsi.com'
+  - 'DOMAIN-SUFFIX,byd3c3.com'
+  - 'DOMAIN-SUFFIX,bymj.io'
+  - 'DOMAIN-SUFFIX,bytick.com'
+  - 'DOMAIN,bybit-exchange.github.io'
+  - 'DOMAIN,bybit.ada.support'

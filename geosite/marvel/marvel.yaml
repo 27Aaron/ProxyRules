@@ -1,0 +1,21 @@
+# -----------------------------------------------------
+# NAME: marvel
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/marvel/marvel.yaml
+# DOMAIN-SUFFIX: 10
+# TOTAL: 10
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,marvel.com'
+  - 'DOMAIN-SUFFIX,marvel10thanniversary.com'
+  - 'DOMAIN-SUFFIX,marveldimensionofheroes.com'
+  - 'DOMAIN-SUFFIX,marvelparty.net'
+  - 'DOMAIN-SUFFIX,marvelpinball.com'
+  - 'DOMAIN-SUFFIX,marvelsdoubleagent.com'
+  - 'DOMAIN-SUFFIX,marvelspotlightplays.com'
+  - 'DOMAIN-SUFFIX,marvelsuperheroseptember.com'
+  - 'DOMAIN-SUFFIX,marvelsuperwar.com'
+  - 'DOMAIN-SUFFIX,themarvelexperiencetour.com'

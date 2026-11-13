@@ -1,0 +1,12 @@
+# -----------------------------------------------------
+# NAME: mts-ru@ads
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/mts-ru@ads/mts-ru@ads.list
+# DOMAIN-SUFFIX: 2
+# TOTAL: 2
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,a.mts.ru
+DOMAIN-SUFFIX,obs.mts.ru

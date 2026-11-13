@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: category-food-cn@telemetry
+# AUTHOR: 27Aaron
+# UPDATED: 2026-10-26 18:27:16 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/category-food-cn@telemetry/category-food-cn@telemetry.list
+# DOMAIN-SUFFIX: 4
+# TOTAL: 4
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,logger.qmai.cn
+DOMAIN-SUFFIX,tracking.mcdonalds.com.cn
+DOMAIN-SUFFIX,trackingprd.hwwt8.com
+DOMAIN-SUFFIX,trackserver.shuxinyc.com

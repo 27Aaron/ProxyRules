@@ -1,0 +1,31 @@
+# -----------------------------------------------------
+# NAME: synology
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/synology/synology.yaml
+# DOMAIN-SUFFIX: 20
+# TOTAL: 20
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,diskstation.me'
+  - 'DOMAIN-SUFFIX,dscloud.biz'
+  - 'DOMAIN-SUFFIX,dscloud.me'
+  - 'DOMAIN-SUFFIX,dscloud.mobi'
+  - 'DOMAIN-SUFFIX,dsmynas.com'
+  - 'DOMAIN-SUFFIX,dsmynas.net'
+  - 'DOMAIN-SUFFIX,dsmynas.org'
+  - 'DOMAIN-SUFFIX,familyds.com'
+  - 'DOMAIN-SUFFIX,familyds.net'
+  - 'DOMAIN-SUFFIX,familyds.org'
+  - 'DOMAIN-SUFFIX,gofile.me'
+  - 'DOMAIN-SUFFIX,i234.me'
+  - 'DOMAIN-SUFFIX,myds.me'
+  - 'DOMAIN-SUFFIX,quickconnect.cn'
+  - 'DOMAIN-SUFFIX,quickconnect.to'
+  - 'DOMAIN-SUFFIX,synology.cn'
+  - 'DOMAIN-SUFFIX,synology.com'
+  - 'DOMAIN-SUFFIX,synology.me'
+  - 'DOMAIN-SUFFIX,synologydownload.com'
+  - 'DOMAIN-SUFFIX,synologyupdate.com'

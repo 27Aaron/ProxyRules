@@ -1,0 +1,14 @@
+# -----------------------------------------------------
+# NAME: vrcdn
+# AUTHOR: 27Aaron
+# UPDATED: 2026-08-07 12:44:08 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/geosite/vrcdn/vrcdn.yaml
+# DOMAIN-SUFFIX: 3
+# TOTAL: 3
+# -----------------------------------------------------
+
+payload:
+  - 'DOMAIN-SUFFIX,vrcdn.cloud'
+  - 'DOMAIN-SUFFIX,vrcdn.live'
+  - 'DOMAIN-SUFFIX,vrcdn.video'

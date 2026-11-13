@@ -1,0 +1,22 @@
+# -----------------------------------------------------
+# NAME: greatfire
+# AUTHOR: 27Aaron
+# UPDATED: 2026-11-13 06:05:02 UTC+08:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://raw.githubusercontent.com/27Aaron/ProxyRules/rules/ruleset/greatfire/greatfire.list
+# DOMAIN-SUFFIX: 12
+# TOTAL: 12
+# -----------------------------------------------------
+
+DOMAIN-SUFFIX,applecensorship.com
+DOMAIN-SUFFIX,freebrowser.org
+DOMAIN-SUFFIX,freewechat.com
+DOMAIN-SUFFIX,freeweibo.com
+DOMAIN-SUFFIX,freezhihu.org
+DOMAIN-SUFFIX,googlecensorship.org
+DOMAIN-SUFFIX,googleplaycensorship.com
+DOMAIN-SUFFIX,greatfire.org
+DOMAIN-SUFFIX,greatfirevpn.com
+DOMAIN-SUFFIX,manyvoices.news
+DOMAIN-SUFFIX,pao-pao.net
+DOMAIN-SUFFIX,wikiunblocked.org
