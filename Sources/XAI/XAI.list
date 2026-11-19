@@ -1,0 +1,7 @@
+# xAI / Grok endpoints, distilled from the v2fly domain-list-community xai
+# entry (plain entries map to DOMAIN-SUFFIX in our syntax).
+DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,grok.x.com
+DOMAIN-SUFFIX,grokbot.com
+DOMAIN-SUFFIX,grokipedia.com
+DOMAIN-SUFFIX,x.ai

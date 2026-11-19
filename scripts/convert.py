@@ -43,6 +43,7 @@ DISPLAY_NAMES = {
     "ApplePush": "ApplePush",
     "GoogleFCM": "GoogleFCM",
     "AppleAI": "AppleAI",
+    "XAI": "XAI",
 }
 
 DOMAIN_SETS = {

@@ -1,0 +1,12 @@
+# NAME: XAI
+# AUTHOR: 27Aaron
+# REPO: https://github.com/27Aaron/ProxyRules
+# UPDATED: 2026-11-19 13:33:10
+# DOMAIN-SUFFIX: 5
+# TOTAL: 5
+domain_suffix_set:
+  - grok.com
+  - grok.x.com
+  - grokbot.com
+  - grokipedia.com
+  - x.ai
