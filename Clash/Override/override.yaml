@@ -190,97 +190,99 @@ rule-providers:
 
   private:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/private/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
     path: "./ruleset/private.mrs"
   private_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/private/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
     path: "./ruleset/private_ip.mrs"
   games_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/category-games@cn/category-games@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
     path: "./ruleset/category-games@cn.mrs"
   epicgames:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/epicgames/epicgames.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
     path: "./ruleset/epicgames.mrs"
   nvidia_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/nvidia@cn/nvidia@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
     path: "./ruleset/nvidia@cn.mrs"
   apple_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/apple@cn/apple@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple@cn.mrs"
     path: "./ruleset/apple@cn.mrs"
   microsoft_cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/microsoft@cn/microsoft@cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
     path: "./ruleset/microsoft@cn.mrs"
   geolocation-cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-cn/geolocation-cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
     path: "./ruleset/geolocation-cn.mrs"
   cn_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/cn/cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
     path: "./ruleset/cn_ip.mrs"
 
   # --- 代理规则集 ---
 
   ai:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/category-ai-!cn/category-ai-!cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/ai.mrs"
   youtube:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/youtube/youtube.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
     path: "./ruleset/youtube.mrs"
   googlefcm:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/googlefcm/googlefcm.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs"
     path: "./ruleset/googlefcm.mrs"
   googlefcm_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/googlefcm/googlefcm.mrs"
+    behavior: classical
+    format: text
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GoogleFCM/GoogleFCM.list"
     path: "./ruleset/googlefcm_ip.mrs"
   google:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/google/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
     path: "./ruleset/google.mrs"
   google_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/google/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
     path: "./ruleset/google_ip.mrs"
   telegram:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/telegram/telegram.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
     path: "./ruleset/telegram.mrs"
   telegram_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/telegram/telegram.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
     path: "./ruleset/telegram_ip.mrs"
   twitter:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/twitter/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
     path: "./ruleset/twitter.mrs"
   twitter_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/twitter/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs"
     path: "./ruleset/twitter_ip.mrs"
   proxy:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-!cn/geolocation-!cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     path: "./ruleset/geolocation-!cn.mrs"
 
   # --- 其他规则集 ---
 
   ads:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/category-ads-all/category-ads-all.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
     path: "./ruleset/category-ads-all.mrs"
   cn:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/cn/cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
     path: "./ruleset/cn.mrs"
 
 rules:

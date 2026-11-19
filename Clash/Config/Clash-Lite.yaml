@@ -167,43 +167,43 @@ rule_providers_common:
 rule-providers:
   private:
     <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/private/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
     path: "./ruleset/private.mrs"
   private-ip:
     <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/private/private.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
     path: "./ruleset/private-ip.mrs"
   category-ads-all@ads:
     <<: *rule_provider_text
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/ruleset/category-ads-all@ads/category-ads-all@ads.list"
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Advertising/Advertising.list"
     path: "./ruleset/category-ads-all@ads.list"
   google:
     <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/google/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
     path: "./ruleset/google.mrs"
   google-ip:
     <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/google/google.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
     path: "./ruleset/google-ip.mrs"
   twitter:
     <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/twitter/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
     path: "./ruleset/twitter.mrs"
   twitter-ip:
     <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/twitter/twitter.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs"
     path: "./ruleset/twitter-ip.mrs"
   proxy:
     <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/geolocation-!cn/geolocation-!cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     path: "./ruleset/geolocation-!cn.mrs"
   cn:
     <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geosite/cn/cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
     path: "./ruleset/cn.mrs"
   cn-ip:
     <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/27Aaron/ProxyRules@rules/geoip/cn/cn.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
     path: "./ruleset/cn-ip.mrs"
 
 rules:
