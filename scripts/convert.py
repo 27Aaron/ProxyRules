@@ -18,10 +18,9 @@ Every generated file starts with a blackmatrix7-style stats header:
     # DOMAIN-SUFFIX: 2
     # TOTAL: 3
 
-UPDATED follows the source file's git history: committed sources carry the
-date of their last commit (stable across checkouts and clones), sources with
-uncommitted edits carry the generation time. Re-running the script without
-editing sources produces no diff.
+UPDATED is written only when a file's rule content changes. Timestamp-only
+differences never trigger a rewrite, so committing sources and re-running
+the script cannot churn files whose rules did not change.
 
 Usage:
     python3 scripts/convert.py
@@ -43,6 +42,7 @@ DISPLAY_NAMES = {
     "OpenAI": "OpenAI",
     "ApplePush": "ApplePush",
     "GoogleFCM": "GoogleFCM",
+    "AppleAI": "AppleAI",
 }
 
 DOMAIN_SETS = {
@@ -178,6 +178,19 @@ def egern_set(header, entries):
     return "\n".join(out) + "\n"
 
 
+def same_ignoring_updated(old_text, new_text):
+    """True when the two files differ only in their # UPDATED: header line.
+
+    Timestamp-only differences never trigger a rewrite: the header date is
+    frozen once written, so committing sources and rerunning the script
+    cannot churn unrelated files.
+    """
+    if old_text == new_text:
+        return True
+    keep = lambda text: [l for l in text.splitlines() if not l.startswith("# UPDATED:")]
+    return keep(old_text) == keep(new_text)
+
+
 def main():
     updated = 0
     for list_path in sorted(SRC_DIR.glob("*/*.list")):
@@ -194,7 +207,9 @@ def main():
             out_dir / f"{list_path.stem}.egern.yaml": egern_set(header, entries),
         }
         for path, content in targets.items():
-            if path.exists() and path.read_text(encoding="utf-8") == content:
+            if path.exists() and same_ignoring_updated(
+                path.read_text(encoding="utf-8"), content
+            ):
                 continue
             path.write_text(content, encoding="utf-8")
             print(f"updated {path.relative_to(REPO_ROOT)}")
