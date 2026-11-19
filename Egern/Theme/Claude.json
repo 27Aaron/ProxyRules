@@ -1,0 +1,65 @@
+{
+  "colors": {
+    "accent": {
+      "dark": "#DE7356",
+      "light": "#C15F3C"
+    },
+    "background": {
+      "dark": "#191919",
+      "light": "#FAF9F5"
+    },
+    "blue": {
+      "dark": "#8FA9C8",
+      "light": "#5B7FA3"
+    },
+    "cyan": {
+      "dark": "#9BC7C2",
+      "light": "#5D9C95"
+    },
+    "green": {
+      "dark": "#9CAF88",
+      "light": "#6F8F5F"
+    },
+    "groupedBackground": {
+      "dark": "#121212",
+      "light": "#F4F3EE"
+    },
+    "indigo": {
+      "dark": "#A49CC4",
+      "light": "#7B6FA8"
+    },
+    "orange": {
+      "dark": "#DE7356",
+      "light": "#C15F3C"
+    },
+    "purple": {
+      "dark": "#B59AB8",
+      "light": "#9A6F9E"
+    },
+    "red": {
+      "dark": "#D96A5C",
+      "light": "#B94A3C"
+    },
+    "secondaryGroupedBackground": {
+      "dark": "#1F1E1B",
+      "light": "#FFFFFF"
+    },
+    "tabBarBackground": {
+      "dark": "#1F1E1B",
+      "light": "#FAF9F5"
+    },
+    "teal": {
+      "dark": "#8DB8A8",
+      "light": "#5F9B82"
+    },
+    "tertiaryGroupedBackground": {
+      "dark": "#2A2824",
+      "light": "#ECE9DF"
+    },
+    "yellow": {
+      "dark": "#D8B86A",
+      "light": "#C99A2E"
+    }
+  },
+  "name": "Claude"
+}
