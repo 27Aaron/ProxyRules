@@ -27,10 +27,10 @@ dns:
     - 2400:3200::1
     - 2400:7fc0:849e:200::4
   upstreams:
-    china:
+    DIRECT-DNS:
       - "https://dns.alidns.com/dns-query"
       - "https://doh.onedns.net/dns-query"
-    foreign:
+    PROXY-DNS:
       - "https://dns.cloudflare.com/dns-query"
       - "https://dns.google/dns-query"
   hosts:
@@ -42,23 +42,21 @@ dns:
     - "104.16.249.249, 104.16.248.249, 2606:4700::6810:f8f9, 2606:4700::6810:f9f9"
     "dns.google":
     - "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844"
-  proxy_nameservers:
-    - 223.5.5.5
-    - 52.80.66.66
-
   forward:
     - proxy_rule_set:
         match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
         value: REJECT
     - proxy_rule_set:
         match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/cn.yaml"
-        value: china
+        value: DIRECT-DNS
     - proxy_rule_set:
         match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/proxy.yaml"
-        value: foreign
+        value: PROXY-DNS
     - domain_wildcard:
         match: "*"
-        value: foreign
+        value: PROXY-DNS
+  proxy_nameservers:
+    - PROXY-DNS
 
 real_ip_domains:
 - "*.lan"
