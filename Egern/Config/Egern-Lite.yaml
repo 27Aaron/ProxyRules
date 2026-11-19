@@ -1,0 +1,133 @@
+# -----------------------------------------------------
+# AUTHOR: 27Aaron
+# UPDATED: 2026-11-19 14:30:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Egern/Config/Egern-Lite.yaml
+# -----------------------------------------------------
+
+ipv6: true
+http_port: 7890
+socks_port: 7891
+
+dns:
+  bootstrap:
+    - 223.5.5.5
+    - 52.80.66.66
+    - 2400:3200::1
+    - 2400:7fc0:849e:200::4
+  upstreams:
+    china:
+      - "https://dns.alidns.com/dns-query"
+      - "https://doh.onedns.net/dns-query"
+    foreign:
+      - "https://dns.cloudflare.com/dns-query"
+      - "https://dns.google/dns-query"
+  forward:
+    - proxy_rule_set:
+        match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/cn.yaml"
+        value: china
+    - proxy_rule_set:
+        match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/proxy.yaml"
+        value: foreign
+    - domain_wildcard:
+        match: "*"
+        value: foreign
+
+policy_groups:
+  # > AI
+  - auto_test:
+      name: AI
+      policies:
+        - JP
+        - US
+      url: "http://cp.cloudflare.com/generate_204"
+      interval: 300
+      tolerance: 20
+
+  # > Proxies
+  - auto_test:
+      name: Proxies
+      policies:
+        - HK
+        - JP
+        - US
+      url: "http://cp.cloudflare.com/generate_204"
+      interval: 300
+      tolerance: 20
+
+  # > Regions
+  - external:
+      name: HK
+      type: auto_test
+      filter: "香港|🇭🇰|HK|Hong.?Kong"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: JP
+      type: auto_test
+      filter: "日本|东京|東京|大阪|🇯🇵|JP|Japan"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: US
+      type: auto_test
+      filter: "美国|美國|🇺🇸|US|United.?States|America"
+      interval: 300
+      tolerance: 20
+
+rules:
+  # > Ads
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
+      policy: REJECT
+
+  # > LAN
+  - ip_cidr:
+      match: 10.0.0.0/8
+      policy: DIRECT
+  - ip_cidr:
+      match: 127.0.0.0/8
+      policy: DIRECT
+  - ip_cidr:
+      match: 172.16.0.0/12
+      policy: DIRECT
+  - ip_cidr:
+      match: 192.168.0.0/16
+      policy: DIRECT
+
+  # > AI (self-hosted curated lists)
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.egern.yaml"
+      policy: AI
+
+  # > Proxy
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Proxy/Proxy.yaml"
+      policy: Proxies
+
+  # > Direct CN
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/China/China.yaml"
+      policy: DIRECT
+  - geoip:
+      match: CN
+      policy: DIRECT
+
+  # > Final
+  - default:
+      policy: Proxies

@@ -1,0 +1,195 @@
+# -----------------------------------------------------
+# AUTHOR: 27Aaron
+# UPDATED: 2026-11-19 14:30:00
+# REPO: https://github.com/27Aaron/ProxyRules
+# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Egern/Config/Egern.yaml
+# -----------------------------------------------------
+
+ipv6: true
+http_port: 7890
+socks_port: 7891
+
+dns:
+  bootstrap:
+    - 223.5.5.5
+    - 52.80.66.66
+    - 2400:3200::1
+    - 2400:7fc0:849e:200::4
+  upstreams:
+    china:
+      - "https://dns.alidns.com/dns-query"
+      - "https://doh.onedns.net/dns-query"
+    foreign:
+      - "https://dns.cloudflare.com/dns-query"
+      - "https://dns.google/dns-query"
+  forward:
+    - proxy_rule_set:
+        match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/cn.yaml"
+        value: china
+    - proxy_rule_set:
+        match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/proxy.yaml"
+        value: foreign
+    - domain_wildcard:
+        match: "*"
+        value: foreign
+
+policy_groups:
+  # > AI
+  - select:
+      name: AI
+      policies:
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+
+  # > Google
+  - select:
+      name: Google
+      policies:
+        - HK
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+
+  # > Proxies
+  - select:
+      name: Proxies
+      policies:
+        - HK
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+
+  # > Telegram
+  - select:
+      name: Telegram
+      policies:
+        - HK
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+
+  # > Twitter
+  - select:
+      name: Twitter
+      policies:
+        - HK
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+
+  # > Regions
+  - external:
+      name: HK
+      type: auto_test
+      filter: "香港|🇭🇰|HK|Hong.?Kong"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: JP
+      type: auto_test
+      filter: "日本|东京|東京|大阪|🇯🇵|JP|Japan"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: KR
+      type: auto_test
+      filter: "韩国|韓國|首尔|首爾|🇰🇷|KR|Korea|Seoul"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: SG
+      type: auto_test
+      filter: "狮城|新加坡|🇸🇬|SG|Singapore"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: TW
+      type: auto_test
+      filter: "台湾|台灣|🇹🇼|TW|Taiwan"
+      interval: 300
+      tolerance: 20
+  - external:
+      name: US
+      type: auto_test
+      filter: "美国|美國|🇺🇸|US|United.?States|America"
+      interval: 300
+      tolerance: 20
+
+rules:
+  # > Ads
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
+      policy: REJECT
+
+  # > LAN
+  - ip_cidr:
+      match: 10.0.0.0/8
+      policy: DIRECT
+  - ip_cidr:
+      match: 127.0.0.0/8
+      policy: DIRECT
+  - ip_cidr:
+      match: 172.16.0.0/12
+      policy: DIRECT
+  - ip_cidr:
+      match: 192.168.0.0/16
+      policy: DIRECT
+
+  # > AI (self-hosted curated lists)
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.egern.yaml"
+      policy: AI
+  - rule_set:
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.egern.yaml"
+      policy: AI
+
+  # > Services
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Google/Google.yaml"
+      policy: Google
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Telegram/Telegram.yaml"
+      policy: Telegram
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Twitter/Twitter.yaml"
+      policy: Twitter
+
+  # > Proxy
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Proxy/Proxy.yaml"
+      policy: Proxies
+
+  # > Direct CN
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/China/China.yaml"
+      policy: DIRECT
+  - geoip:
+      match: CN
+      policy: DIRECT
+
+  # > Final
+  - default:
+      policy: Proxies
