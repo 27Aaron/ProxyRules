@@ -118,37 +118,54 @@ group_common:
     tolerance: 20
     hidden: true
 
+  select: &group_select
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+
 proxy-groups:
+  # > Manual
+  - name: Manual
+    <<: *group_select
+    include-all: true
+    icon: https://raw.githubusercontent.com/shindgew/WHATSINStash/main/icon/fallback.png
+
   # > AI
   - name: AI
-    <<: *group_url_test_group
-    proxies: [JP, US]
+    <<: *group_select
+    proxies: [Manual, JP, US]
+    icon: https://github.com/Orz-3/mini/raw/master/Color/OpenAI.png
 
   # > Proxies
   - name: Proxies
-    <<: *group_url_test_group
-    proxies: [HK, JP, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, US]
+    icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
 
   # > Regions
   - name: HK
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+    hidden: true
 
   - name: JP
     <<: *group_url_test
-    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
+    filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/JP.png
+    hidden: true
 
   - name: US
     <<: *group_url_test
     filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/US.png
+    hidden: true
 
 rule_providers_common:
   domain: &rule_provider_domain {type: http, format: mrs, interval: 86400, behavior: domain}
   ip: &rule_provider_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
   text: &rule_provider_text {type: http, format: text, interval: 86400, behavior: classical}
+  yaml: &rule_provider_yaml {type: http, format: yaml, interval: 86400, behavior: classical}
 
 rule-providers:
   # > Ads
@@ -185,27 +202,27 @@ rule-providers:
 
   # > AI (self-hosted curated lists)
   Anthropic:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
     path: "./ruleset/anthropic.yaml"
   AppleAI:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
     path: "./ruleset/appleai.yaml"
   Gemini:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
     path: "./ruleset/gemini.yaml"
   GitHubCopilot:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
     path: "./ruleset/githubcopilot.yaml"
   OpenAI:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
     path: "./ruleset/openai.yaml"
   XAI:
-    <<: *rule_provider_text
+    <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
     path: "./ruleset/xai.yaml"
 
@@ -231,3 +248,6 @@ rules:
 
   # > Proxy fallback
   - RULE-SET,proxy,Proxies
+
+  # > Final
+  - MATCH,Proxies

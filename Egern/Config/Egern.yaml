@@ -1,9 +1,19 @@
 # -----------------------------------------------------
 # AUTHOR: 27Aaron
-# UPDATED: 2026-11-19 14:30:00
+# UPDATED: 2026-11-19 16:06:23
 # REPO: https://github.com/27Aaron/ProxyRules
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Egern/Config/Egern.yaml
 # -----------------------------------------------------
+
+close_connections_on_policy_change: true
+proxy_latency_test_url: "http://cp.cloudflare.com/generate_204"
+direct_latency_test_url: "http://wifi.vivo.com.cn/generate_204"
+geoip_db_url: "https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb"
+hijack_dns:
+  - "*:53"
+auto_update:
+  url: "https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Egern/Config/Egern.yaml"
+  interval: 86400
 
 ipv6: true
 http_port: 7890
@@ -22,7 +32,14 @@ dns:
     foreign:
       - "https://dns.cloudflare.com/dns-query"
       - "https://dns.google/dns-query"
+  proxy_nameservers:
+    - 223.5.5.5
+    - 119.29.29.29
+
   forward:
+    - rule_set:
+        match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
+        value: REJECT
     - proxy_rule_set:
         match: "https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/egern/cn.yaml"
         value: china
@@ -33,11 +50,23 @@ dns:
         match: "*"
         value: foreign
 
+hosts:
+  "dns.alidns.com": ["223.5.5.5", "223.6.6.6"]
+  "doh.pub": ["1.12.12.12", "120.53.53.53"]
+  "dns.cloudflare.com": ["1.1.1.1", "1.0.0.1"]
+  "dns.google": ["8.8.8.8", "8.8.4.4"]
+
 policy_groups:
+  # > Manual (all nodes)
+  - external:
+      name: Manual
+      type: select
+
   # > AI
   - select:
       name: AI
       policies:
+        - Manual
         - JP
         - KR
         - SG
@@ -48,6 +77,7 @@ policy_groups:
   - select:
       name: Google
       policies:
+        - Manual
         - HK
         - JP
         - KR
@@ -59,6 +89,7 @@ policy_groups:
   - select:
       name: Proxies
       policies:
+        - Manual
         - HK
         - JP
         - KR
@@ -70,6 +101,7 @@ policy_groups:
   - select:
       name: Telegram
       policies:
+        - Manual
         - HK
         - JP
         - KR
@@ -81,6 +113,7 @@ policy_groups:
   - select:
       name: Twitter
       policies:
+        - Manual
         - HK
         - JP
         - KR
@@ -92,46 +125,41 @@ policy_groups:
   - external:
       name: HK
       type: auto_test
-      filter: "香港|🇭🇰|HK|Hong.?Kong"
+      filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
       interval: 300
       tolerance: 20
   - external:
       name: JP
       type: auto_test
-      filter: "日本|东京|東京|大阪|🇯🇵|JP|Japan"
+      filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
       interval: 300
       tolerance: 20
   - external:
       name: KR
       type: auto_test
-      filter: "韩国|韓國|首尔|首爾|🇰🇷|KR|Korea|Seoul"
+      filter: '(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)'
       interval: 300
       tolerance: 20
   - external:
       name: SG
       type: auto_test
-      filter: "狮城|新加坡|🇸🇬|SG|Singapore"
+      filter: '(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)'
       interval: 300
       tolerance: 20
   - external:
       name: TW
       type: auto_test
-      filter: "台湾|台灣|🇹🇼|TW|Taiwan"
+      filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
       interval: 300
       tolerance: 20
   - external:
       name: US
       type: auto_test
-      filter: "美国|美國|🇺🇸|US|United.?States|America"
+      filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
       interval: 300
       tolerance: 20
 
 rules:
-  # > Ads
-  - rule_set:
-      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
-      policy: REJECT
-
   # > LAN
   - ip_cidr:
       match: 10.0.0.0/8
@@ -145,6 +173,11 @@ rules:
   - ip_cidr:
       match: 192.168.0.0/16
       policy: DIRECT
+
+  # > Ads
+  - rule_set:
+      match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
+      policy: REJECT
 
   # > AI (self-hosted curated lists)
   - rule_set:

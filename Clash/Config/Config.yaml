@@ -145,34 +145,40 @@ group_common:
     tolerance: 20
 
 proxy-groups:
+  # > Manual
+  - name: Manual
+    <<: *group_select
+    include-all: true
+    icon: https://raw.githubusercontent.com/shindgew/WHATSINStash/main/icon/fallback.png
+
   # > AI
   - name: AI
     <<: *group_select
-    proxies: [JP, KR, SG, TW, US]
+    proxies: [Manual, JP, KR, SG, TW, US]
     icon: https://github.com/Orz-3/mini/raw/master/Color/OpenAI.png
 
   # > Google
   - name: Google
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, KR, SG, TW, US]
     icon: https://github.com/Orz-3/mini/raw/master/Color/Google.png
 
   # > Telegram
   - name: Telegram
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, KR, SG, TW, US]
     icon: https://github.com/Orz-3/mini/raw/master/Color/Telegram.png
 
   # > Twitter
   - name: Twitter
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, KR, SG, TW, US]
     icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/x.png
 
   # > Proxies
   - name: Proxies
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, KR, SG, TW, US]
     icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
 
   # > Regions
@@ -183,17 +189,17 @@ proxy-groups:
 
   - name: JP
     <<: *group_url_test
-    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
+    filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/JP.png
 
   - name: KR
     <<: *group_url_test
-    filter: '(?i)(🇰🇷|韩国|韓國|Korea|\bKOR\b|\bKR\b)'
+    filter: '(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/KR.png
 
   - name: SG
     <<: *group_url_test
-    filter: '(?i)(🇸🇬|新加坡|Singapore|\bSGP\b|\bSG\b)'
+    filter: '(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/SG.png
 
   - name: TW
