@@ -60,107 +60,131 @@ dns:
         value: foreign
 
 policy_groups:
-  # > Manual (all nodes)
-  - external:
-      name: Manual
-      type: select
-
   # > AI
   - select:
       name: AI
       policies:
-        - Manual
         - JP
         - KR
         - SG
         - TW
         - US
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png"
 
   # > Google
   - select:
       name: Google
       policies:
-        - Manual
         - HK
         - JP
         - KR
         - SG
         - TW
         - US
-
-  # > Proxies
-  - select:
-      name: Proxies
-      policies:
-        - Manual
-        - HK
-        - JP
-        - KR
-        - SG
-        - TW
-        - US
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png"
 
   # > Telegram
   - select:
       name: Telegram
       policies:
-        - Manual
         - HK
         - JP
         - KR
         - SG
         - TW
         - US
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png"
 
   # > Twitter
   - select:
       name: Twitter
       policies:
-        - Manual
         - HK
         - JP
         - KR
         - SG
         - TW
         - US
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png"
 
-  # > Regions
-  - external:
+  # > Proxies
+  - select:
+      name: Proxies
+      policies:
+        - HK
+        - JP
+        - KR
+        - SG
+        - TW
+        - US
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png"
+
+  # > Regions(从 Manual 节点池自动派生)
+  - auto_test:
       name: HK
-      type: auto_test
-      filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)"
       interval: 300
       tolerance: 20
-  - external:
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png"
+
+  - auto_test:
       name: JP
-      type: auto_test
-      filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)"
       interval: 300
       tolerance: 20
-  - external:
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png"
+
+  - auto_test:
       name: KR
-      type: auto_test
-      filter: '(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)"
       interval: 300
       tolerance: 20
-  - external:
+      icon: "https://github.com/Orz-3/mini/raw/master/Color/KR.png"
+
+  - auto_test:
       name: SG
-      type: auto_test
-      filter: '(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)"
       interval: 300
       tolerance: 20
-  - external:
+      icon: "https://github.com/Orz-3/mini/raw/master/Color/SG.png"
+
+  - auto_test:
       name: TW
-      type: auto_test
-      filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)"
       interval: 300
       tolerance: 20
-  - external:
+      icon: "https://github.com/Orz-3/mini/raw/master/Color/TW.png"
+
+  - auto_test:
       name: US
-      type: auto_test
-      filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)"
       interval: 300
       tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png"
+
+  # > Manual(全部节点)
+  - external:
+      name: Manual
+      type: select
+      icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png"
 
 rules:
   # > LAN

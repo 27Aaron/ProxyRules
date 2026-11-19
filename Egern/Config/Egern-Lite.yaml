@@ -60,51 +60,32 @@ dns:
         value: foreign
 
 policy_groups:
-  # > Manual
-  - external:
-      name: Manual
-      type: select
-
-  # > AI
-  - select:
+  # > AI(JP/US 节点自动测速)
+  - auto_test:
       name: AI
       policies:
         - Manual
-        - JP
-        - US
+      flatten: true
+      filter: "(?i)(🇯🇵|日本|JP|Japan|🇺🇸|美国|US|United.?States|America)"
+      interval: 300
+      tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png"
 
-  # > Proxies
-  - select:
+  # > Proxies(全部节点自动测速)
+  - auto_test:
       name: Proxies
       policies:
         - Manual
-        - HK
-        - JP
-        - US
+      flatten: true
+      interval: 300
+      tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png"
 
-  # > Regions
+  # > Manual(全部节点)
   - external:
-      name: HK
-      type: auto_test
-      filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
-      interval: 300
-      tolerance: 20
-      hidden: true
-  - external:
-      name: JP
-      type: auto_test
-      filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
-      interval: 300
-      tolerance: 20
-      hidden: true
-  - external:
-      name: US
-      type: auto_test
-      filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
-      interval: 300
-      tolerance: 20
-      hidden: true
-
+      name: Manual
+      type: select
+      icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png"
 rules:
   # > Ads
   - rule_set:
