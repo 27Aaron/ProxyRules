@@ -99,95 +99,144 @@ group_common:
     exclude-type: DIRECT
     hidden: true
 
-proxy-groups:
-  - name: Proxies
-    <<: *group_select
-    proxies: [手动选择, 自动选择, 香港自动, 日本自动, 美国自动, 香港节点, 日本节点, 美国节点]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
+  url-test-group: &group_url_test_group
+    type: url-test
+    interval: 300
+    timeout: 3000
+    max-failed-times: 3
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+    tolerance: 20
 
+
+proxy-groups:
+  # > AI
   - name: AI
     <<: *group_select
-    proxies: [日本节点, 美国节点, 日本自动, 美国自动]
+    proxies: [JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
+  # > Google
   - name: Google
-    <<: *group_select
-    proxies: [Proxies, 香港节点, 日本节点, 美国节点, 香港自动, 日本自动, 美国自动]
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
+  # > Telegram
   - name: Telegram
-    <<: *group_select
-    proxies: [Proxies, 香港节点, 日本节点, 美国节点, 香港自动, 日本自动, 美国自动]
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png
 
+  # > Twitter
   - name: Twitter
-    <<: *group_select
-    proxies: [Proxies, 香港节点, 日本节点, 美国节点, 香港自动, 日本自动, 美国自动]
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
 
-  - name: 手动选择
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
+  # > Proxies
+  - name: Proxies
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
-  - name: 香港节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
+  # > Regions
+  - name: HK
+    <<: *group_url_test
+    filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
 
-  - name: 日本节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
+  - name: JP
+    <<: *group_url_test
+    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
-  - name: 美国节点
-    <<: *group_select
-    include-all: true
-    exclude-type: DIRECT
-    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
-
-  - name: Direct
-    <<: *group_select
-    proxies: [DIRECT, Proxies]
-    icon: https://github.com/blackmatrix7/ios_rule_script/raw/master/icon/qure/color/Direct.png
-
-  - name: Final
-    <<: *group_select
-    proxies: [Proxies, Direct]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Final.png
-
-  - name: 自动选择
+  - name: KR
     <<: *group_url_test
-    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    filter: '(?i)(🇰🇷|韩国|韓國|Korea|\bKOR\b|\bKR\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/KR.png
 
-  - name: 香港自动
+  - name: SG
     <<: *group_url_test
-    filter: '(?i)(🇭🇰|香港|(?<![A-Za-z])HK(?![A-Za-z])|hong\s*kong)'
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
+    filter: '(?i)(🇸🇬|新加坡|Singapore|\bSGP\b|\bSG\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/SG.png
 
-  - name: 日本自动
+  - name: TW
     <<: *group_url_test
-    filter: "(?i)(🇯🇵|日本|(?<![A-Za-z])JP(?![A-Za-z])|japan)"
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
+    filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/TW.png
 
-  - name: 美国自动
+  - name: US
     <<: *group_url_test
-    filter: "(?i)(🇺🇸|美国|(?<![A-Za-z])US(?![A-Za-z])|america|united\\s*states)"
+    filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
   rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
+  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
 
+# > Rule providers
 rule-providers:
-  # --- 直连规则集 ---
+  # > AI (self-hosted curated lists)
+  Anthropic:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
+    path: "./ruleset/anthropic.yaml"
+  AppleAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
+    path: "./ruleset/appleai.yaml"
+  Gemini:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
+    path: "./ruleset/gemini.yaml"
+  GitHubCopilot:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
+    path: "./ruleset/githubcopilot.yaml"
+  OpenAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
+    path: "./ruleset/openai.yaml"
+  XAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
+    path: "./ruleset/xai.yaml"
 
+  # > Direct CN
+  epicgames:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
+    path: "./ruleset/epicgames.mrs"
+  games_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
+    path: "./ruleset/category-games@cn.mrs"
+  microsoft_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
+    path: "./ruleset/microsoft@cn.mrs"
+  nvidia_cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
+    path: "./ruleset/nvidia@cn.mrs"
+
+  # > CN fallback
+  cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+    path: "./ruleset/cn.mrs"
+  cn_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    path: "./ruleset/cn_ip.mrs"
+  geolocation-cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
+    path: "./ruleset/geolocation-cn.mrs"
+
+  # > Private
   private:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
@@ -196,45 +245,28 @@ rule-providers:
     <<: *rule_providers_ip
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
     path: "./ruleset/private_ip.mrs"
-  games_cn:
+
+  # > Ads
+  ads:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
-    path: "./ruleset/category-games@cn.mrs"
-  epicgames:
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
+    path: "./ruleset/category-ads-all.mrs"
+
+  # > Proxy
+  proxy:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
-    path: "./ruleset/epicgames.mrs"
-  nvidia_cn:
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
+    path: "./ruleset/geolocation-!cn.mrs"
+
+  # > Services
+  google:
     <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
-    path: "./ruleset/nvidia@cn.mrs"
-  apple_cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple@cn.mrs"
-    path: "./ruleset/apple@cn.mrs"
-  microsoft_cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
-    path: "./ruleset/microsoft@cn.mrs"
-  geolocation-cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
-    path: "./ruleset/geolocation-cn.mrs"
-  cn_ip:
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
+    path: "./ruleset/google.mrs"
+  google_ip:
     <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
-    path: "./ruleset/cn_ip.mrs"
-
-  # --- 代理规则集 ---
-
-  ai:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
-    path: "./ruleset/ai.mrs"
-  youtube:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
-    path: "./ruleset/youtube.mrs"
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
+    path: "./ruleset/google_ip.mrs"
   googlefcm:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs"
@@ -244,15 +276,7 @@ rule-providers:
     behavior: classical
     format: text
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GoogleFCM/GoogleFCM.list"
-    path: "./ruleset/googlefcm_ip.mrs"
-  google:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
-    path: "./ruleset/google.mrs"
-  google_ip:
-    <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
-    path: "./ruleset/google_ip.mrs"
+    path: "./ruleset/googlefcm_ip.list"
   telegram:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
@@ -269,59 +293,48 @@ rule-providers:
     <<: *rule_providers_ip
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs"
     path: "./ruleset/twitter_ip.mrs"
-  proxy:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
-    path: "./ruleset/geolocation-!cn.mrs"
-
-  # --- 其他规则集 ---
-
-  ads:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
-    path: "./ruleset/category-ads-all.mrs"
-  cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-    path: "./ruleset/cn.mrs"
 
 rules:
-  # SSH 端口使用手动选择的节点
-  - DST-PORT,22,手动选择
-
-  # 私有网络直连
+  # > Private
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
 
-  # 广告拦截
+  # > Ads
   - RULE-SET,ads,REJECT
 
-  # 禁用国外 QUIC 流量
+  # > AI
+  - RULE-SET,Anthropic,AI
+  - RULE-SET,AppleAI,AI
+  - RULE-SET,Gemini,AI
+  - RULE-SET,GitHubCopilot,AI
+  - RULE-SET,OpenAI,AI
+  - RULE-SET,XAI,AI
+
+  # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
 
-  # 国内直连
-  - RULE-SET,games_cn,Direct
-  - RULE-SET,epicgames,Direct
-  - RULE-SET,nvidia_cn,Direct
-  - RULE-SET,apple_cn,Direct
-  - RULE-SET,microsoft_cn,Direct
+  # > Direct CN
+  - RULE-SET,epicgames,DIRECT
+  - RULE-SET,games_cn,DIRECT
+  - RULE-SET,microsoft_cn,DIRECT
+  - RULE-SET,nvidia_cn,DIRECT
 
-  # 代理规则（域名）
-  - RULE-SET,ai,AI
-  - RULE-SET,youtube,Google
+  # > Services
+  - RULE-SET,google,Google
   - RULE-SET,googlefcm,Google
   - RULE-SET,googlefcm_ip,Google,no-resolve
-  - RULE-SET,google,Google
-  - RULE-SET,telegram,Telegram
-  - RULE-SET,twitter,Twitter
-
-  # 代理规则（IP）
   - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,telegram,Telegram
   - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter,Twitter
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
-  # 兜底规则
+  # > Direct CN fallback
+  - RULE-SET,geolocation-cn,DIRECT
+  - RULE-SET,cn_ip,DIRECT,no-resolve
+
+  # > Proxy fallback
   - RULE-SET,proxy,Proxies
-  - RULE-SET,geolocation-cn,Direct
-  - RULE-SET,cn_ip,Direct
-  - MATCH,Final
+
+  # > Final
+  - MATCH,Proxies
