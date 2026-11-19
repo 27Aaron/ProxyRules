@@ -32,6 +32,15 @@ dns:
     foreign:
       - "https://dns.cloudflare.com/dns-query"
       - "https://dns.google/dns-query"
+  hosts:
+    "dns.alidns.com":
+    - "223.5.5.5, 223.6.6.6, 2400:3200:baba::1, 2400:3200::1"
+    "doh.pub":
+    - "1.12.12.12, 120.53.53.53"
+    "dns.cloudflare.com":
+    - "104.16.249.249, 104.16.248.249, 2606:4700::6810:f8f9, 2606:4700::6810:f9f9"
+    "dns.google":
+    - "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844"
   proxy_nameservers:
     - 223.5.5.5
     - 119.29.29.29
@@ -49,16 +58,6 @@ dns:
     - domain_wildcard:
         match: "*"
         value: foreign
-
-hosts:
-  "dns.alidns.com":
-    - "223.5.5.5, 223.6.6.6, 2400:3200:baba::1, 2400:3200::1"
-  "doh.pub":
-    - "1.12.12.12, 120.53.53.53"
-  "dns.cloudflare.com":
-    - "104.16.249.249, 104.16.248.249, 2606:4700::6810:f8f9, 2606:4700::6810:f9f9"
-  "dns.google":
-    - "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844"
 
 policy_groups:
   # > Manual (all nodes)
