@@ -103,32 +103,48 @@ group_common:
     tolerance: 20
     hidden: true
 
+  select: &group_select
+    type: select
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+
 proxy-groups:
+  # > Manual
+  - name: Manual
+    <<: *group_select
+    include-all: true
+    icon: https://raw.githubusercontent.com/shindgew/WHATSINStash/main/icon/fallback.png
+
   # > AI
   - name: AI
-    <<: *group_url_test_group
-    proxies: [JP, US]
+    <<: *group_select
+    proxies: [Manual, JP, US]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
 
   # > Proxies
   - name: Proxies
-    <<: *group_url_test_group
-    proxies: [HK, JP, US]
+    <<: *group_select
+    proxies: [Manual, HK, JP, US]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   # > Regions
   - name: HK
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
     icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+    hidden: true
 
   - name: JP
     <<: *group_url_test
-    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
+    filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
+    hidden: true
 
   - name: US
     <<: *group_url_test
     filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
+    hidden: true
 
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
@@ -163,6 +179,10 @@ rule-providers:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
     path: "./ruleset/cn.mrs"
+  geolocation-cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
+    path: "./ruleset/geolocation-cn.mrs"
   cn_ip:
     <<: *rule_providers_ip
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
@@ -219,3 +239,6 @@ rules:
 
   # > Proxy fallback
   - RULE-SET,proxy,Proxies
+
+  # > Final
+  - MATCH,Proxies
