@@ -119,7 +119,7 @@ proxy-groups:
   - name: AI
     <<: *group_select
     proxies: [Manual, JP, US]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png
 
   # > Proxies
   - name: Proxies
@@ -131,7 +131,7 @@ proxy-groups:
   - name: HK
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
     hidden: true
 
   - name: JP
