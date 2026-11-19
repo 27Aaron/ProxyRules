@@ -15,6 +15,7 @@ Services:
 - `Anthropic/` — Anthropic and Claude domains
 - `OpenAI/` — OpenAI service endpoints
 - `ApplePush/` — Apple Push Notification service (APNs)
+- `AppleAI/` — Apple Intelligence, Siri ChatGPT extension, and Private Cloud Compute relay
 - `GoogleFCM/` — Google Firebase Cloud Messaging (FCM) endpoints
 
 ## Maintaining
@@ -73,6 +74,11 @@ converter rejects them.
 ## Referencing
 
 Raw base URL: `https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/`
+
+Ordering matters for `AppleAI`: reference it **before** any list carrying a
+broad `DOMAIN-SUFFIX,apple.com` rule (e.g. an Apple direct list), or the
+`apple-relay` and system endpoints would hit that earlier rule and bypass
+the intended policy.
 
 Surge (`[Rule]`) and Shadowrocket (rule set):
 

@@ -1,0 +1,38 @@
+# NAME: AppleAI
+# AUTHOR: 27Aaron
+# REPO: https://github.com/27Aaron/ProxyRules
+# UPDATED: 2026-11-19 13:01:28
+# DOMAIN: 8
+# DOMAIN-SUFFIX: 18
+# DOMAIN-KEYWORD: 1
+# TOTAL: 27
+domain_set:
+  - production-openaicom-storage.azureedge.net
+  - openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+  - guzzoni.apple.com
+  - gateway.icloud.com
+  - gs-loc-cn.apple.com
+  - gspe1-ssl.ls.apple.com
+  - p150-acsegateway.icloud.com
+  - setup.icloud.com
+domain_suffix_set:
+  - openai.com
+  - chatgpt.com
+  - oaiusercontent.com
+  - oaistatic.com
+  - openaiapi-site.azureedge.net
+  - chatgpt.livekit.cloud
+  - featuregates.org
+  - statsigapi.net
+  - api.statsig.com
+  - apple-relay.apple.com
+  - apple-relay.cloudflare.com
+  - apple-relay.fastly-edge.com
+  - itunes.apple.com
+  - smp-device-content.apple.com
+  - xp.apple.com
+  - mesu.apple.com
+  - smoot.apple.com
+  - icloud-content.com
+domain_keyword_set:
+  - siri

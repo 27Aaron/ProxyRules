@@ -1,0 +1,39 @@
+# Apple Intelligence, Siri ChatGPT extension, and Private Cloud Compute
+# relay endpoints. Reference this rule set BEFORE any list carrying a broad
+# DOMAIN-SUFFIX,apple.com rule (e.g. an Apple direct list): apple-relay and
+# the system endpoints below would otherwise hit that earlier rule and
+# bypass the intended policy. Entries in the first two groups intentionally
+# duplicate the OpenAI list so this list stays self-contained.
+
+# ===== OpenAI / ChatGPT =====
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+DOMAIN,production-openaicom-storage.azureedge.net
+DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+DOMAIN-SUFFIX,chatgpt.livekit.cloud
+
+# ===== Feature flags and telemetry dependencies =====
+DOMAIN-SUFFIX,featuregates.org
+DOMAIN-SUFFIX,statsigapi.net
+DOMAIN-SUFFIX,api.statsig.com
+
+# ===== Apple Intelligence / Private Cloud Compute relay =====
+DOMAIN-SUFFIX,apple-relay.apple.com
+DOMAIN-SUFFIX,apple-relay.cloudflare.com
+DOMAIN-SUFFIX,apple-relay.fastly-edge.com
+DOMAIN-SUFFIX,itunes.apple.com
+DOMAIN-SUFFIX,smp-device-content.apple.com
+DOMAIN-SUFFIX,xp.apple.com
+DOMAIN-SUFFIX,mesu.apple.com
+DOMAIN,guzzoni.apple.com
+DOMAIN-SUFFIX,smoot.apple.com
+DOMAIN,gateway.icloud.com
+DOMAIN,gs-loc-cn.apple.com
+DOMAIN,gspe1-ssl.ls.apple.com
+DOMAIN,p150-acsegateway.icloud.com
+DOMAIN,setup.icloud.com
+DOMAIN-KEYWORD,siri
+DOMAIN-SUFFIX,icloud-content.com
