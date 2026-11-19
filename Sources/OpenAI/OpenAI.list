@@ -1,18 +1,9 @@
-# NAME: OpenAI
-# AUTHOR: 27Aaron
-# REPO: https://github.com/27Aaron/ProxyRules
-# UPDATED: 2026-11-19 10:48:12
-# DOMAIN: 14
-# DOMAIN-SUFFIX: 11
-# DOMAIN-KEYWORD: 2
-# IP-CIDR: 1
-# IP-CIDR6: 1
-# TOTAL: 29
+# Exact endpoints for CDN, storage, telemetry, verification, and voice services.
 DOMAIN,browser-intake-datadoghq.com
 DOMAIN,chat.openai.com.cdn.cloudflare.net
-DOMAIN,chatgpt.livekit.cloud
+DOMAIN-SUFFIX,chatgpt.livekit.cloud
 DOMAIN,client-api.arkoselabs.com
-DOMAIN,host.livekit.cloud
+DOMAIN-SUFFIX,host.livekit.cloud
 DOMAIN,o33249.ingest.sentry.io
 DOMAIN,openai-api.arkoselabs.com
 DOMAIN,openai.com.cdn.cloudflare.net
@@ -22,6 +13,17 @@ DOMAIN,openaiassets.blob.core.windows.net
 DOMAIN,openaicom.imgix.net
 DOMAIN,openaicomproductionae4b.blob.core.windows.net
 DOMAIN,production-openaicom-storage.azureedge.net
+
+# Telemetry, feature flags, error reporting, and support dependencies shared
+# with the Anthropic list; included so each list stays self-contained.
+DOMAIN-SUFFIX,api.statsig.com
+DOMAIN-SUFFIX,events.statsigapi.net
+DOMAIN-SUFFIX,featuregates.org
+DOMAIN-SUFFIX,intercom.io
+DOMAIN-SUFFIX,intercomcdn.com
+DOMAIN-SUFFIX,sentry.io
+
+# OpenAI product domains and supporting service suffixes.
 DOMAIN-SUFFIX,ai.com
 DOMAIN-SUFFIX,chat.com
 DOMAIN-SUFFIX,chatgpt.com
@@ -33,7 +35,12 @@ DOMAIN-SUFFIX,oaiusercontent.com
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,sora.com
 DOMAIN-SUFFIX,turn.livekit.cloud
+
+# Fallback matches for dynamically generated OpenAI hostnames.
 DOMAIN-KEYWORD,chatgpt-async-webps-prod-
 DOMAIN-KEYWORD,openai
+
+# OpenAI-owned network prefixes.
+# IPv4 is routed through AS401518; IPv6 is registered directly to OpenAI.
 IP-CIDR,199.47.142.0/23,no-resolve
 IP-CIDR6,2604:f20::/32,no-resolve

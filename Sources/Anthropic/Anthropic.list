@@ -10,6 +10,19 @@ DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN-SUFFIX,claudemcpcontent.com
 DOMAIN-SUFFIX,claudeusercontent.com
 
+# Additional Anthropic-owned brand domains. Each resolves into Anthropic's
+# own 160.79.104.0/21 range, verified by DNS (collected from v2fly upstream).
+DOMAIN-SUFFIX,ant.dev
+DOMAIN-SUFFIX,anthropic.team
+DOMAIN-SUFFIX,antspace.dev
+DOMAIN-SUFFIX,chatbotclaude.com
+DOMAIN-SUFFIX,claude.dev
+DOMAIN-SUFFIX,claude.new
+DOMAIN-SUFFIX,claude.site
+DOMAIN-SUFFIX,claudeacademy.com
+DOMAIN-SUFFIX,claudepages.dev
+DOMAIN-SUFFIX,claudestudio.com
+
 # Standalone CDN hosts used by Anthropic web properties. These names are not
 # subdomains of the primary Anthropic and Claude domain families above.
 DOMAIN,servd-anthropic-website.b-cdn.net

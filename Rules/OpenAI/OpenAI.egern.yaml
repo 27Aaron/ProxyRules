@@ -1,19 +1,17 @@
 # NAME: OpenAI
 # AUTHOR: 27Aaron
 # REPO: https://github.com/27Aaron/ProxyRules
-# UPDATED: 2026-11-19 10:48:12
-# DOMAIN: 14
-# DOMAIN-SUFFIX: 11
+# UPDATED: 2026-11-19 12:51:56
+# DOMAIN: 12
+# DOMAIN-SUFFIX: 19
 # DOMAIN-KEYWORD: 2
 # IP-CIDR: 1
 # IP-CIDR6: 1
-# TOTAL: 29
+# TOTAL: 35
 domain_set:
   - browser-intake-datadoghq.com
   - chat.openai.com.cdn.cloudflare.net
-  - chatgpt.livekit.cloud
   - client-api.arkoselabs.com
-  - host.livekit.cloud
   - o33249.ingest.sentry.io
   - openai-api.arkoselabs.com
   - openai.com.cdn.cloudflare.net
@@ -24,6 +22,14 @@ domain_set:
   - openaicomproductionae4b.blob.core.windows.net
   - production-openaicom-storage.azureedge.net
 domain_suffix_set:
+  - chatgpt.livekit.cloud
+  - host.livekit.cloud
+  - api.statsig.com
+  - events.statsigapi.net
+  - featuregates.org
+  - intercom.io
+  - intercomcdn.com
+  - sentry.io
   - ai.com
   - chat.com
   - chatgpt.com
