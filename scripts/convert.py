@@ -44,6 +44,7 @@ DISPLAY_NAMES = {
     "GoogleFCM": "GoogleFCM",
     "AppleAI": "AppleAI",
     "XAI": "XAI",
+    "Gemini": "Gemini",
 }
 
 DOMAIN_SETS = {
