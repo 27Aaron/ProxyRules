@@ -5,10 +5,10 @@
 # LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Egern/Config/Egern.yaml
 # -----------------------------------------------------
 
-close_connections_on_policy_change: true
 proxy_latency_test_url: "http://cp.cloudflare.com/generate_204"
 direct_latency_test_url: "http://wifi.vivo.com.cn/generate_204"
 geoip_db_url: "https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb"
+asn_db_url: "https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-ASN.mmdb"
 hijack_dns:
   - "*:53"
 auto_update:
