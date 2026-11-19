@@ -225,9 +225,9 @@ rules:
   - RULE-SET,OpenAI,AI
   - RULE-SET,XAI,AI
 
-  # > Proxy
-  - RULE-SET,proxy,Proxies
-
   # > Direct CN
   - RULE-SET,cn,DIRECT
   - RULE-SET,cn-ip,DIRECT,no-resolve
+
+  # > Proxy fallback
+  - RULE-SET,proxy,Proxies

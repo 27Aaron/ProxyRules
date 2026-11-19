@@ -362,12 +362,12 @@ rules:
   - RULE-SET,twitter,Twitter
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
-  # > Proxy
-  - RULE-SET,proxy,Proxies
-
   # > Direct CN fallback
   - RULE-SET,geolocation-cn,DIRECT
   - RULE-SET,cn_ip,DIRECT,no-resolve
+
+  # > Proxy fallback
+  - RULE-SET,proxy,Proxies
 
   # > Final
   - MATCH,Proxies
