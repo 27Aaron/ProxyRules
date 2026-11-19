@@ -1,0 +1,221 @@
+mixed-port: 7890
+allow-lan: true
+ipv6: true
+mode: rule
+log-level: info
+bind-address: "*"
+unified-delay: true
+tcp-concurrent: true
+keep-alive-idle: 30
+keep-alive-interval: 15
+find-process-mode: strict
+authentication: ["mihomo:27Aaron"]
+skip-auth-prefixes: [127.0.0.1/8, "::1/128"]
+
+external-ui: ui
+external-ui-url: https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip
+external-controller: 127.0.0.1:9090
+secret: 27Aaron
+profile: {store-selected: true, store-fake-ip: true}
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP: {ports: [80, 8080-8880], override-destination: true}
+    TLS: {ports: [443, 8443]}
+    QUIC: {ports: [443, 8443]}
+  skip-domain: ["Mijia Cloud", "+.push.apple.com"]
+
+ntp:
+  enable: true
+  write-to-system: false
+  server: "ntp.aliyun.com"
+  port: 123
+  interval: 60
+
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  strict-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  dns-hijack: ["any:53", "tcp://any:53"]
+
+chinaDNS: &chinaDNS ["https://dns.alidns.com/dns-query#DIRECT", "https://doh.pub/dns-query#DIRECT"]
+foreignDNS: &foreignDNS ["https://dns.cloudflare.com/dns-query#Proxies", "https://dns.google/dns-query#Proxies"]
+
+dns:
+  enable: true
+  ipv6: true
+  use-hosts: true
+  cache-algorithm: arc
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter: ["rule-set:private"]
+  proxy-server-nameserver: *chinaDNS
+  default-nameserver: ["223.5.5.5", "119.29.29.29"]
+  nameserver: *foreignDNS
+  nameserver-policy:
+    "rule-set:cn": *chinaDNS
+  direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
+
+hosts:
+  "dns.alidns.com": ["223.5.5.5", "223.6.6.6"]
+  "doh.pub": ["1.12.12.12", "120.53.53.53"]
+  "dns.cloudflare.com": ["1.1.1.1", "1.0.0.1"]
+  "dns.google": ["8.8.8.8", "8.8.4.4"]
+
+  # 解决谷歌商店无法下载的问题
+  "services.googleapis.cn": ["services.googleapis.com"]
+
+  # 屏蔽哔哩哔哩PCDN，解决访问视频卡顿/直播问题
+  "+.mcdn.bilivideo.com": ["0.0.0.0"]
+  "+.mcdn.bilivideo.cn": ["0.0.0.0"]
+  "+.edge.mountaintoys.cn": ["0.0.0.0"]
+  "+.h2.smtcdns.net": ["0.0.0.0"]
+
+
+# 策略组通用配置
+group_common:
+  url-test: &group_url_test
+    type: url-test
+    interval: 300
+    timeout: 3000
+    max-failed-times: 3
+    empty-fallback: REJECT
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+    tolerance: 20
+    include-all: true
+    exclude-type: DIRECT
+    hidden: true
+
+  url-test-group: &group_url_test_group
+    type: url-test
+    interval: 300
+    timeout: 3000
+    max-failed-times: 3
+    empty-fallback: REJECT
+    url: http://cp.cloudflare.com/generate_204
+    lazy: true
+    tolerance: 20
+    hidden: true
+
+proxy-groups:
+  # > AI
+  - name: AI
+    <<: *group_url_test_group
+    proxies: [JP, US]
+
+  # > Proxies
+  - name: Proxies
+    <<: *group_url_test_group
+    proxies: [HK, JP, US]
+
+  # > Regions
+  - name: HK
+    <<: *group_url_test
+    filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
+    icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+
+  - name: JP
+    <<: *group_url_test
+    filter: '(?i)(🇯🇵|日本|Japan|\bJPN\b|\bJP\b)'
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
+
+  - name: US
+    <<: *group_url_test
+    filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
+
+rule_providers_common:
+  rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
+  rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
+  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
+
+rule-providers:
+  # > Ads
+  ads:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
+    path: "./ruleset/category-ads-all.mrs"
+
+  # > Private
+  private:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs"
+    path: "./ruleset/private.mrs"
+  private_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs"
+    path: "./ruleset/private_ip.mrs"
+
+  # > Proxy
+  proxy:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
+    path: "./ruleset/geolocation-!cn.mrs"
+
+  # > Direct CN
+  cn:
+    <<: *rule_providers_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+    path: "./ruleset/cn.mrs"
+  cn_ip:
+    <<: *rule_providers_ip
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    path: "./ruleset/cn_ip.mrs"
+
+  # > AI (self-hosted curated lists)
+  Anthropic:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
+    path: "./ruleset/anthropic.yaml"
+  AppleAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
+    path: "./ruleset/appleai.yaml"
+  Gemini:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
+    path: "./ruleset/gemini.yaml"
+  GitHubCopilot:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
+    path: "./ruleset/githubcopilot.yaml"
+  OpenAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
+    path: "./ruleset/openai.yaml"
+  XAI:
+    <<: *rule_providers_classical
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
+    path: "./ruleset/xai.yaml"
+
+rules:
+  # > Private
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
+
+  # > Ads
+  - RULE-SET,ads,REJECT
+
+  # > AI
+  - RULE-SET,Anthropic,AI
+  - RULE-SET,AppleAI,AI
+  - RULE-SET,Gemini,AI
+  - RULE-SET,GitHubCopilot,AI
+  - RULE-SET,OpenAI,AI
+  - RULE-SET,XAI,AI
+
+  # > Block foreign QUIC
+  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
+
+  # > Proxy
+  - RULE-SET,proxy,Proxies
+
+  # > Direct CN fallback
+  - RULE-SET,geolocation-cn,DIRECT
+  - RULE-SET,cn_ip,DIRECT,no-resolve
