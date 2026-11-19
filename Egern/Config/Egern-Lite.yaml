@@ -103,6 +103,7 @@ policy_groups:
       filter: "(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)"
       interval: 300
       tolerance: 20
+      hidden: true
       icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png"
   - auto_test:
       name: US
@@ -112,6 +113,7 @@ policy_groups:
       filter: "(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)"
       interval: 300
       tolerance: 20
+      hidden: true
       icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png"
 
 rules:
@@ -121,17 +123,8 @@ rules:
       policy: REJECT
 
   # > LAN
-  - ip_cidr:
-      match: 10.0.0.0/8
-      policy: DIRECT
-  - ip_cidr:
-      match: 127.0.0.0/8
-      policy: DIRECT
-  - ip_cidr:
-      match: 172.16.0.0/12
-      policy: DIRECT
-  - ip_cidr:
-      match: 192.168.0.0/16
+  - rule_set:
+      match: "https://github.com/Repcz/Tool/raw/X/Egern/Rules/Lan.yaml"
       policy: DIRECT
 
   # > AI (self-hosted curated lists)
