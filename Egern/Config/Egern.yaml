@@ -37,7 +37,7 @@ dns:
     - 119.29.29.29
 
   forward:
-    - rule_set:
+    - proxy_rule_set:
         match: "https://raw.githubusercontent.com/Repcz/EgernRules/X/Rules/Advertising/Advertising.yaml"
         value: REJECT
     - proxy_rule_set:
