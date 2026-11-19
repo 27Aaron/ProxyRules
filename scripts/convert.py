@@ -45,6 +45,7 @@ DISPLAY_NAMES = {
     "AppleAI": "AppleAI",
     "XAI": "XAI",
     "Gemini": "Gemini",
+    "GitHubCopilot": "GitHubCopilot",
 }
 
 DOMAIN_SETS = {
