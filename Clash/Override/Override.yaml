@@ -122,12 +122,6 @@ proxy-groups:
     proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
-  # > Proxies
-  - name: Proxies
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
-
   # > Telegram
   - name: Telegram
     <<: *group_url_test_group
@@ -139,6 +133,12 @@ proxy-groups:
     <<: *group_url_test_group
     proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
+
+  # > Proxies
+  - name: Proxies
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   # > Regions
   - name: HK

@@ -157,12 +157,6 @@ proxy-groups:
     proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/Orz-3/mini/raw/master/Color/Google.png
 
-  # > Proxies
-  - name: Proxies
-    <<: *group_url_test_group
-    proxies: [HK, JP, KR, SG, TW, US]
-    icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
-
   # > Telegram
   - name: Telegram
     <<: *group_url_test_group
@@ -174,6 +168,12 @@ proxy-groups:
     <<: *group_url_test_group
     proxies: [HK, JP, KR, SG, TW, US]
     icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/x.png
+
+  # > Proxies
+  - name: Proxies
+    <<: *group_url_test_group
+    proxies: [HK, JP, KR, SG, TW, US]
+    icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
 
   # > Regions
   - name: HK
