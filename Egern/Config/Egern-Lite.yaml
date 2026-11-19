@@ -16,8 +16,8 @@ auto_update:
   interval: 86400
 
 ipv6: true
-http_port: 7890
-socks_port: 7891
+http_port: 6152
+socks_port: 6153
 
 dns:
   bootstrap:
@@ -43,7 +43,7 @@ dns:
     - "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844"
   proxy_nameservers:
     - 223.5.5.5
-    - 119.29.29.29
+    - 52.80.66.66
 
   forward:
     - proxy_rule_set:
@@ -60,25 +60,23 @@ dns:
         value: foreign
 
 policy_groups:
-  # > AI(JP/US 节点自动测速)
-  - auto_test:
+  # > AI
+  - select:
       name: AI
       policies:
         - Manual
-      flatten: true
-      filter: "(?i)(🇯🇵|日本|JP|Japan|🇺🇸|美国|US|United.?States|America)"
-      interval: 300
-      tolerance: 20
+        - JP
+        - US
       icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png"
 
-  # > Proxies(全部节点自动测速)
-  - auto_test:
+  # > Proxies
+  - select:
       name: Proxies
       policies:
         - Manual
-      flatten: true
-      interval: 300
-      tolerance: 20
+        - HK
+        - JP
+        - US
       icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png"
 
   # > Manual(全部节点)
@@ -86,6 +84,36 @@ policy_groups:
       name: Manual
       type: select
       icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png"
+
+  # > Regions(从 Manual 节点池自动派生)
+  - auto_test:
+      name: HK
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)"
+      interval: 300
+      tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png"
+  - auto_test:
+      name: JP
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)"
+      interval: 300
+      tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png"
+  - auto_test:
+      name: US
+      policies:
+        - Manual
+      flatten: true
+      filter: "(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)"
+      interval: 300
+      tolerance: 20
+      icon: "https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png"
+
 rules:
   # > Ads
   - rule_set:

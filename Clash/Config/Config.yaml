@@ -155,62 +155,62 @@ proxy-groups:
   - name: AI
     <<: *group_select
     proxies: [Manual, JP, KR, SG, TW, US]
-    icon: https://github.com/Orz-3/mini/raw/master/Color/OpenAI.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png
 
   # > Google
   - name: Google
     <<: *group_select
     proxies: [Manual, HK, JP, KR, SG, TW, US]
-    icon: https://github.com/Orz-3/mini/raw/master/Color/Google.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Google_Search.png
 
   # > Telegram
   - name: Telegram
     <<: *group_select
     proxies: [Manual, HK, JP, KR, SG, TW, US]
-    icon: https://github.com/Orz-3/mini/raw/master/Color/Telegram.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Telegram.png
 
   # > Twitter
   - name: Twitter
     <<: *group_select
     proxies: [Manual, HK, JP, KR, SG, TW, US]
-    icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/x.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Twitter.png
 
   # > Proxies
   - name: Proxies
     <<: *group_select
     proxies: [Manual, HK, JP, KR, SG, TW, US]
-    icon: https://github.com/Orz-3/mini/raw/master/Color/Global.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Proxy.png
 
   # > Regions
   - name: HK
     <<: *group_url_test
     filter: '(?i)(🇭🇰|香港|Hong.?Kong|\bHKG\b|\bHK\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/HK.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Hong_Kong.png
 
   - name: JP
     <<: *group_url_test
     filter: '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|\bJPN\b|\bJP\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/JP.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Japan.png
 
   - name: KR
     <<: *group_url_test
     filter: '(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/KR.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png
 
   - name: SG
     <<: *group_url_test
     filter: '(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/SG.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
 
   - name: TW
     <<: *group_url_test
     filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/TW.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
 
   - name: US
     <<: *group_url_test
     filter: '(?i)(🇺🇸|美国|美國|United.?States|America|\bUSA\b|\bUS\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/US.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/United_States.png
 
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}

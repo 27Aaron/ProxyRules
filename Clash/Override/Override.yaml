@@ -120,7 +120,7 @@ proxy-groups:
   - name: AI
     <<: *group_select
     proxies: [Manual, JP, KR, SG, TW, US]
-    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Bot.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/ChatGPT.png
 
   # > Google
   - name: Google
@@ -160,17 +160,17 @@ proxy-groups:
   - name: KR
     <<: *group_url_test
     filter: '(?i)(🇰🇷|韩国|韓國|首尔|首爾|Korea|Seoul|\bKOR\b|\bKR\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/KR.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Korea.png
 
   - name: SG
     <<: *group_url_test
     filter: '(?i)(🇸🇬|新加坡|狮城|Singapore|\bSGP\b|\bSG\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/SG.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Singapore.png
 
   - name: TW
     <<: *group_url_test
     filter: '(?i)(🇹🇼|台湾|台灣|臺灣|Taiwan|\bTWN\b|\bTW\b)'
-    icon: https://github.com/Orz-3/mini/raw/master/Color/TW.png
+    icon: https://github.com/Koolson/Qure/raw/master/IconSet/Color/Taiwan.png
 
   - name: US
     <<: *group_url_test
