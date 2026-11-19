@@ -18,14 +18,16 @@ Every generated file starts with a blackmatrix7-style stats header:
     # DOMAIN-SUFFIX: 2
     # TOTAL: 3
 
-UPDATED reflects the source file's modification time, so re-running the
-script without editing sources produces no diff.
+UPDATED follows the source file's git history: committed sources carry the
+date of their last commit (stable across checkouts and clones), sources with
+uncommitted edits carry the generation time. Re-running the script without
+editing sources produces no diff.
 
 Usage:
     python3 scripts/convert.py
 """
 
-import os
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -37,10 +39,10 @@ AUTHOR = "27Aaron"
 REPO = "https://github.com/27Aaron/ProxyRules"
 
 DISPLAY_NAMES = {
-    "anthropic": "Anthropic",
-    "openai": "OpenAI",
-    "apple-push": "Apple Push",
-    "googlefcm": "Google FCM",
+    "Anthropic": "Anthropic",
+    "OpenAI": "OpenAI",
+    "ApplePush": "ApplePush",
+    "GoogleFCM": "GoogleFCM",
 }
 
 DOMAIN_SETS = {
@@ -91,16 +93,42 @@ def display_name(service):
     return DISPLAY_NAMES.get(service, service.replace("-", " ").title())
 
 
-def stats_header(service, entries, source_mtime):
+def source_updated(path):
+    """Last-update time for a source file, derived from content, not mtime.
+
+    - Unmodified since last commit -> the commit date that last touched the
+      file; stable across checkouts and clones, changes only when the content
+      actually changes.
+    - Uncommitted edits present     -> now; the generated file is about to be
+      committed together with the source anyway.
+    - Never committed               -> the file's mtime.
+    """
+    rel = path.relative_to(REPO_ROOT).as_posix()
+    dirty = subprocess.run(
+        ["git", "status", "--porcelain", "--", rel],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if dirty.stdout.strip():
+        return datetime.now().astimezone()
+    committed = subprocess.run(
+        ["git", "log", "-1", "--format=%cI", "--", rel],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    iso = committed.stdout.strip()
+    if iso:
+        return datetime.fromisoformat(iso).astimezone()
+    return datetime.fromtimestamp(path.stat().st_mtime).astimezone()
+
+
+def stats_header(service, entries, updated):
     counts = {}
     for rtype, _, _ in entries:
         counts[rtype] = counts.get(rtype, 0) + 1
-    updated = datetime.fromtimestamp(source_mtime).strftime("%Y-%m-%d %H:%M:%S")
     out = [
         f"# NAME: {display_name(service)}",
         f"# AUTHOR: {AUTHOR}",
         f"# REPO: {REPO}",
-        f"# UPDATED: {updated}",
+        f"# UPDATED: {updated.strftime('%Y-%m-%d %H:%M:%S')}",
     ]
     for rtype in TYPE_ORDER:
         if counts.get(rtype):
@@ -156,7 +184,7 @@ def main():
         source = list_path.relative_to(REPO_ROOT).as_posix()
         service = list_path.parent.name
         entries = parse_entries(list_path.read_text(encoding="utf-8").splitlines(), source)
-        header = stats_header(service, entries, list_path.stat().st_mtime)
+        header = stats_header(service, entries, source_updated(list_path))
 
         out_dir = OUT_DIR / service
         out_dir.mkdir(parents=True, exist_ok=True)

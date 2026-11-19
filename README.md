@@ -12,10 +12,10 @@ Rules/<service>/<service>.egern.yaml      Egern rule set
 
 Services:
 
-- `anthropic/` — Anthropic and Claude domains
-- `openai/` — OpenAI service endpoints
-- `apple-push/` — Apple Push Notification service (APNs)
-- `googlefcm/` — Google Firebase Cloud Messaging (FCM) endpoints
+- `Anthropic/` — Anthropic and Claude domains
+- `OpenAI/` — OpenAI service endpoints
+- `ApplePush/` — Apple Push Notification service (APNs)
+- `GoogleFCM/` — Google Firebase Cloud Messaging (FCM) endpoints
 
 ## Maintaining
 
@@ -77,13 +77,13 @@ Raw base URL: `https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules
 Surge (`[Rule]`) and Shadowrocket (rule set):
 
 ```text
-RULE-SET,https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/anthropic/anthropic.list,Proxy
+RULE-SET,https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.list,Proxy
 ```
 
 Loon (`[Remote Rule]`):
 
 ```text
-https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/anthropic/anthropic.list, policy=Proxy, tag=Anthropic
+https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.list, policy=Proxy, tag=Anthropic
 ```
 
 Clash / mihomo (`rule-providers`):
@@ -94,9 +94,9 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/anthropic/anthropic.yaml
+    url: https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml
     interval: 86400
-    path: ./rules/anthropic.yaml
+    path: ./rules/Anthropic.yaml
 
 rules:
   - RULE-SET,anthropic,Proxy
@@ -107,7 +107,7 @@ Egern (`rules`):
 ```yaml
 rules:
   - rule_set:
-      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/anthropic/anthropic.egern.yaml"
+      match: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.egern.yaml"
       policy: Proxy
       update_interval: 86400
 ```

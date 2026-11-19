@@ -1,13 +1,13 @@
 # NAME: Anthropic
 # AUTHOR: 27Aaron
 # REPO: https://github.com/27Aaron/ProxyRules
-# UPDATED: 2026-11-19 10:48:12
+# UPDATED: 2026-11-19 12:51:56
 # DOMAIN: 7
-# DOMAIN-SUFFIX: 12
+# DOMAIN-SUFFIX: 22
 # DOMAIN-KEYWORD: 3
 # IP-CIDR: 1
 # IP-CIDR6: 1
-# TOTAL: 24
+# TOTAL: 34
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,clau.de
 DOMAIN-SUFFIX,claude.ai
@@ -16,6 +16,16 @@ DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN-SUFFIX,claudemcpcontent.com
 DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-SUFFIX,ant.dev
+DOMAIN-SUFFIX,anthropic.team
+DOMAIN-SUFFIX,antspace.dev
+DOMAIN-SUFFIX,chatbotclaude.com
+DOMAIN-SUFFIX,claude.dev
+DOMAIN-SUFFIX,claude.new
+DOMAIN-SUFFIX,claude.site
+DOMAIN-SUFFIX,claudeacademy.com
+DOMAIN-SUFFIX,claudepages.dev
+DOMAIN-SUFFIX,claudestudio.com
 DOMAIN,servd-anthropic-website.b-cdn.net
 DOMAIN,anthropic.com.cdn.cloudflare.net
 DOMAIN,anthropic.auth0.com
