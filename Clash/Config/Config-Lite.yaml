@@ -177,15 +177,14 @@ proxy-groups:
 rule_providers_common:
   domain: &rule_provider_domain {type: http, format: mrs, interval: 86400, behavior: domain}
   ip: &rule_provider_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
-  text: &rule_provider_text {type: http, format: text, interval: 86400, behavior: classical}
   yaml: &rule_provider_yaml {type: http, format: yaml, interval: 86400, behavior: classical}
 
 rule-providers:
   # > Ads
-  category-ads-all@ads:
-    <<: *rule_provider_text
-    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Advertising/Advertising.list"
-    path: "./ruleset/category-ads-all@ads.list"
+  ads:
+    <<: *rule_provider_domain
+    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs"
+    path: "./ruleset/category-ads-all.mrs"
 
   # > Private
   private:
@@ -208,10 +207,6 @@ rule-providers:
     <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
     path: "./ruleset/anthropic.yaml"
-  AppleAI:
-    <<: *rule_provider_yaml
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
-    path: "./ruleset/appleai.yaml"
   # > AI
   AI:
     <<: *rule_provider_domain
@@ -220,16 +215,18 @@ rule-providers:
 
 rules:
   # > Ads
-  - RULE-SET,category-ads-all@ads,REJECT
+  - RULE-SET,ads,REJECT
+
+  # > Block foreign QUIC
+  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
+
+  # > AI
+  - RULE-SET,Anthropic,AI
+  - RULE-SET,AI,AI
 
   # > Private
   - RULE-SET,private,DIRECT
   - RULE-SET,private-ip,DIRECT,no-resolve
-
-  # > AI
-  - RULE-SET,Anthropic,AI
-  - RULE-SET,AppleAI,AI
-  - RULE-SET,AI,AI
 
   # > Direct CN
   - GEOSITE,cn,DIRECT
