@@ -240,7 +240,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/ApplePush/ApplePush.yaml"
     path: "./ruleset/applepush.yaml"
   # > AI
-  ai:
+  AI:
     <<: *rule_providers_domain
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/category-ai-!cn.mrs"
@@ -316,7 +316,7 @@ rules:
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
-  - RULE-SET,ai,AI
+  - RULE-SET,AI,AI
 
   # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT

@@ -2,7 +2,7 @@
 # AUTHOR: 27Aaron
 # UPDATED: 2026-11-19 14:32:30
 # REPO: https://github.com/27Aaron/ProxyRules
-# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Config/Clash-Lite.yaml
+# LINK: https://github.com/27Aaron/ProxyRules/raw/refs/heads/main/Clash/Config/Config-Lite.yaml
 # -----------------------------------------------------
 
 mixed-port: 7890
@@ -100,6 +100,12 @@ hosts:
   "dns.cloudflare.com": ["1.1.1.1", "1.0.0.1"]
   "dns.google": ["8.8.8.8", "8.8.4.4"]
   "services.googleapis.cn": ["services.googleapis.com"]
+
+  # 屏蔽哔哩哔哩PCDN，解决访问视频卡顿/直播问题
+  "+.mcdn.bilivideo.com": ["0.0.0.0"]
+  "+.mcdn.bilivideo.cn": ["0.0.0.0"]
+  "+.edge.mountaintoys.cn": ["0.0.0.0"]
+  "+.h2.smtcdns.net": ["0.0.0.0"]
 group_common:
   url-test: &group_url_test
     type: url-test
@@ -207,7 +213,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
     path: "./ruleset/appleai.yaml"
   # > AI
-  ai:
+  AI:
     <<: *rule_provider_domain
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/category-ai-!cn.mrs"
@@ -223,7 +229,7 @@ rules:
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
-  - RULE-SET,ai,AI
+  - RULE-SET,AI,AI
 
   # > Direct CN
   - GEOSITE,cn,DIRECT
