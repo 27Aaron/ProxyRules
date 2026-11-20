@@ -91,7 +91,7 @@ dns:
   default-nameserver: ["223.5.5.5", "119.29.29.29"]
   nameserver: *foreignDNS
   nameserver-policy:
-    "rule-set:cn": *chinaDNS
+    "geosite:cn": *chinaDNS
   direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
 
 hosts:
@@ -197,16 +197,6 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     path: "./ruleset/geolocation-!cn.mrs"
 
-  # > Direct CN
-  cn:
-    <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-    path: "./ruleset/cn.mrs"
-  cn-ip:
-    <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
-    path: "./ruleset/cn-ip.mrs"
-
   # > AI (self-hosted curated lists)
   Anthropic:
     <<: *rule_provider_yaml
@@ -216,22 +206,11 @@ rule-providers:
     <<: *rule_provider_yaml
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
     path: "./ruleset/appleai.yaml"
-  Gemini:
-    <<: *rule_provider_yaml
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
-    path: "./ruleset/gemini.yaml"
-  GitHubCopilot:
-    <<: *rule_provider_yaml
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
-    path: "./ruleset/githubcopilot.yaml"
-  OpenAI:
-    <<: *rule_provider_yaml
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
-    path: "./ruleset/openai.yaml"
-  XAI:
-    <<: *rule_provider_yaml
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
-    path: "./ruleset/xai.yaml"
+  # > AI
+  ai:
+    <<: *rule_provider_domain
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
+    path: "./ruleset/category-ai-!cn.mrs"
 
 rules:
   # > Ads
@@ -244,14 +223,11 @@ rules:
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
-  - RULE-SET,Gemini,AI
-  - RULE-SET,GitHubCopilot,AI
-  - RULE-SET,OpenAI,AI
-  - RULE-SET,XAI,AI
+  - RULE-SET,ai,AI
 
   # > Direct CN
-  - RULE-SET,cn,DIRECT
-  - RULE-SET,cn-ip,DIRECT,no-resolve
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
 
   # > Proxy fallback
   - RULE-SET,proxy,Proxies

@@ -93,7 +93,7 @@ dns:
   default-nameserver: ["223.5.5.5", "119.29.29.29"]
   nameserver: *foreignDNS
   nameserver-policy:
-    "rule-set:cn": *chinaDNS
+    "geosite:cn": *chinaDNS
   direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
 
 hosts:
@@ -239,22 +239,11 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/ApplePush/ApplePush.yaml"
     path: "./ruleset/applepush.yaml"
-  Gemini:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
-    path: "./ruleset/gemini.yaml"
-  GitHubCopilot:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
-    path: "./ruleset/githubcopilot.yaml"
-  OpenAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
-    path: "./ruleset/openai.yaml"
-  XAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
-    path: "./ruleset/xai.yaml"
+  # > AI
+  ai:
+    <<: *rule_providers_domain
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
+    path: "./ruleset/category-ai-!cn.mrs"
 
   # > Direct CN
   epicgames:
@@ -273,20 +262,6 @@ rule-providers:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
     path: "./ruleset/nvidia@cn.mrs"
-
-  # > CN fallback
-  cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-    path: "./ruleset/cn.mrs"
-  cn_ip:
-    <<: *rule_providers_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
-    path: "./ruleset/cn_ip.mrs"
-  geolocation-cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs"
-    path: "./ruleset/geolocation-cn.mrs"
 
   # > Private
   private:
@@ -313,16 +288,6 @@ rule-providers:
     <<: *rule_providers_ip
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs"
     path: "./ruleset/google_ip.mrs"
-  googlefcm:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs"
-    path: "./ruleset/googlefcm.mrs"
-  googlefcm_ip:
-    <<: *rule_providers_ip
-    behavior: classical
-    format: text
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GoogleFCM/GoogleFCM.list"
-    path: "./ruleset/googlefcm_ip.list"
   telegram:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
@@ -351,13 +316,10 @@ rules:
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
-  - RULE-SET,Gemini,AI
-  - RULE-SET,GitHubCopilot,AI
-  - RULE-SET,OpenAI,AI
-  - RULE-SET,XAI,AI
+  - RULE-SET,ai,AI
 
   # > Block foreign QUIC
-  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
+  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
 
   # > Direct CN
   - RULE-SET,epicgames,DIRECT
@@ -367,8 +329,6 @@ rules:
 
   # > Services
   - RULE-SET,google,Google
-  - RULE-SET,googlefcm,Google
-  - RULE-SET,googlefcm_ip,Google,no-resolve
   - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,telegram,Telegram
   - RULE-SET,telegram_ip,Telegram,no-resolve
@@ -376,8 +336,8 @@ rules:
   - RULE-SET,twitter_ip,Twitter,no-resolve
 
   # > Direct CN fallback
-  - RULE-SET,geolocation-cn,DIRECT
-  - RULE-SET,cn_ip,DIRECT,no-resolve
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
 
   # > Proxy fallback
   - RULE-SET,proxy,Proxies
