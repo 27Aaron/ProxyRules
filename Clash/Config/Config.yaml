@@ -310,6 +310,9 @@ rules:
   - RULE-SET,private,DIRECT
   - RULE-SET,private_ip,DIRECT,no-resolve
 
+  # > Block foreign QUIC
+  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
+
   # > APNs
   - RULE-SET,APNs,Proxies
 
@@ -317,9 +320,6 @@ rules:
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
   - RULE-SET,ai,AI
-
-  # > Block foreign QUIC
-  - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
 
   # > Direct CN
   - RULE-SET,epicgames,DIRECT
