@@ -206,24 +206,26 @@ proxy-groups:
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
   rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
-  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
 
 # > Rule providers
 rule-providers:
-  # > AI (self-hosted curated lists)
-  Anthropic:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
-    path: "./ruleset/anthropic.yaml"
-  AppleAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
-    path: "./ruleset/appleai.yaml"
   # > AI
   AI:
     <<: *rule_providers_domain
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/category-ai-!cn.mrs"
+  Anthropic:
+    <<: *rule_providers_domain
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.mrs"
+    path: "./ruleset/anthropic.mrs"
+  Anthropic_ip:
+    <<: *rule_providers_ip
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.ipcidr.mrs"
+    path: "./ruleset/anthropic.ipcidr.mrs"
+  AppleAI:
+    <<: *rule_providers_domain
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.mrs"
+    path: "./ruleset/appleai.mrs"
 
   # > Private
   private:
@@ -248,6 +250,14 @@ rule-providers:
     path: "./ruleset/geolocation-!cn.mrs"
 
   # > Services
+  ApplePush:
+    <<: *rule_providers_domain
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/ApplePush/ApplePush.mrs"
+    path: "./ruleset/applepush.mrs"
+  ApplePush_ip:
+    <<: *rule_providers_ip
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/ApplePush/ApplePush.ipcidr.mrs"
+    path: "./ruleset/applepush.ipcidr.mrs"
   google:
     <<: *rule_providers_domain
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
@@ -281,9 +291,18 @@ rules:
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
 
   # > AI
+  - DOMAIN-KEYWORD,datadog,AI
+  - DOMAIN-KEYWORD,sentry,AI
+  - DOMAIN-KEYWORD,sift,AI
+  - DOMAIN-KEYWORD,siri,AI
   - RULE-SET,Anthropic,AI
+  - RULE-SET,Anthropic_ip,AI,no-resolve
   - RULE-SET,AppleAI,AI
   - RULE-SET,AI,AI
+
+  # > Apple Push
+  - RULE-SET,ApplePush,Proxies
+  - RULE-SET,ApplePush_ip,Proxies,no-resolve
 
   # > Services
   - RULE-SET,google,Google

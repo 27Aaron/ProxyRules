@@ -175,7 +175,6 @@ proxy-groups:
 rule_providers_common:
   rule_providers_domain: &rule_providers_domain {type: http, format: mrs, interval: 86400, behavior: domain}
   rule_providers_ip: &rule_providers_ip {type: http, format: mrs, interval: 86400, behavior: ipcidr}
-  rule_providers_classical: &rule_providers_classical {type: http, format: yaml, interval: 86400, behavior: classical}
 
 rule-providers:
   # > Ads
@@ -200,16 +199,23 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     path: "./ruleset/geolocation-!cn.mrs"
 
-  # > AI (self-hosted curated lists)
-  Anthropic:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
-    path: "./ruleset/anthropic.yaml"
   # > AI
   AI:
     <<: *rule_providers_domain
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/category-ai-!cn.mrs"
+  Anthropic:
+    <<: *rule_providers_domain
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.mrs"
+    path: "./ruleset/anthropic.mrs"
+  Anthropic_ip:
+    <<: *rule_providers_ip
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.ipcidr.mrs"
+    path: "./ruleset/anthropic.ipcidr.mrs"
+  AppleAI:
+    <<: *rule_providers_domain
+    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.mrs"
+    path: "./ruleset/appleai.mrs"
 
 rules:
   # > Ads
@@ -219,7 +225,13 @@ rules:
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
 
   # > AI
+  - DOMAIN-KEYWORD,datadog,AI
+  - DOMAIN-KEYWORD,sentry,AI
+  - DOMAIN-KEYWORD,sift,AI
+  - DOMAIN-KEYWORD,siri,AI
   - RULE-SET,Anthropic,AI
+  - RULE-SET,Anthropic_ip,AI,no-resolve
+  - RULE-SET,AppleAI,AI
   - RULE-SET,AI,AI
 
   # > Private
