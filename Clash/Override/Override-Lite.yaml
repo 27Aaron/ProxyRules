@@ -205,10 +205,6 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Anthropic/Anthropic.yaml"
     path: "./ruleset/anthropic.yaml"
-  AppleAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/AppleAI/AppleAI.yaml"
-    path: "./ruleset/appleai.yaml"
   # > AI
   AI:
     <<: *rule_providers_domain
@@ -216,20 +212,19 @@ rule-providers:
     path: "./ruleset/category-ai-!cn.mrs"
 
 rules:
-  # > Private
-  - RULE-SET,private,DIRECT
-  - RULE-SET,private_ip,DIRECT,no-resolve
+  # > Ads
+  - RULE-SET,ads,REJECT
 
   # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
 
-  # > Ads
-  - RULE-SET,ads,REJECT
-
   # > AI
   - RULE-SET,Anthropic,AI
-  - RULE-SET,AppleAI,AI
   - RULE-SET,AI,AI
+
+  # > Private
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
 
   # > Direct CN fallback
   - GEOSITE,cn,DIRECT

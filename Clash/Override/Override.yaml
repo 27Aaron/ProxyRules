@@ -225,24 +225,6 @@ rule-providers:
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
     path: "./ruleset/category-ai-!cn.mrs"
 
-  # > Direct CN
-  epicgames:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs"
-    path: "./ruleset/epicgames.mrs"
-  games_cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-games@cn.mrs"
-    path: "./ruleset/category-games@cn.mrs"
-  microsoft_cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs"
-    path: "./ruleset/microsoft@cn.mrs"
-  nvidia_cn:
-    <<: *rule_providers_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs"
-    path: "./ruleset/nvidia@cn.mrs"
-
   # > Private
   private:
     <<: *rule_providers_domain
@@ -292,26 +274,16 @@ rule-providers:
     path: "./ruleset/twitter_ip.mrs"
 
 rules:
-  # > Private
-  - RULE-SET,private,DIRECT
-  - RULE-SET,private_ip,DIRECT,no-resolve
+  # > Ads
+  - RULE-SET,ads,REJECT
 
   # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((GEOSITE,cn),(GEOIP,CN,no-resolve)))))),REJECT
-
-  # > Ads
-  - RULE-SET,ads,REJECT
 
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
   - RULE-SET,AI,AI
-
-  # > Direct CN
-  - RULE-SET,epicgames,DIRECT
-  - RULE-SET,games_cn,DIRECT
-  - RULE-SET,microsoft_cn,DIRECT
-  - RULE-SET,nvidia_cn,DIRECT
 
   # > Services
   - RULE-SET,google,Google
@@ -320,6 +292,10 @@ rules:
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter,Twitter
   - RULE-SET,twitter_ip,Twitter,no-resolve
+
+  # > Private
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private_ip,DIRECT,no-resolve
 
   # > Direct CN fallback
   - GEOSITE,cn,DIRECT
