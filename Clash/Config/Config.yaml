@@ -25,6 +25,13 @@ external-controller: 127.0.0.1:9090
 secret: 27Aaron
 profile: {store-selected: true, store-fake-ip: true}
 
+geox-url:
+  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+geo-auto-update: true
+geo-update-interval: 24
+
 sniffer:
   enable: true
   sniff:
