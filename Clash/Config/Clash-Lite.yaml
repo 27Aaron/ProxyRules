@@ -91,7 +91,7 @@ dns:
   default-nameserver: ["223.5.5.5", "119.29.29.29"]
   nameserver: *foreignDNS
   nameserver-policy:
-    "rule-set:cn": *chinaDNS
+    "geosite:cn": *chinaDNS
   direct-nameserver: ["system", "223.5.5.5", "119.29.29.29"]
 
 hosts:
@@ -197,16 +197,6 @@ rule-providers:
     url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
     path: "./ruleset/geolocation-!cn.mrs"
 
-  # > Direct CN
-  cn:
-    <<: *rule_provider_domain
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-    path: "./ruleset/cn.mrs"
-  cn-ip:
-    <<: *rule_provider_ip
-    url: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
-    path: "./ruleset/cn-ip.mrs"
-
   # > AI (self-hosted curated lists)
   Anthropic:
     <<: *rule_provider_yaml
@@ -236,8 +226,8 @@ rules:
   - RULE-SET,ai,AI
 
   # > Direct CN
-  - RULE-SET,cn,DIRECT
-  - RULE-SET,cn-ip,DIRECT,no-resolve
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
 
   # > Proxy fallback
   - RULE-SET,proxy,Proxies
