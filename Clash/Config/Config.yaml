@@ -239,22 +239,11 @@ rule-providers:
     <<: *rule_providers_classical
     url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/ApplePush/ApplePush.yaml"
     path: "./ruleset/applepush.yaml"
-  Gemini:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/Gemini/Gemini.yaml"
-    path: "./ruleset/gemini.yaml"
-  GitHubCopilot:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/GitHubCopilot/GitHubCopilot.yaml"
-    path: "./ruleset/githubcopilot.yaml"
-  OpenAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/OpenAI/OpenAI.yaml"
-    path: "./ruleset/openai.yaml"
-  XAI:
-    <<: *rule_providers_classical
-    url: "https://raw.githubusercontent.com/27Aaron/ProxyRules/custom/Rules/XAI/XAI.yaml"
-    path: "./ruleset/xai.yaml"
+  # > AI
+  ai:
+    <<: *rule_providers_domain
+    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ai-!cn.mrs"
+    path: "./ruleset/category-ai-!cn.mrs"
 
   # > Direct CN
   epicgames:
@@ -351,10 +340,7 @@ rules:
   # > AI
   - RULE-SET,Anthropic,AI
   - RULE-SET,AppleAI,AI
-  - RULE-SET,Gemini,AI
-  - RULE-SET,GitHubCopilot,AI
-  - RULE-SET,OpenAI,AI
-  - RULE-SET,XAI,AI
+  - RULE-SET,ai,AI
 
   # > Block foreign QUIC
   - AND,((NETWORK,UDP),(DST-PORT,443),(NOT,((OR,((RULE-SET,cn),(RULE-SET,cn_ip,no-resolve)))))),REJECT
