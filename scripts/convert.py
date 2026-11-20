@@ -8,6 +8,10 @@ Generated files (never edit by hand):
     Rules/<service>/<service>.list          clean copy with stats header
     Rules/<service>/<service>.yaml          Clash rule-provider payload (behavior: classical)
     Rules/<service>/<service>.egern.yaml    Egern rule set
+    Rules/<service>/<service>.mrs           mihomo MRS (behavior: domain)
+    Rules/<service>/<service>.ipcidr.mrs    mihomo MRS (behavior: ipcidr), only if the source has IP rules
+
+MRS cannot represent DOMAIN-KEYWORD or DOMAIN-REGEX; those stay in the YAML.
 
 Every generated file starts with a blackmatrix7-style stats header:
     # NAME: Anthropic
@@ -27,8 +31,11 @@ Usage:
 """
 
 import subprocess
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
+
+from mrs import compile_mrs
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = REPO_ROOT / "Sources"
@@ -181,6 +188,37 @@ def egern_set(header, entries):
     return "\n".join(out) + "\n"
 
 
+def store(path, content):
+    """Write ``content`` unless the file already matches.
+
+    Text files ignore a timestamp-only ``# UPDATED:`` change. MRS files are
+    compared as bytes.
+    """
+    if isinstance(content, str):
+        if path.exists() and same_ignoring_updated(path.read_text(encoding="utf-8"), content):
+            return False
+        path.write_text(content, encoding="utf-8")
+        return True
+    if path.exists() and path.read_bytes() == content:
+        return False
+    path.write_bytes(content)
+    return True
+
+
+def mrs_note(mrs_files, skipped):
+    parts = []
+    if "mrs" in mrs_files:
+        parts.append("domain mrs")
+    if "ipcidr.mrs" in mrs_files:
+        parts.append("ipcidr mrs")
+    note = f" ({', '.join(parts)})" if parts else ""
+    if skipped:
+        counts = Counter(skipped)
+        left = ", ".join(f"{counts[rtype]} {rtype}" for rtype in TYPE_ORDER if rtype in counts)
+        note += f"; not in mrs: {left}"
+    return note
+
+
 def same_ignoring_updated(old_text, new_text):
     """True when the two files differ only in their # UPDATED: header line.
 
@@ -204,20 +242,22 @@ def main():
 
         out_dir = OUT_DIR / service
         out_dir.mkdir(parents=True, exist_ok=True)
+        mrs_files, mrs_skipped = compile_mrs(entries)
         targets = {
             out_dir / f"{list_path.stem}.list": generated_list(header, entries),
             out_dir / f"{list_path.stem}.yaml": clash_payload(header, entries),
             out_dir / f"{list_path.stem}.egern.yaml": egern_set(header, entries),
         }
+        targets.update({
+            out_dir / f"{list_path.stem}.{suffix}": content
+            for suffix, content in mrs_files.items()
+        })
         for path, content in targets.items():
-            if path.exists() and same_ignoring_updated(
-                path.read_text(encoding="utf-8"), content
-            ):
+            if not store(path, content):
                 continue
-            path.write_text(content, encoding="utf-8")
             print(f"updated {path.relative_to(REPO_ROOT)}")
             updated += 1
-        print(f"{source}: {len(entries)} rules")
+        print(f"{source}: {len(entries)} rules{mrs_note(mrs_files, mrs_skipped)}")
     print(f"done, {updated} file(s) updated")
 
 
